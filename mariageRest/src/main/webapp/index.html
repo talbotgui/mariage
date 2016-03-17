@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		
+		<title>Mariage</title>
+		
+		<link rel="stylesheet" href="ressources/custom.css" />
+		<link rel="stylesheet" href="ressources/jquery-ui-1.11.4.custom/jquery-ui.min.css" />
+		<link rel="stylesheet" href="ressources/bootstrap-3.3.6-dist/css/bootstrap.min.css" />
+	</head>
+	<body>
+		<div class="container-fluid">
+
+			<!-- Colonne gauche -->
+			<div class="header col-md-3">
+				<!-- Titre -->
+				<div class="row text-center titre">MonMariage.net</div>
+				<!-- Menu -->
+				<div class="navbar navbar-default" role="navigation" style="display:none">
+					<ul class="nav nav-pills nav-stacked">
+						<li class="active"><a href="index.html">Accueil</a></li>
+						<li><a href="invites.html">Invités</a></li>
+					</ul>
+				</div>
+				<!-- Version -->
+				<div class="row text-center">version 1.0.0</div>
+			</div>
+			
+			<div class="content col-md-9">
+			
+				<div id="accueil" class="text-center">
+					<h1>Bienvenue sur l'application de gestion de votre mariage.</h1>
+					<br/>
+					<select id="selectionMariage" data-source="/mariages" data-empty="true"></select>
+				</div>
+				
+				<div id="infoMariage" class="text-center" style="display:none">
+					<h1>Gestionnaire de mariage.</h1>
+					<div id="maries">Mariage de <span></span> & <span></span></div>
+					<div id="date">le <span></span></div>
+				</div>
+				
+			</div>
+		</div>
+
+		<script type="application/javascript" src="ressources/jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
+		<script type="application/javascript" src="ressources/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+		<script type="application/javascript" src="ressources/common.js"></script>
+		<script type="application/javascript">
+		
+			var idMariage = "";
+			
+			var afficheInfoMariage = function(data) {
+				// Affichage / masquage de divs
+				$("#accueil").hide();
+				var infoMariage = $("#infoMariage");
+				infoMariage.show();
+				$("div[role=navigation]").show();
+				
+				// Affichage des infos
+				infoMariage.find("#maries span:first").html(data.marie1);
+				infoMariage.find("#maries span:last").html(data.marie2);
+				infoMariage.find("#date span").html(data.dateCelebration);
+			};
+			
+			var afficheInfoMariageDepuisId = function() {
+				var req = $.get( REST_PREFIX + "/mariage/" + idMariage);
+				req.success(function(dataString) { afficheInfoMariage(eval(dataString)); });
+				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("afficheInfoMariageDepuisId");});
+			};
+			
+			var afficheInfoMariageDepuisSelect = function(e) {
+				// Affichage des valeurs
+ 				var data = JSON.parse($(e.target).find("option:selected").attr("data-object"));
+				afficheInfoMariage(data[0]);
+				
+				// Sauvegarde de l'identifiant dans les cookies
+				idMariage = e.target.value;
+				setIdMariage(idMariage);
+			};
+			
+			$(document).ready(function() {
+				// si mariage deja selectionné
+				idMariage = getIdMariage();
+				// Affichage / masquade des divs
+				if (idMariage === "") {
+					$("#selectionMariage").on("change", afficheInfoMariageDepuisSelect);
+				} else {
+					afficheInfoMariageDepuisId();
+				}
+			});
+		</script>
+	</body>
+</html>
