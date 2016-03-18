@@ -7,9 +7,10 @@
 		
 		<title>Mariage</title>
 		
-		<link rel="stylesheet" href="ressources/custom.css" />
 		<link rel="stylesheet" href="ressources/jquery-ui-1.11.4.custom/jquery-ui.min.css" />
 		<link rel="stylesheet" href="ressources/bootstrap-3.3.6-dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="ressources/bootstrap-datepicker-1.5.1-dist/css/bootstrap-datepicker3.min.css" />
+		<link rel="stylesheet" href="ressources/custom.css" />
 	</head>
 	<body>
 		<div class="container-fluid">
@@ -34,13 +35,28 @@
 				<div id="accueil" class="text-center">
 					<h1>Bienvenue sur l'application de gestion de votre mariage.</h1>
 					<br/>
-					<select id="selectionMariage" data-source="/mariages" data-empty="true"></select>
+					<select id="selectionMariage" data-source="/mariage" data-empty="true"></select>
+					<a href="#" class="btn btn-default btn-nouveau">Nouveau</a>
 				</div>
 				
-				<div id="infoMariage" class="text-center" style="display:none">
+				<div id="infoMariage" class="formPerso text-center" style="display:none">
 					<h1>Gestionnaire de mariage.</h1>
-					<div id="maries">Mariage de <span></span> & <span></span></div>
-					<div id="date">le <span></span></div>
+					<form class="form-inline">
+						<div id="maries">
+							Mariage de <span></span>
+							<input id="marie1" class="form-control " type="text" placeholder="">
+							&nbsp;&amp;&nbsp;
+							<span></span>
+							<input id="marie2" class="form-control" type="text" placeholder="">
+						</div>
+						<div id="date">le 
+							<span></span>
+							<input id="dateCelebration" class="form-control dateTimePicker" type="text" placeholder="">
+						</div>
+					</form>
+					<br/>
+					<a href="#" class="btn btn-default btn-modifier">Modifier</a>
+					<a href="#" class="btn btn-default btn-sauvegarder">Sauvegarder</a>
 				</div>
 				
 			</div>
@@ -48,6 +64,7 @@
 
 		<script type="application/javascript" src="ressources/jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
 		<script type="application/javascript" src="ressources/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+		<script type="application/javascript" src="ressources/bootstrap-datepicker-1.5.1-dist/js/bootstrap-datepicker.min.js"></script>
 		<script type="application/javascript" src="ressources/common.js"></script>
 		<script type="application/javascript">
 		
@@ -56,9 +73,9 @@
 			var afficheInfoMariage = function(data) {
 				// Affichage / masquage de divs
 				$("#accueil").hide();
+				$("div[role=navigation]").show();
 				var infoMariage = $("#infoMariage");
 				infoMariage.show();
-				$("div[role=navigation]").show();
 				
 				// Affichage des infos
 				infoMariage.find("#maries span:first").html(data.marie1);
@@ -73,19 +90,31 @@
 			};
 			
 			var afficheInfoMariageDepuisSelect = function(e) {
-				// Affichage des valeurs
- 				var data = JSON.parse($(e.target).find("option:selected").attr("data-object"));
-				afficheInfoMariage(data[0]);
-				
-				// Sauvegarde de l'identifiant dans les cookies
+				afficheInfoMariage(JSON.parse($(e.target).find("option:selected").attr("data-object"))[0]);
+
 				idMariage = e.target.value;
 				setIdMariage(idMariage);
 			};
 			
+			var afficheInfoMariagePourNouveau = function(e) {
+				afficheInfoMariage({marie1:"", marie2:"", dateCelebration:""});
+				$(".btn-modifier").click();
+			};
+			
+			var sauvegardeInfoMariage = function(e) {
+				var data = { id: idMariage, marie1: $("#marie1").val(), marie2: $("#marie2").val(), dateCelebration: $("#dateCelebration").val() };
+				var req = $.post( REST_PREFIX + "/mariage/", data);
+				req.success(function(dataString) { idMariage = dataString; setIdMariage(idMariage); afficheInfoMariageDepuisId(); });
+				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("afficheInfoMariageDepuisId");});
+			};
+			
 			$(document).ready(function() {
-				// si mariage deja selectionné
+				// Events
+				$(".btn-nouveau").on("click", afficheInfoMariagePourNouveau);
+				$(".btn-sauvegarder").on("click", sauvegardeInfoMariage);
+				
+				// Affichage / masquage des divs
 				idMariage = getIdMariage();
-				// Affichage / masquade des divs
 				if (idMariage === "") {
 					$("#selectionMariage").on("change", afficheInfoMariageDepuisSelect);
 				} else {

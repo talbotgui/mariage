@@ -54,15 +54,16 @@ public class MariageRestControler {
 	}
 
 	@RequestMapping(value = "/mariage", method = POST)
-	public Long sauvegardeMariage(@RequestParam(value = "dateCelebration") String dateCelebration,
+	public Long sauvegardeMariage(@RequestParam(required = false, value = "id") Long id,
+			@RequestParam(value = "dateCelebration") String dateCelebration,
 			@RequestParam(value = "marie1") String marie1, @RequestParam(value = "marie2") String marie2) {
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat(AbstractDTO.FORMAT_DATE_TIME);
-			return this.mariageService.sauvegarde(new Mariage(sdf.parse(dateCelebration), marie1, marie2));
+			SimpleDateFormat sdf = new SimpleDateFormat(AbstractDTO.FORMAT_DATE);
+			return this.mariageService.sauvegarde(new Mariage(id, sdf.parse(dateCelebration), marie1, marie2));
 		} catch (ParseException e) {
 			LOG.error("Erreur de format des paramètres d'entrée", e);
 			throw new BusinessException(BusinessException.ERREUR_FORMAT_DATE, e,
-					new String[] { AbstractDTO.FORMAT_DATE_TIME, dateCelebration });
+					new String[] { AbstractDTO.FORMAT_DATE, dateCelebration });
 		}
 	}
 }

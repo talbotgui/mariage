@@ -45,6 +45,11 @@ public class Mariage implements Serializable {
 		this.marie2 = marie2;
 	}
 
+	public Mariage(Long id, Date dateCelebration, String marie1, String marie2) {
+		this(dateCelebration, marie1, marie2);
+		this.id = id;
+	}
+
 	public void addEtape(Etape e) {
 		this.etapes.add(e);
 	}

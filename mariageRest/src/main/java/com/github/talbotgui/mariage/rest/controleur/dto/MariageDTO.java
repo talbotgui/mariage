@@ -22,7 +22,7 @@ public class MariageDTO extends AbstractDTO {
 		super(entity);
 
 		if (entity != null) {
-			SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE_TIME);
+			SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE);
 			Mariage m = (Mariage) entity;
 			this.id = m.getId();
 			this.dateCelebration = sdf.format(m.getDateCelebration());

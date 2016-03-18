@@ -7,6 +7,8 @@ import java.util.Collection;
 
 public abstract class AbstractDTO {
 
+	public static final String FORMAT_DATE = "dd/MM/yyyy";
+
 	public static final String FORMAT_DATE_TIME = "dd/MM/yyyy HH:mm";
 
 	public static <T> Collection<T> creerDto(Collection<?> entities, Class<T> clazz) {

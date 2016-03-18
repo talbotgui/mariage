@@ -55,7 +55,6 @@ var alimentationSelectBox = function() {
 			if (empty) {
 				sel.append($('<option>', {value:-1, text:""}));
 			}
-
 			
 			var data = eval(dataString);
 			
@@ -68,10 +67,35 @@ var alimentationSelectBox = function() {
 	});
 };
 
+/**
+ * Au clic sur un bouton modifier.
+ */
+var clicBoutonModifier = function(e) {
+	var divParente = $(e.target).parent();
+	divParente.find("span").hide();
+	divParente.find(".form-control").show();
+	divParente.find("a").toggle();
+}
+
+/**
+ * Au clic sur un bouton sauvegarder.
+ */
+var clicBoutonSauvegarder = function(e) {
+	var divParente = $(e.target).parent();
+	divParente.find("span").show();
+	divParente.find(".form-control").hide();
+	divParente.find("a").toggle();
+}
 
 /** 
  * On ready.
  */
  $(document).ready(function() {
-	alimentationSelectBox();
+	
+	 alimentationSelectBox();
+	 
+	 $(".dateTimePicker").datepicker({ format: "dd/mm/yyyy", weekStart: 1, language: "fr", daysOfWeekHighlighted: "0,6", autoclose: true });
+	 
+	 $(".btn-modifier").on("click", clicBoutonModifier);
+	 $(".btn-sauvegarder").on("click", clicBoutonSauvegarder);
 });

@@ -1,4 +1,6 @@
 .titre { font-size: 30px; }
 
+.formPerso .form-control { display: none; }
+.formPerso .btn-sauvegarder { display: none; }
 
 .todo { background-color: red; }

@@ -30,7 +30,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.github.talbotgui.mariage.metier.service.MariageService;
-import com.github.talbotgui.mariage.rest.application.RestApplication;
+import com.github.talbotgui.mariage.rest.application.RestTestApplication;
 import com.github.talbotgui.mariage.rest.controleur.dto.InviteDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.MariageDTO;
 import com.googlecode.catchexception.CatchException;
@@ -52,21 +52,24 @@ public class MariageRestControlerTest {
 				}
 			});
 
-	private static final String URL = "http://localhost:8080";
+	private static String URL = "http://localhost:";
 
 	@AfterClass
 	public static void afterClass() {
-		RestApplication.stop();
+		RestTestApplication.stop();
 	}
 
 	@BeforeClass
 	public static void beforeClass() throws ParseException {
 
 		// Start application
-		RestApplication.start();
+		RestTestApplication.start();
+
+		// Get REST URL
+		URL += RestTestApplication.getApplicationContext().getEnvironment().getProperty("server.port");
 
 		// Create data
-		MariageService service = RestApplication.getApplicationContext().getBean(MariageService.class);
+		MariageService service = RestTestApplication.getApplicationContext().getBean(MariageService.class);
 		service.sauvegardeGrappe(ObjectMother.creeMariageSimple());
 	}
 
@@ -120,10 +123,10 @@ public class MariageRestControlerTest {
 	}
 
 	@Test
-	public void test04CreeMariageOk() {
+	public void test04SauvegardeMariageOk() {
 
 		// ARRANGE
-		final String dateCelebration = "15/07/2016 13:00";
+		final String dateCelebration = "15/07/2016";
 		final String marie1 = "Marie";
 		final String marie2 = "Guillaume";
 		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
@@ -146,10 +149,10 @@ public class MariageRestControlerTest {
 	}
 
 	@Test
-	public void test05CreeMariageKoFormatDate() {
+	public void test05SauvegardeMariageKoFormatDate() {
 
 		// ARRANGE
-		final String dateCelebration = "15-07-2016 13:00";
+		final String dateCelebration = "15-07-2016";
 		final String marie1 = "Marie";
 		final String marie2 = "Guillaume";
 		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
@@ -165,6 +168,40 @@ public class MariageRestControlerTest {
 		Assert.assertNotNull(CatchException.caughtException());
 		Assert.assertTrue(((HttpClientErrorException) CatchException.caughtException()).getResponseBodyAsString()
 				.contains(dateCelebration));
+	}
+
+	@Test
+	public void test06SauvegardeMariagePuisModificationOk() {
+
+		// ARRANGE
+		final String dateCelebration = "15/07/2016";
+		final String dateCelebration2 = "14/07/2016";
+		final String marie1 = "Marie";
+		final String marie2 = "Guillaume";
+		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		requestParam.add("dateCelebration", dateCelebration);
+		requestParam.add("marie1", marie1);
+		requestParam.add("marie2", marie2);
+		Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		Long idMariage1 = rest.postForObject(URL + "/mariage", requestParam, Long.class, uriVars);
+
+		requestParam.add("id", idMariage1);
+		requestParam.remove("dateCelebration");
+		requestParam.add("dateCelebration", dateCelebration2);
+		Long idMariage2 = rest.postForObject(URL + "/mariage", requestParam, Long.class, uriVars);
+
+		ResponseEntity<MariageDTO> mariage = rest.exchange(URL + "/mariage/" + idMariage2, HttpMethod.GET, null,
+				MariageDTO.class);
+
+		// ASSERT
+		Assert.assertNotNull(idMariage1);
+		Assert.assertEquals(idMariage1, idMariage2);
+		Assert.assertEquals(idMariage2, mariage.getBody().getId());
+		Assert.assertEquals(dateCelebration2, mariage.getBody().getDateCelebration());
+		Assert.assertEquals(marie1, mariage.getBody().getMarie1());
+		Assert.assertEquals(marie2, mariage.getBody().getMarie2());
 	}
 
 }

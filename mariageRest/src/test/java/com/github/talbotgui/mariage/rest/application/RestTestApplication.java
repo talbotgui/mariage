@@ -15,16 +15,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan({ RestApplication.ENTITY_SCAN })
 @ComponentScan({ RestApplication.COMPONENT_SCAN_CTRL, RestApplication.COMPONENT_SCAN_SRV })
 @EnableJpaRepositories(RestApplication.JPA_REPOSITORIES)
-@PropertySource(RestApplication.PROPERTY_SOURCE)
-public class RestApplication {
+@PropertySource(RestTestApplication.PROPERTY_SOURCE)
+public class RestTestApplication {
 
 	private static ApplicationContext ac;
 
-	protected static final String COMPONENT_SCAN_CTRL = "com.github.talbotgui.mariage.rest.controleur";
-	protected static final String COMPONENT_SCAN_SRV = "com.github.talbotgui.mariage.metier.service";
-	protected static final String ENTITY_SCAN = "com.github.talbotgui.mariage.metier.entities";
-	protected static final String JPA_REPOSITORIES = "com.github.talbotgui.mariage.metier.dao";
-	protected static final String PROPERTY_SOURCE = "classpath:db-config.properties";
+	protected static final String PROPERTY_SOURCE = "classpath:test/db-config.properties";
 
 	public static ApplicationContext getApplicationContext() {
 		return ac;
@@ -35,7 +31,7 @@ public class RestApplication {
 	}
 
 	public static void start() {
-		ac = SpringApplication.run(RestApplication.class);
+		ac = SpringApplication.run(RestTestApplication.class);
 	}
 
 	public static void stop() {
