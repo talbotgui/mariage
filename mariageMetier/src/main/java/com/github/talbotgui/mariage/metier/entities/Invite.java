@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 public class Invite implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private Age age;
+
 	private String groupe;
 
 	@Id
@@ -29,6 +31,8 @@ public class Invite implements Serializable {
 
 	private String nom;
 
+	private String prenom;
+
 	@OneToMany
 	@JoinColumn(name = "INVITE_ID")
 	private Collection<PresenceEtape> presencesEtape = new ArrayList<>();
@@ -37,22 +41,30 @@ public class Invite implements Serializable {
 		super();
 	}
 
-	public Invite(Long id, String groupe, String nom) {
+	public Invite(Long id, String groupe, String nom, String prenom, Age age) {
 		super();
 		this.groupe = groupe;
 		this.id = id;
 		this.nom = nom;
+		this.prenom = prenom;
+		this.age = age;
 	}
 
-	public Invite(String groupe, String nom) {
+	public Invite(String groupe, String nom, String prenom, Age age) {
 		super();
 		this.groupe = groupe;
 		this.nom = nom;
+		this.prenom = prenom;
+		this.age = age;
 	}
 
-	public Invite(String groupe, String nom, PresenceEtape... presences) {
-		this(groupe, nom);
+	public Invite(String groupe, String nom, String prenom, Age age, PresenceEtape... presences) {
+		this(groupe, nom, prenom, age);
 		this.presencesEtape.addAll(Arrays.asList(presences));
+	}
+
+	public Age getAge() {
+		return age;
 	}
 
 	public String getGroupe() {
@@ -71,8 +83,16 @@ public class Invite implements Serializable {
 		return nom;
 	}
 
+	public String getPrenom() {
+		return prenom;
+	}
+
 	public Collection<PresenceEtape> getPresencesEtape() {
 		return presencesEtape;
+	}
+
+	public void setAge(Age age) {
+		this.age = age;
 	}
 
 	public void setGroupe(String groupe) {
@@ -85,6 +105,10 @@ public class Invite implements Serializable {
 
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
 	}
 
 	public void setPresencesEtape(Collection<PresenceEtape> presencesEtape) {

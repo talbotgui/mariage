@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.service.MariageService;
 import com.github.talbotgui.mariage.rest.controleur.dto.AbstractDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.InviteDTO;
+import com.github.talbotgui.mariage.rest.exception.RestException;
 
 @RestController
 public class InviteRestControler {
@@ -32,9 +34,18 @@ public class InviteRestControler {
 	public Long sauvegardeInvite(//
 			@RequestParam(required = false, value = "id") Long id, //
 			@RequestParam(value = "nom") String nom, //
+			@RequestParam(value = "prenom") String prenom, //
+			@RequestParam(value = "age") String age, //
 			@RequestParam(value = "groupe") String groupe, //
 			@PathVariable(value = "idMariage") Long idMariage) {
-		return this.mariageService.sauvegarde(idMariage, new Invite(id, groupe, nom));
+
+		Age ageEnum = null;
+		try {
+			ageEnum = Age.valueOf(age);
+		} catch (IllegalArgumentException e) {
+			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE, new Object[] { "age", Age.values(), age });
+		}
+		return this.mariageService.sauvegarde(idMariage, new Invite(id, groupe, nom, prenom, ageEnum));
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite/{idInvite}", method = DELETE)

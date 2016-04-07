@@ -25,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 import com.github.talbotgui.mariage.metier.entities.comparator.InviteComparator;
@@ -98,7 +99,9 @@ public class InviteServiceTest {
 		// ACT
 		final String groupe = "G1";
 		final String nom = "N1";
-		Long id = this.instance.sauvegarde(idMariage, new Invite(groupe, nom));
+		final String prenom = "P1";
+		final Age age = Age.adulte;
+		Long id = this.instance.sauvegarde(idMariage, new Invite(groupe, nom, prenom, age));
 
 		// ASSERT
 		Assert.assertNotNull(id);
@@ -110,6 +113,8 @@ public class InviteServiceTest {
 		Assert.assertEquals(1, diff.size());
 		Assert.assertEquals(nom, diff.iterator().next().getNom());
 		Assert.assertEquals(groupe, diff.iterator().next().getGroupe());
+		Assert.assertEquals(prenom, diff.iterator().next().getPrenom());
+		Assert.assertEquals(age, diff.iterator().next().getAge());
 	}
 
 	@Test

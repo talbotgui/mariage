@@ -3,6 +3,7 @@ package com.github.talbotgui.mariage.metier;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.EtapeCeremonie;
 import com.github.talbotgui.mariage.metier.entities.EtapeRepas;
@@ -35,16 +36,16 @@ public class ObjectMother {
 		mariage.addEtape(e);
 		mariage.addEtape(f);
 
-		Invite i01 = new Invite("G Alpes", "G Fabrice", p(a), p(b), p(c), a(d), p(e), p(f));
-		Invite i02 = new Invite("G Alpes", "G Anais", p(a), a(b), p(c), p(d), a(e), p(f));
-		Invite i03 = new Invite("G Alpes", "G Celine", p(a), a(b), p(c), a(d), a(e), p(f));
-		Invite i04 = new Invite("G Alpes", "G Isabelle", p(a), p(b), p(c), p(d), p(e), p(f));
-		Invite i05 = new Invite("G Alpes", "G Jean", p(a), p(b), p(c), a(d), a(e), p(f));
-		Invite i06 = new Invite("Baugy", "T JP", p(a), p(b), a(c), p(d), p(e), a(f));
-		Invite i07 = new Invite("Baugy", "T Annick", p(a), p(b), p(c), p(d), p(e), p(f));
-		Invite i08 = new Invite("Chartres", "T Jessica", p(a), p(b), a(c), p(d), p(e), a(f));
-		Invite i09 = new Invite("Chartres", "T Axel", p(a), a(b), p(c), p(d), a(e), p(f));
-		Invite i10 = new Invite("Chartres", "T Johan", p(a), p(b), a(c), p(d), a(e), p(f));
+		Invite i01 = new Invite("G", "G F", "X", Age.adulte, p(a), p(b), p(c), a(d), p(e), p(f));
+		Invite i02 = new Invite("G", "G A", "X", Age.adulte, p(a), a(b), p(c), p(d), a(e), p(f));
+		Invite i03 = new Invite("G", "G C", "X", Age.adulte, p(a), a(b), p(c), a(d), a(e), p(f));
+		Invite i04 = new Invite("G", "G I", "X", Age.adulte, p(a), p(b), p(c), p(d), p(e), p(f));
+		Invite i05 = new Invite("G", "G J", "X", Age.adulte, p(a), p(b), p(c), a(d), a(e), p(f));
+		Invite i06 = new Invite("B", "T JP", "X", Age.adulte, p(a), p(b), a(c), p(d), p(e), a(f));
+		Invite i07 = new Invite("B", "T A", "X", Age.adulte, p(a), p(b), p(c), p(d), p(e), p(f));
+		Invite i08 = new Invite("C", "T J", "X", Age.adulte, p(a), p(b), a(c), p(d), p(e), a(f));
+		Invite i09 = new Invite("C", "T A", "X", Age.adulte, p(a), a(b), p(c), p(d), a(e), p(f));
+		Invite i10 = new Invite("C", "T J", "X", Age.adulte, p(a), p(b), a(c), p(d), a(e), p(f));
 		mariage.addInvite(i01);
 		mariage.addInvite(i02);
 		mariage.addInvite(i03);

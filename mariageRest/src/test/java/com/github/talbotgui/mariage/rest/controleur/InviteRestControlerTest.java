@@ -14,11 +14,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.rest.controleur.dto.InviteDTO;
+import com.googlecode.catchexception.CatchException;
 
 public class InviteRestControlerTest extends BaseRestControlerTest {
 
@@ -27,9 +30,11 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 
 		// ARRANGE
 		Long idMariage = 10L;
-		List<Invite> toReturn = Arrays.asList(new Invite("G1", "I1"), new Invite("G1", "I2"), new Invite("G1", "I3"),
-				new Invite("G1", "I4"), new Invite("G2", "I1"), new Invite("G2", "I2"), new Invite("G2", "I3"),
-				new Invite("G2", "I4"));
+		List<Invite> toReturn = Arrays.asList(new Invite("G1", "I1", "P1", Age.adulte),
+				new Invite("G1", "I2", "P1", Age.adulte), new Invite("G1", "I3", "P1", Age.adulte),
+				new Invite("G1", "I4", "P1", Age.adulte), new Invite("G2", "I1", "P1", Age.adulte),
+				new Invite("G2", "I2", "P1", Age.adulte), new Invite("G2", "I3", "P1", Age.adulte),
+				new Invite("G2", "I4", "P1", Age.adulte));
 		Mockito.doReturn(toReturn).when(this.service).listeInvitesParIdMariage(Mockito.anyLong());
 
 		// ACT
@@ -56,10 +61,14 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 				argumentCaptorInvite.capture());
 
 		final String nom = "InviteA";
+		final String prenom = "BB";
 		final String groupe = "Groupe1";
+		final String age = Age.adulte.toString();
 		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("nom", nom);
+		requestParam.add("prenom", prenom);
 		requestParam.add("groupe", groupe);
+		requestParam.add("age", age);
 		Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
@@ -70,9 +79,40 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertNotNull(idInviteRetour);
 		Assert.assertEquals(idInviteRetour, idInvite);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getNom(), nom);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getPrenom(), prenom);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getGroupe(), groupe);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getAge().toString(), age);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
 		Mockito.verify(this.service).sauvegarde(Mockito.anyLong(), Mockito.any(Invite.class));
+		Mockito.verifyNoMoreInteractions(this.service);
+	}
+
+	@Test
+	public void test02AjouteInviteAgeInvalid() {
+
+		// ARRANGE
+		Long idMariage = 10L;
+
+		final String nom = "InviteA";
+		final String prenom = "BB";
+		final String groupe = "Groupe1";
+		final String age = "toto";
+		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		requestParam.add("nom", nom);
+		requestParam.add("prenom", prenom);
+		requestParam.add("groupe", groupe);
+		requestParam.add("age", age);
+		Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		CatchException.catchException(getREST()).postForObject(getURL() + "/mariage/" + idMariage + "/invite",
+				requestParam, Long.class, uriVars);
+
+		// ASSERT
+		Assert.assertNotNull(CatchException.caughtException());
+		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
+		Assert.assertTrue(
+				((HttpStatusCodeException) CatchException.caughtException()).getResponseBodyAsString().contains(age));
 		Mockito.verifyNoMoreInteractions(this.service);
 	}
 

@@ -14,6 +14,7 @@ public class RestException extends BaseException {
 	public static final ExceptionId ERREUR_VALEUR_PARAMETRE = new ExceptionId("ERREUR_VALEUR_PARAMETRE",
 			"Le parametre '{1}' ne peut prendre que les valeurs '{2}' et pas la valeur '{3}'.", ExceptionLevel.ERROR,
 			400);
+
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;
 
