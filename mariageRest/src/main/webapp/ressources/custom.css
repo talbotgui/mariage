@@ -4,3 +4,5 @@
 .formPerso .btn-sauvegarder { display: none; }
 
 .todo { background-color: red; }
+
+.ui-dialog { z-index: 9999; }
