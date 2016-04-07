@@ -1,0 +1,17 @@
+  Ajouter les attributs prenom et age (ainé, adulte, jeune, enfant, bébé) dans Invite
+
+  Ajouter la gestion des étapes dans la page "Parametres"
+  Ajouter un attribut dateEtHeure dans Etape
+  Ajouter un numéro d'ordre dans Etape
+
+  Ajouter une page "Gestion des contacts" pour la saisie d'une adresse par personne (une String) et un numéro de téléphone (une String)
+
+  Renommer la page "invites" en "gestion des invitations"
+  Dans la page "gestion des invitations", ajouter une checkbox pour définir les étapes auxquelles sont liées chaque invité
+
+  Dans la page "paramètres", ajouter la liste des Courier (nom, dateEnvoiPrevu)
+
+  Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
+  
+  Ajouter une page "gestion des réponses" dans laquelle on peut cocher qui vient à quelles étapes
+
