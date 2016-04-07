@@ -12,7 +12,8 @@ import com.github.talbotgui.mariage.metier.entities.Invite;
 
 public interface InviteRepository extends PagingAndSortingRepository<Invite, Long> {
 
-	void deleteInviteByIdAndMariageId(Long id, Long mariageId);
+	@Query("select i.mariage.id from Invite i where i.id=:idInvite")
+	Long getIdMariageByInviteId(@Param("idInvite") Long idInvite);
 
 	@Query("select distinct i from Invite i left join fetch i.presencesEtape where i.mariage.id=:idMariage order by i.groupe, i.nom")
 	Collection<Invite> listeInvitesParIdMariage(@Param("idMariage") Long idMariage);

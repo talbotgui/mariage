@@ -2,7 +2,7 @@
 var debug = false;
 
 // Constantes
-var REST_PREFIX = "http://localhost:8080";
+var REST_PREFIX = "http://" + window.location.hostname + ":" + window.location.port + "/";
 var DHTMLX_IMAGE_PATH = "/ressources/dhtmlxGrid_v46_std/imgs/";
 
 // Modification pour le debug 
@@ -89,7 +89,8 @@ var clicBoutonSauvegarder = function(e) {
 }
 
 /**
- * Fonction de sauvegarde d'une données venant d'une table JqxGrid
+ * Fonction de sauvegarde d'une données venant d'une table JqGrid
+ * @see http://www.jqwidgets.com/jquery-widgets-documentation/
  */
 var majAttribute = function (url, event, success) {
 	if (event.args.value === event.args.oldvalue) { return; }

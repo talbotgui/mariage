@@ -1,6 +1,5 @@
 package com.github.talbotgui.mariage.rest.controleur;
 
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -17,13 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
-import com.github.talbotgui.mariage.metier.exception.BusinessException;
 import com.github.talbotgui.mariage.metier.service.MariageService;
 import com.github.talbotgui.mariage.rest.controleur.dto.AbstractDTO;
-import com.github.talbotgui.mariage.rest.controleur.dto.InviteDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.MariageDTO;
+import com.github.talbotgui.mariage.rest.exception.RestException;
 
 @RestController
 public class MariageRestControler {
@@ -39,11 +36,6 @@ public class MariageRestControler {
 		return new MariageDTO(mariage);
 	}
 
-	@RequestMapping(value = "/mariage/{idMariage}/invite", method = GET)
-	public Collection<InviteDTO> listeInvitesParIdMariage(@PathVariable("idMariage") Long idMariage) {
-		return AbstractDTO.creerDto(this.mariageService.listeInvitesParIdMariage(idMariage), InviteDTO.class);
-	}
-
 	@RequestMapping(value = "/mariage", method = GET)
 	public Collection<MariageDTO> listeTousMariages() {
 		Collection<Mariage> mariages = this.mariageService.listeTousMariages();
@@ -55,29 +47,20 @@ public class MariageRestControler {
 		return dtos;
 	}
 
-	@RequestMapping(value = "/mariage/{idMariage}/invite", method = POST)
-	public Long sauvegardeInvite(@RequestParam(required = false, value = "id") Long id,
-			@RequestParam(value = "nom") String nom, @RequestParam(value = "groupe") String groupe,
-			@PathVariable(value = "idMariage") Long idMariage) {
-		return this.mariageService.sauvegarde(idMariage, new Invite(id, groupe, nom));
-	}
-
 	@RequestMapping(value = "/mariage", method = POST)
-	public Long sauvegardeMariage(@RequestParam(required = false, value = "id") Long id,
-			@RequestParam(value = "dateCelebration") String dateCelebration,
-			@RequestParam(value = "marie1") String marie1, @RequestParam(value = "marie2") String marie2) {
+	public Long sauvegardeMariage(//
+			@RequestParam(required = false, value = "id") Long id, //
+			@RequestParam(value = "dateCelebration") String dateCelebration, //
+			@RequestParam(value = "marie1") String marie1, //
+			@RequestParam(value = "marie2") String marie2) {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat(AbstractDTO.FORMAT_DATE);
 			return this.mariageService.sauvegarde(new Mariage(id, sdf.parse(dateCelebration), marie1, marie2));
 		} catch (ParseException e) {
 			LOG.error("Erreur de format des paramètres d'entrée", e);
-			throw new BusinessException(BusinessException.ERREUR_FORMAT_DATE, e,
+			throw new RestException(RestException.ERREUR_FORMAT_DATE, e,
 					new String[] { AbstractDTO.FORMAT_DATE, dateCelebration });
 		}
 	}
 
-	@RequestMapping(value = "/mariage/{idMariage}/invite", method = DELETE)
-	public void supprimeInvite(@RequestParam(value = "id") Long id, @PathVariable(value = "idMariage") Long idMariage) {
-		this.mariageService.suprimeInvite(idMariage, id);
-	}
 }

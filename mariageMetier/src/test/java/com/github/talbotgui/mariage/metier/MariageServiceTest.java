@@ -19,13 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.github.talbotgui.mariage.metier.entities.Etape;
-import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 import com.github.talbotgui.mariage.metier.service.MariageService;
 
@@ -54,11 +50,10 @@ public class MariageServiceTest {
 		LOG.info("Execute SQL : {}", (Object[]) requetes);
 		jdbc.batchUpdate(requetes);
 
-		// Creation
 	}
 
 	@Test
-	public void test00CreationMariage() throws ParseException {
+	public void test01CreationMariage() throws ParseException {
 
 		// ARRANGE
 		Mariage mariage = ObjectMother.creeMariageSimple();
@@ -75,7 +70,7 @@ public class MariageServiceTest {
 	}
 
 	@Test
-	public void test01ChargeMariageParId() throws ParseException {
+	public void test02ChargeMariageParId() throws ParseException {
 
 		// ARRANGE
 		Mariage original = ObjectMother.creeMariageSimple();
@@ -91,20 +86,6 @@ public class MariageServiceTest {
 	}
 
 	@Test
-	public void test02ListeEtapesParIdMariage() throws ParseException {
-
-		// ARRANGE
-		Mariage original = ObjectMother.creeMariageSimple();
-		Long idMariage = this.instance.sauvegardeGrappe(original);
-
-		// ACT
-		Collection<Etape> etapes = this.instance.listeEtapesParIdMariage(idMariage);
-
-		// ASSERT
-		Assert.assertEquals(6, etapes.size());
-	}
-
-	@Test
 	public void test03ListeTousMariages() throws ParseException {
 
 		// ARRANGE
@@ -116,48 +97,5 @@ public class MariageServiceTest {
 
 		// ASSERT
 		Assert.assertEquals(1, mariages.size());
-	}
-
-	@Test
-	public void test04LilsteInvitesParIdMariage() throws ParseException {
-
-		// ARRANGE
-		Mariage original = ObjectMother.creeMariageSimple();
-		Long idMariage = this.instance.sauvegardeGrappe(original);
-
-		// ACT
-		Page<Invite> page1 = this.instance.listeInvitesParIdMariage(idMariage, new PageRequest(0, 2));
-		Page<Invite> page2 = this.instance.listeInvitesParIdMariage(idMariage, page1.nextPageable());
-		Page<Invite> page3 = this.instance.listeInvitesParIdMariage(idMariage, page2.nextPageable());
-		Page<Invite> page4 = this.instance.listeInvitesParIdMariage(idMariage, page3.nextPageable());
-		Page<Invite> page5 = this.instance.listeInvitesParIdMariage(idMariage, page4.nextPageable());
-
-		// ASSERT
-		Assert.assertEquals(10, page1.getTotalElements());
-		Assert.assertEquals(10, page2.getTotalElements());
-		Assert.assertEquals(10, page3.getTotalElements());
-		Assert.assertEquals(10, page4.getTotalElements());
-		Assert.assertEquals(10, page5.getTotalElements());
-		Assert.assertEquals(2, page1.getSize());
-		Assert.assertEquals(2, page2.getSize());
-		Assert.assertEquals(2, page3.getSize());
-		Assert.assertEquals(2, page4.getSize());
-		Assert.assertEquals(2, page5.getSize());
-	}
-
-	@Test
-	public void test05SupprimeInvite() throws ParseException {
-
-		// ARRANGE
-		Mariage original = ObjectMother.creeMariageSimple();
-		Long idMariage = this.instance.sauvegardeGrappe(original);
-		Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
-
-		// ACT
-		this.instance.suprimeInvite(idMariage, inviteAvant.iterator().next().getId());
-
-		// ASSERT
-		Collection<Invite> inviteApres = this.instance.listeInvitesParIdMariage(idMariage);
-		Assert.assertEquals(inviteAvant.size() - 1, inviteApres.size());
 	}
 }

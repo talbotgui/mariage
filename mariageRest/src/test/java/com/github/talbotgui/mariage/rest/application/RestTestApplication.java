@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 @SpringBootApplication
 @EntityScan({ RestApplication.ENTITY_SCAN })
-@ComponentScan({ RestApplication.COMPONENT_SCAN_CTRL, RestApplication.COMPONENT_SCAN_SRV })
+@ComponentScan({ RestApplication.COMPONENT_SCAN_WEB, RestApplication.COMPONENT_SCAN_SRV })
 @EnableJpaRepositories(RestApplication.JPA_REPOSITORIES)
 @PropertySource(RestTestApplication.PROPERTY_SOURCE)
 public class RestTestApplication {
@@ -21,10 +21,6 @@ public class RestTestApplication {
 	private static ApplicationContext ac;
 
 	public static final String PROPERTY_SOURCE = "classpath:test/db-config.properties";
-
-	public static ApplicationContext getApplicationContext() {
-		return ac;
-	}
 
 	public static void main(String[] args) {
 		start();

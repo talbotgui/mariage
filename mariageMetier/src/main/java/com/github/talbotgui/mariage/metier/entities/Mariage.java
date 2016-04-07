@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -19,8 +18,7 @@ public class Mariage implements Serializable {
 
 	private Date dateCelebration;
 
-	@OneToMany
-	@JoinColumn(name = "MARIAGE_ID")
+	@OneToMany(mappedBy = "mariage")
 	private Collection<Etape> etapes = new ArrayList<>();
 
 	@Id
