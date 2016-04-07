@@ -24,8 +24,11 @@
 				<div class="navbar navbar-default" role="navigation">
 					<ul class="nav nav-pills nav-stacked">
 						<li><a href="index.html">Accueil</a></li>
-						<li class="active"><a href="invites.html">Invités</a></li>
-						<li><a href="planningJourJ">Planning Jour J</a></li>
+						<li><a href="parametres.html">Paramètres</a></li>
+						<li><a href="invitation.html">Invitation</a></li>
+						<li><a href="contact.html">Adresse et téléphone</a></li>
+						<li class="active"><a href="courrier.html">Courriers</a></li>
+						<li><a href="reponse.html">Réponses</a></li>
 					</ul>
 				</div>
 				<!-- Version -->
@@ -38,30 +41,6 @@
 					<h1>Gestionnaire de mariage.</h1>
 					<div id="maries">Mariage de <span></span> & <span></span></div>
 					<div id="date">le <span></span></div>
-				</div>
-			
-				<div id="invites"></div>
-				
-				<button id="button_afficher_popup_ajouter" class="btn btn-default">Ajouter</button>
-				
-				<div id="popupAjoutInvite" class="popup">
-					<div class="form-inline">
-						<form>
-							<div class="form-group">
-								<label for=""nom"">Nom</label>
-								<input type="text" class="form-control" id="nom" name="nom"  placeholder="Nom">
-							</div>
-							<div class="form-group">
-								<label for="prenom">Prenom</label>
-								<input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prenom">
-							</div>
-							<div class="form-group">
-								<label for="groupe">Groupe</label>
-								<input type="text" class="form-control" id="groupe" name="groupe" placeholder="Groupe">
-							</div>
-							<button id="button_ajouter" class="btn btn-default">Ajouter</button>
-						</form>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -86,36 +65,6 @@
 		<script type="application/javascript" src="ressources/common.js"></script>
 		<script type="application/javascript">
 			var idMariage = "";
-			var donneesDejaChargees = false;
-			
-			// Affiche la popup des invités
-			var affichePopupInvite = function() {
-				$("#popupAjoutInvite").dialog("open");
-			};
-
-			// Fonction JqxGrid
-			var modifieInvite = function(e) {
-				majAttribute(REST_PREFIX + "/mariage/" + idMariage + "/invite", e, chargeInvites);
-			}
-			
-			// Sauvegarde invité par un POST
-			var ajouteInvite = function(e) {
-				e.preventDefault();
-				
-				var data = $("#popupAjoutInvite form").serialize();
-				var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + idMariage + "/invite", data: data});
-				req.success(function(dataString) {
-					$("#popupAjoutInvite").dialog("close");
-					chargeInvites();
-				});
-				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("ajouteInvite");});
-			};
-			
-			var supprimeInvite = function(idInvite) {
-				var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + idMariage + "/invite/" + idInvite});
-				req.success(function(dataString) { chargeInvites(); });
-				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("ajouteInvite");});
-			};
 			
 			// Chargement des données du mariage
 			var chargeDonneesMariage = function() {
@@ -129,35 +78,6 @@
 				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("readMariage");});
 			};
 
-			// Chargement des invites
-			var chargeInvites = function() {
-				if (donneesDejaChargees) {
-					$("#invites").jqxGrid('updatebounddata', 'cells');
-				} else {
-					var dataAdapter = new $.jqx.dataAdapter({
-						datatype: "json",
-						url: REST_PREFIX + "/mariage/" + idMariage + "/invite",
-						datafields: [{ name: 'id', type: 'string' },{ name: 'groupe', type: 'string' },{ name: 'nom', type: 'string' }],
-						id: 'id'
-					});
-					var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties) { return '<a href="javascript:supprimeInvite(' + value + ')" id="btn' + value + '"><span class="ui-icon ui-icon-trash"></span></a>' };
-					$("#invites").jqxGrid({
-						source: dataAdapter,
-						columns: [
-							{ text: 'Nom', datafield: 'nom', width: "45%" },
-							{ text: 'Groupe', datafield: 'groupe', width: "45%" },
-							{ text: 'Actions', datafield: 'id', width: "10%", editable: false, sortable: false, menu: false, cellsrenderer: rendererColonneBouton }
-						],
-						editable: true,
-						sortable: true,
-						filterable: true,
-						autoheight: true,
-						width: 950
-					});
-					$("#invites").on('cellendedit', modifieInvite);
-					donneesDejaChargees = true;
-				}
-			};
 
 			$(document).ready(function() {
 			
@@ -167,11 +87,7 @@
 				
 				chargeDonneesMariage();
 
-				chargeInvites();
-				
 				// Ajout des evenements
-				$("#button_afficher_popup_ajouter").on("click", affichePopupInvite);
-				$("#button_ajouter").on("click", ajouteInvite);
 			});
 		</script>
 	</body>

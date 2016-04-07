@@ -1,3 +1,5 @@
+X Créer les pages "Adresse et téléphone", "Paramètres", "Courrier", "Réponses"
+
   Ajouter les attributs prenom et age (ainé, adulte, jeune, enfant, bébé) dans Invite
 
   Ajouter la gestion des étapes dans la page "Parametres"
@@ -8,6 +10,7 @@
 
   Renommer la page "invites" en "gestion des invitations"
   Dans la page "gestion des invitations", ajouter une checkbox pour définir les étapes auxquelles sont liées chaque invité
+  Dans la page "gestion des invitations", ajouter l'autocomplétion dans le champ "groupe"
 
   Dans la page "paramètres", ajouter la liste des Courier (nom, dateEnvoiPrevu)
 
