@@ -21,7 +21,11 @@ public interface MariageService {
 
 	Collection<Mariage> listeTousMariages();
 
+	Long sauvegarde(Long idMariage, Invite invite);
+
 	Long sauvegarde(Mariage mariage);
 
 	Long sauvegardeGrappe(Mariage mariage);
+
+	void suprimeInvite(Long idMariage, Long idInvite);
 }

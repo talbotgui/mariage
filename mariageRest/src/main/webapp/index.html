@@ -74,13 +74,15 @@
 				// Affichage / masquage de divs
 				$("#accueil").hide();
 				$("div[role=navigation]").show();
-				var infoMariage = $("#infoMariage");
-				infoMariage.show();
+				$("#infoMariage").show();
 				
 				// Affichage des infos
-				infoMariage.find("#maries span:first").html(data.marie1);
-				infoMariage.find("#maries span:last").html(data.marie2);
-				infoMariage.find("#date span").html(data.dateCelebration);
+				$("#maries span:first").html(data.marie1);
+				$("#maries span:last").html(data.marie2);
+				$("#date span").html(data.dateCelebration);
+				$("#maries input:first").val(data.marie1);
+				$("#maries input:last").val(data.marie2);
+				$("#date input").val(data.dateCelebration);
 			};
 			
 			var afficheInfoMariageDepuisId = function() {

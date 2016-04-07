@@ -32,9 +32,9 @@ import com.github.talbotgui.mariage.metier.service.MariageService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ClientServiceTest {
+public class MariageServiceTest {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ClientServiceTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(MariageServiceTest.class);
 
 	@Autowired
 	private DataSource dataSource;
@@ -143,5 +143,21 @@ public class ClientServiceTest {
 		Assert.assertEquals(2, page3.getSize());
 		Assert.assertEquals(2, page4.getSize());
 		Assert.assertEquals(2, page5.getSize());
+	}
+
+	@Test
+	public void test05SupprimeInvite() throws ParseException {
+
+		// ARRANGE
+		Mariage original = ObjectMother.creeMariageSimple();
+		Long idMariage = this.instance.sauvegardeGrappe(original);
+		Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
+
+		// ACT
+		this.instance.suprimeInvite(idMariage, inviteAvant.iterator().next().getId());
+
+		// ASSERT
+		Collection<Invite> inviteApres = this.instance.listeInvitesParIdMariage(idMariage);
+		Assert.assertEquals(inviteAvant.size() - 1, inviteApres.size());
 	}
 }

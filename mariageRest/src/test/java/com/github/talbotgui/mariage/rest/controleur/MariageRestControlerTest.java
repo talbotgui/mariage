@@ -1,22 +1,24 @@
 package com.github.talbotgui.mariage.rest.controleur;
 
 import java.io.IOException;
-import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpRequest;
@@ -24,22 +26,32 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
+import com.github.talbotgui.mariage.metier.entities.Invite;
+import com.github.talbotgui.mariage.metier.entities.Mariage;
 import com.github.talbotgui.mariage.metier.service.MariageService;
 import com.github.talbotgui.mariage.rest.application.RestTestApplication;
 import com.github.talbotgui.mariage.rest.controleur.dto.InviteDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.MariageDTO;
 import com.googlecode.catchexception.CatchException;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MariageRestControlerTest {
+@SpringApplicationConfiguration(classes = { RestTestApplication.class })
+@WebIntegrationTest
+public class MariageRestControlerTest extends AbstractTestNGSpringContextTests {
 
+	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(MariageRestControlerTest.class);
 
+	/** Log interceptor for all HTTP requests. */
 	private static final List<ClientHttpRequestInterceptor> REST_INTERCEPTORS = Arrays
 			.asList(new ClientHttpRequestInterceptor() {
 				public ClientHttpResponse intercept(HttpRequest request, byte[] body,
@@ -52,83 +64,114 @@ public class MariageRestControlerTest {
 				}
 			});
 
-	private static String URL = "http://localhost:";
+	/** Test URL. */
+	private static final String URL = "http://localhost:9000";
 
-	@AfterClass
-	public static void afterClass() {
-		RestTestApplication.stop();
-	}
+	/** Instance du controleur nécessaire pour y injecter le mock de service. */
+	@Autowired
+	@InjectMocks
+	private MariageRestControler ctrl;
 
+	/** Mock de service créé par Mockito. */
+	@Mock
+	private MariageService service;
+
+	/** Pour créer les mock. */
 	@BeforeClass
-	public static void beforeClass() throws ParseException {
-
-		// Start application
-		RestTestApplication.start();
-
-		// Get REST URL
-		URL += RestTestApplication.getApplicationContext().getEnvironment().getProperty("server.port");
-
-		// Create data
-		MariageService service = RestTestApplication.getApplicationContext().getBean(MariageService.class);
-		service.sauvegardeGrappe(ObjectMother.creeMariageSimple());
+	public void beforeClass() {
+		MockitoAnnotations.initMocks(this);
 	}
 
-	private RestTemplate rest;
+	/** Pour faire un reset de chaque mock. */
+	@BeforeMethod
+	public void beforeMethod() {
+		LOG.info("*****************************************");
+		Mockito.reset(this.service);
+	}
 
-	@Before
-	public void before() {
-		// Reset restTemplate
-		this.rest = new RestTemplate();
+	/**
+	 * Reset restTemplate
+	 *
+	 * @return
+	 */
+	private RestTemplate getREST() {
+		RestTemplate rest = new RestTemplate();
 		rest.setInterceptors(REST_INTERCEPTORS);
+		return rest;
 	}
 
 	@Test
 	public void test01GetListeMariages() {
 
+		// Arrange
+		Long idMariage = 10L;
+		Collection<Mariage> toReturn = Arrays.asList(new Mariage(idMariage, new Date(), "Mme.", "M."));
+		Mockito.doReturn(toReturn).when(this.service).listeTousMariages();
+
 		// ACT
 		ParameterizedTypeReference<Collection<MariageDTO>> typeRetour = new ParameterizedTypeReference<Collection<MariageDTO>>() {
 		};
-		ResponseEntity<Collection<MariageDTO>> mariages = rest.exchange(URL + "/mariage", HttpMethod.GET, null,
+		ResponseEntity<Collection<MariageDTO>> mariages = getREST().exchange(URL + "/mariage", HttpMethod.GET, null,
 				typeRetour);
 
 		// ASSERT
 		Assert.assertEquals(1, mariages.getBody().size());
+		Assert.assertEquals(idMariage, mariages.getBody().iterator().next().getId());
+		Mockito.verify(this.service).listeTousMariages();
+		Mockito.verifyNoMoreInteractions(this.service);
 	}
 
 	@Test
 	public void test02GetMariageParId() {
 
 		// ARRANGE
+		Long idMariage = 10L;
+		Mariage toReturn = new Mariage(idMariage, new Date(), "Mme.", "M.");
+		Mockito.doReturn(toReturn).when(this.service).chargeMariageParId(Mockito.anyLong());
 
 		// ACT
-		ResponseEntity<MariageDTO> mariage = rest.exchange(URL + "/mariage/0", HttpMethod.GET, null, MariageDTO.class);
+		ResponseEntity<MariageDTO> mariage = getREST().exchange(URL + "/mariage/" + idMariage, HttpMethod.GET, null,
+				MariageDTO.class);
 
 		// ASSERT
-		Assert.assertEquals(Long.valueOf(0), mariage.getBody().getId());
+		Assert.assertEquals(idMariage, mariage.getBody().getId());
+		Mockito.verify(this.service).chargeMariageParId(idMariage);
+		Mockito.verifyNoMoreInteractions(this.service);
 	}
 
 	@Test
 	public void test03GetListeInvites() {
 
 		// ARRANGE
+		Long idMariage = 10L;
+		List<Invite> toReturn = Arrays.asList(new Invite("G1", "I1"), new Invite("G1", "I2"), new Invite("G1", "I3"),
+				new Invite("G1", "I4"), new Invite("G2", "I1"), new Invite("G2", "I2"), new Invite("G2", "I3"),
+				new Invite("G2", "I4"));
+		Mockito.doReturn(toReturn).when(this.service).listeInvitesParIdMariage(Mockito.anyLong());
 
 		// ACT
 		ParameterizedTypeReference<Collection<InviteDTO>> typeRetour = new ParameterizedTypeReference<Collection<InviteDTO>>() {
 		};
-		ResponseEntity<Collection<InviteDTO>> invites = rest.exchange(URL + "/mariage/0/invites", HttpMethod.GET, null,
-				typeRetour);
+		ResponseEntity<Collection<InviteDTO>> invites = getREST().exchange(URL + "/mariage/" + idMariage + "/invite",
+				HttpMethod.GET, null, typeRetour);
 
 		// ASSERT
-		Assert.assertEquals(10, invites.getBody().size());
+		Assert.assertEquals(8, invites.getBody().size());
+		Mockito.verify(this.service).listeInvitesParIdMariage(idMariage);
+		Mockito.verifyNoMoreInteractions(this.service);
 	}
 
 	@Test
 	public void test04SauvegardeMariageOk() {
 
 		// ARRANGE
+		Long idMariage = 10L;
+		ArgumentCaptor<Mariage> argumentCaptor = ArgumentCaptor.forClass(Mariage.class);
+		Mockito.doReturn(idMariage).when(this.service).sauvegarde(argumentCaptor.capture());
+
 		final String dateCelebration = "15/07/2016";
-		final String marie1 = "Marie";
-		final String marie2 = "Guillaume";
+		final String marie1 = "marie1";
+		final String marie2 = "marie2";
 		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("dateCelebration", dateCelebration);
 		requestParam.add("marie1", marie1);
@@ -136,16 +179,18 @@ public class MariageRestControlerTest {
 		Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		Long idMariage = rest.postForObject(URL + "/mariage", requestParam, Long.class, uriVars);
-		ResponseEntity<MariageDTO> mariage = rest.exchange(URL + "/mariage/" + idMariage, HttpMethod.GET, null,
-				MariageDTO.class);
+		Long idMariageRetour = getREST().postForObject(URL + "/mariage", requestParam, Long.class, uriVars);
 
 		// ASSERT
-		Assert.assertNotNull(idMariage);
-		Assert.assertEquals(idMariage, mariage.getBody().getId());
-		Assert.assertEquals(dateCelebration, mariage.getBody().getDateCelebration());
-		Assert.assertEquals(marie1, mariage.getBody().getMarie1());
-		Assert.assertEquals(marie2, mariage.getBody().getMarie2());
+		Assert.assertNotNull(idMariageRetour);
+		Assert.assertEquals(idMariageRetour, idMariage);
+		Assert.assertEquals(dateCelebration,
+				(new SimpleDateFormat("dd/MM/yyyy")).format(argumentCaptor.getValue().getDateCelebration()));
+		Assert.assertEquals(marie1, argumentCaptor.getValue().getMarie1());
+		Assert.assertEquals(marie2, argumentCaptor.getValue().getMarie2());
+		Mockito.verify(this.service).sauvegarde(Mockito.anyObject());
+		Mockito.verifyNoMoreInteractions(this.service);
+
 	}
 
 	@Test
@@ -162,46 +207,46 @@ public class MariageRestControlerTest {
 		Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		CatchException.catchException(rest).postForObject(URL + "/mariage", requestParam, Long.class, uriVars);
+		CatchException.catchException(getREST()).postForObject(URL + "/mariage", requestParam, Long.class, uriVars);
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
 		Assert.assertTrue(((HttpClientErrorException) CatchException.caughtException()).getResponseBodyAsString()
 				.contains(dateCelebration));
+		Mockito.verifyNoMoreInteractions(this.service);
 	}
 
 	@Test
-	public void test06SauvegardeMariagePuisModificationOk() {
+	public void test06AjouteInvite() {
 
 		// ARRANGE
-		final String dateCelebration = "15/07/2016";
-		final String dateCelebration2 = "14/07/2016";
-		final String marie1 = "Marie";
-		final String marie2 = "Guillaume";
+		Long idMariage = 10L;
+		Long idInvite = 100L;
+		ArgumentCaptor<Invite> argumentCaptorInvite = ArgumentCaptor.forClass(Invite.class);
+		ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		Mockito.doReturn(idInvite).when(this.service).sauvegarde(argumentCaptorIdMariage.capture(),
+				argumentCaptorInvite.capture());
+
+		final String nom = "InviteA";
+		final String groupe = "Groupe1";
 		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
-		requestParam.add("dateCelebration", dateCelebration);
-		requestParam.add("marie1", marie1);
-		requestParam.add("marie2", marie2);
+		requestParam.add("nom", nom);
+		requestParam.add("groupe", groupe);
 		Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		Long idMariage1 = rest.postForObject(URL + "/mariage", requestParam, Long.class, uriVars);
-
-		requestParam.add("id", idMariage1);
-		requestParam.remove("dateCelebration");
-		requestParam.add("dateCelebration", dateCelebration2);
-		Long idMariage2 = rest.postForObject(URL + "/mariage", requestParam, Long.class, uriVars);
-
-		ResponseEntity<MariageDTO> mariage = rest.exchange(URL + "/mariage/" + idMariage2, HttpMethod.GET, null,
-				MariageDTO.class);
+		Long idInviteRetour = getREST().postForObject(URL + "/mariage/" + idMariage + "/invite", requestParam,
+				Long.class, uriVars);
 
 		// ASSERT
-		Assert.assertNotNull(idMariage1);
-		Assert.assertEquals(idMariage1, idMariage2);
-		Assert.assertEquals(idMariage2, mariage.getBody().getId());
-		Assert.assertEquals(dateCelebration2, mariage.getBody().getDateCelebration());
-		Assert.assertEquals(marie1, mariage.getBody().getMarie1());
-		Assert.assertEquals(marie2, mariage.getBody().getMarie2());
+		Assert.assertNotNull(idInviteRetour);
+		Assert.assertEquals(idInvite, idInviteRetour);
+		Assert.assertEquals(nom, argumentCaptorInvite.getValue().getNom());
+		Assert.assertEquals(groupe, argumentCaptorInvite.getValue().getGroupe());
+		Assert.assertEquals(idMariage, argumentCaptorIdMariage.getValue());
+		Mockito.verify(this.service).sauvegarde(Mockito.anyLong(), Mockito.anyObject());
+		Mockito.verifyNoMoreInteractions(this.service);
+
 	}
 
 }

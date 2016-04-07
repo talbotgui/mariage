@@ -3,6 +3,7 @@ var debug = false;
 
 // Constantes
 var REST_PREFIX = "http://localhost:8080";
+var DHTMLX_IMAGE_PATH = "/ressources/dhtmlxGrid_v46_std/imgs/";
 
 // Modification pour le debug 
 if (debug) {
@@ -87,6 +88,25 @@ var clicBoutonSauvegarder = function(e) {
 	divParente.find("a").toggle();
 }
 
+/**
+ * Fonction de sauvegarde d'une données venant d'une table JqxGrid
+ */
+var majAttribute = function (url, event, success) {
+	if (event.args.value === event.args.oldvalue) { return; }
+
+	var data = event.args.row;
+	data.id = data.uid;
+	delete data.uid;
+	delete data.boundindex;
+	delete data.uniqueid;
+	delete data.visibleindex;
+		data[event.args.datafield] = event.args.value;
+
+	var req = $.ajax({ type: "POST", url: url, data: data});
+		req.success(function(dataString) { success(); });
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("majAttribute");});
+}
+
 /** 
  * On ready.
  */
@@ -98,4 +118,5 @@ var clicBoutonSauvegarder = function(e) {
 	 
 	 $(".btn-modifier").on("click", clicBoutonModifier);
 	 $(".btn-sauvegarder").on("click", clicBoutonSauvegarder);
+	 $(".popup").dialog({ autoOpen: false });
 });

@@ -63,6 +63,13 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public Long sauvegarde(Long idMariage, Invite invite) {
+		Mariage m = this.mariageRepository.findOne(idMariage);
+		invite.setMariage(m);
+		return this.inviteRepository.save(invite).getId();
+	}
+
+	@Override
 	public Long sauvegarde(Mariage m) {
 		return this.mariageRepository.save(m).getId();
 	}
@@ -81,6 +88,11 @@ public class MariageServiceImpl implements MariageService {
 			}
 		}
 		return id;
+	}
+
+	@Override
+	public void suprimeInvite(Long idMariage, Long idInvite) {
+		this.inviteRepository.deleteInviteByIdAndMariageId(idInvite, idMariage);
 	}
 
 }

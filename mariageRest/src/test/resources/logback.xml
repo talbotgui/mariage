@@ -11,7 +11,7 @@ See here for more details: http://gordondickens.com/wordpress/2013/03/27/sawing-
     <jmxConfigurator/>
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder><pattern>${PID}: %-5level %logger{0} - %msg%n</pattern></encoder>
+        <encoder><pattern>%d : %-5p : %c:%4L : %20M() : %m%n</pattern></encoder>
     </appender>
 
     <!-- Specify logging levels -->
