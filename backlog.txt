@@ -6,8 +6,8 @@ X Traiter les messages d'erreur pourri (cf cas de test avec age invalide)
   
 X Traiter pb config des tests REST qui démarre une BDD File
   
-X  Ajouter la gestion des étapes dans la page "Parametres"
-X  Ajouter un attribut dateEtHeure dans Etape
+X Ajouter la gestion des étapes dans la page "Parametres"
+X Ajouter un attribut dateEtHeure dans Etape
   Faire de dateHeure un date & time picker
   Corriger les pb de CSS entre les tableaux et les popup
   Ajouter des titres aux popups
