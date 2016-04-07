@@ -24,7 +24,7 @@ public class BusinessException extends BaseException {
 		super(exceptionId, nestedException);
 	}
 
-	public BusinessException(ExceptionId pExceptionId, Throwable pNestedException, String[] pParameters) {
+	public BusinessException(ExceptionId pExceptionId, Throwable pNestedException, Object[] pParameters) {
 		super(pExceptionId, pNestedException, pParameters);
 	}
 

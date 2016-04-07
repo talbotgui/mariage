@@ -1,12 +1,14 @@
 package com.github.talbotgui.mariage.metier.exception;
 
+import java.util.Arrays;
+
 /**
  *
  * 400 : BAD REQUEST - La syntaxe de la requête est erronée
  *
  * 409 : CONFLICT - La requête ne peut être traitée à l’état actuel
  */
-public class BaseException extends RuntimeException {
+public abstract class BaseException extends RuntimeException {
 
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;
@@ -71,7 +73,7 @@ public class BaseException extends RuntimeException {
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	public BaseException(ExceptionId pExceptionId, Throwable pNestedException, String[] pParameters) {
+	public BaseException(ExceptionId pExceptionId, Throwable pNestedException, Object[] pParameters) {
 		super(pNestedException);
 		this.setExceptionId(pExceptionId);
 		this.setParameters(pParameters);
@@ -100,7 +102,11 @@ public class BaseException extends RuntimeException {
 				for (int i = 0; i < this.parameters.length; i++) {
 					String valeur = "null";
 					if (this.parameters[i] != null) {
-						valeur = this.parameters[i].toString();
+						if (this.parameters[i].getClass().isArray()) {
+							valeur = Arrays.asList((Object[]) this.parameters[i]).toString();
+						} else {
+							valeur = this.parameters[i].toString();
+						}
 					}
 					message = message.replace("{" + i + "}", valeur);
 				}

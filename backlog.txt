@@ -2,9 +2,9 @@ X Créer les pages "Adresse et téléphone", "Paramètres", "Courrier", "Répons
 
 X Ajouter les attributs prenom et age (ainé, adulte, jeune, enfant, bébé) dans Invite
 
-  Traiter les messages d'erreur pourri (cf cas de test avec age invalide)
+X Traiter les messages d'erreur pourri (cf cas de test avec age invalide)
   
-  Traiter pb config des tests REST qui démarre une BDD File
+X Traiter pb config des tests REST qui démarre une BDD File
   
   Ajouter la gestion des étapes dans la page "Parametres"
   Ajouter un attribut dateEtHeure dans Etape

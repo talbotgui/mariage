@@ -20,7 +20,7 @@ public class RestTestApplication {
 
 	private static ApplicationContext ac;
 
-	public static final String PROPERTY_SOURCE = "classpath:test/db-config.properties";
+	public static final String PROPERTY_SOURCE = "classpath:db-config-test.properties";
 
 	public static void main(String[] args) {
 		start();

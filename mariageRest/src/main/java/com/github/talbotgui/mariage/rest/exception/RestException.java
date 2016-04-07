@@ -30,7 +30,7 @@ public class RestException extends BaseException {
 		super(exceptionId, nestedException);
 	}
 
-	public RestException(ExceptionId pExceptionId, Throwable pNestedException, String[] pParameters) {
+	public RestException(ExceptionId pExceptionId, Throwable pNestedException, Object[] pParameters) {
 		super(pExceptionId, pNestedException, pParameters);
 	}
 }

@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.TreeSet;
 
@@ -56,7 +57,7 @@ public class InviteServiceTest {
 				.readAllLines(Paths.get(ClassLoader.getSystemResource("sql/dataPurge.sql").toURI()));
 		String[] requetes = strings.toArray(new String[strings.size()]);
 		JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		LOG.info("Execute SQL : {}", (Object[]) requetes);
+		LOG.info("Execute SQL : {}", Arrays.asList(requetes));
 		jdbc.batchUpdate(requetes);
 
 	}
