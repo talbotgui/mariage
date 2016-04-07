@@ -92,7 +92,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 	}
 
 	@Test
-	public void test02AjouteEtapeDateInvalie() {
+	public void test02AjouteEtapeDateInvalide() {
 
 		// ARRANGE
 		Long idMariage = 10L;
@@ -135,13 +135,11 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 
 		final String nom = "N1";
 		final String lieu = "L1";
-		final String celebrant = "C1";
 		final String dateHeure = "15/07/2015";
 		final String type = EtapeRepas.class.getSimpleName();
 		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("nom", nom);
 		requestParam.add("lieu", lieu);
-		requestParam.add("celebrant", celebrant);
 		requestParam.add("dateHeure", dateHeure);
 		requestParam.add("type", type);
 		Map<String, Object> uriVars = new HashMap<String, Object>();

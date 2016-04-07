@@ -40,6 +40,14 @@ public abstract class Etape {
 		super();
 	}
 
+	public Etape(Long id, String nom, Date dateHeure, String lieu) {
+		super();
+		this.id = id;
+		this.nom = nom;
+		this.dateHeure = dateHeure;
+		this.lieu = lieu;
+	}
+
 	public Etape(String nom, Date dateHeure, String lieu) {
 		super();
 		this.dateHeure = dateHeure;

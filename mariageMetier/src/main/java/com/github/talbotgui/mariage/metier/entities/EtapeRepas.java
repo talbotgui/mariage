@@ -11,6 +11,10 @@ public class EtapeRepas extends Etape {
 		super();
 	}
 
+	public EtapeRepas(Long id, String nom, Date dateHeure, String lieu) {
+		super(id, nom, dateHeure, lieu);
+	}
+
 	public EtapeRepas(String nom, Date dateHeure, String lieu) {
 		super(nom, dateHeure, lieu);
 	}

@@ -42,6 +42,56 @@
 					<div id="maries">Mariage de <span></span> & <span></span></div>
 					<div id="date">le <span></span></div>
 				</div>
+				
+				<div id="etapes"></div>
+				
+				<button id="button_afficher_popup_ajouter_repas" class="btn btn-default">Ajouter un repas</button>
+				<button id="button_afficher_popup_ajouter_ceremonie" class="btn btn-default">Ajouter une cérémonie</button>
+				
+				<div id="popupAjoutEtapeCeremonie" class="popup">
+					<div class="form-inline">
+						<form>
+							<input type="hidden" name="type" value="EtapeCeremonie"/>
+							<div class="form-group">
+								<label for="nom">Nom</label>
+								<input type="text" class="form-control" id="nom" name="nom"  placeholder="Nom"/>
+							</div>
+							<div class="form-group">
+								<label for="lieu">Lieu</label>
+								<input type="text" class="form-control" id="lieu" name="lieu"  placeholder="Lieu"/>
+							</div>
+							<div class="form-group">
+								<label for="dateHeure">Date et heure</label>
+								<input type="text" class="form-control dateTimePicker" id="dateHeure" name="dateHeure"  placeholder="Date et heure"/>
+							</div>
+							<div class="form-group">
+								<label for="celebrant">Célébrant</label>
+								<input type="text" class="form-control" id="celebrant" name="celebrant"  placeholder="Célébrant"/>
+							</div>
+							<button id="button_ajouter_etapeCeremonie" class="btn btn-default">Ajouter</button>
+						</form>
+					</div>
+				</div>
+				<div id="popupAjoutEtapeRepas" class="popup">
+					<div class="form-inline">
+						<form>
+							<input type="hidden" name="type" value="EtapeRepas"/>
+							<div class="form-group">
+								<label for="nom">Nom</label>
+								<input type="text" class="form-control" id="nom" name="nom"  placeholder="Nom"/>
+							</div>
+							<div class="form-group">
+								<label for="lieu">Lieu</label>
+								<input type="text" class="form-control" id="lieu" name="lieu"  placeholder="Lieu"/>
+							</div>
+							<div class="form-group">
+								<label for="dateHeure">Date et heure</label>
+								<input type="text" class="form-control dateTimePicker" id="dateHeure" name="dateHeure"  placeholder="Date et heure"/>
+							</div>
+							<button id="button_ajouter_etapeRepas" class="btn btn-default">Ajouter</button>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -64,31 +114,100 @@
 		<script type="application/javascript" src="ressources/jqwidgets-ver4.1.1/jqxlistbox.js"></script>
 		<script type="application/javascript" src="ressources/common.js"></script>
 		<script type="application/javascript">
-			var idMariage = "";
+		var idMariage = "";
+		var donneesDejaChargees = false;
+		
+		// Affiche la popup des invités
+		var affichePopupEtapeRepas = function() { $("#popupAjoutEtapeRepas").dialog("open"); };
+		var affichePopupEtapeCeremonie = function() { $("#popupAjoutEtapeCeremonie").dialog("open"); };
+
+		// Fonction JqxGrid
+		var modifieEtape = function(e) {
+			majAttribute(REST_PREFIX + "/mariage/" + idMariage + "/etape", e, chargeEtapes);
+		}
+		
+		// Sauvegarde etape par un POST
+		var ajouteEtape = function(e, idPopup) {
+			e.preventDefault();
 			
-			// Chargement des données du mariage
-			var chargeDonneesMariage = function() {
-				var req = $.get( REST_PREFIX + "/mariage/" + idMariage);
-				req.success(function(dataString) {
-					var data = eval(dataString);
-					$("#maries span:first").html(data.marie1);
-					$("#maries span:last").html(data.marie2);
-					$("#date span").html(data.dateCelebration);
-				});
-				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("readMariage");});
-			};
-
-
-			$(document).ready(function() {
-			
-				// Redirection si pas de mariage sélectionné
-				idMariage = getIdMariage();
-				if (idMariage === "") {window.location.href="/";}
-				
-				chargeDonneesMariage();
-
-				// Ajout des evenements
+			var data = $("#" + idPopup + " form").serialize();
+			var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + idMariage + "/etape", data: data});
+			req.success(function(dataString) {
+				$("#" + idPopup).dialog("close");
+				chargeEtapes();
 			});
+			req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("ajouteEtape");});
+		};
+		var ajouteEtapeCeremonie = function(e) { ajouteEtape(e, "popupAjoutEtapeCeremonie") };
+		var ajouteEtapeRepas = function(e) { ajouteEtape(e, "popupAjoutEtapeRepas") };
+		
+		
+		var supprimeEtape = function(idEtape) {
+			var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + idMariage + "/etape/" + idEtape});
+			req.success(function(dataString) { chargeEtapes(); });
+			req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("supprimeEtape");});
+		};
+		
+		// Chargement des données du mariage
+		var chargeDonneesMariage = function() {
+			var req = $.get( REST_PREFIX + "/mariage/" + idMariage);
+			req.success(function(dataString) {
+				var data = eval(dataString);
+				$("#maries span:first").html(data.marie1);
+				$("#maries span:last").html(data.marie2);
+				$("#date span").html(data.dateCelebration);
+			});
+			req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("readMariage");});
+		};
+
+		// Chargement des etapes
+		var chargeEtapes = function() {
+			if (donneesDejaChargees) {
+				$("#etapes").jqxGrid('updatebounddata', 'cells');
+			} else {
+				var dataAdapter = new $.jqx.dataAdapter({
+					datatype: "json",
+					url: REST_PREFIX + "/mariage/" + idMariage + "/etape",
+					datafields: [{ name: 'id', type: 'string' },{ name: 'lieu', type: 'string' },{ name: 'nom', type: 'string' },{ name: 'type', type: 'string' },{ name: 'dateHeure', type: 'string' }],
+					id: 'id'
+				});
+				var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties) { return '<a href="javascript:supprimeEtape(' + value + ')" id="btn' + value + '"><span class="ui-icon ui-icon-trash"></span></a>' };
+				$("#etapes").jqxGrid({
+					source: dataAdapter,
+					columns: [
+						{ text: 'Type', datafield: 'type', width: "15%" },
+						{ text: 'Nom', datafield: 'nom', width: "25%" },
+						{ text: 'Date et heure', datafield: 'dateHeure', width: "25%" },
+						{ text: 'Lieu', datafield: 'lieu', width: "25%" },
+						{ text: 'Actions', datafield: 'id', width: "10%", editable: false, sortable: false, menu: false, cellsrenderer: rendererColonneBouton }
+					],
+					editable: true,
+					sortable: true,
+					filterable: true,
+					autoheight: true,
+					width: 950
+				});
+				$("#etapes").on('cellendedit', modifieEtape);
+				donneesDejaChargees = true;
+			}
+		};
+
+		$(document).ready(function() {
+		
+			// Redirection si pas de mariage sélectionné
+			idMariage = getIdMariage();
+			if (idMariage === "") {window.location.href="/";}
+			
+			chargeDonneesMariage();
+
+			chargeEtapes();
+			
+			// Ajout des evenements
+			$("#button_afficher_popup_ajouter_ceremonie").on("click", affichePopupEtapeCeremonie);
+			$("#button_afficher_popup_ajouter_repas").on("click", affichePopupEtapeRepas);
+			$("#button_ajouter_etapeCeremonie").on("click", ajouteEtapeCeremonie);
+			$("#button_ajouter_etapeRepas").on("click", ajouteEtapeRepas);
+		});
 		</script>
 	</body>
 </html>

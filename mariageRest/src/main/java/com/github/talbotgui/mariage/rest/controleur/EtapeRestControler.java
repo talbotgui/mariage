@@ -43,7 +43,7 @@ public class EtapeRestControler {
 
 	@RequestMapping(value = "/mariage/{idMariage}/etape", method = POST)
 	public Long sauvegardeEtape(//
-			@RequestParam(value = "celebrant") String celebrant, //
+			@RequestParam(required = false, value = "celebrant") String celebrant, //
 			@RequestParam(value = "dateHeure") String dateHeure, //
 			@RequestParam(required = false, value = "id") Long id, //
 			@RequestParam(value = "lieu") String lieu, //
@@ -65,9 +65,9 @@ public class EtapeRestControler {
 		// Gestion des types
 		Etape etape = null;
 		if (EtapeCeremonie.class.getSimpleName().equals(type)) {
-			etape = new EtapeCeremonie(nom, date, lieu, celebrant);
+			etape = new EtapeCeremonie(id, nom, date, lieu, celebrant);
 		} else if (EtapeRepas.class.getSimpleName().equals(type)) {
-			etape = new EtapeRepas(nom, date, lieu);
+			etape = new EtapeRepas(id, nom, date, lieu);
 		} else {
 			List<String> listeTypes = Arrays.asList(EtapeCeremonie.class.getSimpleName(),
 					EtapeRepas.class.getSimpleName());

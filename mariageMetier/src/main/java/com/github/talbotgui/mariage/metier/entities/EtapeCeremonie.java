@@ -13,6 +13,11 @@ public class EtapeCeremonie extends Etape {
 		super();
 	}
 
+	public EtapeCeremonie(Long id, String nom, Date dateHeure, String lieu, String celebrant) {
+		super(id, nom, dateHeure, lieu);
+		this.celebrant = celebrant;
+	}
+
 	public EtapeCeremonie(String nom, Date dateHeure, String lieu) {
 		super(nom, dateHeure, lieu);
 	}
