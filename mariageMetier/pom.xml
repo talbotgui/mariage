@@ -5,18 +5,18 @@
 	<groupId>com.github.talbotgui.mariage</groupId>
 	<artifactId>mariageMetier</artifactId>
 	<version>1.0.1</version>
-	<name>mariageMetier</name>
 
 	<parent>
-		<groupId>org.springframework.cloud</groupId>
-		<artifactId>spring-cloud-starter-parent</artifactId>
-		<version>Angel.SR3</version>
+		<groupId>com.github.talbotgui.mariage</groupId>
+		<artifactId>mariage</artifactId>
+		<version>1.0.1</version>
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<version.catchException>1.4.4</version.catchException>
+		<version.hsqldb>2.3.3</version.hsqldb>
 	</properties>
 
 	<build>
@@ -50,6 +50,7 @@
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
+			<version>${version.hsqldb}</version>
 			<scope>test</scope>
 		</dependency>
 
