@@ -64,7 +64,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		final String nom = "N1";
 		final String lieu = "L1";
 		final String celebrant = "C1";
-		final String dateHeure = "15/07/2015";
+		final String dateHeure = "01/01/2017";
 		final String type = EtapeCeremonie.class.getSimpleName();
 		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("nom", nom);
@@ -99,7 +99,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		final String nom = "N1";
 		final String lieu = "L1";
 		final String celebrant = "C1";
-		final String dateHeure = "15-07-2015";
+		final String dateHeure = "01-01-2017";
 		final String type = EtapeRepas.class.getSimpleName();
 		;
 		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
@@ -135,7 +135,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 
 		final String nom = "N1";
 		final String lieu = "L1";
-		final String dateHeure = "15/07/2015";
+		final String dateHeure = "01/01/2017";
 		final String type = EtapeRepas.class.getSimpleName();
 		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("nom", nom);
@@ -169,7 +169,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		final String nom = "N1";
 		final String lieu = "L1";
 		final String celebrant = "C1";
-		final String dateHeure = "15/07/2015";
+		final String dateHeure = "01/01/2017";
 		final String type = "toto";
 		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("nom", nom);

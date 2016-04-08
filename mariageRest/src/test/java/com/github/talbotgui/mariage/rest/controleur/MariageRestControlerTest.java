@@ -71,9 +71,9 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 		ArgumentCaptor<Mariage> argumentCaptor = ArgumentCaptor.forClass(Mariage.class);
 		Mockito.doReturn(idMariage).when(this.service).sauvegarde(argumentCaptor.capture());
 
-		final String dateCelebration = "15/07/2016";
-		final String marie1 = "marie1";
-		final String marie2 = "marie2";
+		final String dateCelebration = "01/01/2017";
+		final String marie1 = "M";
+		final String marie2 = "G";
 		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("dateCelebration", dateCelebration);
 		requestParam.add("marie1", marie1);
@@ -99,9 +99,9 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 	public void test04SauvegardeMariageKoFormatDate() {
 
 		// ARRANGE
-		final String dateCelebration = "15-07-2016";
-		final String marie1 = "Marie";
-		final String marie2 = "Guillaume";
+		final String dateCelebration = "01-01-2017";
+		final String marie1 = "M";
+		final String marie2 = "G";
 		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("dateCelebration", dateCelebration);
 		requestParam.add("marie1", marie1);
