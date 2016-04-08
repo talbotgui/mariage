@@ -28,3 +28,4 @@ X Corriger les pb de CSS entre les tableaux et les popup
   
   Ajouter une page "gestion des réponses" dans laquelle on peut cocher qui vient à quelles étapes
 
+  Ajouter une fonction d'import/export dans la gestion des adresses

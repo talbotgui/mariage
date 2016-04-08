@@ -5,6 +5,7 @@
 	<groupId>com.github.talbotgui.mariage</groupId>
 	<artifactId>mariageMetier</artifactId>
 	<version>1.0.1</version>
+	<name>mariageMetier</name>
 
 	<parent>
 		<groupId>com.github.talbotgui.mariage</groupId>
@@ -33,6 +34,13 @@
 	</build>
 
 	<dependencies>
+	
+		<!-- Dependence ajoutée pour la génération de la Javadoc -->
+		<dependency>
+			<groupId>javax.interceptor</groupId>
+			<artifactId>javax.interceptor-api</artifactId>
+			<version>1.2</version>
+		</dependency>
 
 		<!-- Spring Data JPA -->
 		<dependency>

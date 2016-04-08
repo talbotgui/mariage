@@ -1,0 +1,13 @@
+/target
+
+/mariageRest/database/
+/mariageRest/target/
+/mariageRest/test-output/
+/mariageRest/.classpath
+/mariageRest/.project
+/mariageRest/.settings
+
+/mariageMetier/target/
+/mariageMetier/.classpath
+/mariageMetier/.project
+/mariageMetier/.settings

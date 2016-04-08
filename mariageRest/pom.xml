@@ -5,6 +5,7 @@
 	<groupId>com.github.talbotgui.mariage</groupId>
 	<artifactId>mariageRest</artifactId>
 	<version>1.0.1</version>
+	<name>mariageRest</name>
 
 	<parent>
 		<groupId>com.github.talbotgui.mariage</groupId>
