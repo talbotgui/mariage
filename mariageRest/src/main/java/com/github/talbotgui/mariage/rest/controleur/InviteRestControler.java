@@ -33,15 +33,17 @@ public class InviteRestControler {
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = POST)
 	public Long sauvegardeInvite(//
 			@RequestParam(required = false, value = "id") final Long id, //
-			@RequestParam(value = "nom") final String nom, //
-			@RequestParam(value = "prenom") final String prenom, //
-			@RequestParam(value = "age") final String age, //
-			@RequestParam(value = "groupe") final String groupe, //
+			@RequestParam(required = false, value = "nom") final String nom, //
+			@RequestParam(required = false, value = "prenom") final String prenom, //
+			@RequestParam(required = false, value = "age") final String age, //
+			@RequestParam(required = false, value = "groupe") final String groupe, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
 
 		Age ageEnum = null;
 		try {
-			ageEnum = Age.valueOf(age);
+			if (age != null) {
+				ageEnum = Age.valueOf(age);
+			}
 		} catch (final IllegalArgumentException e) {
 			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE, e,
 					new Object[] { "age", Age.values(), age });

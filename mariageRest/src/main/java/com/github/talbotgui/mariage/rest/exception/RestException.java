@@ -9,6 +9,9 @@ public class RestException extends BaseException {
 	public static final ExceptionId ERREUR_FORMAT_DATE = new ExceptionId("ERREUR_FORMAT_DATE",
 			"Le format de la date est incorrecte (format='{0}', valeur='{1}').", ExceptionLevel.ERROR, 400);
 
+	public static final ExceptionId ERREUR_TRANSFORMATION_MODEL = new ExceptionId("ERREUR_TRANSFORMATION_MODEL",
+			"Erreur durant la tranformation de modele.", ExceptionLevel.ERROR, 500);
+
 	public static final ExceptionId ERREUR_VALEUR_PARAMETRE = new ExceptionId("ERREUR_VALEUR_PARAMETRE",
 			"Le parametre '{1}' ne peut prendre que les valeurs '{2}' et pas la valeur '{3}'.", ExceptionLevel.ERROR,
 			400);

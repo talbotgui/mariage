@@ -36,6 +36,38 @@ var getIdMariage = function() {
 };
 
 /**
+ * Pour serialiser un formulaire en objet JS.
+ */
+$.fn.serializeObject = function() {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
+/**
+ * Validation de formulaire
+ */
+var valideForm = function(formSelector, callback) {
+	var inputs = $(formSelector + " :input[required]");
+	inputs.removeClass("error");
+	var nbError = inputs.filter(function() {return !this.value;}).addClass("error").length;
+	if (nbError == 0) {
+		var data = $(formSelector).serialize();
+		callback(data);
+	}
+};
+
+/**
  * En cas d'erreur AJAX.
  */
 var ajaxFailFunctionToDisplayWarn = function(appelant) {
@@ -50,6 +82,7 @@ var alimentationSelectBox = function() {
 		var sel = $(v);
 		var source = sel.attr("data-source");
 		var empty = sel.attr("data-empty") === "true";
+		var labelAtt = sel.attr("data-labelAtt");
 		
 		var req = $.get( REST_PREFIX + source);
 		req.success(function(dataString) {
@@ -60,33 +93,20 @@ var alimentationSelectBox = function() {
 			var data = eval(dataString);
 			
 			data.forEach(function(e, i, array) {
-				var txt = e.marie1 + " & " + e.marie2;
-				sel.append($('<option>', {value:e.id, text:txt, "data-object":JSON.stringify(data)}));
+				var txt = e;
+				if (labelAtt) {
+					txt = e[labelAtt];
+				}
+				var id = e;
+				if (e.id) {
+					id = e.id;
+				}
+				sel.append($('<option>', {value:id, text:txt, "data-object":JSON.stringify(data)}));
 			});
 		});
 		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("alimentationSelectBox");});
 	});
 };
-
-/**
- * Au clic sur un bouton modifier.
- */
-var clicBoutonModifier = function(e) {
-	var divParente = $(e.target).parent();
-	divParente.find("span").hide();
-	divParente.find(".form-control").show();
-	divParente.find("a").toggle();
-}
-
-/**
- * Au clic sur un bouton sauvegarder.
- */
-var clicBoutonSauvegarder = function(e) {
-	var divParente = $(e.target).parent();
-	divParente.find("span").show();
-	divParente.find(".form-control").hide();
-	divParente.find("a").toggle();
-}
 
 /**
  * Fonction de sauvegarde d'une données venant d'une table JqGrid
@@ -112,12 +132,14 @@ var majAttribute = function (url, event, success) {
  * On ready.
  */
  $(document).ready(function() {
-	
+
+	 // Alimentation des <select> avec les info en parametres du tag
 	 alimentationSelectBox();
 	 
+	 // Initialisation des timepicker
 	 $(".dateTimePicker").datepicker({ format: "dd/mm/yyyy", weekStart: 1, language: "fr", daysOfWeekHighlighted: "0,6", autoclose: true });
 	 
-	 $(".btn-modifier").on("click", clicBoutonModifier);
-	 $(".btn-sauvegarder").on("click", clicBoutonSauvegarder);
-	 $(".popup").jqxWindow({ width: 450, autoOpen: false });
+	 // Préparation des popup
+	 var popups = $(".popup");
+	 if (popups.length > 0) { popups.jqxWindow({ width: 450, autoOpen: false }); }
 });

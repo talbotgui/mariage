@@ -53,15 +53,19 @@
 						<form>
 							<div class="form-group">
 								<label for="nom">Nom</label>
-								<input type="text" class="form-control" id="nom" name="nom"  placeholder="Nom" />
+								<input type="text" class="form-control" id="nom" name="nom"  placeholder="Nom" required/>
 							</div>
 							<div class="form-group">
 								<label for="prenom">Prenom</label>
-								<input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prenom"/>
+								<input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prenom" required/>
 							</div>
 							<div class="form-group">
 								<label for="groupe">Groupe</label>
-								<input type="text" class="form-control" id="groupe" name="groupe" placeholder="Groupe"/>
+								<input type="text" class="form-control" id="groupe" name="groupe" placeholder="Groupe" required/>
+							</div>
+							<div class="form-group">
+								<label for="age">Age</label>
+								<select class="form-control" id="age" name="age" data-source="/parametres/age" data-empty="false" required></select>
 							</div>
 							<br/><button id="button_ajouter" class="btn btn-default">Ajouter</button>
 						</form>
@@ -70,9 +74,9 @@
 			</div>
 		</div>
 
-		<script type="application/javascript" src="ressources/jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
-		<script type="application/javascript" src="ressources/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
-		<script type="application/javascript" src="ressources/bootstrap-datepicker-1.5.1-dist/js/bootstrap-datepicker.min.js"></script>
+		<script type="text/javascript" src="ressources/jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
+		<script type="text/javascript" src="ressources/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="ressources/bootstrap-datepicker-1.5.1-dist/js/bootstrap-datepicker.min.js"></script>
 		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxcore.js"></script>
 		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxbuttons.js"></script>
 		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxscrollbar.js"></script>
@@ -107,13 +111,14 @@
 			var ajouteInvite = function(e) {
 				e.preventDefault();
 				
-				var data = $("#popupAjoutInvite form").serialize();
-				var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + idMariage + "/invite", data: data});
-				req.success(function(dataString) {
-					$("#popupAjoutInvite").dialog("close");
-					chargeInvites();
+				valideForm("#popupAjoutInvite form", function(data) {
+					var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + idMariage + "/invite", data: data});
+					req.success(function(dataString) {
+						$("#popupAjoutInvite").jqxWindow("close");
+						chargeInvites();
+					});
+					req.fail(function(jqXHR, textStatus, errorThrown) { ajaxFailFunctionToDisplayWarn("ajouteInvite"); });
 				});
-				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("ajouteInvite");});
 			};
 			
 			var supprimeInvite = function(idInvite) {

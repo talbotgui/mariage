@@ -136,7 +136,7 @@
 			var data = $("#" + idPopup + " form").serialize();
 			var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + idMariage + "/etape", data: data});
 			req.success(function(dataString) {
-				$("#" + idPopup).dialog("close");
+				$("#" + idPopup).jqxWindow("close");
 				chargeEtapes();
 			});
 			req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("ajouteEtape");});

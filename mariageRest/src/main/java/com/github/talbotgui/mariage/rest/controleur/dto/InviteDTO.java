@@ -11,13 +11,9 @@ import com.github.talbotgui.mariage.metier.entities.PresenceEtape;
 public class InviteDTO extends AbstractDTO {
 
 	private String age;
-
 	private String groupe;
-
 	private Long id;
-
 	private String nom;
-
 	private String prenom;
 
 	private Map<Long, Boolean> presencesEtape = new HashMap<>();
@@ -35,7 +31,9 @@ public class InviteDTO extends AbstractDTO {
 			this.groupe = i.getGroupe();
 			this.nom = i.getNom();
 			this.prenom = i.getPrenom();
-			this.age = i.getAge().toString();
+			if (i.getAge() != null) {
+				this.age = i.getAge().toString();
+			}
 
 			if (i.getPresencesEtape() != null && Hibernate.isInitialized(i.getPresencesEtape())) {
 				for (final PresenceEtape pe : i.getPresencesEtape()) {

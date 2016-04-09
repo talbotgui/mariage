@@ -117,6 +117,33 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 	}
 
 	@Test
+	public void test02AjouteInviteValeurObligatoireVide() {
+
+		// ARRANGE
+		final Long idMariage = 10L;
+
+		final String nom = "";
+		final String prenom = "BB";
+		final String groupe = "Groupe1";
+		final String age = "toto";
+		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		requestParam.add("nom", nom);
+		requestParam.add("prenom", prenom);
+		requestParam.add("groupe", groupe);
+		requestParam.add("age", age);
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		CatchException.catchException(getREST()).postForObject(getURL() + "/mariage/" + idMariage + "/invite",
+				requestParam, Long.class, uriVars);
+
+		// ASSERT
+		Assert.assertNotNull(CatchException.caughtException());
+		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
+		Mockito.verifyNoMoreInteractions(this.service);
+	}
+
+	@Test
 	public void test03SupprimeInvite() {
 
 		// ARRANGE

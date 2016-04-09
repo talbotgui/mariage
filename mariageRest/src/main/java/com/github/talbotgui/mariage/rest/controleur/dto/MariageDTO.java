@@ -7,11 +7,8 @@ import com.github.talbotgui.mariage.metier.entities.Mariage;
 public class MariageDTO extends AbstractDTO {
 
 	private String dateCelebration;
-
 	private Long id;
-
 	private String marie1;
-
 	private String marie2;
 
 	public MariageDTO() {
@@ -45,6 +42,10 @@ public class MariageDTO extends AbstractDTO {
 
 	public String getMarie2() {
 		return marie2;
+	}
+
+	public String getNomMaries() {
+		return marie1 + " & " + marie2;
 	}
 
 	public void setDateCelebration(final String dateCelebration) {

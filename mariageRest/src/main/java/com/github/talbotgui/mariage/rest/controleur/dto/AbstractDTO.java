@@ -1,9 +1,10 @@
 package com.github.talbotgui.mariage.rest.controleur.dto;
 
 import java.lang.reflect.InvocationTargetException;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import com.github.talbotgui.mariage.rest.exception.RestException;
 
 public abstract class AbstractDTO {
 
@@ -19,7 +20,7 @@ public abstract class AbstractDTO {
 					col.add(clazz.getConstructor(Object.class).newInstance(entity));
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-					throw new InvalidParameterException("Erreur de code");
+					throw new RestException(RestException.ERREUR_TRANSFORMATION_MODEL, e);
 				}
 			}
 		}

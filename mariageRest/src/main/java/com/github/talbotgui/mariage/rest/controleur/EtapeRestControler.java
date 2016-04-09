@@ -36,8 +36,7 @@ public class EtapeRestControler {
 	private MariageService mariageService;
 
 	@RequestMapping(value = "/mariage/{idMariage}/etape", method = GET)
-	public Collection<EtapeDTO> listeEtapeParIdMariage(//
-			@PathVariable("idMariage") final Long idMariage) {
+	public Collection<EtapeDTO> listeEtapeParIdMariage(@PathVariable("idMariage") final Long idMariage) {
 		return AbstractDTO.creerDto(this.mariageService.listeEtapesParIdMariage(idMariage), EtapeDTO.class);
 	}
 

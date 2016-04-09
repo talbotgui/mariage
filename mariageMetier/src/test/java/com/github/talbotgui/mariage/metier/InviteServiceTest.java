@@ -147,4 +147,17 @@ public class InviteServiceTest {
 		Assert.assertEquals(BusinessException.class, CatchException.caughtException().getClass());
 		Assert.assertTrue(BaseException.equals(CatchException.caughtException(), BusinessException.ERREUR_ID_MARIAGE));
 	}
+
+	@Test
+	public void test04ListeAges() {
+		//
+
+		//
+		final Collection<String> ages = this.instance.listeAgePossible();
+
+		//
+		Assert.assertNotNull(ages);
+		Assert.assertEquals(Arrays.asList(Age.values()).toString(), ages.toString());
+
+	}
 }

@@ -13,6 +13,8 @@ public interface MariageService {
 
 	Mariage chargeMariageParId(Long idMariage);
 
+	Collection<String> listeAgePossible();
+
 	Collection<Etape> listeEtapesParIdMariage(Long idMariage);
 
 	Collection<Invite> listeInvitesParIdMariage(Long idMariage);

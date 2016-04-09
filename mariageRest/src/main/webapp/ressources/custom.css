@@ -1,4 +1,5 @@
 .titre { font-size: 30px; }
+#infoMariage { margin-bottom: 50px; }
 
 .formPerso .form-control { display: none; }
 .formPerso .btn-sauvegarder { display: none; }
@@ -9,3 +10,4 @@
 .ui-dialog { z-index: 9999; }
 
 .popup {  }
+.error { border-color: red; }
