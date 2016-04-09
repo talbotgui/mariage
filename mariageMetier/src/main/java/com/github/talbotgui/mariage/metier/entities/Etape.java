@@ -65,7 +65,7 @@ public abstract class Etape implements Serializable {
 		if (this.dateHeure != null) {
 			return new Date(this.dateHeure.getTime());
 		}
-		return dateHeure;
+		return null;
 	}
 
 	public Long getId() {

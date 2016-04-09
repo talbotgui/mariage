@@ -62,7 +62,7 @@ public class Mariage implements Serializable {
 		if (this.dateCelebration != null) {
 			return new Date(this.dateCelebration.getTime());
 		}
-		return dateCelebration;
+		return null;
 	}
 
 	public Collection<Etape> getEtapes() {
