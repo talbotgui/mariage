@@ -43,7 +43,8 @@ public class InviteRestControler {
 		try {
 			ageEnum = Age.valueOf(age);
 		} catch (final IllegalArgumentException e) {
-			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE, new Object[] { "age", Age.values(), age });
+			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE, e,
+					new Object[] { "age", Age.values(), age });
 		}
 		return this.mariageService.sauvegarde(idMariage, new Invite(id, groupe, nom, prenom, ageEnum));
 	}
