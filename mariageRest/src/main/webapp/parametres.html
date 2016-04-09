@@ -49,6 +49,7 @@
 				<button id="button_afficher_popup_ajouter_ceremonie" class="btn btn-default">Ajouter une cérémonie</button>
 				
 				<div id="popupAjoutEtapeCeremonie" class="popup">
+					<div>Ajout d'une cérémonie</div>
 					<div class="form-inline">
 						<form>
 							<input type="hidden" name="type" value="EtapeCeremonie"/>
@@ -68,11 +69,12 @@
 								<label for="celebrant">Célébrant</label>
 								<input type="text" class="form-control" id="celebrant" name="celebrant"  placeholder="Célébrant"/>
 							</div>
-							<button id="button_ajouter_etapeCeremonie" class="btn btn-default">Ajouter</button>
+							<br/><button id="button_ajouter_etapeCeremonie" class="btn btn-default">Ajouter</button>
 						</form>
 					</div>
 				</div>
 				<div id="popupAjoutEtapeRepas" class="popup">
+					<div>Ajout d'un repas</div>
 					<div class="form-inline">
 						<form>
 							<input type="hidden" name="type" value="EtapeRepas"/>
@@ -88,16 +90,16 @@
 								<label for="dateHeure">Date et heure</label>
 								<input type="text" class="form-control dateTimePicker" id="dateHeure" name="dateHeure"  placeholder="Date et heure"/>
 							</div>
-							<button id="button_ajouter_etapeRepas" class="btn btn-default">Ajouter</button>
+							<br/><button id="button_ajouter_etapeRepas" class="btn btn-default">Ajouter</button>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<script type="application/javascript" src="ressources/jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
-		<script type="application/javascript" src="ressources/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
-		<script type="application/javascript" src="ressources/bootstrap-datepicker-1.5.1-dist/js/bootstrap-datepicker.min.js"></script>
+		<script type="text/javascript" src="ressources/jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
+		<script type="text/javascript" src="ressources/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="ressources/bootstrap-datepicker-1.5.1-dist/js/bootstrap-datepicker.min.js"></script>
 		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxcore.js"></script>
 		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxbuttons.js"></script>
 		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxscrollbar.js"></script>
@@ -109,17 +111,18 @@
 		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxgrid.filter.js"></script>
 		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxgrid.sort.js"></script>
 		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxdata.js"></script> 
-		<script type="application/javascript" src="ressources/jqwidgets-ver4.1.1/jqxscrollbar.js"></script>
-		<script type="application/javascript" src="ressources/jqwidgets-ver4.1.1/jqxdropdownlist.js"></script>
-		<script type="application/javascript" src="ressources/jqwidgets-ver4.1.1/jqxlistbox.js"></script>
-		<script type="application/javascript" src="ressources/common.js"></script>
-		<script type="application/javascript">
+		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxscrollbar.js"></script>
+		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxdropdownlist.js"></script>
+		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxlistbox.js"></script>
+		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxwindow.js"></script>
+		<script type="text/javascript" src="ressources/common.js"></script>
+		<script type="text/javascript">
 		var idMariage = "";
 		var donneesDejaChargees = false;
 		
 		// Affiche la popup des invités
-		var affichePopupEtapeRepas = function() { $("#popupAjoutEtapeRepas").dialog("open"); };
-		var affichePopupEtapeCeremonie = function() { $("#popupAjoutEtapeCeremonie").dialog("open"); };
+		var affichePopupEtapeRepas = function() { $("#popupAjoutEtapeRepas").jqxWindow('open'); };
+		var affichePopupEtapeCeremonie = function() { $("#popupAjoutEtapeCeremonie").jqxWindow('open'); };
 
 		// Fonction JqxGrid
 		var modifieEtape = function(e) {

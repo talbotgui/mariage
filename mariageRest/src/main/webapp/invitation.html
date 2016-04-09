@@ -48,6 +48,7 @@
 				<button id="button_afficher_popup_ajouter" class="btn btn-default">Ajouter</button>
 				
 				<div id="popupAjoutInvite" class="popup">
+					<div>Ajout d'un invité</div>
 					<div class="form-inline">
 						<form>
 							<div class="form-group">
@@ -62,7 +63,7 @@
 								<label for="groupe">Groupe</label>
 								<input type="text" class="form-control" id="groupe" name="groupe" placeholder="Groupe"/>
 							</div>
-							<button id="button_ajouter" class="btn btn-default">Ajouter</button>
+							<br/><button id="button_ajouter" class="btn btn-default">Ajouter</button>
 						</form>
 					</div>
 				</div>
@@ -83,17 +84,18 @@
 		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxgrid.filter.js"></script>
 		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxgrid.sort.js"></script>
 		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxdata.js"></script> 
-		<script type="application/javascript" src="ressources/jqwidgets-ver4.1.1/jqxscrollbar.js"></script>
-		<script type="application/javascript" src="ressources/jqwidgets-ver4.1.1/jqxdropdownlist.js"></script>
-		<script type="application/javascript" src="ressources/jqwidgets-ver4.1.1/jqxlistbox.js"></script>
-		<script type="application/javascript" src="ressources/common.js"></script>
-		<script type="application/javascript">
+		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxscrollbar.js"></script>
+		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxdropdownlist.js"></script>
+		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxlistbox.js"></script>
+		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxwindow.js"></script>
+		<script type="text/javascript" src="ressources/common.js"></script>
+		<script type="text/javascript">
 			var idMariage = "";
 			var donneesDejaChargees = false;
 			
 			// Affiche la popup des invités
 			var affichePopupInvite = function() {
-				$("#popupAjoutInvite").dialog("open");
+				$("#popupAjoutInvite").jqxWindow('open');
 			};
 
 			// Fonction JqxGrid

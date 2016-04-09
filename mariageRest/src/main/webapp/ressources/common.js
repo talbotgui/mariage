@@ -119,5 +119,5 @@ var majAttribute = function (url, event, success) {
 	 
 	 $(".btn-modifier").on("click", clicBoutonModifier);
 	 $(".btn-sauvegarder").on("click", clicBoutonSauvegarder);
-	 $(".popup").dialog({ autoOpen: false });
+	 $(".popup").jqxWindow({ width: 450, autoOpen: false });
 });

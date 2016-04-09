@@ -10,8 +10,8 @@ X Ajouter la gestion des étapes dans la page "Parametres"
 X Ajouter un attribut dateEtHeure dans Etape
   Faire de dateHeure un date & time picker
 X Corriger les pb de CSS entre les tableaux et les popup
-  Ajouter des titres aux popups
-  Améliorer la tête des popups
+X Ajouter des titres aux popups
+X Améliorer la tête des popups
   Ajouter un numéro d'ordre dans Etape
   
 X Ajouter la génération du site de qualimétrie

@@ -2,7 +2,10 @@
 
 .formPerso .form-control { display: none; }
 .formPerso .btn-sauvegarder { display: none; }
+.form-group label { width: 100px; }
 
 .todo { background-color: red; }
 
 .ui-dialog { z-index: 9999; }
+
+.popup {  }
