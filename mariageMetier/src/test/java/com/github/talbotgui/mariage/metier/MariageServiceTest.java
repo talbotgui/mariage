@@ -43,10 +43,10 @@ public class MariageServiceTest {
 		LOG.info("---------------------------------------------------------");
 
 		// Destruction des données
-		Collection<String> strings = Files
+		final Collection<String> strings = Files
 				.readAllLines(Paths.get(ClassLoader.getSystemResource("sql/dataPurge.sql").toURI()));
-		String[] requetes = strings.toArray(new String[strings.size()]);
-		JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String[] requetes = strings.toArray(new String[strings.size()]);
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		LOG.info("Execute SQL : {}", (Object[]) requetes);
 		jdbc.batchUpdate(requetes);
 
@@ -56,13 +56,13 @@ public class MariageServiceTest {
 	public void test01CreationMariage() throws ParseException {
 
 		// ARRANGE
-		Mariage mariage = ObjectMother.creeMariageSimple();
+		final Mariage mariage = ObjectMother.creeMariageSimple();
 
 		// ACT
 		this.instance.sauvegardeGrappe(mariage);
 
 		// ASSERT
-		JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		Assert.assertEquals(Long.valueOf(1), jdbc.queryForObject("select count(*) from MARIAGE", Long.class));
 		Assert.assertEquals(Long.valueOf(6), jdbc.queryForObject("select count(*) from ETAPE", Long.class));
 		Assert.assertEquals(Long.valueOf(10), jdbc.queryForObject("select count(*) from INVITE", Long.class));
@@ -73,11 +73,11 @@ public class MariageServiceTest {
 	public void test02ChargeMariageParId() throws ParseException {
 
 		// ARRANGE
-		Mariage original = ObjectMother.creeMariageSimple();
-		Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
 
 		// ACT
-		Mariage charge = this.instance.chargeMariageParId(idMariage);
+		final Mariage charge = this.instance.chargeMariageParId(idMariage);
 
 		// ASSERT
 		Assert.assertEquals(original.getMarie1(), charge.getMarie1());
@@ -89,11 +89,11 @@ public class MariageServiceTest {
 	public void test03ListeTousMariages() throws ParseException {
 
 		// ARRANGE
-		Mariage original = ObjectMother.creeMariageSimple();
+		final Mariage original = ObjectMother.creeMariageSimple();
 		this.instance.sauvegardeGrappe(original);
 
 		// ACT
-		Collection<Mariage> mariages = this.instance.listeTousMariages();
+		final Collection<Mariage> mariages = this.instance.listeTousMariages();
 
 		// ASSERT
 		Assert.assertEquals(1, mariages.size());

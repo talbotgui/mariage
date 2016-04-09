@@ -2,8 +2,6 @@ package com.github.talbotgui.mariage.metier.exception;
 
 import com.github.talbotgui.mariage.metier.exception.ExceptionId.ExceptionLevel;
 
-/**
- */
 public class BusinessException extends BaseException {
 
 	public static final ExceptionId ERREUR_ID_MARIAGE = new ExceptionId("ERREUR_ID_MARIAGE",
@@ -12,19 +10,20 @@ public class BusinessException extends BaseException {
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;
 
-	public BusinessException(ExceptionId exceptionId) {
+	public BusinessException(final ExceptionId exceptionId) {
 		super(exceptionId);
 	}
 
-	public BusinessException(ExceptionId pExceptionId, Object[] pParameters) {
+	public BusinessException(final ExceptionId pExceptionId, final Object[] pParameters) {
 		super(pExceptionId, pParameters);
 	}
 
-	public BusinessException(ExceptionId exceptionId, Throwable nestedException) {
+	public BusinessException(final ExceptionId exceptionId, final Throwable nestedException) {
 		super(exceptionId, nestedException);
 	}
 
-	public BusinessException(ExceptionId pExceptionId, Throwable pNestedException, Object[] pParameters) {
+	public BusinessException(final ExceptionId pExceptionId, final Throwable pNestedException,
+			final Object[] pParameters) {
 		super(pExceptionId, pNestedException, pParameters);
 	}
 

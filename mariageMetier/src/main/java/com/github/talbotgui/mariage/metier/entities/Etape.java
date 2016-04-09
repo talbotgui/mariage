@@ -42,7 +42,7 @@ public abstract class Etape implements Serializable {
 		super();
 	}
 
-	public Etape(Long id, String nom, Date dateHeure, String lieu) {
+	public Etape(final Long id, final String nom, final Date dateHeure, final String lieu) {
 		super();
 		this.id = id;
 		this.nom = nom;
@@ -52,7 +52,7 @@ public abstract class Etape implements Serializable {
 		this.lieu = lieu;
 	}
 
-	public Etape(String nom, Date dateHeure, String lieu) {
+	public Etape(final String nom, final Date dateHeure, final String lieu) {
 		super();
 		if (dateHeure != null) {
 			this.dateHeure = new Date(dateHeure.getTime());
@@ -84,22 +84,30 @@ public abstract class Etape implements Serializable {
 		return nom;
 	}
 
-	public void setDateHeure(Date dateHeure) {
+	public Collection<PresenceEtape> getPresences() {
+		return presences;
+	}
+
+	public void setDateHeure(final Date dateHeure) {
 		if (dateHeure != null) {
 			this.dateHeure = new Date(dateHeure.getTime());
 		}
 	}
 
-	public void setLieu(String lieu) {
+	public void setLieu(final String lieu) {
 		this.lieu = lieu;
 	}
 
-	public void setMariage(Mariage mariage) {
+	public void setMariage(final Mariage mariage) {
 		this.mariage = mariage;
 	}
 
-	public void setNom(String nom) {
+	public void setNom(final String nom) {
 		this.nom = nom;
+	}
+
+	public void setPresences(final Collection<PresenceEtape> presences) {
+		this.presences = presences;
 	}
 
 }

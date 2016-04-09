@@ -26,11 +26,11 @@ public class InviteDTO extends AbstractDTO {
 		super(null);
 	}
 
-	public InviteDTO(Object entity) {
+	public InviteDTO(final Object entity) {
 		super(entity);
 
 		if (entity != null) {
-			Invite i = (Invite) entity;
+			final Invite i = (Invite) entity;
 			this.id = i.getId();
 			this.groupe = i.getGroupe();
 			this.nom = i.getNom();
@@ -38,7 +38,7 @@ public class InviteDTO extends AbstractDTO {
 			this.age = i.getAge().toString();
 
 			if (i.getPresencesEtape() != null && Hibernate.isInitialized(i.getPresencesEtape())) {
-				for (PresenceEtape pe : i.getPresencesEtape()) {
+				for (final PresenceEtape pe : i.getPresencesEtape()) {
 					this.presencesEtape.put(pe.getEtape().getId(), pe.getPresent());
 				}
 			}
@@ -69,27 +69,27 @@ public class InviteDTO extends AbstractDTO {
 		return presencesEtape;
 	}
 
-	public void setAge(String age) {
+	public void setAge(final String age) {
 		this.age = age;
 	}
 
-	public void setGroupe(String groupe) {
+	public void setGroupe(final String groupe) {
 		this.groupe = groupe;
 	}
 
-	public void setId(Long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 
-	public void setNom(String nom) {
+	public void setNom(final String nom) {
 		this.nom = nom;
 	}
 
-	public void setPrenom(String prenom) {
+	public void setPrenom(final String prenom) {
 		this.prenom = prenom;
 	}
 
-	public void setPresencesEtape(Map<Long, Boolean> presencesEtape) {
+	public void setPresencesEtape(final Map<Long, Boolean> presencesEtape) {
 		this.presencesEtape = presencesEtape;
 	}
 }

@@ -37,62 +37,62 @@ public class MariageServiceImpl implements MariageService {
 	private PresenceEtapeRepository presenceEtapeRepository;
 
 	@Override
-	public Mariage chargeMariageParId(Long idMariage) {
+	public Mariage chargeMariageParId(final Long idMariage) {
 		return this.mariageRepository.findOne(idMariage);
 	}
 
 	@Override
-	public Collection<Etape> listeEtapesParIdMariage(Long idMariage) {
+	public Collection<Etape> listeEtapesParIdMariage(final Long idMariage) {
 		return this.mariageRepository.listeEtapesParIdMariage(idMariage);
 	}
 
 	@Override
-	public Collection<Invite> listeInvitesParIdMariage(Long idMariage) {
+	public Collection<Invite> listeInvitesParIdMariage(final Long idMariage) {
 		return inviteRepository.listeInvitesParIdMariage(idMariage);
 	}
 
 	@Override
-	public Page<Invite> listeInvitesParIdMariage(Long idMariage, Pageable page) {
+	public Page<Invite> listeInvitesParIdMariage(final Long idMariage, final Pageable page) {
 		return inviteRepository.listeInvitesParIdMariage(idMariage, page);
 	}
 
 	@Override
 	public Collection<Mariage> listeTousMariages() {
-		Collection<Mariage> liste = new ArrayList<>();
+		final Collection<Mariage> liste = new ArrayList<>();
 		liste.addAll((Collection<Mariage>) this.mariageRepository.findAll());
 		return liste;
 	}
 
 	@Override
-	public Long sauvegarde(Long idMariage, Etape etape) {
-		Mariage m = this.mariageRepository.findOne(idMariage);
+	public Long sauvegarde(final Long idMariage, final Etape etape) {
+		final Mariage m = this.mariageRepository.findOne(idMariage);
 		etape.setMariage(m);
 		return this.etapeRepository.save(etape).getId();
 	}
 
 	@Override
-	public Long sauvegarde(Long idMariage, Invite invite) {
-		Mariage m = this.mariageRepository.findOne(idMariage);
+	public Long sauvegarde(final Long idMariage, final Invite invite) {
+		final Mariage m = this.mariageRepository.findOne(idMariage);
 		invite.setMariage(m);
 		return this.inviteRepository.save(invite).getId();
 	}
 
 	@Override
-	public Long sauvegarde(Mariage m) {
+	public Long sauvegarde(final Mariage m) {
 		return this.mariageRepository.save(m).getId();
 	}
 
 	@Override
-	public Long sauvegardeGrappe(Mariage m) {
-		Long id = this.sauvegarde(m);
-		for (Etape e : m.getEtapes()) {
+	public Long sauvegardeGrappe(final Mariage m) {
+		final Long id = this.sauvegarde(m);
+		for (final Etape e : m.getEtapes()) {
 			e.setMariage(m);
 			this.etapeRepository.save(e);
 		}
-		for (Invite i : m.getInvites()) {
+		for (final Invite i : m.getInvites()) {
 			i.setMariage(m);
 			this.inviteRepository.save(i);
-			for (PresenceEtape pe : i.getPresencesEtape()) {
+			for (final PresenceEtape pe : i.getPresencesEtape()) {
 				this.presenceEtapeRepository.save(pe);
 			}
 		}
@@ -100,7 +100,7 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
-	public void suprimeEtape(Long idMariage, Long idEtape) {
+	public void suprimeEtape(final Long idMariage, final Long idEtape) {
 		if (idMariage == null || !idMariage.equals(this.etapeRepository.getIdMariageByEtapeId(idEtape))) {
 			throw new BusinessException(BusinessException.ERREUR_ID_MARIAGE, new Object[] { idMariage });
 		}
@@ -108,7 +108,7 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
-	public void suprimeInvite(Long idMariage, Long idInvite) {
+	public void suprimeInvite(final Long idMariage, final Long idInvite) {
 		if (idMariage == null || !idMariage.equals(this.inviteRepository.getIdMariageByInviteId(idInvite))) {
 			throw new BusinessException(BusinessException.ERREUR_ID_MARIAGE, new Object[] { idMariage });
 		}

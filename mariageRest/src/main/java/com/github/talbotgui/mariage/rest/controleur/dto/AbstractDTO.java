@@ -11,10 +11,10 @@ public abstract class AbstractDTO {
 
 	public static final String FORMAT_DATE_TIME = "dd/MM/yyyy HH:mm";
 
-	public static <T> Collection<T> creerDto(Collection<?> entities, Class<T> clazz) {
-		Collection<T> col = new ArrayList<>();
+	public static <T> Collection<T> creerDto(final Collection<?> entities, final Class<T> clazz) {
+		final Collection<T> col = new ArrayList<>();
 		if (entities != null) {
-			for (Object entity : entities) {
+			for (final Object entity : entities) {
 				try {
 					col.add(clazz.getConstructor(Object.class).newInstance(entity));
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
@@ -26,6 +26,6 @@ public abstract class AbstractDTO {
 		return col;
 	}
 
-	public AbstractDTO(Object entity) {
+	public AbstractDTO(final Object entity) {
 	}
 }

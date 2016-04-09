@@ -52,10 +52,10 @@ public class EtapeServiceTest {
 		LOG.info("---------------------------------------------------------");
 
 		// Destruction des données
-		Collection<String> strings = Files
+		final Collection<String> strings = Files
 				.readAllLines(Paths.get(ClassLoader.getSystemResource("sql/dataPurge.sql").toURI()));
-		String[] requetes = strings.toArray(new String[strings.size()]);
-		JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String[] requetes = strings.toArray(new String[strings.size()]);
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		LOG.info("Execute SQL : {}", (Object[]) requetes);
 		jdbc.batchUpdate(requetes);
 
@@ -65,11 +65,11 @@ public class EtapeServiceTest {
 	public void test01ListeEtapesParIdMariage() throws ParseException {
 
 		// ARRANGE
-		Mariage original = ObjectMother.creeMariageSimple();
-		Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
 
 		// ACT
-		Collection<Etape> etapes = this.instance.listeEtapesParIdMariage(idMariage);
+		final Collection<Etape> etapes = this.instance.listeEtapesParIdMariage(idMariage);
 
 		// ASSERT
 		Assert.assertEquals(6, etapes.size());
@@ -79,22 +79,22 @@ public class EtapeServiceTest {
 	public void test02SauvegarderEtapeCeremonie() throws ParseException {
 
 		// ARRANGE
-		Mariage original = ObjectMother.creeMariageSimple();
-		Long idMariage = this.instance.sauvegardeGrappe(original);
-		Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
 
 		// ACT
 		final String lieu = "G1";
 		final String nom = "N1";
 		final Date date = new Date();
 		final String celebrant = "Maire";
-		Long id = this.instance.sauvegarde(idMariage, new EtapeCeremonie(nom, date, lieu, celebrant));
+		final Long id = this.instance.sauvegarde(idMariage, new EtapeCeremonie(nom, date, lieu, celebrant));
 
 		// ASSERT
 		Assert.assertNotNull(id);
-		Collection<Etape> etapeApres = this.instance.listeEtapesParIdMariage(idMariage);
+		final Collection<Etape> etapeApres = this.instance.listeEtapesParIdMariage(idMariage);
 		Assert.assertEquals(etapeAvant.size() + 1, etapeApres.size());
-		Collection<Etape> diff = new TreeSet<>(new EtapeComparator());
+		final Collection<Etape> diff = new TreeSet<>(new EtapeComparator());
 		diff.addAll(etapeApres);
 		diff.removeAll(etapeAvant);
 		Assert.assertEquals(1, diff.size());
@@ -109,21 +109,21 @@ public class EtapeServiceTest {
 	public void test02SauvegarderEtapeRepas() throws ParseException {
 
 		// ARRANGE
-		Mariage original = ObjectMother.creeMariageSimple();
-		Long idMariage = this.instance.sauvegardeGrappe(original);
-		Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
 
 		// ACT
 		final String lieu = "G1";
 		final String nom = "N1";
 		final Date date = new Date();
-		Long id = this.instance.sauvegarde(idMariage, new EtapeRepas(nom, date, lieu));
+		final Long id = this.instance.sauvegarde(idMariage, new EtapeRepas(nom, date, lieu));
 
 		// ASSERT
 		Assert.assertNotNull(id);
-		Collection<Etape> etapeApres = this.instance.listeEtapesParIdMariage(idMariage);
+		final Collection<Etape> etapeApres = this.instance.listeEtapesParIdMariage(idMariage);
 		Assert.assertEquals(etapeAvant.size() + 1, etapeApres.size());
-		Collection<Etape> diff = new TreeSet<>(new EtapeComparator());
+		final Collection<Etape> diff = new TreeSet<>(new EtapeComparator());
 		diff.addAll(etapeApres);
 		diff.removeAll(etapeAvant);
 		Assert.assertEquals(1, diff.size());
@@ -137,15 +137,15 @@ public class EtapeServiceTest {
 	public void test03SupprimeEtape() throws ParseException {
 
 		// ARRANGE
-		Mariage original = ObjectMother.creeMariageSimple();
-		Long idMariage = this.instance.sauvegardeGrappe(original);
-		Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
 
 		// ACT
 		this.instance.suprimeEtape(idMariage, etapeAvant.iterator().next().getId());
 
 		// ASSERT
-		Collection<Etape> etapeApres = this.instance.listeEtapesParIdMariage(idMariage);
+		final Collection<Etape> etapeApres = this.instance.listeEtapesParIdMariage(idMariage);
 		Assert.assertEquals(etapeAvant.size() - 1, etapeApres.size());
 	}
 

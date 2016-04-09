@@ -6,7 +6,6 @@ public class ExceptionId implements Serializable {
 
 	public enum ExceptionLevel {
 		ERROR, FATAL, INFORMATION, WARNING
-
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -19,7 +18,8 @@ public class ExceptionId implements Serializable {
 
 	private ExceptionLevel level;
 
-	public ExceptionId(String id, String defaultMessage, ExceptionLevel level, int httpStatusCode) {
+	public ExceptionId(final String id, final String defaultMessage, final ExceptionLevel level,
+			final int httpStatusCode) {
 		super();
 		this.setDefaultMessage(defaultMessage);
 		this.setId(id);
@@ -28,7 +28,7 @@ public class ExceptionId implements Serializable {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		return obj != null && ExceptionId.class.isInstance(obj) && obj.hashCode() == this.hashCode();
 	}
 
@@ -57,19 +57,19 @@ public class ExceptionId implements Serializable {
 		}
 	}
 
-	private void setDefaultMessage(String defaultMessage) {
+	private void setDefaultMessage(final String defaultMessage) {
 		this.defaultMessage = defaultMessage;
 	}
 
-	private void setHttpStatusCode(int httpStatusCode) {
+	private void setHttpStatusCode(final int httpStatusCode) {
 		this.httpStatusCode = httpStatusCode;
 	}
 
-	private void setId(String id) {
+	private void setId(final String id) {
 		this.id = id;
 	}
 
-	private void setLevel(ExceptionLevel type) {
+	private void setLevel(final ExceptionLevel type) {
 		this.level = type;
 	}
 

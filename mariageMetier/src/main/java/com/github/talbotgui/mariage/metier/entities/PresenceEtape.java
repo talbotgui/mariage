@@ -26,7 +26,7 @@ public class PresenceEtape implements Serializable {
 		super();
 	}
 
-	public PresenceEtape(Etape etape, Boolean present) {
+	public PresenceEtape(final Etape etape, final Boolean present) {
 		super();
 		this.etape = etape;
 		this.present = present;
@@ -44,11 +44,11 @@ public class PresenceEtape implements Serializable {
 		return present;
 	}
 
-	public void setEtape(Etape etape) {
+	public void setEtape(final Etape etape) {
 		this.etape = etape;
 	}
 
-	public void setPresent(Boolean present) {
+	public void setPresent(final Boolean present) {
 		this.present = present;
 	}
 

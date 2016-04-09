@@ -37,26 +37,26 @@ public class EtapeRestControler {
 
 	@RequestMapping(value = "/mariage/{idMariage}/etape", method = GET)
 	public Collection<EtapeDTO> listeEtapeParIdMariage(//
-			@PathVariable("idMariage") Long idMariage) {
+			@PathVariable("idMariage") final Long idMariage) {
 		return AbstractDTO.creerDto(this.mariageService.listeEtapesParIdMariage(idMariage), EtapeDTO.class);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/etape", method = POST)
 	public Long sauvegardeEtape(//
-			@RequestParam(required = false, value = "celebrant") String celebrant, //
-			@RequestParam(value = "dateHeure") String dateHeure, //
-			@RequestParam(required = false, value = "id") Long id, //
-			@RequestParam(value = "lieu") String lieu, //
-			@RequestParam(value = "nom") String nom, //
-			@RequestParam(value = "type") String type, //
-			@PathVariable(value = "idMariage") Long idMariage) {
+			@RequestParam(required = false, value = "celebrant") final String celebrant, //
+			@RequestParam(value = "dateHeure") final String dateHeure, //
+			@RequestParam(required = false, value = "id") final Long id, //
+			@RequestParam(value = "lieu") final String lieu, //
+			@RequestParam(value = "nom") final String nom, //
+			@RequestParam(value = "type") final String type, //
+			@PathVariable(value = "idMariage") final Long idMariage) {
 
 		// Transformation de la date
 		Date date = null;
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat(AbstractDTO.FORMAT_DATE);
+			final SimpleDateFormat sdf = new SimpleDateFormat(AbstractDTO.FORMAT_DATE);
 			date = sdf.parse(dateHeure);
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			LOG.error("Erreur de format des paramètres d'entrée", e);
 			throw new RestException(RestException.ERREUR_FORMAT_DATE, e,
 					new String[] { AbstractDTO.FORMAT_DATE, dateHeure });
@@ -69,7 +69,7 @@ public class EtapeRestControler {
 		} else if (EtapeRepas.class.getSimpleName().equals(type)) {
 			etape = new EtapeRepas(id, nom, date, lieu);
 		} else {
-			List<String> listeTypes = Arrays.asList(EtapeCeremonie.class.getSimpleName(),
+			final List<String> listeTypes = Arrays.asList(EtapeCeremonie.class.getSimpleName(),
 					EtapeRepas.class.getSimpleName());
 			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE, new Object[] { "type", listeTypes, type });
 		}
@@ -80,8 +80,8 @@ public class EtapeRestControler {
 
 	@RequestMapping(value = "/mariage/{idMariage}/etape/{idEtape}", method = DELETE)
 	public void supprimeEtape(//
-			@PathVariable(value = "idEtape") Long idEtape, //
-			@PathVariable(value = "idMariage") Long idMariage) {
+			@PathVariable(value = "idEtape") final Long idEtape, //
+			@PathVariable(value = "idMariage") final Long idMariage) {
 		this.mariageService.suprimeEtape(idMariage, idEtape);
 	}
 }

@@ -9,7 +9,7 @@ public class InviteComparator implements Serializable, Comparator<Invite> {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public int compare(Invite arg0, Invite arg1) {
+	public int compare(final Invite arg0, final Invite arg1) {
 		return arg0.getId().compareTo(arg1.getId());
 	}
 }

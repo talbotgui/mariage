@@ -28,15 +28,15 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 	public void test01GetListeMariages() {
 
 		// Arrange
-		Long idMariage = 10L;
-		Collection<Mariage> toReturn = Arrays.asList(new Mariage(idMariage, new Date(), "Mme.", "M."));
+		final Long idMariage = 10L;
+		final Collection<Mariage> toReturn = Arrays.asList(new Mariage(idMariage, new Date(), "Mme.", "M."));
 		Mockito.doReturn(toReturn).when(super.service).listeTousMariages();
 
 		// ACT
-		ParameterizedTypeReference<Collection<MariageDTO>> typeRetour = new ParameterizedTypeReference<Collection<MariageDTO>>() {
+		final ParameterizedTypeReference<Collection<MariageDTO>> typeRetour = new ParameterizedTypeReference<Collection<MariageDTO>>() {
 		};
-		ResponseEntity<Collection<MariageDTO>> mariages = getREST().exchange(getURL() + "/mariage", HttpMethod.GET,
-				null, typeRetour);
+		final ResponseEntity<Collection<MariageDTO>> mariages = getREST().exchange(getURL() + "/mariage",
+				HttpMethod.GET, null, typeRetour);
 
 		// ASSERT
 		Assert.assertEquals(mariages.getBody().size(), 1);
@@ -49,13 +49,13 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 	public void test02GetMariageParId() {
 
 		// ARRANGE
-		Long idMariage = 10L;
-		Mariage toReturn = new Mariage(idMariage, new Date(), "Mme.", "M.");
+		final Long idMariage = 10L;
+		final Mariage toReturn = new Mariage(idMariage, new Date(), "Mme.", "M.");
 		Mockito.doReturn(toReturn).when(this.service).chargeMariageParId(Mockito.anyLong());
 
 		// ACT
-		ResponseEntity<MariageDTO> mariage = getREST().exchange(getURL() + "/mariage/" + idMariage, HttpMethod.GET,
-				null, MariageDTO.class);
+		final ResponseEntity<MariageDTO> mariage = getREST().exchange(getURL() + "/mariage/" + idMariage,
+				HttpMethod.GET, null, MariageDTO.class);
 
 		// ASSERT
 		Assert.assertEquals(mariage.getBody().getId(), idMariage);
@@ -67,21 +67,21 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 	public void test03SauvegardeMariageOk() {
 
 		// ARRANGE
-		Long idMariage = 10L;
-		ArgumentCaptor<Mariage> argumentCaptor = ArgumentCaptor.forClass(Mariage.class);
+		final Long idMariage = 10L;
+		final ArgumentCaptor<Mariage> argumentCaptor = ArgumentCaptor.forClass(Mariage.class);
 		Mockito.doReturn(idMariage).when(this.service).sauvegarde(argumentCaptor.capture());
 
 		final String dateCelebration = "01/01/2017";
 		final String marie1 = "M";
 		final String marie2 = "G";
-		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("dateCelebration", dateCelebration);
 		requestParam.add("marie1", marie1);
 		requestParam.add("marie2", marie2);
-		Map<String, Object> uriVars = new HashMap<String, Object>();
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		Long idMariageRetour = getREST().postForObject(getURL() + "/mariage", requestParam, Long.class, uriVars);
+		final Long idMariageRetour = getREST().postForObject(getURL() + "/mariage", requestParam, Long.class, uriVars);
 
 		// ASSERT
 		Assert.assertNotNull(idMariageRetour);
@@ -102,11 +102,11 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 		final String dateCelebration = "01-01-2017";
 		final String marie1 = "M";
 		final String marie2 = "G";
-		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("dateCelebration", dateCelebration);
 		requestParam.add("marie1", marie1);
 		requestParam.add("marie2", marie2);
-		Map<String, Object> uriVars = new HashMap<String, Object>();
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
 		CatchException.catchException(getREST()).postForObject(getURL() + "/mariage", requestParam, Long.class,

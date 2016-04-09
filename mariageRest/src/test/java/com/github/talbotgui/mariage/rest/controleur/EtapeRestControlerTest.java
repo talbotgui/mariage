@@ -32,17 +32,17 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 	public void test01GetListeEtapes() {
 
 		// ARRANGE
-		Long idMariage = 10L;
-		List<Etape> toReturn = Arrays.asList(new EtapeCeremonie("E1", new Date(), "L1"),
+		final Long idMariage = 10L;
+		final List<Etape> toReturn = Arrays.asList(new EtapeCeremonie("E1", new Date(), "L1"),
 				new EtapeCeremonie("E2", new Date(), "L1"), new EtapeCeremonie("E4", new Date(), "L3"),
 				new EtapeCeremonie("E3", new Date(), "L2"), new EtapeCeremonie("E5", new Date(), "L2"));
 		Mockito.doReturn(toReturn).when(this.service).listeEtapesParIdMariage(Mockito.anyLong());
 
 		// ACT
-		ParameterizedTypeReference<Collection<EtapeDTO>> typeRetour = new ParameterizedTypeReference<Collection<EtapeDTO>>() {
+		final ParameterizedTypeReference<Collection<EtapeDTO>> typeRetour = new ParameterizedTypeReference<Collection<EtapeDTO>>() {
 		};
-		ResponseEntity<Collection<EtapeDTO>> invites = getREST().exchange(getURL() + "/mariage/" + idMariage + "/etape",
-				HttpMethod.GET, null, typeRetour);
+		final ResponseEntity<Collection<EtapeDTO>> invites = getREST()
+				.exchange(getURL() + "/mariage/" + idMariage + "/etape", HttpMethod.GET, null, typeRetour);
 
 		// ASSERT
 		Assert.assertEquals(invites.getBody().size(), 5);
@@ -54,10 +54,10 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 	public void test02AjouteEtapeCeremonie() {
 
 		// ARRANGE
-		Long idMariage = 10L;
-		Long idEtape = 100L;
-		ArgumentCaptor<Etape> argumentCaptorEtape = ArgumentCaptor.forClass(Etape.class);
-		ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		final Long idMariage = 10L;
+		final Long idEtape = 100L;
+		final ArgumentCaptor<Etape> argumentCaptorEtape = ArgumentCaptor.forClass(Etape.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
 		Mockito.doReturn(idEtape).when(this.service).sauvegarde(argumentCaptorIdMariage.capture(),
 				argumentCaptorEtape.capture());
 
@@ -66,16 +66,16 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		final String celebrant = "C1";
 		final String dateHeure = "01/01/2017";
 		final String type = EtapeCeremonie.class.getSimpleName();
-		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("nom", nom);
 		requestParam.add("lieu", lieu);
 		requestParam.add("celebrant", celebrant);
 		requestParam.add("dateHeure", dateHeure);
 		requestParam.add("type", type);
-		Map<String, Object> uriVars = new HashMap<String, Object>();
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		Long idEtapeRetour = getREST().postForObject(getURL() + "/mariage/" + idMariage + "/etape", requestParam,
+		final Long idEtapeRetour = getREST().postForObject(getURL() + "/mariage/" + idMariage + "/etape", requestParam,
 				Long.class, uriVars);
 
 		// ASSERT
@@ -95,20 +95,20 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 	public void test02AjouteEtapeDateInvalide() {
 
 		// ARRANGE
-		Long idMariage = 10L;
+		final Long idMariage = 10L;
 		final String nom = "N1";
 		final String lieu = "L1";
 		final String celebrant = "C1";
 		final String dateHeure = "01-01-2017";
 		final String type = EtapeRepas.class.getSimpleName();
 		;
-		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("nom", nom);
 		requestParam.add("lieu", lieu);
 		requestParam.add("celebrant", celebrant);
 		requestParam.add("dateHeure", dateHeure);
 		requestParam.add("type", type);
-		Map<String, Object> uriVars = new HashMap<String, Object>();
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
 		CatchException.catchException(getREST()).postForObject(getURL() + "/mariage/" + idMariage + "/etape",
@@ -126,10 +126,10 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 	public void test02AjouteEtapeRepas() {
 
 		// ARRANGE
-		Long idMariage = 10L;
-		Long idEtape = 100L;
-		ArgumentCaptor<Etape> argumentCaptorEtape = ArgumentCaptor.forClass(Etape.class);
-		ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		final Long idMariage = 10L;
+		final Long idEtape = 100L;
+		final ArgumentCaptor<Etape> argumentCaptorEtape = ArgumentCaptor.forClass(Etape.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
 		Mockito.doReturn(idEtape).when(this.service).sauvegarde(argumentCaptorIdMariage.capture(),
 				argumentCaptorEtape.capture());
 
@@ -137,15 +137,15 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		final String lieu = "L1";
 		final String dateHeure = "01/01/2017";
 		final String type = EtapeRepas.class.getSimpleName();
-		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("nom", nom);
 		requestParam.add("lieu", lieu);
 		requestParam.add("dateHeure", dateHeure);
 		requestParam.add("type", type);
-		Map<String, Object> uriVars = new HashMap<String, Object>();
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		Long idEtapeRetour = getREST().postForObject(getURL() + "/mariage/" + idMariage + "/etape", requestParam,
+		final Long idEtapeRetour = getREST().postForObject(getURL() + "/mariage/" + idMariage + "/etape", requestParam,
 				Long.class, uriVars);
 
 		// ASSERT
@@ -165,19 +165,19 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 	public void test02AjouteEtapeTypeInconu() {
 
 		// ARRANGE
-		Long idMariage = 10L;
+		final Long idMariage = 10L;
 		final String nom = "N1";
 		final String lieu = "L1";
 		final String celebrant = "C1";
 		final String dateHeure = "01/01/2017";
 		final String type = "toto";
-		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("nom", nom);
 		requestParam.add("lieu", lieu);
 		requestParam.add("celebrant", celebrant);
 		requestParam.add("dateHeure", dateHeure);
 		requestParam.add("type", type);
-		Map<String, Object> uriVars = new HashMap<String, Object>();
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
 		CatchException.catchException(getREST()).postForObject(getURL() + "/mariage/" + idMariage + "/etape",
@@ -195,16 +195,16 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 	public void test03SupprimeEtape() {
 
 		// ARRANGE
-		Long idMariage = 10L;
-		Long idEtape = 100L;
-		ArgumentCaptor<Long> argumentCaptorIdIEtape = ArgumentCaptor.forClass(Long.class);
-		ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		final Long idMariage = 10L;
+		final Long idEtape = 100L;
+		final ArgumentCaptor<Long> argumentCaptorIdIEtape = ArgumentCaptor.forClass(Long.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
 		Mockito.doNothing().when(this.service).suprimeEtape(argumentCaptorIdMariage.capture(),
 				argumentCaptorIdIEtape.capture());
 
 		// ACT
-		ResponseEntity<Void> response = getREST().exchange(getURL() + "/mariage/" + idMariage + "/etape/" + idEtape,
-				HttpMethod.DELETE, null, Void.class);
+		final ResponseEntity<Void> response = getREST().exchange(
+				getURL() + "/mariage/" + idMariage + "/etape/" + idEtape, HttpMethod.DELETE, null, Void.class);
 
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);

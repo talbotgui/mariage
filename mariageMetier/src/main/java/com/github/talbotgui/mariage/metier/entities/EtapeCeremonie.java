@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class EtapeCeremonie extends Etape {
+	private static final long serialVersionUID = 1L;
 
 	private String celebrant;
 
@@ -13,16 +14,17 @@ public class EtapeCeremonie extends Etape {
 		super();
 	}
 
-	public EtapeCeremonie(Long id, String nom, Date dateHeure, String lieu, String celebrant) {
+	public EtapeCeremonie(final Long id, final String nom, final Date dateHeure, final String lieu,
+			final String celebrant) {
 		super(id, nom, dateHeure, lieu);
 		this.celebrant = celebrant;
 	}
 
-	public EtapeCeremonie(String nom, Date dateHeure, String lieu) {
+	public EtapeCeremonie(final String nom, final Date dateHeure, final String lieu) {
 		super(nom, dateHeure, lieu);
 	}
 
-	public EtapeCeremonie(String nom, Date dateHeure, String lieu, String celebrant) {
+	public EtapeCeremonie(final String nom, final Date dateHeure, final String lieu, final String celebrant) {
 		super(nom, dateHeure, lieu);
 		this.celebrant = celebrant;
 	}
@@ -31,7 +33,7 @@ public class EtapeCeremonie extends Etape {
 		return celebrant;
 	}
 
-	public void setCelebrant(String celebrant) {
+	public void setCelebrant(final String celebrant) {
 		this.celebrant = celebrant;
 	}
 

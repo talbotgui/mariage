@@ -22,7 +22,7 @@ public class RestTestApplication {
 
 	public static final String PROPERTY_SOURCE = "classpath:db-config-test.properties";
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		start();
 	}
 

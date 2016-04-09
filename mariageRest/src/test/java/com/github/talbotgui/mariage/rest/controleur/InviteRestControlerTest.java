@@ -29,8 +29,8 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 	public void test01GetListeInvites() {
 
 		// ARRANGE
-		Long idMariage = 10L;
-		List<Invite> toReturn = Arrays.asList(new Invite("G1", "I1", "P1", Age.adulte),
+		final Long idMariage = 10L;
+		final List<Invite> toReturn = Arrays.asList(new Invite("G1", "I1", "P1", Age.adulte),
 				new Invite("G1", "I2", "P1", Age.adulte), new Invite("G1", "I3", "P1", Age.adulte),
 				new Invite("G1", "I4", "P1", Age.adulte), new Invite("G2", "I1", "P1", Age.adulte),
 				new Invite("G2", "I2", "P1", Age.adulte), new Invite("G2", "I3", "P1", Age.adulte),
@@ -38,9 +38,9 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Mockito.doReturn(toReturn).when(this.service).listeInvitesParIdMariage(Mockito.anyLong());
 
 		// ACT
-		ParameterizedTypeReference<Collection<InviteDTO>> typeRetour = new ParameterizedTypeReference<Collection<InviteDTO>>() {
+		final ParameterizedTypeReference<Collection<InviteDTO>> typeRetour = new ParameterizedTypeReference<Collection<InviteDTO>>() {
 		};
-		ResponseEntity<Collection<InviteDTO>> invites = getREST()
+		final ResponseEntity<Collection<InviteDTO>> invites = getREST()
 				.exchange(getURL() + "/mariage/" + idMariage + "/invite", HttpMethod.GET, null, typeRetour);
 
 		// ASSERT
@@ -53,10 +53,10 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 	public void test02AjouteInvite() {
 
 		// ARRANGE
-		Long idMariage = 10L;
-		Long idInvite = 100L;
-		ArgumentCaptor<Invite> argumentCaptorInvite = ArgumentCaptor.forClass(Invite.class);
-		ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		final Long idMariage = 10L;
+		final Long idInvite = 100L;
+		final ArgumentCaptor<Invite> argumentCaptorInvite = ArgumentCaptor.forClass(Invite.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
 		Mockito.doReturn(idInvite).when(this.service).sauvegarde(argumentCaptorIdMariage.capture(),
 				argumentCaptorInvite.capture());
 
@@ -64,16 +64,16 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final String prenom = "BB";
 		final String groupe = "Groupe1";
 		final String age = Age.adulte.toString();
-		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("nom", nom);
 		requestParam.add("prenom", prenom);
 		requestParam.add("groupe", groupe);
 		requestParam.add("age", age);
-		Map<String, Object> uriVars = new HashMap<String, Object>();
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		Long idInviteRetour = getREST().postForObject(getURL() + "/mariage/" + idMariage + "/invite", requestParam,
-				Long.class, uriVars);
+		final Long idInviteRetour = getREST().postForObject(getURL() + "/mariage/" + idMariage + "/invite",
+				requestParam, Long.class, uriVars);
 
 		// ASSERT
 		Assert.assertNotNull(idInviteRetour);
@@ -91,18 +91,18 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 	public void test02AjouteInviteAgeInvalid() {
 
 		// ARRANGE
-		Long idMariage = 10L;
+		final Long idMariage = 10L;
 
 		final String nom = "InviteA";
 		final String prenom = "BB";
 		final String groupe = "Groupe1";
 		final String age = "toto";
-		MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("nom", nom);
 		requestParam.add("prenom", prenom);
 		requestParam.add("groupe", groupe);
 		requestParam.add("age", age);
-		Map<String, Object> uriVars = new HashMap<String, Object>();
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
 		CatchException.catchException(getREST()).postForObject(getURL() + "/mariage/" + idMariage + "/invite",
@@ -120,16 +120,16 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 	public void test03SupprimeInvite() {
 
 		// ARRANGE
-		Long idMariage = 10L;
-		Long idInvite = 100L;
-		ArgumentCaptor<Long> argumentCaptorIdInvite = ArgumentCaptor.forClass(Long.class);
-		ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		final Long idMariage = 10L;
+		final Long idInvite = 100L;
+		final ArgumentCaptor<Long> argumentCaptorIdInvite = ArgumentCaptor.forClass(Long.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
 		Mockito.doNothing().when(this.service).suprimeInvite(argumentCaptorIdMariage.capture(),
 				argumentCaptorIdInvite.capture());
 
 		// ACT
-		ResponseEntity<Void> response = getREST().exchange(getURL() + "/mariage/" + idMariage + "/invite/" + idInvite,
-				HttpMethod.DELETE, null, Void.class);
+		final ResponseEntity<Void> response = getREST().exchange(
+				getURL() + "/mariage/" + idMariage + "/invite/" + idInvite, HttpMethod.DELETE, null, Void.class);
 
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);

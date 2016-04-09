@@ -41,7 +41,7 @@ public class Invite implements Serializable {
 		super();
 	}
 
-	public Invite(Long id, String groupe, String nom, String prenom, Age age) {
+	public Invite(final Long id, final String groupe, final String nom, final String prenom, final Age age) {
 		super();
 		this.groupe = groupe;
 		this.id = id;
@@ -50,7 +50,7 @@ public class Invite implements Serializable {
 		this.age = age;
 	}
 
-	public Invite(String groupe, String nom, String prenom, Age age) {
+	public Invite(final String groupe, final String nom, final String prenom, final Age age) {
 		super();
 		this.groupe = groupe;
 		this.nom = nom;
@@ -58,7 +58,8 @@ public class Invite implements Serializable {
 		this.age = age;
 	}
 
-	public Invite(String groupe, String nom, String prenom, Age age, PresenceEtape... presences) {
+	public Invite(final String groupe, final String nom, final String prenom, final Age age,
+			final PresenceEtape... presences) {
 		this(groupe, nom, prenom, age);
 		this.presencesEtape.addAll(Arrays.asList(presences));
 	}
@@ -91,27 +92,27 @@ public class Invite implements Serializable {
 		return presencesEtape;
 	}
 
-	public void setAge(Age age) {
+	public void setAge(final Age age) {
 		this.age = age;
 	}
 
-	public void setGroupe(String groupe) {
+	public void setGroupe(final String groupe) {
 		this.groupe = groupe;
 	}
 
-	public void setMariage(Mariage mariage) {
+	public void setMariage(final Mariage mariage) {
 		this.mariage = mariage;
 	}
 
-	public void setNom(String nom) {
+	public void setNom(final String nom) {
 		this.nom = nom;
 	}
 
-	public void setPrenom(String prenom) {
+	public void setPrenom(final String prenom) {
 		this.prenom = prenom;
 	}
 
-	public void setPresencesEtape(Collection<PresenceEtape> presencesEtape) {
+	public void setPresencesEtape(final Collection<PresenceEtape> presencesEtape) {
 		this.presencesEtape = presencesEtape;
 	}
 

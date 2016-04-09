@@ -15,7 +15,7 @@ public class ErrorHandler {
 
 	@ResponseBody
 	@ExceptionHandler(BusinessException.class)
-	public ResponseEntity<Object> defaultErrorHandler(HttpServletRequest req, BusinessException e) throws Exception {
+	public ResponseEntity<Object> defaultErrorHandler(final HttpServletRequest req, final BusinessException e) {
 		return new ResponseEntity<Object>(e.getExceptionId().getId() + "-" + e.getMessage(),
 				HttpStatus.valueOf(e.getExceptionId().getHttpStatusCode()));
 	}

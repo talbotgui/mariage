@@ -66,7 +66,7 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	 * @return
 	 */
 	protected RestTemplate getREST() {
-		RestTemplate rest = new RestTemplate();
+		final RestTemplate rest = new RestTemplate();
 		rest.setInterceptors(ControlerTestUtil.REST_INTERCEPTORS);
 		return rest;
 	}

@@ -3,7 +3,6 @@ package com.github.talbotgui.mariage.metier.exception;
 import java.util.Arrays;
 
 /**
- *
  * 400 : BAD REQUEST - La syntaxe de la requête est erronée
  *
  * 409 : CONFLICT - La requête ne peut être traitée à l’état actuel
@@ -13,7 +12,7 @@ public abstract class BaseException extends RuntimeException {
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;
 
-	public static boolean equals(Exception e, ExceptionId id) {
+	public static boolean equals(final Exception e, final ExceptionId id) {
 		if (!BaseException.class.isInstance(e)) {
 			return false;
 		}
@@ -32,7 +31,7 @@ public abstract class BaseException extends RuntimeException {
 	 * @param exceptionId
 	 *            Exception identifier.
 	 */
-	public BaseException(ExceptionId exceptionId) {
+	public BaseException(final ExceptionId exceptionId) {
 		super();
 		this.setExceptionId(exceptionId);
 	}
@@ -45,7 +44,7 @@ public abstract class BaseException extends RuntimeException {
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	public BaseException(ExceptionId pExceptionId, Object[] pParameters) {
+	public BaseException(final ExceptionId pExceptionId, final Object[] pParameters) {
 		this(pExceptionId);
 		this.setParameters(pParameters);
 	}
@@ -58,7 +57,7 @@ public abstract class BaseException extends RuntimeException {
 	 * @param nestedException
 	 *            Embedded exception.
 	 */
-	public BaseException(ExceptionId exceptionId, Throwable nestedException) {
+	public BaseException(final ExceptionId exceptionId, final Throwable nestedException) {
 		super(nestedException);
 		this.setExceptionId(exceptionId);
 	}
@@ -73,7 +72,7 @@ public abstract class BaseException extends RuntimeException {
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	public BaseException(ExceptionId pExceptionId, Throwable pNestedException, Object[] pParameters) {
+	public BaseException(final ExceptionId pExceptionId, final Throwable pNestedException, final Object[] pParameters) {
 		super(pNestedException);
 		this.setExceptionId(pExceptionId);
 		this.setParameters(pParameters);
@@ -136,7 +135,7 @@ public abstract class BaseException extends RuntimeException {
 	 * @param exceptionId
 	 *            Exception identifier.
 	 */
-	private void setExceptionId(ExceptionId exceptionId) {
+	private void setExceptionId(final ExceptionId exceptionId) {
 		this.exceptionId = exceptionId;
 	}
 
@@ -146,7 +145,7 @@ public abstract class BaseException extends RuntimeException {
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	private void setParameters(Object[] pParameters) {
+	private void setParameters(final Object[] pParameters) {
 		this.parameters = pParameters;
 	}
 }

@@ -26,23 +26,23 @@ public class InviteRestControler {
 	private MariageService mariageService;
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = GET)
-	public Collection<InviteDTO> listeInvitesParIdMariage(@PathVariable("idMariage") Long idMariage) {
+	public Collection<InviteDTO> listeInvitesParIdMariage(@PathVariable("idMariage") final Long idMariage) {
 		return AbstractDTO.creerDto(this.mariageService.listeInvitesParIdMariage(idMariage), InviteDTO.class);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = POST)
 	public Long sauvegardeInvite(//
-			@RequestParam(required = false, value = "id") Long id, //
-			@RequestParam(value = "nom") String nom, //
-			@RequestParam(value = "prenom") String prenom, //
-			@RequestParam(value = "age") String age, //
-			@RequestParam(value = "groupe") String groupe, //
-			@PathVariable(value = "idMariage") Long idMariage) {
+			@RequestParam(required = false, value = "id") final Long id, //
+			@RequestParam(value = "nom") final String nom, //
+			@RequestParam(value = "prenom") final String prenom, //
+			@RequestParam(value = "age") final String age, //
+			@RequestParam(value = "groupe") final String groupe, //
+			@PathVariable(value = "idMariage") final Long idMariage) {
 
 		Age ageEnum = null;
 		try {
 			ageEnum = Age.valueOf(age);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE, new Object[] { "age", Age.values(), age });
 		}
 		return this.mariageService.sauvegarde(idMariage, new Invite(id, groupe, nom, prenom, ageEnum));
@@ -50,8 +50,8 @@ public class InviteRestControler {
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite/{idInvite}", method = DELETE)
 	public void supprimeInvite(//
-			@PathVariable(value = "idInvite") Long idInvite, //
-			@PathVariable(value = "idMariage") Long idMariage) {
+			@PathVariable(value = "idInvite") final Long idInvite, //
+			@PathVariable(value = "idMariage") final Long idMariage) {
 		this.mariageService.suprimeInvite(idMariage, idInvite);
 	}
 }

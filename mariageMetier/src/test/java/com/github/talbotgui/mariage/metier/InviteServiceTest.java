@@ -53,10 +53,10 @@ public class InviteServiceTest {
 		LOG.info("---------------------------------------------------------");
 
 		// Destruction des données
-		Collection<String> strings = Files
+		final Collection<String> strings = Files
 				.readAllLines(Paths.get(ClassLoader.getSystemResource("sql/dataPurge.sql").toURI()));
-		String[] requetes = strings.toArray(new String[strings.size()]);
-		JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String[] requetes = strings.toArray(new String[strings.size()]);
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		LOG.info("Execute SQL : {}", Arrays.asList(requetes));
 		jdbc.batchUpdate(requetes);
 
@@ -66,15 +66,15 @@ public class InviteServiceTest {
 	public void test01ListeInvitesParIdMariage() throws ParseException {
 
 		// ARRANGE
-		Mariage original = ObjectMother.creeMariageSimple();
-		Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
 
 		// ACT
-		Page<Invite> page1 = this.instance.listeInvitesParIdMariage(idMariage, new PageRequest(0, 2));
-		Page<Invite> page2 = this.instance.listeInvitesParIdMariage(idMariage, page1.nextPageable());
-		Page<Invite> page3 = this.instance.listeInvitesParIdMariage(idMariage, page2.nextPageable());
-		Page<Invite> page4 = this.instance.listeInvitesParIdMariage(idMariage, page3.nextPageable());
-		Page<Invite> page5 = this.instance.listeInvitesParIdMariage(idMariage, page4.nextPageable());
+		final Page<Invite> page1 = this.instance.listeInvitesParIdMariage(idMariage, new PageRequest(0, 2));
+		final Page<Invite> page2 = this.instance.listeInvitesParIdMariage(idMariage, page1.nextPageable());
+		final Page<Invite> page3 = this.instance.listeInvitesParIdMariage(idMariage, page2.nextPageable());
+		final Page<Invite> page4 = this.instance.listeInvitesParIdMariage(idMariage, page3.nextPageable());
+		final Page<Invite> page5 = this.instance.listeInvitesParIdMariage(idMariage, page4.nextPageable());
 
 		// ASSERT
 		Assert.assertEquals(10, page1.getTotalElements());
@@ -93,22 +93,22 @@ public class InviteServiceTest {
 	public void test02SauvegarderInvite() throws ParseException {
 
 		// ARRANGE
-		Mariage original = ObjectMother.creeMariageSimple();
-		Long idMariage = this.instance.sauvegardeGrappe(original);
-		Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
 
 		// ACT
 		final String groupe = "G1";
 		final String nom = "N1";
 		final String prenom = "P1";
 		final Age age = Age.adulte;
-		Long id = this.instance.sauvegarde(idMariage, new Invite(groupe, nom, prenom, age));
+		final Long id = this.instance.sauvegarde(idMariage, new Invite(groupe, nom, prenom, age));
 
 		// ASSERT
 		Assert.assertNotNull(id);
-		Collection<Invite> inviteApres = this.instance.listeInvitesParIdMariage(idMariage);
+		final Collection<Invite> inviteApres = this.instance.listeInvitesParIdMariage(idMariage);
 		Assert.assertEquals(inviteAvant.size() + 1, inviteApres.size());
-		Collection<Invite> diff = new TreeSet<>(new InviteComparator());
+		final Collection<Invite> diff = new TreeSet<>(new InviteComparator());
 		diff.addAll(inviteApres);
 		diff.removeAll(inviteAvant);
 		Assert.assertEquals(1, diff.size());
@@ -122,15 +122,15 @@ public class InviteServiceTest {
 	public void test03SupprimeInvite() throws ParseException {
 
 		// ARRANGE
-		Mariage original = ObjectMother.creeMariageSimple();
-		Long idMariage = this.instance.sauvegardeGrappe(original);
-		Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
 
 		// ACT
 		this.instance.suprimeInvite(idMariage, inviteAvant.iterator().next().getId());
 
 		// ASSERT
-		Collection<Invite> inviteApres = this.instance.listeInvitesParIdMariage(idMariage);
+		final Collection<Invite> inviteApres = this.instance.listeInvitesParIdMariage(idMariage);
 		Assert.assertEquals(inviteAvant.size() - 1, inviteApres.size());
 	}
 

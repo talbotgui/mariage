@@ -31,17 +31,17 @@ public class MariageRestControler {
 	private MariageService mariageService;
 
 	@RequestMapping(value = "/mariage/{idMariage}", method = GET)
-	public MariageDTO chargeMariage(@PathVariable("idMariage") Long idMariage) {
-		Mariage mariage = this.mariageService.chargeMariageParId(idMariage);
+	public MariageDTO chargeMariage(@PathVariable("idMariage") final Long idMariage) {
+		final Mariage mariage = this.mariageService.chargeMariageParId(idMariage);
 		return new MariageDTO(mariage);
 	}
 
 	@RequestMapping(value = "/mariage", method = GET)
 	public Collection<MariageDTO> listeTousMariages() {
-		Collection<Mariage> mariages = this.mariageService.listeTousMariages();
+		final Collection<Mariage> mariages = this.mariageService.listeTousMariages();
 
-		Collection<MariageDTO> dtos = new ArrayList<>();
-		for (Mariage m : mariages) {
+		final Collection<MariageDTO> dtos = new ArrayList<>();
+		for (final Mariage m : mariages) {
 			dtos.add(new MariageDTO(m));
 		}
 		return dtos;
@@ -49,14 +49,14 @@ public class MariageRestControler {
 
 	@RequestMapping(value = "/mariage", method = POST)
 	public Long sauvegardeMariage(//
-			@RequestParam(required = false, value = "id") Long id, //
-			@RequestParam(value = "dateCelebration") String dateCelebration, //
-			@RequestParam(value = "marie1") String marie1, //
-			@RequestParam(value = "marie2") String marie2) {
+			@RequestParam(required = false, value = "id") final Long id, //
+			@RequestParam(value = "dateCelebration") final String dateCelebration, //
+			@RequestParam(value = "marie1") final String marie1, //
+			@RequestParam(value = "marie2") final String marie2) {
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat(AbstractDTO.FORMAT_DATE);
+			final SimpleDateFormat sdf = new SimpleDateFormat(AbstractDTO.FORMAT_DATE);
 			return this.mariageService.sauvegarde(new Mariage(id, sdf.parse(dateCelebration), marie1, marie2));
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			LOG.error("Erreur de format des paramètres d'entrée", e);
 			throw new RestException(RestException.ERREUR_FORMAT_DATE, e,
 					new String[] { AbstractDTO.FORMAT_DATE, dateCelebration });

@@ -20,12 +20,12 @@ public class BaseExceptionTest {
 	public void testBusinessExceptionExceptionIdArray() {
 
 		//
-		Exception cause = new InvalidParameterException();
-		Object[] array = new String[] { "a", "b", "c", };
-		Object[] params = new Object[] { "toto", array, Arrays.asList(array) };
+		final Exception cause = new InvalidParameterException();
+		final Object[] array = new String[] { "a", "b", "c", };
+		final Object[] params = new Object[] { "toto", array, Arrays.asList(array) };
 
 		//
-		BusinessException e = new BusinessException(ERREUR_DE_TEST, cause, params);
+		final BusinessException e = new BusinessException(ERREUR_DE_TEST, cause, params);
 
 		//
 		Assert.assertEquals(cause, e.getCause());
@@ -36,7 +36,7 @@ public class BaseExceptionTest {
 	@Test
 	public void testEqualsExceptionExceptionIdKo() {
 		//
-		BusinessException e = new BusinessException(ERREUR_DE_TEST);
+		final BusinessException e = new BusinessException(ERREUR_DE_TEST);
 
 		//
 		Assert.assertFalse(BaseException.equals(e, ERREUR_DE_TEST_SIMPLE));
@@ -45,7 +45,7 @@ public class BaseExceptionTest {
 	@Test
 	public void testEqualsExceptionExceptionIdOk() {
 		//
-		BusinessException e = new BusinessException(ERREUR_DE_TEST);
+		final BusinessException e = new BusinessException(ERREUR_DE_TEST);
 
 		//
 		Assert.assertTrue(BaseException.equals(e, ERREUR_DE_TEST));
@@ -54,12 +54,12 @@ public class BaseExceptionTest {
 	@Test
 	public void testGetMessage() {
 		//
-		Exception cause = new InvalidParameterException();
-		Object[] array = new String[] { "a", "b", "c", };
-		Object[] params = new Object[] { "toto", array, Arrays.asList(array) };
+		final Exception cause = new InvalidParameterException();
+		final Object[] array = new String[] { "a", "b", "c", };
+		final Object[] params = new Object[] { "toto", array, Arrays.asList(array) };
 
 		//
-		BusinessException e = new BusinessException(ERREUR_DE_TEST, cause, params);
+		final BusinessException e = new BusinessException(ERREUR_DE_TEST, cause, params);
 
 		//
 		Assert.assertEquals("Message avec une String 'toto', un array '[a, b, c]' et une collection '[a, b, c]'",

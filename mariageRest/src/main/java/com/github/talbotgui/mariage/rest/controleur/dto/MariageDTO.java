@@ -18,12 +18,12 @@ public class MariageDTO extends AbstractDTO {
 		super(null);
 	}
 
-	public MariageDTO(Object entity) {
+	public MariageDTO(final Object entity) {
 		super(entity);
 
 		if (entity != null) {
-			SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE);
-			Mariage m = (Mariage) entity;
+			final SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE);
+			final Mariage m = (Mariage) entity;
 			this.id = m.getId();
 			this.dateCelebration = sdf.format(m.getDateCelebration());
 			this.marie1 = m.getMarie1();
@@ -47,19 +47,19 @@ public class MariageDTO extends AbstractDTO {
 		return marie2;
 	}
 
-	public void setDateCelebration(String dateCelebration) {
+	public void setDateCelebration(final String dateCelebration) {
 		this.dateCelebration = dateCelebration;
 	}
 
-	public void setId(Long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 
-	public void setMarie1(String marie1) {
+	public void setMarie1(final String marie1) {
 		this.marie1 = marie1;
 	}
 
-	public void setMarie2(String marie2) {
+	public void setMarie2(final String marie2) {
 		this.marie2 = marie2;
 	}
 }

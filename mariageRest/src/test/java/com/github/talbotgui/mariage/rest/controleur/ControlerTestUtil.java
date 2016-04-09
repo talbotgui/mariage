@@ -19,11 +19,11 @@ public class ControlerTestUtil {
 	/** Log interceptor for all HTTP requests. */
 	public static final List<ClientHttpRequestInterceptor> REST_INTERCEPTORS = Arrays
 			.asList(new ClientHttpRequestInterceptor() {
-				public ClientHttpResponse intercept(HttpRequest request, byte[] body,
-						ClientHttpRequestExecution execution) throws IOException {
+				public ClientHttpResponse intercept(final HttpRequest request, final byte[] body,
+						final ClientHttpRequestExecution execution) throws IOException {
 					LOG.info("Request : {URI={}, method={}, headers={}, body={}}", request.getURI(),
 							request.getMethod().name(), request.getHeaders(), new String(body));
-					ClientHttpResponse response = execution.execute(request, body);
+					final ClientHttpResponse response = execution.execute(request, body);
 					LOG.info("Response : {code={}}", response.getStatusCode());
 					return response;
 				}

@@ -36,7 +36,7 @@ public class Mariage implements Serializable {
 		super();
 	}
 
-	public Mariage(Date dateCelebration, String marie1, String marie2) {
+	public Mariage(final Date dateCelebration, final String marie1, final String marie2) {
 		super();
 		if (dateCelebration != null) {
 			this.dateCelebration = new Date(dateCelebration.getTime());
@@ -45,16 +45,16 @@ public class Mariage implements Serializable {
 		this.marie2 = marie2;
 	}
 
-	public Mariage(Long id, Date dateCelebration, String marie1, String marie2) {
+	public Mariage(final Long id, final Date dateCelebration, final String marie1, final String marie2) {
 		this(dateCelebration, marie1, marie2);
 		this.id = id;
 	}
 
-	public void addEtape(Etape e) {
+	public void addEtape(final Etape e) {
 		this.etapes.add(e);
 	}
 
-	public void addInvite(Invite i) {
+	public void addInvite(final Invite i) {
 		this.invites.add(i);
 	}
 
@@ -74,7 +74,7 @@ public class Mariage implements Serializable {
 	}
 
 	public Collection<Invite> getInvites() {
-		Collection<Invite> c = new ArrayList<>();
+		final Collection<Invite> c = new ArrayList<>();
 		c.addAll(this.invites);
 		return c;
 	}
@@ -87,25 +87,25 @@ public class Mariage implements Serializable {
 		return marie2;
 	}
 
-	public void setDateCelebration(Date dateCelebration) {
+	public void setDateCelebration(final Date dateCelebration) {
 		if (dateCelebration != null) {
 			this.dateCelebration = new Date(dateCelebration.getTime());
 		}
 	}
 
-	public void setEtapes(Collection<Etape> etapes) {
+	public void setEtapes(final Collection<Etape> etapes) {
 		this.etapes = etapes;
 	}
 
-	public void setInvites(Collection<Invite> invites) {
+	public void setInvites(final Collection<Invite> invites) {
 		this.invites = invites;
 	}
 
-	public void setMarie1(String marie1) {
+	public void setMarie1(final String marie1) {
 		this.marie1 = marie1;
 	}
 
-	public void setMarie2(String marie2) {
+	public void setMarie2(final String marie2) {
 		this.marie2 = marie2;
 	}
 

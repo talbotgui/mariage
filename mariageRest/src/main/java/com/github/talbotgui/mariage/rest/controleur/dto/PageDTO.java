@@ -10,7 +10,7 @@ public class PageDTO<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<T> content;
+	private final List<T> content;
 	private boolean first;
 	private boolean last;
 	private int number;
@@ -22,7 +22,7 @@ public class PageDTO<T> implements Serializable {
 		this.content = new ArrayList<T>();
 	}
 
-	public PageDTO(Page<T> page) {
+	public PageDTO(final Page<T> page) {
 		this.content = new ArrayList<T>();
 		this.content.addAll(page.getContent());
 		this.first = page.isFirst();

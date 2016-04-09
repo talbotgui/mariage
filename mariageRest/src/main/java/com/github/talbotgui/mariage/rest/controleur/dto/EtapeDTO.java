@@ -23,12 +23,12 @@ public class EtapeDTO extends AbstractDTO {
 		super(null);
 	}
 
-	public EtapeDTO(Object entity) {
+	public EtapeDTO(final Object entity) {
 		super(entity);
 
-		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE);
+		final SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE);
 		if (entity != null) {
-			Etape e = (Etape) entity;
+			final Etape e = (Etape) entity;
 			this.id = e.getId();
 			this.dateHeure = sdf.format(e.getDateHeure());
 			this.nom = e.getNom();
@@ -65,27 +65,27 @@ public class EtapeDTO extends AbstractDTO {
 		return type;
 	}
 
-	public void setCelebrant(String celebrant) {
+	public void setCelebrant(final String celebrant) {
 		this.celebrant = celebrant;
 	}
 
-	public void setDateHeure(String dateHeure) {
+	public void setDateHeure(final String dateHeure) {
 		this.dateHeure = dateHeure;
 	}
 
-	public void setId(Long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 
-	public void setLieu(String lieu) {
+	public void setLieu(final String lieu) {
 		this.lieu = lieu;
 	}
 
-	public void setNom(String nom) {
+	public void setNom(final String nom) {
 		this.nom = nom;
 	}
 
-	public void setType(String type) {
+	public void setType(final String type) {
 		this.type = type;
 	}
 
