@@ -124,7 +124,10 @@ public abstract class BaseException extends RuntimeException {
 	 * @return Message parameters.
 	 */
 	public Object[] getParameters() {
-		return this.parameters;
+		if (this.parameters != null) {
+			return Arrays.copyOf(this.parameters, this.parameters.length);
+		}
+		return null;
 	}
 
 	/**
@@ -143,7 +146,7 @@ public abstract class BaseException extends RuntimeException {
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	public void setParameters(Object[] pParameters) {
+	private void setParameters(Object[] pParameters) {
 		this.parameters = pParameters;
 	}
 }

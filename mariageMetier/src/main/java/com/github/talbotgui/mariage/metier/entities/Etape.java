@@ -1,5 +1,6 @@
 package com.github.talbotgui.mariage.metier.entities;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
@@ -17,7 +18,8 @@ import javax.persistence.OneToMany;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class Etape {
+public abstract class Etape implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private Date dateHeure;
 
@@ -44,18 +46,25 @@ public abstract class Etape {
 		super();
 		this.id = id;
 		this.nom = nom;
-		this.dateHeure = dateHeure;
+		if (dateHeure != null) {
+			this.dateHeure = new Date(dateHeure.getTime());
+		}
 		this.lieu = lieu;
 	}
 
 	public Etape(String nom, Date dateHeure, String lieu) {
 		super();
-		this.dateHeure = dateHeure;
+		if (dateHeure != null) {
+			this.dateHeure = new Date(dateHeure.getTime());
+		}
 		this.nom = nom;
 		this.lieu = lieu;
 	}
 
 	public Date getDateHeure() {
+		if (this.dateHeure != null) {
+			return new Date(this.dateHeure.getTime());
+		}
 		return dateHeure;
 	}
 
@@ -76,7 +85,9 @@ public abstract class Etape {
 	}
 
 	public void setDateHeure(Date dateHeure) {
-		this.dateHeure = dateHeure;
+		if (dateHeure != null) {
+			this.dateHeure = new Date(dateHeure.getTime());
+		}
 	}
 
 	public void setLieu(String lieu) {

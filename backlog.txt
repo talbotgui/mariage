@@ -14,7 +14,7 @@ X Corriger les pb de CSS entre les tableaux et les popup
   Améliorer la tête des popups
   Ajouter un numéro d'ordre dans Etape
   
-  Ajouter la génération du site de qualimétrie
+X Ajouter la génération du site de qualimétrie
 
   Ajouter une page "Gestion des contacts" pour la saisie d'une adresse par personne (une String) et un numéro de téléphone (une String)
 

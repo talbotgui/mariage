@@ -38,7 +38,9 @@ public class Mariage implements Serializable {
 
 	public Mariage(Date dateCelebration, String marie1, String marie2) {
 		super();
-		this.dateCelebration = dateCelebration;
+		if (dateCelebration != null) {
+			this.dateCelebration = new Date(dateCelebration.getTime());
+		}
 		this.marie1 = marie1;
 		this.marie2 = marie2;
 	}
@@ -57,6 +59,9 @@ public class Mariage implements Serializable {
 	}
 
 	public Date getDateCelebration() {
+		if (this.dateCelebration != null) {
+			return new Date(this.dateCelebration.getTime());
+		}
 		return dateCelebration;
 	}
 
@@ -83,7 +88,9 @@ public class Mariage implements Serializable {
 	}
 
 	public void setDateCelebration(Date dateCelebration) {
-		this.dateCelebration = dateCelebration;
+		if (dateCelebration != null) {
+			this.dateCelebration = new Date(dateCelebration.getTime());
+		}
 	}
 
 	public void setEtapes(Collection<Etape> etapes) {
