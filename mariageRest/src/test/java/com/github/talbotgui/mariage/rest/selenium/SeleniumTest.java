@@ -2,8 +2,10 @@ package com.github.talbotgui.mariage.rest.selenium;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
@@ -11,6 +13,8 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 @WebIntegrationTest(randomPort = true)
 @SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
@@ -29,8 +33,16 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 
 	@BeforeClass
 	public void beforeClass() {
-		// driver = new MyDriver(new HtmlUnitDriver()); //KO pour une css bootstrap
-		driver = new MyDriver(new FirefoxDriver());
+
+		// Pour tester sur l'IC
+		if (!SystemUtils.IS_OS_WINDOWS) {
+			driver = new MyDriver(new HtmlUnitDriver(BrowserVersion.FIREFOX_38, true));
+		}
+
+		// Pour tester sur mon poste
+		else {
+			driver = new MyDriver(new FirefoxDriver());
+		}
 	}
 
 	@Test

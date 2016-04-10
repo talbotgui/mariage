@@ -17,16 +17,18 @@ X Améliorer la tête des popups
 X Ajouter la génération du site de qualimétrie
 
 X Ajouter des tests selenium
-  Automatiser les tests selenium
-  Ajouter la couverture de code aux tests selenium
+X Automatiser les tests selenium
+X Ajouter la couverture de code aux tests selenium (fait sur le poste WINDOWS)
   
+  Ajouter une page "gestion des utilisateurs" pour l'admin (Utilisateur={nom, prenom, login, mdpSHA})
+  Ajouter une page de login
   Ajouter un bouton de déconnexion
   
-  Trouver une solution de mutualisation d'une part des pages (menu, imports JS et CSS, ...)
+X Trouver une solution de mutualisation d'une part des pages (menu, imports JS et CSS, ...) => <link type="import" n'est pas encore supporté par les navigateurs (pas par défaut)
   
   Ajouter une page "Gestion des contacts" pour la saisie d'une adresse par personne (une String) et un numéro de téléphone (une String)
 
-  Renommer la page "invites" en "gestion des invitations"
+X Renommer la page "invites" en "gestion des invitations"
   Dans la page "gestion des invitations", ajouter une checkbox pour définir les étapes auxquelles sont liées chaque invité
   Dans la page "gestion des invitations", ajouter l'autocomplétion dans le champ "groupe"
 
