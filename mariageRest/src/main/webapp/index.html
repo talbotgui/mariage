@@ -75,8 +75,6 @@
 		<script type="text/javascript" src="ressources/common.js"></script>
 		<script type="text/javascript">
 		
-			var idMariage = "";
-			
 			var afficheInfoMariage = function(data) {
 				// Affichage / masquage de divs
 				$("#accueil").hide();
@@ -92,7 +90,7 @@
 			};
 			
 			var afficheInfoMariageDepuisId = function() {
-				var req = $.get( REST_PREFIX + "/mariage/" + idMariage);
+				var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage());
 				req.success(function(dataString) { afficheInfoMariage(eval(dataString)); });
 				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("afficheInfoMariageDepuisId");});
 			};
