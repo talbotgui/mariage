@@ -22,7 +22,16 @@ var setIdMariage = function(idMariage) {
 };
 
 /**
+ * Affiche le menu et sélectionne le bon élément
+ */
+var afficheMenu = function() {
+	$(".nav a[href$='" + window.location.pathname.substring(1) + "']").parent().addClass("active");
+	$("div[role=navigation]").show();
+};
+
+/**
  * Lecture de l'identifiant du mariage dans les cookies
+ * et affichage du menu
  */
 var getIdMariage = function() {
     var name = "idMariage=";
@@ -30,7 +39,10 @@ var getIdMariage = function() {
     for(var i=0; i<ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+        if (c.indexOf(name) == 0) {
+        	afficheMenu();
+        	return c.substring(name.length,c.length);
+        }
     }
     return "";
 };
@@ -133,6 +145,11 @@ var majAttribute = function (url, event, success) {
  */
  $(document).ready(function() {
 
+	 // Execution de toutes les fonctions onReady presentes
+	 if (typeof onReadyFunctions !== "undefined") {
+		 onReadyFunctions.forEach(function(e, i, array) { e(); });
+	 }
+	 
 	 // Alimentation des <select> avec les info en parametres du tag
 	 alimentationSelectBox();
 	 

@@ -23,14 +23,11 @@
 			
 			<div class="content col-md-9">
 			
-				<div id="infoMariage" class="text-center">
-					<h1>Gestionnaire de mariage.</h1>
-					<div id="maries">Mariage de <span></span> &amp; <span></span></div>
-					<div id="date">le <span></span></div>
-				</div>
-			
+				<div data-w3-include-html="./part_infoMariage.html"></div>
+				<script type="text/javascript" src="./part_infoMariage.js"></script>
+
 				<div id="invites"></div>
-				
+
 				<button id="button_afficher_popup_ajouter" class="btn btn-default">Ajouter</button>
 				
 				<div id="popupAjoutInvite" class="popup">
@@ -81,7 +78,6 @@
 		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxwindow.js"></script>
 		<script type="text/javascript" src="ressources/common.js"></script>
 		<script type="text/javascript">
-			var idMariage = "";
 			var donneesDejaChargees = false;
 			
 			// Affiche la popup des invités
@@ -113,18 +109,7 @@
 				req.success(function(dataString) { chargeInvites(); });
 				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("ajouteInvite");});
 			};
-			
-			// Chargement des données du mariage
-			var chargeDonneesMariage = function() {
-				var req = $.get( REST_PREFIX + "/mariage/" + idMariage);
-				req.success(function(dataString) {
-					var data = eval(dataString);
-					$("#maries span:first").html(data.marie1);
-					$("#maries span:last").html(data.marie2);
-					$("#date span").html(data.dateCelebration);
-				});
-				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("readMariage");});
-			};
+
 
 			// Chargement des invites
 			var chargeInvites = function() {
@@ -157,13 +142,7 @@
 			};
 
 			$(document).ready(function() {
-			
-				// Redirection si pas de mariage sélectionné
-				idMariage = getIdMariage();
-				if (idMariage === "") {window.location.href="/";}
-				
-				chargeDonneesMariage();
-
+				// Init
 				chargeInvites();
 				
 				// Ajout des evenements

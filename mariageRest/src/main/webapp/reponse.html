@@ -18,33 +18,16 @@
 
 			<!-- Colonne gauche -->
 			<div class="header col-md-3">
-				<!-- Titre -->
-				<div class="row text-center titre">MonMariage</div>
-				<!-- Menu -->
-				<div class="navbar navbar-default" role="navigation">
-					<ul class="nav nav-pills nav-stacked">
-						<li><a href="index.html">Accueil</a></li>
-						<li><a href="parametres.html">Paramètres</a></li>
-						<li><a href="invitation.html">Invitation</a></li>
-						<li><a href="contact.html">Adresse et téléphone</a></li>
-						<li><a href="courrier.html">Courriers</a></li>
-						<li class="active"><a href="reponse.html">Réponses</a></li>
-					</ul>
-				</div>
-				<!-- Version -->
-				<div class="row text-center">version 1.0.0</div>
+				<div data-w3-include-html="./part_menu.html"></div> 
 			</div>
 			
 			<div class="content col-md-9">
-			
-				<div id="infoMariage" class="text-center">
-					<h1>Gestionnaire de mariage.</h1>
-					<div id="maries">Mariage de <span></span> & <span></span></div>
-					<div id="date">le <span></span></div>
-				</div>
+				<div data-w3-include-html="./part_infoMariage.html"></div>
+				<script type="text/javascript" src="./part_infoMariage.js"></script>
 			</div>
 		</div>
 
+		<script type="text/javascript" src="ressources/w3-include-HTML.js"></script> 
 		<script type="text/javascript" src="ressources/jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
 		<script type="text/javascript" src="ressources/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="ressources/bootstrap-datepicker-1.5.1-dist/js/bootstrap-datepicker.min.js"></script>
@@ -65,30 +48,7 @@
 		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxwindow.js"></script>
 		<script type="text/javascript" src="ressources/common.js"></script>
 		<script type="text/javascript">
-			var idMariage = "";
-			
-			// Chargement des données du mariage
-			var chargeDonneesMariage = function() {
-				var req = $.get( REST_PREFIX + "/mariage/" + idMariage);
-				req.success(function(dataString) {
-					var data = eval(dataString);
-					$("#maries span:first").html(data.marie1);
-					$("#maries span:last").html(data.marie2);
-					$("#date span").html(data.dateCelebration);
-				});
-				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("readMariage");});
-			};
-
-
 			$(document).ready(function() {
-			
-				// Redirection si pas de mariage sélectionné
-				idMariage = getIdMariage();
-				if (idMariage === "") {window.location.href="/";}
-				
-				chargeDonneesMariage();
-
-				// Ajout des evenements
 			});
 		</script>
 	</body>
