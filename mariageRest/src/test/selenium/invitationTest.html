@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost/" />
+<title>invitation</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">invitation</td></tr>
+</thead><tbody>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Invitation</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTitle</td>
+	<td>Mariage</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>id=maries</td>
+	<td>Mariage de M &amp; G</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#date &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>css=#date &gt; span</td>
+	<td>01/01/2017</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>css=div.jqx-grid-cell.jqx-grid-empty-cell &gt; span</td>
+	<td>No data to display</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>id=button_afficher_popup_ajouter</td>
+	<td></td>
+</tr>
+<!--Test ajout KO-->
+<tr>
+	<td>click</td>
+	<td>id=button_afficher_popup_ajouter</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//div[@id='popupAjoutInvite']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>id=button_ajouter</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=button_ajouter</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyCssCount</td>
+	<td>.error</td>
+	<td>3</td>
+</tr>
+<!--Test ajout OK-->
+<tr>
+	<td>click</td>
+	<td>id=nom</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=nom</td>
+	<td>nom1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=prenom</td>
+	<td>prenom1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=groupe</td>
+	<td>groupe1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=button_ajouter</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='row0invites']/div[1]/div</td>
+	<td>nom1</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='row0invites']/div[2]/div</td>
+	<td>groupe1</td>
+</tr>
+<!--Test modification-->
+<tr>
+	<td>runScript</td>
+	<td>$(&quot;#invites&quot;).jqxGrid('begincelledit', 0, 'nom');</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=textboxeditorinvitesnom</td>
+	<td>nom1_modif<br /></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>$(&quot;#invites&quot;).jqxGrid('endcelledit', 0, 'nom');</td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>$(&quot;#invites&quot;).jqxGrid('begincelledit', 0, 'groupe');</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=textboxeditorinvitesgroupe</td>
+	<td>groupe1_modif<br /></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>$(&quot;#invites&quot;).jqxGrid('endcelledit', 0, 'groupe');</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Invitation</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='row0invites']/div[1]/div</td>
+	<td>nom1_modif</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='row0invites']/div[2]/div</td>
+	<td>groupe1_modif</td>
+</tr>
+</tbody></table>
+</body>
+</html>

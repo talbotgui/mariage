@@ -16,6 +16,8 @@ X Améliorer la tête des popups
   
 X Ajouter la génération du site de qualimétrie
 
+  Ajouter des tests selenium
+  
   Ajouter un bouton de déconnexion
   
   Trouver une solution de mutualisation d'une part des pages (menu, imports JS et CSS, ...)
