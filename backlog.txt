@@ -16,7 +16,9 @@ X Améliorer la tête des popups
   
 X Ajouter la génération du site de qualimétrie
 
-  Ajouter des tests selenium
+X Ajouter des tests selenium
+  Automatiser les tests selenium
+  Ajouter la couverture de code aux tests selenium
   
   Ajouter un bouton de déconnexion
   

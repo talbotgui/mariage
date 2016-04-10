@@ -2,10 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.github.talbotgui.mariage</groupId>
 	<artifactId>mariageRest</artifactId>
-	<version>1.0.1</version>
 	<name>mariageRest</name>
+	<packaging>war</packaging>
 
 	<parent>
 		<groupId>com.github.talbotgui.mariage</groupId>
@@ -15,11 +14,13 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
+
 		<version.catchException>1.4.4</version.catchException>
 		<version.testng>6.8.13</version.testng>
 		<version.mockito>1.10.19</version.mockito>
 		<version.hsqldb>2.3.3</version.hsqldb>
+		<version.selenium>2.53.0</version.selenium>
+		<version.seleniumHTML>2.52.0</version.seleniumHTML>
 	</properties>
 
 	<build>
@@ -32,6 +33,43 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+
+			<!-- Package Application -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions><execution><goals><goal>repackage</goal></goals></execution>
+				</executions>
+			</plugin>
+
+			<!-- Integration tests -->
+			<plugin>
+				<groupId>com.bazaarvoice.maven.plugins</groupId>
+				<artifactId>process-exec-maven-plugin</artifactId>
+				<version>0.4</version>
+				<executions>
+					<execution>
+						<id>start-jar</id>
+						<phase>pre-integration-test</phase>
+						<goals><goal>start</goal></goals>
+						<configuration>
+							<workingDir>app</workingDir>
+							<healthcheckUrl>http://localhost</healthcheckUrl>
+							<arguments>
+								<argument>java</argument>
+								<argument>-jar</argument>
+								<argument>${project.build.directory}/${artifactId}-${version}.war</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop-jar-process</id>
+						<phase>post-integration-test</phase>
+						<goals><goal>stop-all</goal></goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 
@@ -90,5 +128,23 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${version.selenium}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-htmlunit-driver</artifactId>
+			<version>${version.seleniumHTML}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.2</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>
