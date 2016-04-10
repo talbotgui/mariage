@@ -20,11 +20,11 @@ public class RestApplication {
 
 	private static ApplicationContext ac;
 
-	protected static final String COMPONENT_SCAN_SRV = "com.github.talbotgui.mariage.metier.service";
-	protected static final String COMPONENT_SCAN_WEB = "com.github.talbotgui.mariage.rest.controleur";
-	protected static final String ENTITY_SCAN = "com.github.talbotgui.mariage.metier.entities";
-	protected static final String JPA_REPOSITORIES = "com.github.talbotgui.mariage.metier.dao";
-	protected static final String PROPERTY_SOURCE = "classpath:db-config-prod.properties";
+	public static final String COMPONENT_SCAN_SRV = "com.github.talbotgui.mariage.metier.service";
+	public static final String COMPONENT_SCAN_WEB = "com.github.talbotgui.mariage.rest.controleur";
+	public static final String ENTITY_SCAN = "com.github.talbotgui.mariage.metier.entities";
+	public static final String JPA_REPOSITORIES = "com.github.talbotgui.mariage.metier.dao";
+	public static final String PROPERTY_SOURCE = "classpath:db-config-prod.properties";
 
 	public static ApplicationContext getApplicationContext() {
 		return ac;
