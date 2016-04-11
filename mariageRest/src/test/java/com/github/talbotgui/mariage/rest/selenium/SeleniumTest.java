@@ -35,7 +35,8 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	public void beforeClass() {
 
 		// Pour tester sur l'IC
-		if (!SystemUtils.IS_OS_WINDOWS) {
+		final boolean asIC = false;
+		if (!SystemUtils.IS_OS_WINDOWS || asIC) {
 			driver = new MyDriver(new HtmlUnitDriver(BrowserVersion.FIREFOX_38, true));
 		}
 
@@ -55,6 +56,8 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 
 		//
 		driver.assertPageTitle("Mariage");
+		driver.assertElementNotPresent(By.linkText("Accueil"));
+		driver.assertElementNotPresent(By.linkText("Invitation"));
 		driver.assertElementPresent(By.linkText("Nouveau"));
 		driver.assertElementPresent(By.id("selectionMariage"));
 	}
@@ -103,7 +106,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.click(By.linkText("Invitation"), 50);
+		driver.click(By.linkText("Invitation"), 500);
 
 		//
 		driver.assertElementPresent(By.id("button_afficher_popup_ajouter"));
@@ -149,12 +152,12 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.executeScript("$('#invites').jqxGrid('begincelledit', 0,'nom');", 100);
+		driver.executeScript("$('#invites').jqxGrid('begincelledit', 0,'nom');", 200);
 		driver.type(By.id("textboxeditorinvitesnom"), "nom1_modif", 100);
-		driver.executeScript("$('#invites').jqxGrid('endcelledit', 0,'nom');", 100);
-		driver.executeScript("$('#invites').jqxGrid('begincelledit', 0,'groupe');", 100);
+		driver.executeScript("$('#invites').jqxGrid('endcelledit', 0,'nom');", 500);
+		driver.executeScript("$('#invites').jqxGrid('begincelledit', 0,'groupe');", 200);
 		driver.type(By.id("textboxeditorinvitesgroupe"), "groupe1_modif", 100);
-		driver.executeScript("$('#invites').jqxGrid('endcelledit', 0,'groupe');", 100);
+		driver.executeScript("$('#invites').jqxGrid('endcelledit', 0,'groupe');", 500);
 		driver.click(By.linkText("Invitation"), 500);
 
 		//

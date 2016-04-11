@@ -10,10 +10,12 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 /**
  * Driver personnalisé pour simplifier l'écriture des tests Selenium
@@ -37,6 +39,15 @@ public class MyDriver {
 
 		// Initialisation du timeout par défaut
 		driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+	}
+
+	public void assertElementNotPresent(final By by) {
+		try {
+			driver.findElement(by);
+			Assert.fail("L'élement '" + by.toString() + "' est présent");
+		} catch (final NoSuchElementException e) {
+			// OK
+		}
 	}
 
 	public void assertElementPresent(final By by) {
