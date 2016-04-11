@@ -19,6 +19,7 @@ var setIdMariage = function(idMariage) {
     d.setTime(d.getTime() + (8*60*60*1000));
     var expires = "expires=" + d.toUTCString();
     document.cookie = "idMariage=" + idMariage + "; " + expires;
+    afficheMenu();
 };
 
 /**
