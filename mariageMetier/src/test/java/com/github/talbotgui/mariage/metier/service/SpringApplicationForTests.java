@@ -1,4 +1,4 @@
-package com.github.talbotgui.mariage.metier;
+package com.github.talbotgui.mariage.metier.service;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.orm.jpa.EntityScan;

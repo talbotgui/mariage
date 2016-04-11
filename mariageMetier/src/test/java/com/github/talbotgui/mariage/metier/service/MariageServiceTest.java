@@ -1,4 +1,4 @@
-package com.github.talbotgui.mariage.metier;
+package com.github.talbotgui.mariage.metier.service;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

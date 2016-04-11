@@ -1,4 +1,4 @@
-package com.github.talbotgui.mariage.metier;
+package com.github.talbotgui.mariage.metier.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,11 +17,15 @@ public class ObjectMother {
 		return new PresenceEtape(e, false);
 	}
 
-	public static Mariage creeMariageSimple() throws ParseException {
+	public static Mariage creeMariageSeul() throws ParseException {
 		final SimpleDateFormat da = new SimpleDateFormat("dd/MM/yyyy");
+		return new Mariage(da.parse("15/07/2016"), "Marie", "Guillaume");
+	}
+
+	public static Mariage creeMariageSimple() throws ParseException {
 		final SimpleDateFormat dh = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-		final Mariage mariage = new Mariage(da.parse("15/07/2016"), "Marie", "Guillaume");
+		final Mariage mariage = creeMariageSeul();
 
 		final Etape a = new EtapeCeremonie("Accueil", dh.parse("15/07/2016 13:00"), "Parking du chateau");
 		final Etape b = new EtapeCeremonie("Eglise", dh.parse("15/07/2016 14:00"), "Eglise de Ham", "Abbé Fromont");

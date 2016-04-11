@@ -11,10 +11,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.github.talbotgui.mariage.metier.entities.securite.Autorisation;
+
 @Entity
 public class Mariage implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	@OneToMany(mappedBy = "mariage")
+	private Collection<Autorisation> autorisations;
 
 	private Date dateCelebration;
 
@@ -58,6 +63,10 @@ public class Mariage implements Serializable {
 		this.invites.add(i);
 	}
 
+	public Collection<Autorisation> getAutorisations() {
+		return autorisations;
+	}
+
 	public Date getDateCelebration() {
 		if (this.dateCelebration != null) {
 			return new Date(this.dateCelebration.getTime());
@@ -85,6 +94,10 @@ public class Mariage implements Serializable {
 
 	public String getMarie2() {
 		return marie2;
+	}
+
+	public void setAutorisations(final Collection<Autorisation> autorisations) {
+		this.autorisations = autorisations;
 	}
 
 	public void setDateCelebration(final Date dateCelebration) {
