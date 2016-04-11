@@ -16,6 +16,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import com.github.talbotgui.mariage.metier.service.MariageService;
+import com.github.talbotgui.mariage.metier.service.SecuriteService;
 import com.github.talbotgui.mariage.rest.application.RestTestApplication;
 
 @SpringApplicationConfiguration(classes = { RestTestApplication.class })
@@ -40,6 +41,10 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	@InjectMocks
 	private MariageRestControler mariageCtrl;
 
+	/** Mock de service créé par Mockito. */
+	@Mock
+	protected MariageService mariageService;
+
 	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
 	@Autowired
 	@InjectMocks
@@ -50,7 +55,12 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 
 	/** Mock de service créé par Mockito. */
 	@Mock
-	protected MariageService service;
+	protected SecuriteService securiteService;
+
+	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
+	@Autowired
+	@InjectMocks
+	private UtilisateurRestControler utilisateurCtrl;
 
 	/** Pour créer les mock. */
 	@BeforeClass
@@ -62,7 +72,7 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	@BeforeMethod
 	public void beforeMethod() {
 		LOG.info("*****************************************");
-		Mockito.reset(this.service);
+		Mockito.reset(this.mariageService, this.securiteService);
 	}
 
 	/**

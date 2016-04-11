@@ -22,6 +22,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
 import com.googlecode.catchexception.CatchException;
 
@@ -204,6 +205,21 @@ public class SecuriteServiceTest {
 		//
 		Assert.assertNotNull(CatchException.caughtException());
 		Assert.assertTrue(BusinessException.equals(CatchException.caughtException(), BusinessException.ERREUR_LOGIN));
+	}
+
+	@Test
+	public void test06ListeUtilisateurs() {
+		//
+		this.instance.creeUtilisateur("monLogin1", "monMdp");
+		this.instance.creeUtilisateur("monLogin2", "monMdp");
+		this.instance.creeUtilisateur("monLogin3", "monMdp");
+		this.instance.creeUtilisateur("monLogin4", "monMdp");
+
+		//
+		final Collection<Utilisateur> liste = this.instance.listeUtilisateurs();
+
+		//
+		Assert.assertEquals(4, liste.size());
 	}
 
 }

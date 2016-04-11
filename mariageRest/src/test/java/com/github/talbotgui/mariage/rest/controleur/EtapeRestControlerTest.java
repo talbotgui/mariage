@@ -36,7 +36,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		final List<Etape> toReturn = Arrays.asList(new EtapeCeremonie("E1", new Date(), "L1"),
 				new EtapeCeremonie("E2", new Date(), "L1"), new EtapeCeremonie("E4", new Date(), "L3"),
 				new EtapeCeremonie("E3", new Date(), "L2"), new EtapeCeremonie("E5", new Date(), "L2"));
-		Mockito.doReturn(toReturn).when(this.service).listeEtapesParIdMariage(Mockito.anyLong());
+		Mockito.doReturn(toReturn).when(this.mariageService).listeEtapesParIdMariage(Mockito.anyLong());
 
 		// ACT
 		final ParameterizedTypeReference<Collection<EtapeDTO>> typeRetour = new ParameterizedTypeReference<Collection<EtapeDTO>>() {
@@ -46,8 +46,8 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 
 		// ASSERT
 		Assert.assertEquals(invites.getBody().size(), 5);
-		Mockito.verify(this.service).listeEtapesParIdMariage(idMariage);
-		Mockito.verifyNoMoreInteractions(this.service);
+		Mockito.verify(this.mariageService).listeEtapesParIdMariage(idMariage);
+		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
 	@Test
@@ -58,7 +58,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		final Long idEtape = 100L;
 		final ArgumentCaptor<Etape> argumentCaptorEtape = ArgumentCaptor.forClass(Etape.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doReturn(idEtape).when(this.service).sauvegarde(argumentCaptorIdMariage.capture(),
+		Mockito.doReturn(idEtape).when(this.mariageService).sauvegarde(argumentCaptorIdMariage.capture(),
 				argumentCaptorEtape.capture());
 
 		final String nom = "N1";
@@ -87,8 +87,8 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 				dateHeure);
 		Assert.assertEquals(argumentCaptorEtape.getValue().getClass().getSimpleName(), type);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.service).sauvegarde(Mockito.anyLong(), Mockito.any(Etape.class));
-		Mockito.verifyNoMoreInteractions(this.service);
+		Mockito.verify(this.mariageService).sauvegarde(Mockito.anyLong(), Mockito.any(Etape.class));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
 	@Test
@@ -119,7 +119,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
 		Assert.assertTrue(((HttpStatusCodeException) CatchException.caughtException()).getResponseBodyAsString()
 				.contains(dateHeure));
-		Mockito.verifyNoMoreInteractions(this.service);
+		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
 	@Test
@@ -130,7 +130,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		final Long idEtape = 100L;
 		final ArgumentCaptor<Etape> argumentCaptorEtape = ArgumentCaptor.forClass(Etape.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doReturn(idEtape).when(this.service).sauvegarde(argumentCaptorIdMariage.capture(),
+		Mockito.doReturn(idEtape).when(this.mariageService).sauvegarde(argumentCaptorIdMariage.capture(),
 				argumentCaptorEtape.capture());
 
 		final String nom = "N1";
@@ -157,8 +157,8 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 				dateHeure);
 		Assert.assertEquals(argumentCaptorEtape.getValue().getClass().getSimpleName(), type);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.service).sauvegarde(Mockito.anyLong(), Mockito.any(Etape.class));
-		Mockito.verifyNoMoreInteractions(this.service);
+		Mockito.verify(this.mariageService).sauvegarde(Mockito.anyLong(), Mockito.any(Etape.class));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
 	@Test
@@ -188,7 +188,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
 		Assert.assertTrue(
 				((HttpStatusCodeException) CatchException.caughtException()).getResponseBodyAsString().contains(type));
-		Mockito.verifyNoMoreInteractions(this.service);
+		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
 	@Test
@@ -199,7 +199,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		final Long idEtape = 100L;
 		final ArgumentCaptor<Long> argumentCaptorIdIEtape = ArgumentCaptor.forClass(Long.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doNothing().when(this.service).suprimeEtape(argumentCaptorIdMariage.capture(),
+		Mockito.doNothing().when(this.mariageService).suprimeEtape(argumentCaptorIdMariage.capture(),
 				argumentCaptorIdIEtape.capture());
 
 		// ACT
@@ -210,8 +210,8 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		Assert.assertEquals(argumentCaptorIdIEtape.getValue(), idEtape);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.service).suprimeEtape(Mockito.anyLong(), Mockito.anyLong());
-		Mockito.verifyNoMoreInteractions(this.service);
+		Mockito.verify(this.mariageService).suprimeEtape(Mockito.anyLong(), Mockito.anyLong());
+		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
 }

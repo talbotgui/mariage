@@ -18,7 +18,7 @@ public class ParametreRestControlerTest extends BaseRestControlerTest {
 
 		// ARRANGE
 		final List<String> toReturn = Arrays.asList("1", "2", "3");
-		Mockito.doReturn(toReturn).when(this.service).listeAgePossible();
+		Mockito.doReturn(toReturn).when(this.mariageService).listeAgePossible();
 
 		// ACT
 		final ParameterizedTypeReference<Collection<String>> typeRetour = new ParameterizedTypeReference<Collection<String>>() {
@@ -29,7 +29,7 @@ public class ParametreRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertNotNull(ages.getBody());
 		Assert.assertEquals(ages.getBody(), toReturn);
-		Mockito.verify(this.service).listeAgePossible();
-		Mockito.verifyNoMoreInteractions(this.service);
+		Mockito.verify(this.mariageService).listeAgePossible();
+		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 }

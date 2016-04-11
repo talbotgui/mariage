@@ -35,7 +35,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 				new Invite("G1", "I4", "P1", Age.adulte), new Invite("G2", "I1", "P1", Age.adulte),
 				new Invite("G2", "I2", "P1", Age.adulte), new Invite("G2", "I3", "P1", Age.adulte),
 				new Invite("G2", "I4", "P1", Age.adulte));
-		Mockito.doReturn(toReturn).when(this.service).listeInvitesParIdMariage(Mockito.anyLong());
+		Mockito.doReturn(toReturn).when(this.mariageService).listeInvitesParIdMariage(Mockito.anyLong());
 
 		// ACT
 		final ParameterizedTypeReference<Collection<InviteDTO>> typeRetour = new ParameterizedTypeReference<Collection<InviteDTO>>() {
@@ -45,8 +45,8 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 
 		// ASSERT
 		Assert.assertEquals(invites.getBody().size(), 8);
-		Mockito.verify(this.service).listeInvitesParIdMariage(idMariage);
-		Mockito.verifyNoMoreInteractions(this.service);
+		Mockito.verify(this.mariageService).listeInvitesParIdMariage(idMariage);
+		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
 	@Test
@@ -57,7 +57,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final Long idInvite = 100L;
 		final ArgumentCaptor<Invite> argumentCaptorInvite = ArgumentCaptor.forClass(Invite.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doReturn(idInvite).when(this.service).sauvegarde(argumentCaptorIdMariage.capture(),
+		Mockito.doReturn(idInvite).when(this.mariageService).sauvegarde(argumentCaptorIdMariage.capture(),
 				argumentCaptorInvite.capture());
 
 		final String nom = "InviteA";
@@ -83,8 +83,8 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(argumentCaptorInvite.getValue().getGroupe(), groupe);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getAge().toString(), age);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.service).sauvegarde(Mockito.anyLong(), Mockito.any(Invite.class));
-		Mockito.verifyNoMoreInteractions(this.service);
+		Mockito.verify(this.mariageService).sauvegarde(Mockito.anyLong(), Mockito.any(Invite.class));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
 	@Test
@@ -113,7 +113,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
 		Assert.assertTrue(
 				((HttpStatusCodeException) CatchException.caughtException()).getResponseBodyAsString().contains(age));
-		Mockito.verifyNoMoreInteractions(this.service);
+		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
 	@Test
@@ -140,7 +140,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
 		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
-		Mockito.verifyNoMoreInteractions(this.service);
+		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
 	@Test
@@ -151,7 +151,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final Long idInvite = 100L;
 		final ArgumentCaptor<Long> argumentCaptorIdInvite = ArgumentCaptor.forClass(Long.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doNothing().when(this.service).suprimeInvite(argumentCaptorIdMariage.capture(),
+		Mockito.doNothing().when(this.mariageService).suprimeInvite(argumentCaptorIdMariage.capture(),
 				argumentCaptorIdInvite.capture());
 
 		// ACT
@@ -162,8 +162,8 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		Assert.assertEquals(argumentCaptorIdInvite.getValue(), idInvite);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.service).suprimeInvite(Mockito.anyLong(), Mockito.anyLong());
-		Mockito.verifyNoMoreInteractions(this.service);
+		Mockito.verify(this.mariageService).suprimeInvite(Mockito.anyLong(), Mockito.anyLong());
+		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
 }

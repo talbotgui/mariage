@@ -3,6 +3,7 @@ package com.github.talbotgui.mariage.metier.service;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,11 @@ public class SecuriteServiceImpl implements SecuriteService {
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 			throw new BusinessException(BusinessException.ERREUR_SHA);
 		}
+	}
+
+	@Override
+	public Collection<Utilisateur> listeUtilisateurs() {
+		return this.utilisateurRepo.listeUtilisateur();
 	}
 
 	@Override

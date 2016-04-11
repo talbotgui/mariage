@@ -52,4 +52,9 @@ public class Utilisateur {
 		this.mdp = mdp;
 	}
 
+	@Override
+	public String toString() {
+		return "Utilisateur [login=" + login + ", mdp=" + mdp + "]";
+	}
+
 }
