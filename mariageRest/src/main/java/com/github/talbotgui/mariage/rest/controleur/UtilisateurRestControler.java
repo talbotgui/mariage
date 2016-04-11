@@ -6,6 +6,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,12 +17,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.talbotgui.mariage.metier.service.SecuriteService;
 import com.github.talbotgui.mariage.rest.controleur.dto.AbstractDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.UtilisateurDTO;
+import com.github.talbotgui.mariage.rest.security.SecurityFilter;
 
 @RestController
 public class UtilisateurRestControler {
 
 	@Autowired
 	private SecuriteService securiteService;
+
+	@RequestMapping(value = SecurityFilter.LOGIN_REST, method = POST)
+	public void connexion(//
+			@RequestParam(value = "login") final String login, //
+			@RequestParam(value = "mdp") final String mdp, //
+			final HttpServletRequest request) {
+		this.securiteService.verifieUtilisateur(login, mdp);
+		request.getSession().setAttribute("USER_LOGIN", login);
+	}
 
 	@RequestMapping(value = "/utilisateur", method = GET)
 	public Collection<UtilisateurDTO> listeUtilisateur() {
