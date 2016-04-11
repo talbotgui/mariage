@@ -71,10 +71,19 @@ $.fn.serializeObject = function() {
  * Validation de formulaire
  */
 var valideForm = function(formSelector, callback) {
-	var inputs = $(formSelector + " :input[required]");
-	inputs.removeClass("error");
-	var nbError = inputs.filter(function() {return !this.value;}).addClass("error").length;
-	if (nbError == 0) {
+
+	var inputsRequired = $(formSelector + " :input[required]");
+	var inputsMinLength = $(formSelector + " :input[data-minLength]");
+
+	inputsRequired.removeClass("error");
+	inputsMinLength.removeClass("error");
+
+	var errors = inputsRequired.filter(function() {return !this.value;});
+	errors = errors.add(inputsMinLength.filter(function() { return this.value.length < $(this).attr("data-minLength") ;}));
+	errors.addClass("error");
+
+	// Do it
+	if (errors.length == 0) {
 		var data = $(formSelector).serialize();
 		callback(data);
 	}

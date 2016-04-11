@@ -109,7 +109,6 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		driver.click(By.linkText("Invitation"), 500);
 
 		//
-		driver.assertElementPresent(By.id("button_afficher_popup_ajouter"));
 		driver.assertPageTitle("Mariage");
 		driver.assertTextEquals(By.id("maries"), "Mariage de M & G");
 		driver.assertTextEquals(By.cssSelector("#date > span"), "01/01/2017");
@@ -164,4 +163,49 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[1]/div"), "nom1_modif");
 		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[2]/div"), "groupe1_modif");
 	}
+
+	@Test
+	public void test03Admin01accesPage() throws InterruptedException {
+		//
+
+		//
+		driver.click(By.linkText("Administration"), 500);
+
+		//
+		driver.assertPageTitle("Mariage");
+		driver.assertTextEquals(By.id("maries"), "Mariage de M & G");
+		driver.assertTextEquals(By.cssSelector("#date > span"), "01/01/2017");
+		driver.assertTextEquals(By.cssSelector("div.jqx-grid-cell.jqx-grid-empty-cell > span"), "No data to display");
+		driver.assertElementPresent(By.id("button_afficher_popup_ajouter_utilisateur"));
+	}
+
+	@Test
+	public void test03Admin02ajoutKo() throws InterruptedException {
+
+		//
+		driver.click(By.id("button_afficher_popup_ajouter_utilisateur"), 500);
+		driver.assertElementPresent(By.id("button_ajouter_utilisateur"));
+		driver.assertElementPresent(By.xpath("//div[@id='popupAjoutUtilisateur']"));
+
+		//
+		driver.click(By.id("button_ajouter_utilisateur"), 500);
+
+		//
+		assertEquals(driver.getRealDriver().findElements(By.className("error")).size(), 2);
+	}
+
+	@Test
+	public void test03Admin03ajoutOk() throws InterruptedException {
+		//
+
+		//
+		driver.type(By.id("login"), "monLogin", 200);
+		driver.type(By.id("mdp"), "monMdp", 200);
+		driver.click(By.id("button_ajouter_utilisateur"), 500);
+
+		//
+		driver.assertTextEquals(By.xpath("//div[@id='row0utilisateurs']/div[1]/div"), "monLogin");
+		driver.assertTextEquals(By.xpath("//div[@id='row0utilisateurs']/div[2]/div"), "monMdp");
+	}
+
 }

@@ -19,6 +19,10 @@ public class UtilisateurDTO extends AbstractDTO {
 		}
 	}
 
+	public String getId() {
+		return this.login;
+	}
+
 	public String getLogin() {
 		return login;
 	}

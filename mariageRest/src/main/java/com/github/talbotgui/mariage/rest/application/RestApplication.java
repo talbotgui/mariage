@@ -8,6 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import com.github.talbotgui.mariage.metier.service.SecuriteService;
+
 /**
  * Une configuration Spring-boot pour l'application. Cette classe remplace le traditionnel fichier XML.
  */
@@ -36,6 +38,12 @@ public class RestApplication {
 
 	public static void start() {
 		ac = SpringApplication.run(RestApplication.class);
+
+		// Si aucun utilisateur au base, on en crée un par défaut
+		final SecuriteService securiteService = ac.getBean(SecuriteService.class);
+		if (securiteService.listeUtilisateurs().isEmpty()) {
+			securiteService.creeUtilisateur("adminAsupprimer", "adminAsupprimer");
+		}
 	}
 
 	public static void stop() {
