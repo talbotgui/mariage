@@ -55,15 +55,15 @@ public class MyDriver {
 	}
 
 	public void assertPageTitle(final String title) {
-		assertEquals(driver.getTitle(), title);
+		assertEquals(title, driver.getTitle());
 	}
 
 	public void assertTextEquals(final By by, final String text) {
-		assertEquals(driver.findElement(by).getText(), text);
+		assertEquals(text, driver.findElement(by).getText());
 	}
 
 	public void assertValueEquals(final By by, final String value) {
-		assertEquals(driver.findElement(by).getAttribute("value"), value);
+		assertEquals(value, driver.findElement(by).getAttribute("value"));
 	}
 
 	public void click(final By by, final long timeToWait) throws InterruptedException {
