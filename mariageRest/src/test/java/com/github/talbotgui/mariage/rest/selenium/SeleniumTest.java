@@ -205,7 +205,6 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 
 		//
 		driver.assertTextEquals(By.xpath("//div[@id='row0utilisateurs']/div[1]/div"), "monLogin");
-		driver.assertTextEquals(By.xpath("//div[@id='row0utilisateurs']/div[2]/div"), "monMdp");
 	}
 
 }
