@@ -5,7 +5,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.slf4j.Logger;
@@ -39,12 +38,7 @@ public class MariageRestControler {
 	@RequestMapping(value = "/mariage", method = GET)
 	public Collection<MariageDTO> listeTousMariages() {
 		final Collection<Mariage> mariages = this.mariageService.listeTousMariages();
-
-		final Collection<MariageDTO> dtos = new ArrayList<>();
-		for (final Mariage m : mariages) {
-			dtos.add(new MariageDTO(m));
-		}
-		return dtos;
+		return AbstractDTO.creerDto(mariages, MariageDTO.class);
 	}
 
 	@RequestMapping(value = "/mariage", method = POST)
