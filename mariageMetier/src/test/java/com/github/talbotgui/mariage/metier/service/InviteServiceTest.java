@@ -32,7 +32,6 @@ import com.github.talbotgui.mariage.metier.entities.Mariage;
 import com.github.talbotgui.mariage.metier.entities.comparator.InviteComparator;
 import com.github.talbotgui.mariage.metier.exception.BaseException;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
-import com.github.talbotgui.mariage.metier.service.MariageService;
 import com.googlecode.catchexception.CatchException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -102,7 +101,7 @@ public class InviteServiceTest {
 		final String nom = "N1";
 		final String prenom = "P1";
 		final Age age = Age.adulte;
-		final Long id = this.instance.sauvegarde(idMariage, new Invite(groupe, nom, prenom, age));
+		final Long id = this.instance.sauvegarde(idMariage, new Invite(null, groupe, nom, prenom, age));
 
 		// ASSERT
 		Assert.assertNotNull(id);

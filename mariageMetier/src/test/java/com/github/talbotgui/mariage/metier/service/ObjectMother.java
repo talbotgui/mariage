@@ -19,7 +19,7 @@ public class ObjectMother {
 
 	public static Mariage creeMariageSeul() throws ParseException {
 		final SimpleDateFormat da = new SimpleDateFormat("dd/MM/yyyy");
-		return new Mariage(da.parse("15/07/2016"), "Marie", "Guillaume");
+		return new Mariage(da.parse("01/01/2016"), "M", "G");
 	}
 
 	public static Mariage creeMariageSimple() throws ParseException {
@@ -27,12 +27,12 @@ public class ObjectMother {
 
 		final Mariage mariage = creeMariageSeul();
 
-		final Etape a = new EtapeCeremonie("Accueil", dh.parse("15/07/2016 13:00"), "Parking du chateau");
-		final Etape b = new EtapeCeremonie("Eglise", dh.parse("15/07/2016 14:00"), "Eglise de Ham", "Abbé Fromont");
-		final Etape c = new EtapeCeremonie("Marie", dh.parse("15/07/2016 15:00"), "Marie de Ham", "Grégory Labille");
-		final Etape d = new EtapeCeremonie("Photos", dh.parse("15/07/2016 16:00"), "Park Délicourt");
-		final Etape e = new EtapeRepas("Vin d'honneur", dh.parse("15/07/2016 17:00"), "Grenier de Rouez");
-		final Etape f = new EtapeRepas("Repas", dh.parse("15/07/2016 21:00"), "Grenier de Rouez");
+		final Etape a = new EtapeCeremonie(null, "Accueil", dh.parse("01/01/2016 13:00"), "Parking", "quelquUn");
+		final Etape b = new EtapeCeremonie("Eglise", dh.parse("01/01/2016 14:00"), "Eglise", "Curé");
+		final Etape c = new EtapeCeremonie("Mairie", dh.parse("01/01/2016 15:00"), "Mairie", "Maire");
+		final Etape d = new EtapeCeremonie("Photos", dh.parse("01/01/2016 16:00"), "Park");
+		final Etape e = new EtapeRepas("Vin d'honneur", dh.parse("01/01/2016 17:00"), "Salle");
+		final Etape f = new EtapeRepas("Repas", dh.parse("01/01/2016 21:00"), "Salle");
 		mariage.addEtape(a);
 		mariage.addEtape(b);
 		mariage.addEtape(c);

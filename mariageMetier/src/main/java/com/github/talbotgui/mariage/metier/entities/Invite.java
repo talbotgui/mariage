@@ -42,12 +42,8 @@ public class Invite implements Serializable {
 	}
 
 	public Invite(final Long id, final String groupe, final String nom, final String prenom, final Age age) {
-		super();
-		this.groupe = groupe;
+		this(groupe, nom, prenom, age);
 		this.id = id;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.age = age;
 	}
 
 	public Invite(final String groupe, final String nom, final String prenom, final Age age) {
