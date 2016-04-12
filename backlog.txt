@@ -22,7 +22,7 @@ X Ajouter la couverture de code aux tests selenium (fait sur le poste WINDOWS)
   
 X Ajouter une page "gestion des utilisateurs" pour l'admin (Utilisateur={nom, prenom, login, mdpSHA})
 X Ajouter une page de login
-  Ajouter un bouton de déconnexion
+X Ajouter un bouton de déconnexion
   
 X Trouver une solution de mutualisation d'une part des pages (menu, imports JS et CSS, ...) => <link type="import" n'est pas encore supporté par les navigateurs (pas par défaut)
   

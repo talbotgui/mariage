@@ -6,7 +6,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.Collection;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,19 +31,40 @@ public class UtilisateurRestControler {
 	public void connexion(//
 			@RequestParam(value = "login") final String login, //
 			@RequestParam(value = "mdp") final String mdp, //
-			final HttpServletRequest request) {
+			final HttpServletRequest request, //
+			final HttpServletResponse response) {
 		this.securiteService.verifieUtilisateur(login, mdp);
 		request.getSession().setAttribute("USER_LOGIN", login);
+		resetCookieIdMariage(request, response);
 	}
 
 	@RequestMapping(value = SecurityFilter.LOGOUT_REST, method = GET)
-	public void deconnexion(final HttpServletRequest request) {
+	public void deconnexion(final HttpServletRequest request, final HttpServletResponse response) {
 		request.getSession().removeAttribute("USER_LOGIN");
+		request.getSession().invalidate();
+		resetCookieIdMariage(request, response);
 	}
 
 	@RequestMapping(value = "/utilisateur", method = GET)
 	public Collection<UtilisateurDTO> listeUtilisateur() {
 		return AbstractDTO.creerDto(this.securiteService.listeUtilisateurs(), UtilisateurDTO.class);
+	}
+
+	/**
+	 * Suppression du cookie idMariage
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	private void resetCookieIdMariage(final HttpServletRequest request, final HttpServletResponse response) {
+		if (request.getCookies() != null) {
+			for (final Cookie c : request.getCookies()) {
+				if ("idMariage".equals(c.getName())) {
+					c.setMaxAge(0);
+					response.addCookie(c);
+				}
+			}
+		}
 	}
 
 	@RequestMapping(value = "/utilisateur", method = POST)

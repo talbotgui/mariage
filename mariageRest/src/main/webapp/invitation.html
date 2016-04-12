@@ -119,15 +119,19 @@
 					var dataAdapter = new $.jqx.dataAdapter({
 						datatype: "json",
 						url: REST_PREFIX + "/mariage/" + idMariage + "/invite",
-						datafields: [{ name: 'id', type: 'string' },{ name: 'groupe', type: 'string' },{ name: 'nom', type: 'string' }],
+						datafields: [
+							{ name: 'id', type: 'string' },
+							{ name: 'groupe', type: 'string' },{ name: 'foyer', type: 'string' },
+							{ name: 'nom', type: 'string' },{ name: 'prenom', type: 'string' }
+						],
 						id: 'id'
 					});
 					var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties) { return '<a href="javascript:supprimeInvite(' + value + ')" id="btn' + value + '"><span class="ui-icon ui-icon-trash"></span></a>' };
 					$("#invites").jqxGrid({
 						source: dataAdapter,
 						columns: [
-							{ text: 'Nom', datafield: 'nom', width: "45%" },
-							{ text: 'Groupe', datafield: 'groupe', width: "45%" },
+							{ text: 'Groupe', datafield: 'groupe', width: "20%" }, { text: 'Foyer', datafield: 'foyer', width: "20%" },
+							{ text: 'Nom', datafield: 'nom', width: "25%" }, { text: 'Prenom', datafield: 'prenom', width: "25%" },
 							{ text: 'Actions', datafield: 'id', width: "10%", editable: false, sortable: false, menu: false, cellsrenderer: rendererColonneBouton }
 						],
 						editable: true,

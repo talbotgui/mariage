@@ -37,6 +37,7 @@ public class InviteRestControler {
 			@RequestParam(required = false, value = "prenom") final String prenom, //
 			@RequestParam(required = false, value = "age") final String age, //
 			@RequestParam(required = false, value = "groupe") final String groupe, //
+			@RequestParam(required = false, value = "foyer") final String foyer, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
 
 		Age ageEnum = null;
@@ -48,7 +49,9 @@ public class InviteRestControler {
 			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE, e,
 					new Object[] { "age", Age.values(), age });
 		}
-		return this.mariageService.sauvegarde(idMariage, new Invite(id, groupe, nom, prenom, ageEnum));
+		final Invite invite = new Invite(id, groupe, nom, prenom, ageEnum);
+		invite.setFoyer(foyer);
+		return this.mariageService.sauvegarde(idMariage, invite);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite/{idInvite}", method = DELETE)

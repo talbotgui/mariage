@@ -11,11 +11,13 @@ import com.github.talbotgui.mariage.metier.entities.PresenceEtape;
 public class InviteDTO extends AbstractDTO {
 
 	private String age;
+	private String foyer;
 	private String groupe;
 	private Long id;
-	private String nom;
-	private String prenom;
 
+	private String nom;
+
+	private String prenom;
 	private Map<Long, Boolean> presencesEtape = new HashMap<>();
 
 	public InviteDTO() {
@@ -29,6 +31,7 @@ public class InviteDTO extends AbstractDTO {
 			final Invite i = (Invite) entity;
 			this.id = i.getId();
 			this.groupe = i.getGroupe();
+			this.foyer = i.getFoyer();
 			this.nom = i.getNom();
 			this.prenom = i.getPrenom();
 			if (i.getAge() != null) {
@@ -45,6 +48,10 @@ public class InviteDTO extends AbstractDTO {
 
 	public String getAge() {
 		return age;
+	}
+
+	public String getFoyer() {
+		return foyer;
 	}
 
 	public String getGroupe() {
@@ -69,6 +76,10 @@ public class InviteDTO extends AbstractDTO {
 
 	public void setAge(final String age) {
 		this.age = age;
+	}
+
+	public void setFoyer(final String foyer) {
+		this.foyer = foyer;
 	}
 
 	public void setGroupe(final String groupe) {

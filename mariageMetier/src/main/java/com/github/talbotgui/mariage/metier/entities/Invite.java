@@ -19,6 +19,8 @@ public class Invite implements Serializable {
 
 	private Age age;
 
+	private String foyer;
+
 	private String groupe;
 
 	@Id
@@ -64,6 +66,10 @@ public class Invite implements Serializable {
 		return age;
 	}
 
+	public String getFoyer() {
+		return foyer;
+	}
+
 	public String getGroupe() {
 		return groupe;
 	}
@@ -90,6 +96,10 @@ public class Invite implements Serializable {
 
 	public void setAge(final Age age) {
 		this.age = age;
+	}
+
+	public void setFoyer(final String foyer) {
+		this.foyer = foyer;
 	}
 
 	public void setGroupe(final String groupe) {
