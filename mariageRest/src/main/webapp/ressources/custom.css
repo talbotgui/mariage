@@ -10,4 +10,4 @@
 .ui-dialog { z-index: 9999; }
 
 .popup {  }
-.error { border-color: red; }
+.error { border-color: red!important; }
