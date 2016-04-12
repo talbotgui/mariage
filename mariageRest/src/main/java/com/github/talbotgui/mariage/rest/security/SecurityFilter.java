@@ -12,11 +12,15 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 @WebFilter(urlPatterns = "/*")
 public class SecurityFilter implements Filter {
+
+	private static final Logger LOG = LoggerFactory.getLogger(SecurityFilter.class);
 
 	private static final String LOGIN_PAGE = "/login.html";
 	public static final String LOGIN_REST = "/dologin";
@@ -32,14 +36,22 @@ public class SecurityFilter implements Filter {
 		final HttpServletRequest request = (HttpServletRequest) req;
 		final HttpServletResponse response = (HttpServletResponse) res;
 
-		// Securité
-		if (isPageProtegee(request.getRequestURI()) && request.getSession().getAttribute("USER_LOGIN") == null) {
-			response.sendRedirect(request.getContextPath() + LOGIN_PAGE);
+		final boolean pageProtegee = isPageProtegee(request.getRequestURI());
+		LOG.debug("{} => {}", request.getRequestURI(), pageProtegee);
+
+		// Page sécurisée et login valide
+		if (pageProtegee && request.getSession().getAttribute("USER_LOGIN") != null) {
+			chain.doFilter(request, response);
 		}
 
-		// si utilisateur connecté
-		else {
+		// Page non sécurisée
+		else if (!pageProtegee) {
 			chain.doFilter(request, response);
+		}
+
+		// Sinon
+		else {
+			response.sendRedirect(request.getContextPath() + LOGIN_PAGE);
 		}
 	}
 
