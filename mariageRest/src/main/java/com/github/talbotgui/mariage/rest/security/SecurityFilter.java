@@ -20,6 +20,7 @@ public class SecurityFilter implements Filter {
 
 	private static final String LOGIN_PAGE = "/login.html";
 	public static final String LOGIN_REST = "/dologin";
+	public static final String LOGOUT_REST = "/dologout";
 
 	@Override
 	public void destroy() {

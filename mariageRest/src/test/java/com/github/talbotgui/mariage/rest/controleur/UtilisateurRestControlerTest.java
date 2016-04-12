@@ -136,4 +136,15 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 
+	@Test
+	public void test05Logout() {
+
+		// ARRANGE
+
+		// ACT
+		getREST().getForObject(getURL() + "/dologout", Void.class);
+
+		// ASSERT
+		// Nothing to do
+	}
 }

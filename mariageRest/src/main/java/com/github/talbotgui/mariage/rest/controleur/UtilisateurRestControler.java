@@ -34,6 +34,11 @@ public class UtilisateurRestControler {
 		request.getSession().setAttribute("USER_LOGIN", login);
 	}
 
+	@RequestMapping(value = SecurityFilter.LOGOUT_REST, method = GET)
+	public void deconnexion(final HttpServletRequest request) {
+		request.getSession().removeAttribute("USER_LOGIN");
+	}
+
 	@RequestMapping(value = "/utilisateur", method = GET)
 	public Collection<UtilisateurDTO> listeUtilisateur() {
 		return AbstractDTO.creerDto(this.securiteService.listeUtilisateurs(), UtilisateurDTO.class);
