@@ -14,11 +14,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur;
+import com.github.talbotgui.mariage.metier.exception.BusinessException;
 import com.github.talbotgui.mariage.rest.controleur.dto.UtilisateurDTO;
+import com.googlecode.catchexception.CatchException;
 
 public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 
@@ -82,6 +85,54 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		Assert.assertEquals(argumentCaptor.getValue(), login);
 		Mockito.verify(this.securiteService).supprimeUtilisateur(Mockito.anyString());
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+	}
+
+	@Test
+	public void test04Login01Ok() {
+
+		// ARRANGE
+		Mockito.doNothing().when(this.securiteService).verifieUtilisateur(Mockito.anyString(), Mockito.anyString());
+
+		final String login = "monLogin";
+		final String mdp = "monMdp";
+		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		requestParam.add("login", login);
+		requestParam.add("mdp", mdp);
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		getREST().postForObject(getURL() + "/dologin", requestParam, Void.class, uriVars);
+
+		// ASSERT
+		Mockito.verify(this.securiteService).verifieUtilisateur(login, mdp);
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+	}
+
+	@Test
+	public void test04Login02Ko() {
+
+		// ARRANGE
+		Mockito.doThrow(new BusinessException(BusinessException.ERREUR_LOGIN)).when(this.securiteService)
+				.verifieUtilisateur(Mockito.anyString(), Mockito.anyString());
+
+		final String login = "monLogin";
+		final String mdp = "monMdp";
+		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		requestParam.add("login", login);
+		requestParam.add("mdp", mdp);
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		CatchException.catchException(getREST()).postForObject(getURL() + "/dologin", requestParam, Void.class,
+				uriVars);
+
+		// ASSERT
+		Assert.assertNotNull(CatchException.caughtException());
+		Assert.assertEquals(CatchException.caughtException().getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(HttpStatus.FORBIDDEN,
+				((HttpClientErrorException) CatchException.caughtException()).getStatusCode());
+		Mockito.verify(this.securiteService).verifieUtilisateur(login, mdp);
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 
