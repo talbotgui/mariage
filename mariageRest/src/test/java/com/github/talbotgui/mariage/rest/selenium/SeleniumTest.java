@@ -169,7 +169,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.click(By.linkText("Administration"), 500);
+		driver.click(By.linkText("Administration"), 1000);
 
 		//
 		driver.assertPageTitle("Mariage");
