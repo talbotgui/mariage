@@ -26,7 +26,9 @@ var setIdMariage = function(idMariage) {
  * Affiche le menu et sélectionne le bon élément
  */
 var afficheMenu = function() {
-	$(".nav a[href$='" + window.location.pathname.substring(1) + "']").parent().addClass("active");
+	var nomPage = window.location.pathname.substring(1);
+	if (nomPage === "") { nomPage = "index.html"; }
+	$(".nav a[href$='" + nomPage + "']").parent().addClass("active");
 	$("div[role=navigation]").show();
 };
 
@@ -148,6 +150,18 @@ var majAttribute = function (url, event, success) {
 	var req = $.ajax({ type: "POST", url: url, data: data});
 		req.success(function(dataString) { success(); });
 		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("majAttribute");});
+}
+
+/**
+ * Déconnexion
+ */
+var logout = function() {
+	var req = $.get( REST_PREFIX + "dologout");
+	req.success(function(dataString) { 
+		document.cookie = 'idMariage=; expires=Thu, 01-Jan-1970 00:00:01 GMT;';
+		window.location.reload();
+	});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("logout");});
 }
 
 /** 
