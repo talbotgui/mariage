@@ -56,10 +56,11 @@ public class Invite implements Serializable {
 		this.age = age;
 	}
 
-	public Invite(final String groupe, final String nom, final String prenom, final Age age,
+	public Invite(final String groupe, final String foyer, final String nom, final String prenom, final Age age,
 			final PresenceEtape... presences) {
 		this(groupe, nom, prenom, age);
 		this.presencesEtape.addAll(Arrays.asList(presences));
+		this.foyer = foyer;
 	}
 
 	public Age getAge() {

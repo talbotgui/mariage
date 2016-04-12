@@ -40,16 +40,16 @@ public class ObjectMother {
 		mariage.addEtape(e);
 		mariage.addEtape(f);
 
-		final Invite i01 = new Invite("G", "G F", "X", Age.adulte, p(a), p(b), p(c), a(d), p(e), p(f));
-		final Invite i02 = new Invite("G", "G A", "X", Age.adulte, p(a), a(b), p(c), p(d), a(e), p(f));
-		final Invite i03 = new Invite("G", "G C", "X", Age.adulte, p(a), a(b), p(c), a(d), a(e), p(f));
-		final Invite i04 = new Invite("G", "G I", "X", Age.adulte, p(a), p(b), p(c), p(d), p(e), p(f));
-		final Invite i05 = new Invite("G", "G J", "X", Age.adulte, p(a), p(b), p(c), a(d), a(e), p(f));
-		final Invite i06 = new Invite("B", "T JP", "X", Age.adulte, p(a), p(b), a(c), p(d), p(e), a(f));
-		final Invite i07 = new Invite("B", "T A", "X", Age.adulte, p(a), p(b), p(c), p(d), p(e), p(f));
-		final Invite i08 = new Invite("C", "T J", "X", Age.adulte, p(a), p(b), a(c), p(d), p(e), a(f));
-		final Invite i09 = new Invite("C", "T A", "X", Age.adulte, p(a), a(b), p(c), p(d), a(e), p(f));
-		final Invite i10 = new Invite("C", "T J", "X", Age.adulte, p(a), p(b), a(c), p(d), a(e), p(f));
+		final Invite i01 = new Invite("G", "F1", "G F", "X", Age.adulte, p(a), p(b), p(c), a(d), p(e), p(f));
+		final Invite i02 = new Invite("G", "F1", "G A", "X", Age.adulte, p(a), a(b), p(c), p(d), a(e), p(f));
+		final Invite i03 = new Invite("G", "F2", "G C", "X", Age.adulte, p(a), a(b), p(c), a(d), a(e), p(f));
+		final Invite i04 = new Invite("G", "F2", "G I", "X", Age.adulte, p(a), p(b), p(c), p(d), p(e), p(f));
+		final Invite i05 = new Invite("G", "F3", "G J", "X", Age.adulte, p(a), p(b), p(c), a(d), a(e), p(f));
+		final Invite i06 = new Invite("B", "F3", "T JP", "X", Age.adulte, p(a), p(b), a(c), p(d), p(e), a(f));
+		final Invite i07 = new Invite("B", "F3", "T A", "X", Age.adulte, p(a), p(b), p(c), p(d), p(e), p(f));
+		final Invite i08 = new Invite("C", "F4", "T J", "X", Age.adulte, p(a), p(b), a(c), p(d), p(e), a(f));
+		final Invite i09 = new Invite("C", "F4", "T A", "X", Age.adulte, p(a), a(b), p(c), p(d), a(e), p(f));
+		final Invite i10 = new Invite("C", "F5", "T J", "X", Age.adulte, p(a), p(b), a(c), p(d), a(e), p(f));
 		mariage.addInvite(i01);
 		mariage.addInvite(i02);
 		mariage.addInvite(i03);
