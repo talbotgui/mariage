@@ -15,7 +15,6 @@ import com.github.talbotgui.mariage.metier.entities.securite.Autorisation;
 
 @Entity
 public class Mariage implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 
 	@OneToMany(mappedBy = "mariage")

@@ -1,5 +1,7 @@
 package com.github.talbotgui.mariage.metier.entities.securite;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,7 +12,8 @@ import javax.persistence.ManyToOne;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 
 @Entity
-public class Autorisation {
+public class Autorisation implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,5 +1,6 @@
 package com.github.talbotgui.mariage.metier.entities.securite;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -8,7 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Utilisateur {
+public class Utilisateur implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@OneToMany(mappedBy = "utilisateur", cascade = { CascadeType.REMOVE })
 	private Collection<Autorisation> autorisations;
