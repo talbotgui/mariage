@@ -80,7 +80,7 @@ var valideForm = function(formSelector, callback) {
 	inputsRequired.removeClass("error");
 	inputsMinLength.removeClass("error");
 
-	var errors = inputsRequired.filter(function() {return !this.value;});
+	var errors = inputsRequired.filter(function() { return !$(this).val(); });
 	errors = errors.add(inputsMinLength.filter(function() { return this.value.length < $(this).attr("data-minLength") ;}));
 	errors.addClass("error");
 
@@ -111,7 +111,7 @@ var alimentationSelectBox = function() {
 		var req = $.get( REST_PREFIX + source);
 		req.success(function(dataString) {
 			if (empty) {
-				sel.append($('<option>', {value:-1, text:""}));
+				sel.append($('<option>', {value:"", text:""}));
 			}
 			
 			var data = eval(dataString);
