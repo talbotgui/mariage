@@ -22,6 +22,10 @@ public class RestException extends BaseException {
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;
 
+	public RestException(final ExceptionId pExceptionId, final Exception pNestedException) {
+		super(pExceptionId, pNestedException);
+	}
+
 	public RestException(final ExceptionId pExceptionId, final Object[] pParameters) {
 		super(pExceptionId, pParameters);
 	}
