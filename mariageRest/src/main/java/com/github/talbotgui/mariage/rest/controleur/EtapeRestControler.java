@@ -76,10 +76,10 @@ public class EtapeRestControler {
 
 		// Gestion de l'ordre
 		if (numOrdre != null) {
-			if (!numOrdre.matches("\\d+")) {
-				throw new RestException(RestException.ERREUR_FORMAT_NOMBRE, new Object[] { numOrdre });
-			} else {
+			if (numOrdre.matches("\\d+")) {
 				etape.setNumOrdre(Integer.decode(numOrdre));
+			} else {
+				throw new RestException(RestException.ERREUR_FORMAT_NOMBRE, new Object[] { numOrdre });
 			}
 		}
 

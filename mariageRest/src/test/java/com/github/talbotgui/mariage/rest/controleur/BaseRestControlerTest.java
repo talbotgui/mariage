@@ -81,9 +81,11 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	}
 
 	/**
-	 * Reset restTemplate
+	 * Reset restTemplate avec les intercepteurs
+	 * 
+	 * @see ControlerTestUtil.REST_INTERCEPTORS
 	 *
-	 * @return
+	 * @return a new RestTemplate
 	 */
 	protected RestTemplate getREST() {
 		final RestTemplate rest = new RestTemplate();

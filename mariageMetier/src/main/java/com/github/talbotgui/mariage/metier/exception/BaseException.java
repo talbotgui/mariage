@@ -95,7 +95,9 @@ public abstract class BaseException extends RuntimeException {
 	@Override
 	public String getMessage() {
 		String result;
-		if (this.exceptionId != null) {
+		if (this.exceptionId == null) {
+			result = super.getMessage();
+		} else {
 			String message = this.exceptionId.getDefaultMessage();
 			if (message != null && this.parameters != null) {
 				for (int i = 0; i < this.parameters.length; i++) {
@@ -111,8 +113,6 @@ public abstract class BaseException extends RuntimeException {
 				}
 			}
 			result = message;
-		} else {
-			result = super.getMessage();
 		}
 		return result;
 	}
@@ -126,7 +126,7 @@ public abstract class BaseException extends RuntimeException {
 		if (this.parameters != null) {
 			return Arrays.copyOf(this.parameters, this.parameters.length);
 		}
-		return null;
+		return new Object[0];
 	}
 
 	/**
@@ -146,6 +146,6 @@ public abstract class BaseException extends RuntimeException {
 	 *            Message parameters.
 	 */
 	private void setParameters(final Object[] pParameters) {
-		this.parameters = pParameters;
+		this.parameters = Arrays.copyOf(pParameters, pParameters.length);
 	}
 }

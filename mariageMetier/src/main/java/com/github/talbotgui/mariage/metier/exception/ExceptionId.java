@@ -50,10 +50,10 @@ public class ExceptionId implements Serializable {
 
 	@Override
 	public int hashCode() {
-		if (this.id != null) {
-			return this.id.hashCode();
-		} else {
+		if (this.id == null) {
 			return super.hashCode();
+		} else {
+			return this.id.hashCode();
 		}
 	}
 

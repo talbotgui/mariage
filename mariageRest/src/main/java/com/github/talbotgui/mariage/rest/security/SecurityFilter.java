@@ -28,6 +28,7 @@ public class SecurityFilter implements Filter {
 
 	@Override
 	public void destroy() {
+		// Rien à faire
 	}
 
 	@Override
@@ -44,19 +45,20 @@ public class SecurityFilter implements Filter {
 			chain.doFilter(request, response);
 		}
 
-		// Page non sécurisée
-		else if (!pageProtegee) {
-			chain.doFilter(request, response);
+		// Page sécurisée
+		else if (pageProtegee) {
+			response.sendRedirect(request.getContextPath() + LOGIN_PAGE);
 		}
 
 		// Sinon
 		else {
-			response.sendRedirect(request.getContextPath() + LOGIN_PAGE);
+			chain.doFilter(request, response);
 		}
 	}
 
 	@Override
 	public void init(final FilterConfig filterConfig) throws ServletException {
+		// Rien à faire
 	}
 
 	private boolean isPageProtegee(final String uri) {
