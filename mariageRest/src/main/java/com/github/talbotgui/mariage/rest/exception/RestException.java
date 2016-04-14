@@ -7,7 +7,10 @@ import com.github.talbotgui.mariage.metier.exception.ExceptionId.ExceptionLevel;
 public class RestException extends BaseException {
 
 	public static final ExceptionId ERREUR_FORMAT_DATE = new ExceptionId("ERREUR_FORMAT_DATE",
-			"Le format de la date est incorrecte (format='{0}', valeur='{1}').", ExceptionLevel.ERROR, 400);
+			"Le format de la date est incorrect (format='{0}', valeur='{1}').", ExceptionLevel.ERROR, 400);
+
+	public static final ExceptionId ERREUR_FORMAT_NOMBRE = new ExceptionId("ERREUR_FORMAT_NOMBRE",
+			"Le format du nombre est incorrect (valeur='{0}').", ExceptionLevel.ERROR, 400);
 
 	public static final ExceptionId ERREUR_TRANSFORMATION_MODEL = new ExceptionId("ERREUR_TRANSFORMATION_MODEL",
 			"Erreur durant la tranformation de modele.", ExceptionLevel.ERROR, 500);
@@ -19,16 +22,8 @@ public class RestException extends BaseException {
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;
 
-	public RestException(final ExceptionId exceptionId) {
-		super(exceptionId);
-	}
-
 	public RestException(final ExceptionId pExceptionId, final Object[] pParameters) {
 		super(pExceptionId, pParameters);
-	}
-
-	public RestException(final ExceptionId exceptionId, final Throwable nestedException) {
-		super(exceptionId, nestedException);
 	}
 
 	public RestException(final ExceptionId pExceptionId, final Throwable pNestedException, final Object[] pParameters) {

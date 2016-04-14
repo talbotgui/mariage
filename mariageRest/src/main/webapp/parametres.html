@@ -142,7 +142,7 @@
 				var dataAdapter = new $.jqx.dataAdapter({
 					datatype: "json",
 					url: REST_PREFIX + "/mariage/" + idMariage + "/etape",
-					datafields: [{ name: 'id', type: 'string' },{ name: 'lieu', type: 'string' },{ name: 'nom', type: 'string' },{ name: 'type', type: 'string' },{ name: 'dateHeure', type: 'string' }],
+					datafields: [{ name: 'id', type: 'string' },{ name: 'lieu', type: 'string' },{ name: 'nom', type: 'string' },{ name: 'type', type: 'string' },{ name: 'dateHeure', type: 'string' },{ name: 'numOrdre', type: 'string' }],
 					id: 'id'
 				});
 				var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties) { return '<a href="javascript:supprimeEtape(' + value + ')" id="btn' + value + '"><span class="ui-icon ui-icon-trash"></span></a>' };
@@ -150,8 +150,9 @@
 					source: dataAdapter,
 					columns: [
 						{ text: 'Type', datafield: 'type', width: "15%", editable: false },
+						{ text: 'Ordre', datafield: 'numOrdre', width: "5%" },
 						{ text: 'Nom', datafield: 'nom', width: "25%" },
-						{ text: 'Date et heure', datafield: 'dateHeure', width: "25%" },
+						{ text: 'Date et heure', datafield: 'dateHeure', width: "20%" },
 						{ text: 'Lieu', datafield: 'lieu', width: "25%" },
 						{ text: 'Actions', datafield: 'id', width: "10%", editable: false, sortable: false, menu: false, cellsrenderer: rendererColonneBouton }
 					],

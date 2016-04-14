@@ -167,7 +167,7 @@ var logout = function() {
 /** 
  * On ready.
  */
- $(document).ready(function() {
+$(document).ready(function() {
 
 	 // Execution de toutes les fonctions onReady presentes
 	 if (typeof onReadyFunctions !== "undefined") {

@@ -1,36 +1,36 @@
 X Créer les pages "Adresse et téléphone", "Paramètres", "Courrier", "Réponses"
-
 X Ajouter les attributs prenom et age (ainé, adulte, jeune, enfant, bébé) dans Invite
-
 X Traiter les messages d'erreur pourri (cf cas de test avec age invalide)
-  
 X Traiter pb config des tests REST qui démarre une BDD File
-  
 X Ajouter la gestion des étapes dans la page "Parametres"
 X Ajouter un attribut dateEtHeure dans Etape
-  Faire de dateHeure un date & time picker
 X Corriger les pb de CSS entre les tableaux et les popup
 X Ajouter des titres aux popups
 X Améliorer la tête des popups
-  Ajouter un numéro d'ordre dans Etape
-  
+X Ajouter un numéro d'ordre dans Etape
 X Ajouter la génération du site de qualimétrie
-
 X Ajouter des tests selenium
 X Automatiser les tests selenium
 X Ajouter la couverture de code aux tests selenium (fait sur le poste WINDOWS)
-  
 X Ajouter une page "gestion des utilisateurs" pour l'admin (Utilisateur={nom, prenom, login, mdpSHA})
 X Ajouter une page de login
 X Ajouter un bouton de déconnexion
-  
 X Trouver une solution de mutualisation d'une part des pages (menu, imports JS et CSS, ...) => <link type="import" n'est pas encore supporté par les navigateurs (pas par défaut)
-  
-  Ajouter une page "Gestion des contacts" pour la saisie d'une adresse par personne (une String) et un numéro de téléphone (une String)
-
+X Ajouter une page "Gestion des contacts" pour la saisie d'une adresse par personne (une String) et un numéro de téléphone (une String)
 X Renommer la page "invites" en "gestion des invitations"
-  Dans la page "gestion des invitations", ajouter une checkbox pour définir les étapes auxquelles sont liées chaque invité
-  Dans la page "gestion des invitations", ajouter l'autocomplétion dans le champ "groupe"
+X Dans la page "gestion des invitations", ajouter une checkbox pour définir les étapes auxquelles sont liées chaque invité
+
+  Modifier les constructeurs pour utiliser les setter
+  
+  Refactoring des ControlerTest pour mutualiser la construction des MAP de paramètres et simplifier le code (des constantes et une méthode commune de création de la map)
+  
+  Compléter les tests Selenium en activant la sécurité
+
+  Faire de dateHeure un date & time picker pour les étapes
+  
+  Ajouter un email dans les courriers
+
+  Dans la page "gestion des invitations", ajouter l'autocomplétion dans le champ "groupe" et "foyer"
 
   Dans la page "paramètres", ajouter la liste des Courier (nom, dateEnvoiPrevu)
 
@@ -39,3 +39,10 @@ X Renommer la page "invites" en "gestion des invitations"
   Ajouter une page "gestion des réponses" dans laquelle on peut cocher qui vient à quelles étapes
 
   Ajouter une fonction d'import/export dans la gestion des adresses
+
+  Gérer les transports long et locaux
+  
+  Gérér les hébergements
+  
+  Ajouter une page de Statistiques
+	répartition par age, par groupe, par foyer

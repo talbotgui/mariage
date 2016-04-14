@@ -47,6 +47,7 @@ public class EtapeRestControler {
 			@RequestParam(required = false, value = "id") final Long id, //
 			@RequestParam(value = "lieu") final String lieu, //
 			@RequestParam(value = "nom") final String nom, //
+			@RequestParam(required = false, value = "numOrdre") final String numOrdre, //
 			@RequestParam(value = "type") final String type, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
 
@@ -71,6 +72,15 @@ public class EtapeRestControler {
 			final List<String> listeTypes = Arrays.asList(EtapeCeremonie.class.getSimpleName(),
 					EtapeRepas.class.getSimpleName());
 			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE, new Object[] { "type", listeTypes, type });
+		}
+
+		// Gestion de l'ordre
+		if (numOrdre != null) {
+			if (!numOrdre.matches("\\d+")) {
+				throw new RestException(RestException.ERREUR_FORMAT_NOMBRE, new Object[] { numOrdre });
+			} else {
+				etape.setNumOrdre(Integer.decode(numOrdre));
+			}
 		}
 
 		// Sauvegarde

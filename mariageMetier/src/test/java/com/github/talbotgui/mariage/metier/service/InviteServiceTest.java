@@ -29,6 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
+import com.github.talbotgui.mariage.metier.entities.PresenceEtape;
 import com.github.talbotgui.mariage.metier.entities.comparator.InviteComparator;
 import com.github.talbotgui.mariage.metier.exception.BaseException;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
@@ -159,4 +160,28 @@ public class InviteServiceTest {
 		Assert.assertEquals(Arrays.asList(Age.values()).toString(), ages.toString());
 
 	}
+
+	@Test
+	public void test05ModifiePresence() throws ParseException {
+
+		// ARRANGE
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+
+		final String sql = "select count(*) from presence_etape where present=true";
+		final Long nbPresenceTrueAvant = jdbc.queryForObject(sql, Long.class);
+
+		final Collection<Invite> invites = this.instance.listeInvitesParIdMariage(idMariage);
+		final Invite invite = invites.iterator().next();
+		final PresenceEtape pe = invite.getPresencesEtape().iterator().next();
+
+		// ACT
+		this.instance.modifiePresenceEtape(idMariage, pe.getId(), true);
+
+		// ASSERT
+		final Long nbPresenceTrueApres = jdbc.queryForObject(sql, Long.class);
+		Assert.assertEquals((Long) (nbPresenceTrueAvant + 1), nbPresenceTrueApres);
+	}
+
 }

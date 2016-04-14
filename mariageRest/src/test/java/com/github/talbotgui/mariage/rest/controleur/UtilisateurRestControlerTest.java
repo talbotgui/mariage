@@ -9,6 +9,8 @@ import java.util.Map;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -99,12 +101,17 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
 		requestParam.add("login", login);
 		requestParam.add("mdp", mdp);
-		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		getREST().postForObject(getURL() + "/dologin", requestParam, Void.class, uriVars);
+		final HttpHeaders headers = new HttpHeaders();
+		headers.add("Cookie", "idMariage=4");
+		final HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(requestParam, headers);
+		final ResponseEntity<Void> response = getREST().exchange(getURL() + "/dologin", HttpMethod.POST, request,
+				Void.class);
 
 		// ASSERT
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		Assert.assertEquals(response.getHeaders().get("Cookie"), null);
 		Mockito.verify(this.securiteService).verifieUtilisateur(login, mdp);
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}

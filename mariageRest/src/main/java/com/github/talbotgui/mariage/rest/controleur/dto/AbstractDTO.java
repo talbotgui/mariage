@@ -1,16 +1,18 @@
 package com.github.talbotgui.mariage.rest.controleur.dto;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import com.github.talbotgui.mariage.rest.exception.RestException;
 
-public abstract class AbstractDTO {
-
+public abstract class AbstractDTO implements Serializable {
 	public static final String FORMAT_DATE = "dd/MM/yyyy";
 
 	public static final String FORMAT_DATE_TIME = "dd/MM/yyyy HH:mm";
+
+	private static final long serialVersionUID = 1L;
 
 	public static <T> Collection<T> creerDto(final Collection<?> entities, final Class<T> clazz) {
 		final Collection<T> col = new ArrayList<>();

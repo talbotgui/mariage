@@ -128,7 +128,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		driver.click(By.id("button_ajouter"), 500);
 
 		//
-		assertEquals(driver.getRealDriver().findElements(By.className("error")).size(), 3);
+		assertEquals(driver.getRealDriver().findElements(By.className("error")).size(), 4);
 	}
 
 	@Test
@@ -136,14 +136,17 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
+		driver.type(By.id("groupe"), "groupe1", 200);
+		driver.type(By.id("foyer"), "foyer1", 200);
 		driver.type(By.id("nom"), "nom1", 200);
 		driver.type(By.id("prenom"), "prenom1", 200);
-		driver.type(By.id("groupe"), "groupe1", 200);
 		driver.click(By.id("button_ajouter"), 500);
 
 		//
-		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[1]/div"), "nom1");
-		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[2]/div"), "groupe1");
+		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[1]/div"), "groupe1");
+		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[2]/div"), "foyer1");
+		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[3]/div"), "nom1");
+		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[4]/div"), "prenom1");
 	}
 
 	@Test
@@ -151,17 +154,17 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.executeScript("$('#invites').jqxGrid('begincelledit', 0,'nom');", 200);
-		driver.type(By.id("textboxeditorinvitesnom"), "nom1_modif", 100);
-		driver.executeScript("$('#invites').jqxGrid('endcelledit', 0,'nom');", 500);
 		driver.executeScript("$('#invites').jqxGrid('begincelledit', 0,'groupe');", 200);
 		driver.type(By.id("textboxeditorinvitesgroupe"), "groupe1_modif", 100);
 		driver.executeScript("$('#invites').jqxGrid('endcelledit', 0,'groupe');", 500);
+		driver.executeScript("$('#invites').jqxGrid('begincelledit', 0,'nom');", 200);
+		driver.type(By.id("textboxeditorinvitesnom"), "nom1_modif", 100);
+		driver.executeScript("$('#invites').jqxGrid('endcelledit', 0,'nom');", 500);
 		driver.click(By.linkText("Invitation"), 500);
 
 		//
-		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[1]/div"), "nom1_modif");
-		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[2]/div"), "groupe1_modif");
+		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[1]/div"), "groupe1_modif");
+		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[3]/div"), "nom1_modif");
 	}
 
 	@Test

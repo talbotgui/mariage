@@ -1,7 +1,7 @@
 package com.github.talbotgui.mariage.rest.controleur.dto;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.hibernate.Hibernate;
 
@@ -9,16 +9,17 @@ import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.PresenceEtape;
 
 public class InviteDTO extends AbstractDTO {
+	private static final long serialVersionUID = 1L;
 
+	private String adresse;
 	private String age;
 	private String foyer;
 	private String groupe;
 	private Long id;
-
 	private String nom;
-
 	private String prenom;
-	private Map<Long, Boolean> presencesEtape = new HashMap<>();
+	private final Collection<PresenceEtapeDTO> presencesEtape = new ArrayList<>();
+	private String telephone;
 
 	public InviteDTO() {
 		super(null);
@@ -29,21 +30,26 @@ public class InviteDTO extends AbstractDTO {
 
 		if (entity != null) {
 			final Invite i = (Invite) entity;
-			this.id = i.getId();
-			this.groupe = i.getGroupe();
-			this.foyer = i.getFoyer();
-			this.nom = i.getNom();
-			this.prenom = i.getPrenom();
+			this.adresse = i.getAdresse();
 			if (i.getAge() != null) {
 				this.age = i.getAge().toString();
 			}
-
+			this.foyer = i.getFoyer();
+			this.groupe = i.getGroupe();
+			this.id = i.getId();
+			this.nom = i.getNom();
+			this.prenom = i.getPrenom();
 			if (i.getPresencesEtape() != null && Hibernate.isInitialized(i.getPresencesEtape())) {
 				for (final PresenceEtape pe : i.getPresencesEtape()) {
-					this.presencesEtape.put(pe.getEtape().getId(), pe.getPresent());
+					this.presencesEtape.add(new PresenceEtapeDTO(pe));
 				}
 			}
+			this.telephone = i.getTelephone();
 		}
+	}
+
+	public String getAdresse() {
+		return adresse;
 	}
 
 	public String getAge() {
@@ -70,8 +76,16 @@ public class InviteDTO extends AbstractDTO {
 		return prenom;
 	}
 
-	public Map<Long, Boolean> getPresencesEtape() {
+	public Collection<PresenceEtapeDTO> getPresencesEtape() {
 		return presencesEtape;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setAdresse(final String adresse) {
+		this.adresse = adresse;
 	}
 
 	public void setAge(final String age) {
@@ -98,7 +112,7 @@ public class InviteDTO extends AbstractDTO {
 		this.prenom = prenom;
 	}
 
-	public void setPresencesEtape(final Map<Long, Boolean> presencesEtape) {
-		this.presencesEtape = presencesEtape;
+	public void setTelephone(final String telephone) {
+		this.telephone = telephone;
 	}
 }

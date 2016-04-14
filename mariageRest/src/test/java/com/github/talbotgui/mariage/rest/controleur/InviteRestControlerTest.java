@@ -60,15 +60,21 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Mockito.doReturn(idInvite).when(this.mariageService).sauvegarde(argumentCaptorIdMariage.capture(),
 				argumentCaptorInvite.capture());
 
+		final String adresse = "adresse";
+		final String age = Age.adulte.toString();
+		final String foyer = "foyer";
+		final String groupe = "Groupe1";
 		final String nom = "InviteA";
 		final String prenom = "BB";
-		final String groupe = "Groupe1";
-		final String age = Age.adulte.toString();
+		final String telephone = "telephone";
 		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		requestParam.add("adresse", adresse);
+		requestParam.add("age", age);
+		requestParam.add("foyer", foyer);
+		requestParam.add("groupe", groupe);
 		requestParam.add("nom", nom);
 		requestParam.add("prenom", prenom);
-		requestParam.add("groupe", groupe);
-		requestParam.add("age", age);
+		requestParam.add("telephone", telephone);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
@@ -78,10 +84,13 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertNotNull(idInviteRetour);
 		Assert.assertEquals(idInviteRetour, idInvite);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getAdresse(), adresse);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getAge().toString(), age);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer(), foyer);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getGroupe(), groupe);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getNom(), nom);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getPrenom(), prenom);
-		Assert.assertEquals(argumentCaptorInvite.getValue().getGroupe(), groupe);
-		Assert.assertEquals(argumentCaptorInvite.getValue().getAge().toString(), age);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getTelephone(), telephone);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
 		Mockito.verify(this.mariageService).sauvegarde(Mockito.anyLong(), Mockito.any(Invite.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
@@ -93,15 +102,21 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ARRANGE
 		final Long idMariage = 10L;
 
+		final String adresse = "adresse";
+		final String age = "toto";
+		final String foyer = "foyer";
+		final String groupe = "Groupe1";
 		final String nom = "InviteA";
 		final String prenom = "BB";
-		final String groupe = "Groupe1";
-		final String age = "toto";
+		final String telephone = "telephone";
 		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		requestParam.add("adresse", adresse);
+		requestParam.add("age", age);
+		requestParam.add("foyer", foyer);
+		requestParam.add("groupe", groupe);
 		requestParam.add("nom", nom);
 		requestParam.add("prenom", prenom);
-		requestParam.add("groupe", groupe);
-		requestParam.add("age", age);
+		requestParam.add("telephone", telephone);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
@@ -122,15 +137,21 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ARRANGE
 		final Long idMariage = 10L;
 
+		final String adresse = "adresse";
+		final String age = "toto";
+		final String foyer = "foyer";
+		final String groupe = "Groupe1";
 		final String nom = "";
 		final String prenom = "BB";
-		final String groupe = "Groupe1";
-		final String age = "toto";
+		final String telephone = "telephone";
 		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		requestParam.add("adresse", adresse);
+		requestParam.add("age", age);
+		requestParam.add("foyer", foyer);
+		requestParam.add("groupe", groupe);
 		requestParam.add("nom", nom);
 		requestParam.add("prenom", prenom);
-		requestParam.add("groupe", groupe);
-		requestParam.add("age", age);
+		requestParam.add("telephone", telephone);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT

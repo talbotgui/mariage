@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 
 public class MariageDTO extends AbstractDTO {
+	private static final long serialVersionUID = 1L;
 
 	private String dateCelebration;
 	private Long id;

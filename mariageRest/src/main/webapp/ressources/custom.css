@@ -8,6 +8,6 @@
 .todo { background-color: red; }
 
 .ui-dialog { z-index: 9999; }
-
+.center { text-align: center; }
 .popup {  }
 .error { border-color: red!important; }

@@ -50,6 +50,11 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	@InjectMocks
 	private ParametreRestControler parametreCtrl;
 
+	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
+	@Autowired
+	@InjectMocks
+	private PresenceEtapeRestControler peCtrl;
+
 	@Value("${local.server.port}")
 	private int port;
 

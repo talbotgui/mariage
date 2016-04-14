@@ -14,18 +14,19 @@ public class EtapeCeremonie extends Etape {
 		super();
 	}
 
-	public EtapeCeremonie(final Long id, final String nom, final Date dateHeure, final String lieu,
+	public EtapeCeremonie(final Integer numOrdre, final String nom, final Date dateHeure, final String lieu) {
+		super(numOrdre, nom, dateHeure, lieu);
+	}
+
+	public EtapeCeremonie(final Integer numOrdre, final String nom, final Date dateHeure, final String lieu,
 			final String celebrant) {
-		super(id, nom, dateHeure, lieu);
+		super(numOrdre, nom, dateHeure, lieu);
 		this.celebrant = celebrant;
 	}
 
-	public EtapeCeremonie(final String nom, final Date dateHeure, final String lieu) {
-		super(nom, dateHeure, lieu);
-	}
-
-	public EtapeCeremonie(final String nom, final Date dateHeure, final String lieu, final String celebrant) {
-		super(nom, dateHeure, lieu);
+	public EtapeCeremonie(final Long id, final String nom, final Date dateHeure, final String lieu,
+			final String celebrant) {
+		super(id, nom, dateHeure, lieu);
 		this.celebrant = celebrant;
 	}
 

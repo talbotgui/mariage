@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +19,8 @@ import javax.persistence.OneToMany;
 @Entity
 public class Invite implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	private String adresse;
 
 	private Age age;
 
@@ -35,9 +40,10 @@ public class Invite implements Serializable {
 
 	private String prenom;
 
-	@OneToMany
-	@JoinColumn(name = "INVITE_ID")
+	@OneToMany(mappedBy = "invite", cascade = { CascadeType.REMOVE })
 	private Collection<PresenceEtape> presencesEtape = new ArrayList<>();
+
+	private String telephone;
 
 	protected Invite() {
 		super();
@@ -61,6 +67,10 @@ public class Invite implements Serializable {
 		this(groupe, nom, prenom, age);
 		this.presencesEtape.addAll(Arrays.asList(presences));
 		this.foyer = foyer;
+	}
+
+	public String getAdresse() {
+		return adresse;
 	}
 
 	public Age getAge() {
@@ -92,7 +102,23 @@ public class Invite implements Serializable {
 	}
 
 	public Collection<PresenceEtape> getPresencesEtape() {
-		return presencesEtape;
+		final List<PresenceEtape> result = new ArrayList<>();
+		result.addAll(presencesEtape);
+		result.sort(new Comparator<PresenceEtape>() {
+			@Override
+			public int compare(final PresenceEtape o1, final PresenceEtape o2) {
+				return o1.getEtape().getNumOrdre() - o2.getEtape().getNumOrdre();
+			}
+		});
+		return result;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setAdresse(final String adresse) {
+		this.adresse = adresse;
 	}
 
 	public void setAge(final Age age) {
@@ -121,6 +147,10 @@ public class Invite implements Serializable {
 
 	public void setPresencesEtape(final Collection<PresenceEtape> presencesEtape) {
 		this.presencesEtape = presencesEtape;
+	}
+
+	public void setTelephone(final String telephone) {
+		this.telephone = telephone;
 	}
 
 }

@@ -6,17 +6,14 @@ import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.EtapeCeremonie;
 
 public class EtapeDTO extends AbstractDTO {
+	private static final long serialVersionUID = 1L;
 
 	private String celebrant;
-
 	private String dateHeure;
-
 	private Long id;
-
 	private String lieu;
-
 	private String nom;
-
+	private String numOrdre;
 	private String type;
 
 	public EtapeDTO() {
@@ -33,6 +30,9 @@ public class EtapeDTO extends AbstractDTO {
 			this.dateHeure = sdf.format(e.getDateHeure());
 			this.nom = e.getNom();
 			this.lieu = e.getLieu();
+			if (e.getNumOrdre() != null) {
+				this.numOrdre = e.getNumOrdre().toString();
+			}
 			this.type = e.getClass().getSimpleName();
 
 			if (e instanceof EtapeCeremonie) {
@@ -61,6 +61,10 @@ public class EtapeDTO extends AbstractDTO {
 		return nom;
 	}
 
+	public String getNumOrdre() {
+		return numOrdre;
+	}
+
 	public String getType() {
 		return type;
 	}
@@ -83,6 +87,10 @@ public class EtapeDTO extends AbstractDTO {
 
 	public void setNom(final String nom) {
 		this.nom = nom;
+	}
+
+	public void setNumOrdre(final String numOrdre) {
+		this.numOrdre = numOrdre;
 	}
 
 	public void setType(final String type) {

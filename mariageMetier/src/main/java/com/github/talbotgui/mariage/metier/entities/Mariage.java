@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import com.github.talbotgui.mariage.metier.entities.securite.Autorisation;
 
@@ -23,6 +24,7 @@ public class Mariage implements Serializable {
 	private Date dateCelebration;
 
 	@OneToMany(mappedBy = "mariage")
+	@OrderBy("numOrdre")
 	private Collection<Etape> etapes = new ArrayList<>();
 
 	@Id

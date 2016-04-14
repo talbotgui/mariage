@@ -3,6 +3,7 @@ package com.github.talbotgui.mariage.rest.controleur.dto;
 import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur;
 
 public class UtilisateurDTO extends AbstractDTO {
+	private static final long serialVersionUID = 1L;
 
 	private String login;
 

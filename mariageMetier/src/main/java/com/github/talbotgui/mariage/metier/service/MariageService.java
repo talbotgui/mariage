@@ -23,6 +23,8 @@ public interface MariageService {
 
 	Collection<Mariage> listeTousMariages();
 
+	void modifiePresenceEtape(Long idMariage, Long idPresenceEtape, Boolean presence);
+
 	Long sauvegarde(Long idMariage, Etape etape);
 
 	Long sauvegarde(Long idMariage, Invite invite);

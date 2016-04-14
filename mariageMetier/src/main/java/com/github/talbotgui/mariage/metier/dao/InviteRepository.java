@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -20,4 +21,9 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 
 	@Query("select i from Invite i where i.mariage.id=:idMariage order by i.groupe, i.nom")
 	Page<Invite> listeInvitesParIdMariage(@Param("idMariage") Long idMariage, Pageable page);
+
+	@Modifying
+	@Query("update Invite set adresse=:adresse, telephone=:telephone where foyer=:foyer")
+	void updateAdresseEtTelephoneParFoyer(@Param("foyer") String foyer, @Param("adresse") String adresse,
+			@Param("telephone") String telephone);
 }

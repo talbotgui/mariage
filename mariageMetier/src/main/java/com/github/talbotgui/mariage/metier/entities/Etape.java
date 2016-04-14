@@ -35,6 +35,8 @@ public abstract class Etape implements Serializable {
 
 	private String nom;
 
+	private Integer numOrdre;
+
 	@OneToMany(mappedBy = "etape", fetch = FetchType.EAGER, cascade = { CascadeType.REMOVE })
 	private Collection<PresenceEtape> presences;
 
@@ -52,8 +54,9 @@ public abstract class Etape implements Serializable {
 		this.lieu = lieu;
 	}
 
-	public Etape(final String nom, final Date dateHeure, final String lieu) {
+	public Etape(final Integer numOrdre, final String nom, final Date dateHeure, final String lieu) {
 		super();
+		this.numOrdre = numOrdre;
 		if (dateHeure != null) {
 			this.dateHeure = new Date(dateHeure.getTime());
 		}
@@ -84,6 +87,10 @@ public abstract class Etape implements Serializable {
 		return nom;
 	}
 
+	public Integer getNumOrdre() {
+		return numOrdre;
+	}
+
 	public Collection<PresenceEtape> getPresences() {
 		return presences;
 	}
@@ -104,6 +111,10 @@ public abstract class Etape implements Serializable {
 
 	public void setNom(final String nom) {
 		this.nom = nom;
+	}
+
+	public void setNumOrdre(final Integer numOrdre) {
+		this.numOrdre = numOrdre;
 	}
 
 	public void setPresences(final Collection<PresenceEtape> presences) {

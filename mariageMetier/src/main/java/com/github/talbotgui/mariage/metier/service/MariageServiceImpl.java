@@ -74,17 +74,40 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public void modifiePresenceEtape(final Long idMariage, final Long idPresenceEtape, final Boolean presence) {
+		final PresenceEtape pe = this.presenceEtapeRepository.findPresenceEtape(idMariage, idPresenceEtape);
+		pe.setPresent(presence);
+	}
+
+	@Override
 	public Long sauvegarde(final Long idMariage, final Etape etape) {
-		final Mariage m = this.mariageRepository.findOne(idMariage);
-		etape.setMariage(m);
-		return this.etapeRepository.save(etape).getId();
+		etape.setMariage(this.mariageRepository.findOne(idMariage));
+		if (etape.getNumOrdre() == null) {
+			etape.setNumOrdre(1 + this.etapeRepository.getNombreEtapeByIdMariage(idMariage));
+		}
+		final boolean estNouveau = etape.getId() == null;
+		final Long idEtape = this.etapeRepository.save(etape).getId();
+		if (estNouveau) {
+			this.presenceEtapeRepository.insertPresenceEtapePourNouvelEtape(idEtape, idMariage);
+		}
+		return idEtape;
 	}
 
 	@Override
 	public Long sauvegarde(final Long idMariage, final Invite invite) {
-		final Mariage m = this.mariageRepository.findOne(idMariage);
-		invite.setMariage(m);
-		return this.inviteRepository.save(invite).getId();
+
+		// save
+		invite.setMariage(this.mariageRepository.findOne(idMariage));
+		final Long id = this.inviteRepository.save(invite).getId();
+
+		// Set PresenceEtape
+		this.presenceEtapeRepository.insertPresenceEtapePourNouvelInvite(id, idMariage);
+
+		// mAj adresse et téléphone du foyer
+		this.inviteRepository.updateAdresseEtTelephoneParFoyer(invite.getFoyer(), invite.getAdresse(),
+				invite.getTelephone());
+
+		return id;
 	}
 
 	@Override
@@ -95,17 +118,15 @@ public class MariageServiceImpl implements MariageService {
 	@Override
 	public Long sauvegardeGrappe(final Mariage m) {
 		final Long id = this.sauvegarde(m);
+
 		for (final Etape e : m.getEtapes()) {
-			e.setMariage(m);
-			this.etapeRepository.save(e);
+			this.sauvegarde(id, e);
 		}
+
 		for (final Invite i : m.getInvites()) {
-			i.setMariage(m);
-			this.inviteRepository.save(i);
-			for (final PresenceEtape pe : i.getPresencesEtape()) {
-				this.presenceEtapeRepository.save(pe);
-			}
+			this.sauvegarde(id, i);
 		}
+
 		return id;
 	}
 

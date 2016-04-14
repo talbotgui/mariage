@@ -12,12 +12,12 @@ public class EtapeRepas extends Etape {
 		super();
 	}
 
-	public EtapeRepas(final Long id, final String nom, final Date dateHeure, final String lieu) {
-		super(id, nom, dateHeure, lieu);
+	public EtapeRepas(final Integer numOrdre, final String nom, final Date dateHeure, final String lieu) {
+		super(numOrdre, nom, dateHeure, lieu);
 	}
 
-	public EtapeRepas(final String nom, final Date dateHeure, final String lieu) {
-		super(nom, dateHeure, lieu);
+	public EtapeRepas(final Long id, final String nom, final Date dateHeure, final String lieu) {
+		super(id, nom, dateHeure, lieu);
 	}
 
 }
