@@ -42,23 +42,22 @@
 				</executions>
 			</plugin>
 
+			<!-- Unit tests -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-
-				<!-- Unit tests -->
 				<configuration>
-					<excludes>
-						<exclude>**/selenium/*Test.java</exclude>
-					</excludes>
+					<excludes><exclude>**/selenium/*Test.java</exclude></excludes>
+					<includes><include>**/controleur/*Test.java</include></includes>
 				</configuration>
-
-				<!-- Integration tests -->
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>integration-test</id>
-						<goals><goal>test</goal></goals>
-						<phase>integration-test</phase>
+						<goals><goal>integration-test</goal><goal>verify</goal></goals>
 						<configuration>
 							<excludes><exclude>**/controleur/*Test.java</exclude></excludes>
 							<includes><include>**/selenium/*Test.java</include></includes>
