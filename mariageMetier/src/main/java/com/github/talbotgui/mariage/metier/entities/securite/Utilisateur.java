@@ -26,8 +26,8 @@ public class Utilisateur implements Serializable {
 
 	public Utilisateur(final String login, final String mdp) {
 		super();
-		this.login = login;
-		this.mdp = mdp;
+		this.setLogin(login);
+		this.setMdp(mdp);
 	}
 
 	public Collection<Autorisation> getAutorisations() {

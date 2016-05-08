@@ -34,15 +34,13 @@ public class PresenceEtape implements Serializable {
 
 	public PresenceEtape(final Etape etape, final Boolean present) {
 		super();
-		this.etape = etape;
-		this.present = present;
+		this.setEtape(etape);
+		this.setPresent(present);
 	}
 
 	public PresenceEtape(final Etape etape, final Invite invite, final Boolean present) {
-		super();
-		this.etape = etape;
-		this.invite = invite;
-		this.present = present;
+		this(etape, present);
+		this.setInvite(invite);
 	}
 
 	public Etape getEtape() {

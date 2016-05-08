@@ -45,14 +45,18 @@ public class Mariage implements Serializable {
 	public Mariage(final Date dateCelebration, final String marie1, final String marie2) {
 		super();
 		if (dateCelebration != null) {
-			this.dateCelebration = new Date(dateCelebration.getTime());
+			this.setDateCelebration (dateCelebration);
 		}
-		this.marie1 = marie1;
-		this.marie2 = marie2;
+		this.setMarie1 ( marie1);
+		this.setMarie2 ( marie2);
 	}
 
 	public Mariage(final Long id, final Date dateCelebration, final String marie1, final String marie2) {
 		this(dateCelebration, marie1, marie2);
+		this.setId ( id);
+	}
+
+	private void setId(Long id) {
 		this.id = id;
 	}
 

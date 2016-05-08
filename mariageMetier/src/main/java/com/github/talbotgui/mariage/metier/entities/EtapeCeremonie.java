@@ -21,13 +21,13 @@ public class EtapeCeremonie extends Etape {
 	public EtapeCeremonie(final Integer numOrdre, final String nom, final Date dateHeure, final String lieu,
 			final String celebrant) {
 		super(numOrdre, nom, dateHeure, lieu);
-		this.celebrant = celebrant;
+		this.setCelebrant(celebrant);
 	}
 
 	public EtapeCeremonie(final Long id, final String nom, final Date dateHeure, final String lieu,
 			final String celebrant) {
 		super(id, nom, dateHeure, lieu);
-		this.celebrant = celebrant;
+		this.setCelebrant(celebrant);
 	}
 
 	public String getCelebrant() {

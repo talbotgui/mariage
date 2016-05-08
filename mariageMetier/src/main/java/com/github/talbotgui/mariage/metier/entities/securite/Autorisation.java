@@ -33,8 +33,8 @@ public class Autorisation implements Serializable {
 
 	public Autorisation(final Mariage mariage, final Utilisateur utilisateur) {
 		super();
-		this.mariage = mariage;
-		this.utilisateur = utilisateur;
+		this.setMariage(mariage);
+		this.setUtilisateur(utilisateur);
 	}
 
 	public Long getId() {

@@ -51,22 +51,22 @@ public class Invite implements Serializable {
 
 	public Invite(final Long id, final String groupe, final String nom, final String prenom, final Age age) {
 		this(groupe, nom, prenom, age);
-		this.id = id;
+		this.setId(id);
 	}
 
 	public Invite(final String groupe, final String nom, final String prenom, final Age age) {
 		super();
-		this.groupe = groupe;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.age = age;
+		this.setGroupe(groupe);
+		this.setNom(nom);
+		this.setPrenom(prenom);
+		this.setAge(age);
 	}
 
 	public Invite(final String groupe, final String foyer, final String nom, final String prenom, final Age age,
 			final PresenceEtape... presences) {
 		this(groupe, nom, prenom, age);
-		this.presencesEtape.addAll(Arrays.asList(presences));
-		this.foyer = foyer;
+		this.setPresencesEtape(Arrays.asList(presences));
+		this.setFoyer(foyer);
 	}
 
 	public String getAdresse() {
@@ -133,6 +133,10 @@ public class Invite implements Serializable {
 		this.groupe = groupe;
 	}
 
+	private void setId(final Long id) {
+		this.id = id;
+	}
+
 	public void setMariage(final Mariage mariage) {
 		this.mariage = mariage;
 	}
@@ -146,7 +150,7 @@ public class Invite implements Serializable {
 	}
 
 	public void setPresencesEtape(final Collection<PresenceEtape> presencesEtape) {
-		this.presencesEtape = presencesEtape;
+		this.presencesEtape = new ArrayList<>(presencesEtape);
 	}
 
 	public void setTelephone(final String telephone) {

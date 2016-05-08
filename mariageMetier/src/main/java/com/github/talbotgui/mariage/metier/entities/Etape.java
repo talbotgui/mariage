@@ -44,24 +44,24 @@ public abstract class Etape implements Serializable {
 		super();
 	}
 
-	public Etape(final Long id, final String nom, final Date dateHeure, final String lieu) {
-		super();
-		this.id = id;
-		this.nom = nom;
-		if (dateHeure != null) {
-			this.dateHeure = new Date(dateHeure.getTime());
-		}
-		this.lieu = lieu;
-	}
-
 	public Etape(final Integer numOrdre, final String nom, final Date dateHeure, final String lieu) {
 		super();
-		this.numOrdre = numOrdre;
+		this.setNumOrdre(numOrdre);
 		if (dateHeure != null) {
-			this.dateHeure = new Date(dateHeure.getTime());
+			this.setDateHeure(dateHeure);
 		}
-		this.nom = nom;
-		this.lieu = lieu;
+		this.setNom(nom);
+		this.setLieu(lieu);
+	}
+
+	public Etape(final Long id, final String nom, final Date dateHeure, final String lieu) {
+		super();
+		this.setId(id);
+		this.setNom(nom);
+		if (dateHeure != null) {
+			this.setDateHeure(dateHeure);
+		}
+		this.setLieu(lieu);
 	}
 
 	public Date getDateHeure() {
@@ -99,6 +99,10 @@ public abstract class Etape implements Serializable {
 		if (dateHeure != null) {
 			this.dateHeure = new Date(dateHeure.getTime());
 		}
+	}
+
+	private void setId(final Long id) {
+		this.id = id;
 	}
 
 	public void setLieu(final String lieu) {
