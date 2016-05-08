@@ -54,12 +54,12 @@ public class EtapeRestControler {
 		// Transformation de la date
 		Date date = null;
 		try {
-			final SimpleDateFormat sdf = new SimpleDateFormat(AbstractDTO.FORMAT_DATE);
+			final SimpleDateFormat sdf = new SimpleDateFormat(AbstractDTO.FORMAT_DATE_TIME);
 			date = sdf.parse(dateHeure);
 		} catch (final ParseException e) {
 			LOG.error("Erreur de format des paramètres d'entrée", e);
 			throw new RestException(RestException.ERREUR_FORMAT_DATE, e,
-					new String[] { AbstractDTO.FORMAT_DATE, dateHeure });
+					new String[] { AbstractDTO.FORMAT_DATE_TIME, dateHeure });
 		}
 
 		// Gestion des types

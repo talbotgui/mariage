@@ -178,7 +178,8 @@ $(document).ready(function() {
 	 alimentationSelectBox();
 	 
 	 // Initialisation des timepicker
-	 $(".dateTimePicker").datepicker({ format: "dd/mm/yyyy", weekStart: 1, language: "fr", daysOfWeekHighlighted: "0,6", autoclose: true });
+	 $(".datePicker").datetimepicker({ format: 'dd/mm/yyyy', autoclose: true, weekStart: 1, language: 'fr', minView: 2 });
+	 $(".dateTimePicker").datetimepicker({ format: 'dd/mm/yyyy hh:ii', autoclose: true, weekStart: 1, language: 'fr' });
 	 
 	 // Préparation des popup
 	 var popups = $(".popup");

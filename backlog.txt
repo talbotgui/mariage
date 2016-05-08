@@ -21,12 +21,9 @@ X Renommer la page "invites" en "gestion des invitations"
 X Dans la page "gestion des invitations", ajouter une checkbox pour définir les étapes auxquelles sont liées chaque invité
 X Modifier les constructeurs pour utiliser les setter
 X Refactoring des ControlerTest pour mutualiser la construction des MAP de paramètres et simplifier le code (des constantes et une méthode commune de création de la map)
+X Faire de dateHeure un date & time picker pour les étapes
 
-  Changer le "no data to display"
-  
   Compléter les tests Selenium en activant la sécurité
-
-  Faire de dateHeure un date & time picker pour les étapes
   
   Ajouter un email dans les courriers
 
@@ -46,3 +43,5 @@ X Refactoring des ControlerTest pour mutualiser la construction des MAP de param
   
   Ajouter une page de Statistiques
 	répartition par age, par groupe, par foyer
+
+  Changer le "no data to display"

@@ -23,7 +23,7 @@ public class EtapeDTO extends AbstractDTO {
 	public EtapeDTO(final Object entity) {
 		super(entity);
 
-		final SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE);
+		final SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE_TIME);
 		if (entity != null) {
 			final Etape e = (Etape) entity;
 			this.id = e.getId();

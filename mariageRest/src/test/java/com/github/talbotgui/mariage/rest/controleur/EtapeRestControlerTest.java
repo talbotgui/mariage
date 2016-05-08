@@ -57,7 +57,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		final String nom = "N1";
 		final String lieu = "L1";
 		final String celebrant = "C1";
-		final String dateHeure = "01/01/2017";
+		final String dateHeure = "01/01/2017 12:00";
 		final String type = EtapeCeremonie.class.getSimpleName();
 
 		// ARRANGE
@@ -79,7 +79,8 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(idEtapeRetour, idEtape);
 		Assert.assertEquals(argumentCaptorEtape.getValue().getNom(), nom);
 		Assert.assertEquals(argumentCaptorEtape.getValue().getLieu(), lieu);
-		Assert.assertEquals((new SimpleDateFormat("dd/MM/yyyy")).format(argumentCaptorEtape.getValue().getDateHeure()),
+		Assert.assertEquals(
+				(new SimpleDateFormat("dd/MM/yyyy hh:mm")).format(argumentCaptorEtape.getValue().getDateHeure()),
 				dateHeure);
 		Assert.assertEquals(argumentCaptorEtape.getValue().getClass().getSimpleName(), type);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
@@ -93,7 +94,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		final Long idEtape = 100L;
 		final String nom = "N1";
 		final String lieu = "L1";
-		final String dateHeure = "01/01/2017";
+		final String dateHeure = "01/01/2017 12:00";
 		final String type = EtapeRepas.class.getSimpleName();
 
 		// ARRANGE
@@ -115,7 +116,8 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(idEtapeRetour, idEtape);
 		Assert.assertEquals(argumentCaptorEtape.getValue().getNom(), nom);
 		Assert.assertEquals(argumentCaptorEtape.getValue().getLieu(), lieu);
-		Assert.assertEquals((new SimpleDateFormat("dd/MM/yyyy")).format(argumentCaptorEtape.getValue().getDateHeure()),
+		Assert.assertEquals(
+				(new SimpleDateFormat("dd/MM/yyyy hh:mm")).format(argumentCaptorEtape.getValue().getDateHeure()),
 				dateHeure);
 		Assert.assertEquals(argumentCaptorEtape.getValue().getClass().getSimpleName(), type);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
@@ -129,7 +131,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		final String nom = "N1";
 		final String lieu = "L1";
 		final String celebrant = "C1";
-		final String dateHeure = "01-01-2017";
+		final String dateHeure = "01-01-2017 12:00";
 		final String type = EtapeRepas.class.getSimpleName();
 
 		// ARRANGE
@@ -156,7 +158,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		final String nom = "N1";
 		final String lieu = "L1";
 		final String celebrant = "C1";
-		final String dateHeure = "01/01/2017";
+		final String dateHeure = "01/01/2017 12:00";
 		final String type = "toto";
 
 		// ARRANGE
@@ -183,7 +185,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		final String nom = "N1";
 		final String lieu = "L1";
 		final String celebrant = "C1";
-		final String dateHeure = "01/01/2017";
+		final String dateHeure = "01/01/2017 12:00";
 		final String type = EtapeRepas.class.getSimpleName();
 
 		// ARRANGE
