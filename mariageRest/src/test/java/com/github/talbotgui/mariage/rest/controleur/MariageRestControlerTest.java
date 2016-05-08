@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.testng.Assert;
@@ -26,10 +25,10 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 
 	@Test
 	public void test01GetListeMariages() {
-
-		// Arrange
 		final Long idMariage = 10L;
 		final Collection<Mariage> toReturn = Arrays.asList(new Mariage(idMariage, new Date(), "Mme.", "M."));
+
+		// Arrange
 		Mockito.doReturn(toReturn).when(super.mariageService).listeTousMariages();
 
 		// ACT
@@ -47,10 +46,10 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 
 	@Test
 	public void test02GetMariageParId() {
-
-		// ARRANGE
 		final Long idMariage = 10L;
 		final Mariage toReturn = new Mariage(idMariage, new Date(), "Mme.", "M.");
+
+		// ARRANGE
 		Mockito.doReturn(toReturn).when(this.mariageService).chargeMariageParId(Mockito.anyLong());
 
 		// ACT
@@ -65,19 +64,17 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 
 	@Test
 	public void test03SauvegardeMariageOk() {
-
-		// ARRANGE
 		final Long idMariage = 10L;
-		final ArgumentCaptor<Mariage> argumentCaptor = ArgumentCaptor.forClass(Mariage.class);
-		Mockito.doReturn(idMariage).when(this.mariageService).sauvegarde(argumentCaptor.capture());
-
 		final String dateCelebration = "01/01/2017";
 		final String marie1 = "M";
 		final String marie2 = "G";
-		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
-		requestParam.add("dateCelebration", dateCelebration);
-		requestParam.add("marie1", marie1);
-		requestParam.add("marie2", marie2);
+
+		// ARRANGE
+		final ArgumentCaptor<Mariage> argumentCaptor = ArgumentCaptor.forClass(Mariage.class);
+		Mockito.doReturn(idMariage).when(this.mariageService).sauvegarde(argumentCaptor.capture());
+
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("dateCelebration",
+				dateCelebration, "marie1", marie1, "marie2", marie2);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
@@ -97,15 +94,13 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 
 	@Test
 	public void test04SauvegardeMariageKoFormatDate() {
-
-		// ARRANGE
 		final String dateCelebration = "01-01-2017";
 		final String marie1 = "M";
 		final String marie2 = "G";
-		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
-		requestParam.add("dateCelebration", dateCelebration);
-		requestParam.add("marie1", marie1);
-		requestParam.add("marie2", marie2);
+
+		// ARRANGE
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("dateCelebration",
+				dateCelebration, "marie1", marie1, "marie2", marie2);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT

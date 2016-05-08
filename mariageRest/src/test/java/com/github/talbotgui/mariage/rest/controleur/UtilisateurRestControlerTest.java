@@ -14,7 +14,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.testng.Assert;
@@ -29,10 +28,10 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 
 	@Test
 	public void test01GetListeUtilisateur() {
-
-		// ARRANGE
 		final List<Utilisateur> toReturn = Arrays.asList(new Utilisateur("l1", "m1"), new Utilisateur("l2", "m2"),
 				new Utilisateur("l3", "m3"));
+
+		// ARRANGE
 		Mockito.doReturn(toReturn).when(this.securiteService).listeUtilisateurs();
 
 		// ACT
@@ -51,15 +50,14 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 
 	@Test
 	public void test02SauvegardeUtilisateur() {
+		final String login = "monLogin";
+		final String mdp = "monMdp";
 
 		// ARRANGE
 		Mockito.doNothing().when(this.securiteService).creeUtilisateur(Mockito.anyString(), Mockito.anyString());
 
-		final String login = "monLogin";
-		final String mdp = "monMdp";
-		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
-		requestParam.add("login", login);
-		requestParam.add("mdp", mdp);
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp",
+				mdp);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
@@ -73,9 +71,9 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 
 	@Test
 	public void test03SupprimeUtilisateur() {
+		final String login = "monLogin";
 
 		// ARRANGE
-		final String login = "monLogin";
 		final ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
 		Mockito.doNothing().when(this.securiteService).supprimeUtilisateur(argumentCaptor.capture());
 
@@ -92,17 +90,15 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 
 	@Test
 	public void test04Login01Ok() {
+		final String login = "monLogin";
+		final String mdp = "monMdp";
 
 		// ARRANGE
 		Mockito.doNothing().when(this.securiteService).verifieUtilisateur(Mockito.anyString(), Mockito.anyString());
 
-		final String login = "monLogin";
-		final String mdp = "monMdp";
-		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
-		requestParam.add("login", login);
-		requestParam.add("mdp", mdp);
-
 		// ACT
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp",
+				mdp);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.add("Cookie", "idMariage=4");
 		final HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(requestParam, headers);
@@ -118,16 +114,15 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 
 	@Test
 	public void test04Login02Ko() {
+		final String login = "monLogin";
+		final String mdp = "monMdp";
 
 		// ARRANGE
 		Mockito.doThrow(new BusinessException(BusinessException.ERREUR_LOGIN)).when(this.securiteService)
 				.verifieUtilisateur(Mockito.anyString(), Mockito.anyString());
 
-		final String login = "monLogin";
-		final String mdp = "monMdp";
-		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
-		requestParam.add("login", login);
-		requestParam.add("mdp", mdp);
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp",
+				mdp);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT

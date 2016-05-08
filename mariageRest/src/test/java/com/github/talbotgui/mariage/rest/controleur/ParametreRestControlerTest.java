@@ -15,9 +15,9 @@ public class ParametreRestControlerTest extends BaseRestControlerTest {
 
 	@Test
 	public void test01GetListeEtapes() {
+		final List<String> toReturn = Arrays.asList("1", "2", "3");
 
 		// ARRANGE
-		final List<String> toReturn = Arrays.asList("1", "2", "3");
 		Mockito.doReturn(toReturn).when(this.mariageService).listeAgePossible();
 
 		// ACT

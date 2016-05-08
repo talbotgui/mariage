@@ -19,12 +19,10 @@ X Trouver une solution de mutualisation d'une part des pages (menu, imports JS e
 X Ajouter une page "Gestion des contacts" pour la saisie d'une adresse par personne (une String) et un numéro de téléphone (une String)
 X Renommer la page "invites" en "gestion des invitations"
 X Dans la page "gestion des invitations", ajouter une checkbox pour définir les étapes auxquelles sont liées chaque invité
+X Modifier les constructeurs pour utiliser les setter
+X Refactoring des ControlerTest pour mutualiser la construction des MAP de paramètres et simplifier le code (des constantes et une méthode commune de création de la map)
 
   Changer le "no data to display"
-
-X Modifier les constructeurs pour utiliser les setter
-  
-  Refactoring des ControlerTest pour mutualiser la construction des MAP de paramètres et simplifier le code (des constantes et une méthode commune de création de la map)
   
   Compléter les tests Selenium en activant la sécurité
 
