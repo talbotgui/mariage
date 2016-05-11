@@ -102,7 +102,37 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void test02Invite01accesPage() throws InterruptedException {
+	public void test02Parametres01AjouterEtapeRepas() throws InterruptedException {
+		//
+		driver.click(By.linkText("Paramètres"), 200);
+		driver.assertTextEquals(By.id("maries"), "Mariage de M & G");
+		driver.assertTextEquals(By.cssSelector("#date > span"), "01/01/2017");
+		driver.assertTextEquals(By.cssSelector("div.jqx-grid-cell.jqx-grid-empty-cell > span"), "No data to display");
+
+		//
+		driver.click(By.id("button_afficher_popup_ajouter_repas"), 500);
+		driver.type(By.id("repa_nom"), "Repas1", 15);
+		driver.type(By.id("repa_lieu"), "LieuRepas1", 15);
+		driver.type(By.id("repa_dateHeure"), "01/01/2017 12:00", 15);
+		driver.click(By.id("button_ajouter_etapeRepas"), 200);
+
+		//
+		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[1]/div/div"), "Type");
+		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[2]/div/div"), "Ordre");
+		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[3]/div/div"), "Nom");
+		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[4]/div/div"), "Date et heure");
+		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[5]/div/div"), "Lieu");
+		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[6]/div/div"), "Actions");
+		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[1]/div"), "EtapeRepas");
+		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[2]/div"), "1");
+		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[3]/div"), "Repas1");
+		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[4]/div"), "01/01/2017 12:00");
+		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[5]/div"), "LieuRepas1");
+
+	}
+
+	@Test
+	public void test03Invite01accesPage() throws InterruptedException {
 		//
 
 		//
@@ -117,7 +147,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void test02Invite02ajoutKo() throws InterruptedException {
+	public void test03Invite02ajoutKo() throws InterruptedException {
 
 		//
 		driver.click(By.id("button_afficher_popup_ajouter"), 500);
@@ -132,7 +162,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void test02Invite03ajoutOk() throws InterruptedException {
+	public void test03Invite03ajoutOk() throws InterruptedException {
 		//
 
 		//
@@ -150,7 +180,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void test02Invite04modifOk() throws InterruptedException {
+	public void test03Invite04modifOk() throws InterruptedException {
 		//
 
 		//
@@ -168,7 +198,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void test03Admin01accesPage() throws InterruptedException {
+	public void test04Admin01accesPage() throws InterruptedException {
 		//
 
 		//
@@ -183,7 +213,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void test03Admin02ajoutKo() throws InterruptedException {
+	public void test04Admin02ajoutKo() throws InterruptedException {
 
 		//
 		driver.click(By.id("button_afficher_popup_ajouter_utilisateur"), 500);
@@ -198,7 +228,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void test03Admin03ajoutOk() throws InterruptedException {
+	public void test04Admin03ajoutOk() throws InterruptedException {
 		//
 
 		//
