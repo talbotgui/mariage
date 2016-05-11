@@ -23,7 +23,7 @@ X Modifier les constructeurs pour utiliser les setter
 X Refactoring des ControlerTest pour mutualiser la construction des MAP de paramètres et simplifier le code (des constantes et une méthode commune de création de la map)
 X Faire de dateHeure un date & time picker pour les étapes
 
-  Compléter les tests Selenium en activant la sécurité
+  Compléter les tests Selenium
   
   Ajouter un email dans les courriers
 

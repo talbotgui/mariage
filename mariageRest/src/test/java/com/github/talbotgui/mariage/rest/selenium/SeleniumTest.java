@@ -102,12 +102,44 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void test02Parametres01AjouterEtapeRepas() throws InterruptedException {
+	public void test02Parametres01Acces() throws InterruptedException {
+		//
+
 		//
 		driver.click(By.linkText("Paramètres"), 200);
+
+		//
 		driver.assertTextEquals(By.id("maries"), "Mariage de M & G");
 		driver.assertTextEquals(By.cssSelector("#date > span"), "01/01/2017");
+
+		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[1]/div/div"), "Type");
+		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[2]/div/div"), "Ordre");
+		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[3]/div/div"), "Nom");
+		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[4]/div/div"), "Date et heure");
+		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[5]/div/div"), "Lieu");
+		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[6]/div/div"), "Actions");
+
 		driver.assertTextEquals(By.cssSelector("div.jqx-grid-cell.jqx-grid-empty-cell > span"), "No data to display");
+	}
+
+	@Test
+	public void test02Parametres02ValidationFormulaireRepas() throws InterruptedException {
+		//
+
+		//
+		driver.click(By.id("button_afficher_popup_ajouter_repas"), 500);
+		driver.type(By.id("repa_nom"), "", 15);
+		driver.type(By.id("repa_lieu"), "", 15);
+		driver.type(By.id("repa_dateHeure"), "", 15);
+		driver.click(By.id("button_ajouter_etapeRepas"), 200);
+
+		//
+		assertEquals(driver.getRealDriver().findElements(By.className("error")).size(), 3);
+	}
+
+	@Test
+	public void test02Parametres03AjouterEtapeRepas() throws InterruptedException {
+		//
 
 		//
 		driver.click(By.id("button_afficher_popup_ajouter_repas"), 500);
@@ -117,18 +149,47 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		driver.click(By.id("button_ajouter_etapeRepas"), 200);
 
 		//
-		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[1]/div/div"), "Type");
-		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[2]/div/div"), "Ordre");
-		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[3]/div/div"), "Nom");
-		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[4]/div/div"), "Date et heure");
-		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[5]/div/div"), "Lieu");
-		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[6]/div/div"), "Actions");
 		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[1]/div"), "EtapeRepas");
 		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[2]/div"), "1");
 		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[3]/div"), "Repas1");
 		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[4]/div"), "01/01/2017 12:00");
 		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[5]/div"), "LieuRepas1");
+	}
 
+	@Test
+	public void test02Parametres04ValidationFormulaireCeremonie() throws InterruptedException {
+		//
+
+		//
+		driver.click(By.id("button_afficher_popup_ajouter_ceremonie"), 500);
+		driver.type(By.id("cere_nom"), "", 15);
+		driver.type(By.id("cere_lieu"), "", 15);
+		driver.type(By.id("cere_dateHeure"), "", 15);
+		driver.type(By.id("cere_celebrant"), "", 15);
+		driver.click(By.id("button_ajouter_etapeCeremonie"), 200);
+
+		//
+		assertEquals(driver.getRealDriver().findElements(By.className("error")).size(), 4);
+	}
+
+	@Test
+	public void test02Parametres05AjouterEtapeCeremonie() throws InterruptedException {
+		//
+
+		//
+		driver.click(By.id("button_afficher_popup_ajouter_ceremonie"), 500);
+		driver.type(By.id("cere_nom"), "Ceremonie1", 15);
+		driver.type(By.id("cere_lieu"), "LieuCeremonie1", 15);
+		driver.type(By.id("cere_dateHeure"), "01/01/2017 13:00", 15);
+		driver.type(By.id("cere_celebrant"), "Celebrant1", 15);
+		driver.click(By.id("button_ajouter_etapeCeremonie"), 200);
+
+		//
+		driver.assertTextEquals(By.xpath("//div[@id='row1etapes']/div[1]/div"), "EtapeCeremonie");
+		driver.assertTextEquals(By.xpath("//div[@id='row1etapes']/div[2]/div"), "2");
+		driver.assertTextEquals(By.xpath("//div[@id='row1etapes']/div[3]/div"), "Ceremonie1");
+		driver.assertTextEquals(By.xpath("//div[@id='row1etapes']/div[4]/div"), "01/01/2017 13:00");
+		driver.assertTextEquals(By.xpath("//div[@id='row1etapes']/div[5]/div"), "LieuCeremonie1");
 	}
 
 	@Test
