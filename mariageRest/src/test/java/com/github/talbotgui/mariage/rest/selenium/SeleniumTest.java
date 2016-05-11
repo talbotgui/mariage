@@ -81,7 +81,6 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		driver.assertTextEquals(By.cssSelector("#date > span"), "01/01/2017");
 		driver.assertElementPresent(By.linkText("Modifier"));
 		driver.assertElementPresent(By.linkText("Accueil"));
-		driver.assertElementPresent(By.linkText("Paramètres"));
 	}
 
 	@Test
@@ -102,11 +101,11 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void test02Parametres01Acces() throws InterruptedException {
+	public void test02ParametresEtape01Acces() throws InterruptedException {
 		//
 
 		//
-		driver.click(By.linkText("Paramètres"), 200);
+		driver.click(By.linkText("Paramètres - étapes"), 200);
 
 		//
 		driver.assertTextEquals(By.id("maries"), "Mariage de M & G");
@@ -123,7 +122,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void test02Parametres02ValidationFormulaireRepas() throws InterruptedException {
+	public void test02ParametresEtape02ValidationFormulaireRepas() throws InterruptedException {
 		//
 
 		//
@@ -138,7 +137,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void test02Parametres03AjouterEtapeRepas() throws InterruptedException {
+	public void test02ParametresEtape03AjouterEtapeRepas() throws InterruptedException {
 		//
 
 		//
@@ -157,7 +156,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void test02Parametres04ValidationFormulaireCeremonie() throws InterruptedException {
+	public void test02ParametresEtape04ValidationFormulaireCeremonie() throws InterruptedException {
 		//
 
 		//
@@ -173,7 +172,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void test02Parametres05AjouterEtapeCeremonie() throws InterruptedException {
+	public void test02ParametresEtape05AjouterEtapeCeremonie() throws InterruptedException {
 		//
 
 		//
