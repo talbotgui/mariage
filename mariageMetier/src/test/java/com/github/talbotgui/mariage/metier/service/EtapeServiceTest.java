@@ -24,6 +24,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.EtapeCeremonie;
 import com.github.talbotgui.mariage.metier.entities.EtapeRepas;
@@ -143,6 +144,9 @@ public class EtapeServiceTest {
 		final Mariage original = ObjectMother.creeMariageSimple();
 		final Long idMariage = this.instance.sauvegardeGrappe(original);
 		final Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
+		for (final Courrier c : original.getCourriers()) {
+			this.instance.suprimeCourrier(original.getId(), c.getId());
+		}
 
 		// ACT
 		this.instance.suprimeEtape(idMariage, etapeAvant.iterator().next().getId());
@@ -153,7 +157,25 @@ public class EtapeServiceTest {
 	}
 
 	@Test
-	public void test03SupprimeEtapeKo() throws ParseException {
+	public void test03SupprimeEtapeKoCourrierLie() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
+
+		// ACT
+		CatchException.catchException(this.instance).suprimeEtape(idMariage, etapeAvant.iterator().next().getId());
+
+		// ASSERT
+		Assert.assertNotNull(CatchException.caughtException());
+		Assert.assertEquals(BusinessException.class, CatchException.caughtException().getClass());
+		Assert.assertTrue(
+				BaseException.equals(CatchException.caughtException(), BusinessException.ERREUR_COURRIER_LIE_A_ETAPE));
+	}
+
+	@Test
+	public void test03SupprimeEtapeKoIdInvalide() throws ParseException {
 
 		// ARRANGE
 

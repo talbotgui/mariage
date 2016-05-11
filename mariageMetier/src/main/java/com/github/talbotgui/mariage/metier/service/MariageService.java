@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
@@ -14,6 +15,8 @@ public interface MariageService {
 	Mariage chargeMariageParId(Long idMariage);
 
 	Collection<String> listeAgePossible();
+
+	Collection<Courrier> listeCourriersParIdMariage(Long idMariage);
 
 	Collection<Etape> listeEtapesParIdMariage(Long idMariage);
 
@@ -25,6 +28,8 @@ public interface MariageService {
 
 	void modifiePresenceEtape(Long idMariage, Long idPresenceEtape, Boolean presence);
 
+	Long sauvegarde(Long idMariage, Courrier courrier);
+
 	Long sauvegarde(Long idMariage, Etape etape);
 
 	Long sauvegarde(Long idMariage, Invite invite);
@@ -32,6 +37,8 @@ public interface MariageService {
 	Long sauvegarde(Mariage mariage);
 
 	Long sauvegardeGrappe(Mariage mariage);
+
+	void suprimeCourrier(Long idMariage, Long idCourrier);
 
 	void suprimeEtape(Long idMariage, Long idEtape);
 

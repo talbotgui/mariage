@@ -4,6 +4,9 @@ import com.github.talbotgui.mariage.metier.exception.ExceptionId.ExceptionLevel;
 
 public class BusinessException extends BaseException {
 
+	public static final ExceptionId ERREUR_COURRIER_LIE_A_ETAPE = new ExceptionId("ERREUR_COURRIER_LIE_A_ETAPE",
+			"Impossible de supprimer l'étape car un courrier y est lié", ExceptionLevel.ERROR, 400);
+
 	public static final ExceptionId ERREUR_ID_MARIAGE = new ExceptionId("ERREUR_ID_MARIAGE",
 			"Identifiant de mariage invalide (valeur={0})", ExceptionLevel.ERROR, 400);
 
@@ -17,7 +20,7 @@ public class BusinessException extends BaseException {
 			ExceptionLevel.ERROR, 500);
 
 	/** Default UID. */
-	private static final long serialVersionUID = 1L;;;
+	private static final long serialVersionUID = 1L;
 
 	public BusinessException(final ExceptionId exceptionId) {
 		super(exceptionId);

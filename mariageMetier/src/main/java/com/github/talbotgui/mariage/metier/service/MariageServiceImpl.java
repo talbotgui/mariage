@@ -10,11 +10,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.github.talbotgui.mariage.metier.dao.CourrierRepository;
 import com.github.talbotgui.mariage.metier.dao.EtapeRepository;
 import com.github.talbotgui.mariage.metier.dao.InviteRepository;
 import com.github.talbotgui.mariage.metier.dao.MariageRepository;
 import com.github.talbotgui.mariage.metier.dao.PresenceEtapeRepository;
 import com.github.talbotgui.mariage.metier.entities.Age;
+import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
@@ -24,6 +26,9 @@ import com.github.talbotgui.mariage.metier.exception.BusinessException;
 @Service
 @Transactional(Transactional.TxType.REQUIRED)
 public class MariageServiceImpl implements MariageService {
+
+	@Autowired
+	private CourrierRepository courrierRepository;
 
 	@Autowired
 	private EtapeRepository etapeRepository;
@@ -52,6 +57,11 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public Collection<Courrier> listeCourriersParIdMariage(final Long idMariage) {
+		return this.mariageRepository.listeCourriersParIdMariage(idMariage);
+	}
+
+	@Override
 	public Collection<Etape> listeEtapesParIdMariage(final Long idMariage) {
 		return this.mariageRepository.listeEtapesParIdMariage(idMariage);
 	}
@@ -77,6 +87,12 @@ public class MariageServiceImpl implements MariageService {
 	public void modifiePresenceEtape(final Long idMariage, final Long idPresenceEtape, final Boolean presence) {
 		final PresenceEtape pe = this.presenceEtapeRepository.findPresenceEtape(idMariage, idPresenceEtape);
 		pe.setPresent(presence);
+	}
+
+	@Override
+	public Long sauvegarde(final Long idMariage, final Courrier courrier) {
+		courrier.setMariage(this.mariageRepository.findOne(idMariage));
+		return this.courrierRepository.save(courrier).getId();
 	}
 
 	@Override
@@ -123,6 +139,10 @@ public class MariageServiceImpl implements MariageService {
 			this.sauvegarde(id, e);
 		}
 
+		for (final Courrier c : m.getCourriers()) {
+			this.sauvegarde(id, c);
+		}
+
 		for (final Invite i : m.getInvites()) {
 			this.sauvegarde(id, i);
 		}
@@ -131,9 +151,20 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public void suprimeCourrier(final Long idMariage, final Long idCourrier) {
+		if (idMariage == null || !idMariage.equals(this.courrierRepository.getIdMariageByCourrierId(idCourrier))) {
+			throw new BusinessException(BusinessException.ERREUR_ID_MARIAGE, new Object[] { idMariage });
+		}
+		this.courrierRepository.delete(idCourrier);
+	}
+
+	@Override
 	public void suprimeEtape(final Long idMariage, final Long idEtape) {
 		if (idMariage == null || !idMariage.equals(this.etapeRepository.getIdMariageByEtapeId(idEtape))) {
 			throw new BusinessException(BusinessException.ERREUR_ID_MARIAGE, new Object[] { idMariage });
+		}
+		if (this.etapeRepository.countCourriersInvitant(idEtape) > 0) {
+			throw new BusinessException(BusinessException.ERREUR_COURRIER_LIE_A_ETAPE, new Object[] {});
 		}
 		this.etapeRepository.delete(idEtape);
 	}

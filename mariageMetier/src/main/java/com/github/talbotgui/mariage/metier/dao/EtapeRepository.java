@@ -8,7 +8,10 @@ import com.github.talbotgui.mariage.metier.entities.Etape;
 
 public interface EtapeRepository extends CrudRepository<Etape, Long> {
 
-	@Query("select e.mariage.id from Etape e where e.id=:idEtape order by numOrdre")
+	@Query("select count(c) from Courrier c join c.etapesInvitation e where e.id = :idEtape")
+	int countCourriersInvitant(@Param("idEtape") Long idEtape);
+
+	@Query("select e.mariage.id from Etape e where e.id=:idEtape")
 	Long getIdMariageByEtapeId(@Param("idEtape") Long idEtape);
 
 	@Query("select size(m.etapes) from Mariage m where m.id = :idMariage")

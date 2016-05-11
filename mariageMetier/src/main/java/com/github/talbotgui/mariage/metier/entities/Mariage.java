@@ -19,7 +19,11 @@ public class Mariage implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@OneToMany(mappedBy = "mariage")
-	private Collection<Autorisation> autorisations;
+	private Collection<Autorisation> autorisations = new ArrayList<>();
+
+	@OneToMany(mappedBy = "mariage")
+	@OrderBy("datePrevisionEnvoi")
+	private Collection<Courrier> courriers = new ArrayList<>();
 
 	private Date dateCelebration;
 
@@ -45,19 +49,19 @@ public class Mariage implements Serializable {
 	public Mariage(final Date dateCelebration, final String marie1, final String marie2) {
 		super();
 		if (dateCelebration != null) {
-			this.setDateCelebration (dateCelebration);
+			this.setDateCelebration(dateCelebration);
 		}
-		this.setMarie1 ( marie1);
-		this.setMarie2 ( marie2);
+		this.setMarie1(marie1);
+		this.setMarie2(marie2);
 	}
 
 	public Mariage(final Long id, final Date dateCelebration, final String marie1, final String marie2) {
 		this(dateCelebration, marie1, marie2);
-		this.setId ( id);
+		this.setId(id);
 	}
 
-	private void setId(Long id) {
-		this.id = id;
+	public void addCourrier(final Courrier c) {
+		this.courriers.add(c);
 	}
 
 	public void addEtape(final Etape e) {
@@ -69,7 +73,15 @@ public class Mariage implements Serializable {
 	}
 
 	public Collection<Autorisation> getAutorisations() {
-		return autorisations;
+		final Collection<Autorisation> a = new ArrayList<>();
+		a.addAll(this.autorisations);
+		return a;
+	}
+
+	public Collection<Courrier> getCourriers() {
+		final Collection<Courrier> c = new ArrayList<>();
+		c.addAll(this.courriers);
+		return c;
 	}
 
 	public Date getDateCelebration() {
@@ -80,7 +92,9 @@ public class Mariage implements Serializable {
 	}
 
 	public Collection<Etape> getEtapes() {
-		return etapes;
+		final Collection<Etape> e = new ArrayList<>();
+		e.addAll(this.etapes);
+		return e;
 	}
 
 	public Long getId() {
@@ -102,7 +116,11 @@ public class Mariage implements Serializable {
 	}
 
 	public void setAutorisations(final Collection<Autorisation> autorisations) {
-		this.autorisations = autorisations;
+		this.autorisations = new ArrayList<>(autorisations);
+	}
+
+	public void setCourriers(final Collection<Courrier> courriers) {
+		this.courriers = new ArrayList<>(courriers);
 	}
 
 	public void setDateCelebration(final Date dateCelebration) {
@@ -112,11 +130,15 @@ public class Mariage implements Serializable {
 	}
 
 	public void setEtapes(final Collection<Etape> etapes) {
-		this.etapes = etapes;
+		this.etapes = new ArrayList<>(etapes);
+	}
+
+	private void setId(final Long id) {
+		this.id = id;
 	}
 
 	public void setInvites(final Collection<Invite> invites) {
-		this.invites = invites;
+		this.invites = new ArrayList<>(invites);
 	}
 
 	public void setMarie1(final String marie1) {

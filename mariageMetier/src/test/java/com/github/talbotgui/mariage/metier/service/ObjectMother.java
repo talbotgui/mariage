@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import com.github.talbotgui.mariage.metier.entities.Age;
+import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.EtapeCeremonie;
 import com.github.talbotgui.mariage.metier.entities.EtapeRepas;
@@ -18,22 +19,34 @@ public class ObjectMother {
 	}
 
 	public static Mariage creeMariageSimple() throws ParseException {
-		final SimpleDateFormat dh = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		final SimpleDateFormat sdhf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 		final Mariage mariage = creeMariageSeul();
 
-		final Etape a = new EtapeCeremonie(1, "Accueil", dh.parse("01/01/2016 13:00"), "Parking", "quelquUn");
-		final Etape b = new EtapeCeremonie(2, "Eglise", dh.parse("01/01/2016 14:00"), "Eglise", "Curé");
-		final Etape c = new EtapeCeremonie(3, "Mairie", dh.parse("01/01/2016 15:00"), "Mairie", "Maire");
-		final Etape d = new EtapeCeremonie(4, "Photos", dh.parse("01/01/2016 16:00"), "Park");
-		final Etape e = new EtapeRepas(5, "Vin d'honneur", dh.parse("01/01/2016 17:00"), "Salle");
-		final Etape f = new EtapeRepas(6, "Repas", dh.parse("01/01/2016 21:00"), "Salle");
+		final Etape a = new EtapeCeremonie(1, "Accueil", sdhf.parse("01/01/2016 13:00"), "Parking", "quelquUn");
+		final Etape b = new EtapeCeremonie(2, "Eglise", sdhf.parse("01/01/2016 14:00"), "Eglise", "Curé");
+		final Etape c = new EtapeCeremonie(3, "Mairie", sdhf.parse("01/01/2016 15:00"), "Mairie", "Maire");
+		final Etape d = new EtapeCeremonie(4, "Photos", sdhf.parse("01/01/2016 16:00"), "Park");
+		final Etape e = new EtapeRepas(5, "Vin d'honneur", sdhf.parse("01/01/2016 17:00"), "Salle");
+		final Etape f = new EtapeRepas(6, "Repas", sdhf.parse("01/01/2016 21:00"), "Salle");
 		mariage.addEtape(a);
 		mariage.addEtape(b);
 		mariage.addEtape(c);
 		mariage.addEtape(d);
 		mariage.addEtape(e);
 		mariage.addEtape(f);
+
+		final Courrier c1 = new Courrier("Courrier1", sdf.parse("15/10/2015"));
+		c1.addEtapeInvitation(a);
+		c1.addEtapeInvitation(b);
+		final Courrier c2 = new Courrier("Courrier2", sdf.parse("16/10/2015"));
+		c2.addEtapeInvitation(c);
+		c2.addEtapeInvitation(d);
+		c2.addEtapeInvitation(e);
+		c2.addEtapeInvitation(f);
+		mariage.addCourrier(c1);
+		mariage.addCourrier(c2);
 
 		final Invite i01 = new Invite("G", "F1", "G F", "X", Age.adulte);
 		final Invite i02 = new Invite("G", "F1", "G A", "X", Age.adulte);
@@ -58,4 +71,5 @@ public class ObjectMother {
 
 		return mariage;
 	}
+
 }
