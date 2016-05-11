@@ -1,0 +1,167 @@
+package com.github.talbotgui.mariage.rest.controleur;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import com.github.talbotgui.mariage.metier.entities.Courrier;
+import com.github.talbotgui.mariage.rest.controleur.dto.CourrierDTO;
+import com.googlecode.catchexception.CatchException;
+
+public class CourrierRestControlerTest extends BaseRestControlerTest {
+
+	@Test
+	public void test01GetListeCourriers() {
+		final Long idMariage = 10L;
+		final List<Courrier> toReturn = Arrays.asList(new Courrier(1L, "C1", new Date(), new Date()),
+				new Courrier(2L, "C2", new Date(), new Date()), new Courrier(3L, "C4", new Date(), new Date()),
+				new Courrier(4L, "C3", new Date(), new Date()), new Courrier(5L, "C5", new Date(), new Date()));
+
+		// ARRANGE
+		Mockito.doReturn(toReturn).when(this.mariageService).listeCourriersParIdMariage(Mockito.anyLong());
+
+		// ACT
+		final ParameterizedTypeReference<Collection<CourrierDTO>> typeRetour = new ParameterizedTypeReference<Collection<CourrierDTO>>() {
+		};
+		final ResponseEntity<Collection<CourrierDTO>> courriers = getREST()
+				.exchange(getURL() + "/mariage/" + idMariage + "/courrier", HttpMethod.GET, null, typeRetour);
+
+		// ASSERT
+		Assert.assertEquals(courriers.getBody().size(), 5);
+		Mockito.verify(this.mariageService).listeCourriersParIdMariage(idMariage);
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test02AjouteCourrier01Ok() {
+		final Long idMariage = 10L;
+		final Long idCourrier = 100L;
+		final String nom = "N1";
+		final String datePrevisionEnvoi = "01/01/2017";
+		final String dateEnvoiRealise = "01/01/2017";
+
+		// ARRANGE
+		final ArgumentCaptor<Courrier> argumentCaptorCourrier = ArgumentCaptor.forClass(Courrier.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		Mockito.doReturn(idCourrier).when(this.mariageService).sauvegarde(argumentCaptorIdMariage.capture(),
+				argumentCaptorCourrier.capture());
+
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("nom", nom,
+				"datePrevisionEnvoi", datePrevisionEnvoi, "dateEnvoiRealise", dateEnvoiRealise);
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		final Long idCourrierRetour = getREST().postForObject(getURL() + "/mariage/" + idMariage + "/courrier",
+				requestParam, Long.class, uriVars);
+
+		// ASSERT
+		final SimpleDateFormat sdf = (new SimpleDateFormat("dd/MM/yyyy"));
+		Assert.assertNotNull(idCourrierRetour);
+		Assert.assertEquals(idCourrierRetour, idCourrier);
+		Assert.assertEquals(argumentCaptorCourrier.getValue().getNom(), nom);
+		Assert.assertEquals(sdf.format(argumentCaptorCourrier.getValue().getDateEnvoiRealise()), dateEnvoiRealise);
+		Assert.assertEquals(sdf.format(argumentCaptorCourrier.getValue().getDatePrevisionEnvoi()), datePrevisionEnvoi);
+		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
+		Mockito.verify(this.mariageService).sauvegarde(Mockito.anyLong(), Mockito.any(Courrier.class));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test02AjouteCourrier02DateEnvoiInvalide() {
+		final Long idMariage = 10L;
+		final Long idCourrier = 100L;
+		final String nom = "N1";
+		final String datePrevisionEnvoi = "01/01/2017";
+		final String dateEnvoiRealise = "01-01-2017";
+
+		// ARRANGE
+		final ArgumentCaptor<Courrier> argumentCaptorCourrier = ArgumentCaptor.forClass(Courrier.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		Mockito.doReturn(idCourrier).when(this.mariageService).sauvegarde(argumentCaptorIdMariage.capture(),
+				argumentCaptorCourrier.capture());
+
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("nom", nom,
+				"datePrevisionEnvoi", datePrevisionEnvoi, "dateEnvoiRealise", dateEnvoiRealise);
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		CatchException.catchException(getREST()).postForObject(getURL() + "/mariage/" + idMariage + "/courrier",
+				requestParam, Long.class, uriVars);
+
+		// ASSERT
+		Assert.assertNotNull(CatchException.caughtException());
+		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
+		Assert.assertTrue(((HttpStatusCodeException) CatchException.caughtException()).getResponseBodyAsString()
+				.contains(dateEnvoiRealise));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test02AjouteCourrier02DatePrevisionInvalide() {
+		final Long idMariage = 10L;
+		final Long idCourrier = 100L;
+		final String nom = "N1";
+		final String datePrevisionEnvoi = "01-01-2017";
+		final String dateEnvoiRealise = "01/01/2017";
+
+		// ARRANGE
+		final ArgumentCaptor<Courrier> argumentCaptorCourrier = ArgumentCaptor.forClass(Courrier.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		Mockito.doReturn(idCourrier).when(this.mariageService).sauvegarde(argumentCaptorIdMariage.capture(),
+				argumentCaptorCourrier.capture());
+
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("nom", nom,
+				"datePrevisionEnvoi", datePrevisionEnvoi, "dateEnvoiRealise", dateEnvoiRealise);
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		CatchException.catchException(getREST()).postForObject(getURL() + "/mariage/" + idMariage + "/courrier",
+				requestParam, Long.class, uriVars);
+
+		// ASSERT
+		Assert.assertNotNull(CatchException.caughtException());
+		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
+		Assert.assertTrue(((HttpStatusCodeException) CatchException.caughtException()).getResponseBodyAsString()
+				.contains(datePrevisionEnvoi));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test03SupprimeCourrier() {
+		final Long idMariage = 10L;
+		final Long idCourrier = 100L;
+
+		// ARRANGE
+		final ArgumentCaptor<Long> argumentCaptorIdICourrier = ArgumentCaptor.forClass(Long.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		Mockito.doNothing().when(this.mariageService).suprimeCourrier(argumentCaptorIdMariage.capture(),
+				argumentCaptorIdICourrier.capture());
+
+		// ACT
+		final ResponseEntity<Void> response = getREST().exchange(
+				getURL() + "/mariage/" + idMariage + "/courrier/" + idCourrier, HttpMethod.DELETE, null, Void.class);
+
+		// ASSERT
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		Assert.assertEquals(argumentCaptorIdICourrier.getValue(), idCourrier);
+		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
+		Mockito.verify(this.mariageService).suprimeCourrier(Mockito.anyLong(), Mockito.anyLong());
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+}

@@ -29,6 +29,11 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
 	@Autowired
 	@InjectMocks
+	private CourrierRestControler courrierCtrl;
+
+	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
+	@Autowired
+	@InjectMocks
 	private EtapeRestControler etapeCtrl;
 
 	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
@@ -82,7 +87,7 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 
 	/**
 	 * Reset restTemplate avec les intercepteurs
-	 * 
+	 *
 	 * @see ControlerTestUtil.REST_INTERCEPTORS
 	 *
 	 * @return a new RestTemplate
