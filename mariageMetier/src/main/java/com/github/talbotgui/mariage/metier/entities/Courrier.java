@@ -38,11 +38,9 @@ public class Courrier implements Serializable {
 		super();
 	}
 
-	public Courrier(final Long id, final String nom, final Date datePrevisionEnvoi, final Date dateEnvoiRealise,
-			final Mariage mariage) {
+	public Courrier(final Long id, final String nom, final Date datePrevisionEnvoi, final Date dateEnvoiRealise) {
 		this(nom, datePrevisionEnvoi);
 		this.setId(id);
-		this.setMariage(mariage);
 		this.setDateEnvoiRealise(dateEnvoiRealise);
 	}
 
