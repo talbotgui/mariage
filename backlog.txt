@@ -22,8 +22,9 @@ X Dans la page "gestion des invitations", ajouter une checkbox pour définir les
 X Modifier les constructeurs pour utiliser les setter
 X Refactoring des ControlerTest pour mutualiser la construction des MAP de paramètres et simplifier le code (des constantes et une méthode commune de création de la map)
 X Faire de dateHeure un date & time picker pour les étapes
+X Compléter les tests Selenium
 
-  Compléter les tests Selenium
+  Ajout les étapes dans le tableau des courriers
   
   Ajouter un email dans les courriers
 
