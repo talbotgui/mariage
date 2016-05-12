@@ -1,5 +1,6 @@
 package com.github.talbotgui.mariage.rest.controleur;
 
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.Map;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -161,6 +163,40 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(argumentCaptorIdICourrier.getValue(), idCourrier);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
 		Mockito.verify(this.mariageService).suprimeCourrier(Mockito.anyLong(), Mockito.anyLong());
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test04LieCourrierEtEtape() throws URISyntaxException {
+		final Long idMariage = 10L;
+		final Long idCourrier = 100L;
+		final Long idEtape = 110L;
+		final Boolean lie = true;
+
+		// ARRANGE
+		final ArgumentCaptor<Long> argumentCaptorIdCourrier = ArgumentCaptor.forClass(Long.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		final ArgumentCaptor<Long> argumentCaptorIdEtape = ArgumentCaptor.forClass(Long.class);
+		final ArgumentCaptor<Boolean> argumentCaptorLie = ArgumentCaptor.forClass(Boolean.class);
+		Mockito.doNothing().when(this.mariageService).lieUneEtapeEtUnCourrier(argumentCaptorIdMariage.capture(),
+				argumentCaptorIdEtape.capture(), argumentCaptorIdCourrier.capture(), argumentCaptorLie.capture());
+
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("idEtape", idEtape, "lie",
+				lie);
+
+		// ACT
+		final ResponseEntity<Void> response = getREST().exchange(
+				getURL() + "/mariage/" + idMariage + "/courrier/" + idCourrier, HttpMethod.POST,
+				new HttpEntity<>(requestParam), Void.class);
+
+		// ASSERT
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		Assert.assertEquals(argumentCaptorIdCourrier.getValue(), idCourrier);
+		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
+		Assert.assertEquals(argumentCaptorIdEtape.getValue(), idEtape);
+		Assert.assertEquals(argumentCaptorLie.getValue(), lie);
+		Mockito.verify(this.mariageService).lieUneEtapeEtUnCourrier(Mockito.anyLong(), Mockito.anyLong(),
+				Mockito.anyLong(), Mockito.anyBoolean());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 

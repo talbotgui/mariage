@@ -31,6 +31,15 @@ public class CourrierRestControler {
 	@Autowired
 	private MariageService mariageService;
 
+	@RequestMapping(value = "/mariage/{idMariage}/courrier/{idCourrier}", method = POST)
+	public void lieCourrierEtEtape(//
+			@RequestParam(value = "idEtape") final Long idEtape, //
+			@RequestParam(value = "lie") final Boolean lie, //
+			@PathVariable(value = "idMariage") final Long idMariage, //
+			@PathVariable(value = "idCourrier") final Long idCourrier) {
+		mariageService.lieUneEtapeEtUnCourrier(idMariage, idEtape, idCourrier, lie);
+	}
+
 	@RequestMapping(value = "/mariage/{idMariage}/courrier", method = GET)
 	public Collection<CourrierDTO> listeCourrierParIdMariage(@PathVariable("idMariage") final Long idMariage) {
 		return AbstractDTO.creerDto(this.mariageService.listeCourriersParIdMariage(idMariage), CourrierDTO.class);
