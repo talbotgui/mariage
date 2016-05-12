@@ -80,6 +80,10 @@ public class Courrier implements Serializable {
 		return nom;
 	}
 
+	public void removeEtapeInvitatino(final Etape e) {
+		this.etapesInvitation.remove(e);
+	}
+
 	public void setDateEnvoiRealise(final Date dateEnvoiRealise) {
 		this.dateEnvoiRealise = dateEnvoiRealise;
 	}
@@ -102,6 +106,12 @@ public class Courrier implements Serializable {
 
 	public void setNom(final String nom) {
 		this.nom = nom;
+	}
+
+	@Override
+	public String toString() {
+		return "Courrier [id=" + id + ", nom=" + nom + ", datePrevisionEnvoi=" + datePrevisionEnvoi
+				+ ", dateEnvoiRealise=" + dateEnvoiRealise + "]";
 	}
 
 }

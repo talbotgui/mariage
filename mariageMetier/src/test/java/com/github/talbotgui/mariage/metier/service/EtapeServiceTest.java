@@ -188,4 +188,62 @@ public class EtapeServiceTest {
 		Assert.assertTrue(BaseException.equals(CatchException.caughtException(), BusinessException.ERREUR_ID_MARIAGE));
 	}
 
+	@Test
+	public void test04LieCourrierEtEtapeKo() throws ParseException {
+
+		// ARRANGE
+		final Mariage original1 = ObjectMother.creeMariageSimple();
+		final Long idMariage1 = this.instance.sauvegardeGrappe(original1);
+		final Mariage original2 = ObjectMother.creeMariageSimple();
+		this.instance.sauvegardeGrappe(original2);
+
+		// ACT
+		final Long idCourrier = original1.getCourriers().iterator().next().getId();
+		final Long idEtape = original2.getEtapes().iterator().next().getId();
+		CatchException.catchException(this.instance).lieUneEtapeEtUnCourrier(idMariage1, idEtape, idCourrier, true);
+
+		// ASSERT
+		Assert.assertNotNull(CatchException.caughtException());
+		Assert.assertEquals(BusinessException.class, CatchException.caughtException().getClass());
+		Assert.assertTrue(BaseException.equals(CatchException.caughtException(), BusinessException.ERREUR_ID_MARIAGE));
+	}
+
+	@Test
+	public void test04LieCourrierEtEtapeOk() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+
+		// ACT
+		final Long idCourrier = original.getCourriers().iterator().next().getId();
+		for (final Etape e : original.getEtapes()) {
+			this.instance.lieUneEtapeEtUnCourrier(idMariage, e.getId(), idCourrier, true);
+		}
+
+		// ASSERT
+		final Collection<Courrier> courriers = this.instance.listeCourriersParIdMariage(idMariage);
+		final Courrier c = courriers.iterator().next();
+		Assert.assertEquals(original.getEtapes().size(), c.getEtapesInvitation().size());
+	}
+
+	@Test
+	public void test05DelieCourrierEtEtapeOk() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+
+		// ACT
+		final Long idCourrier = original.getCourriers().iterator().next().getId();
+		for (final Etape e : original.getEtapes()) {
+			this.instance.lieUneEtapeEtUnCourrier(idMariage, e.getId(), idCourrier, false);
+		}
+
+		// ASSERT
+		final Collection<Courrier> courriers = this.instance.listeCourriersParIdMariage(idMariage);
+		final Courrier c = courriers.iterator().next();
+		Assert.assertEquals(0, c.getEtapesInvitation().size());
+	}
+
 }

@@ -14,6 +14,8 @@ public interface MariageService {
 
 	Mariage chargeMariageParId(Long idMariage);
 
+	void lieUneEtapeEtUnCourrier(Long idMariage, Long idEtape, Long idCourrier, boolean lie);
+
 	Collection<String> listeAgePossible();
 
 	Collection<Courrier> listeCourriersParIdMariage(Long idMariage);

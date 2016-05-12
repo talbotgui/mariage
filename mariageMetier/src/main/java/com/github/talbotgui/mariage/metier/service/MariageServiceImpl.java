@@ -47,6 +47,30 @@ public class MariageServiceImpl implements MariageService {
 		return this.mariageRepository.findOne(idMariage);
 	}
 
+	public void lieUneEtapeEtUnCourrier(final Long idMariage, final Long idEtape, final Long idCourrier,
+			final boolean lie) {
+		final Courrier c = this.courrierRepository.findOne(idCourrier);
+		final Etape e = this.etapeRepository.findOne(idEtape);
+
+		if (c == null || e == null || !c.getMariage().getId().equals(idMariage)
+				|| !e.getMariage().getId().equals(idMariage)) {
+			throw new BusinessException(BusinessException.ERREUR_ID_MARIAGE, new Object[] { idMariage });
+		}
+
+		// Pour lier
+		if (lie && !c.getEtapesInvitation().contains(e)) {
+			c.addEtapeInvitation(e);
+			this.courrierRepository.save(c);
+		}
+
+		// Pour délier
+		if (!lie && c.getEtapesInvitation().contains(e)) {
+			c.removeEtapeInvitatino(e);
+			this.courrierRepository.save(c);
+		}
+
+	}
+
 	@Override
 	public Collection<String> listeAgePossible() {
 		final Collection<String> liste = new ArrayList<>();
@@ -58,7 +82,7 @@ public class MariageServiceImpl implements MariageService {
 
 	@Override
 	public Collection<Courrier> listeCourriersParIdMariage(final Long idMariage) {
-		return this.mariageRepository.listeCourriersParIdMariage(idMariage);
+		return this.mariageRepository.listeCourriersParIdMariageFetchEtapesInvitation(idMariage);
 	}
 
 	@Override
