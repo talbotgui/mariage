@@ -88,7 +88,7 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	/**
 	 * Reset restTemplate avec les intercepteurs
 	 *
-	 * @see ControlerTestUtil.REST_INTERCEPTORS
+	 * @see com.github.talbotgui.mariage.rest.controleur.ControlerTestUtil (REST_INTERCEPTORS)
 	 *
 	 * @return a new RestTemplate
 	 */
