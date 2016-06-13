@@ -1,5 +1,5 @@
 // Constantes
-var REST_PREFIX = "http://" + window.location.hostname + ":" + window.location.port + "/monMariage";
+var REST_PREFIX = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/monMariage";
 var DHTMLX_IMAGE_PATH = "/ressources/dhtmlxGrid_v46_std/imgs/";
 
 /**
