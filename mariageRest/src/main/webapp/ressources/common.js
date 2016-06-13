@@ -68,12 +68,15 @@ var valideForm = function(formSelector, callback) {
 
 	var inputsRequired = $(formSelector + " :input[required]");
 	var inputsMinLength = $(formSelector + " :input[data-minLength]");
+	var inputsPattern = $(formSelector + " :input[data-validationPattern]");
 
 	inputsRequired.removeClass("error");
 	inputsMinLength.removeClass("error");
+	inputsPattern.removeClass("error");
 
 	var errors = inputsRequired.filter(function() { return !$(this).val(); });
-	errors = errors.add(inputsMinLength.filter(function() { return this.value.length < $(this).attr("data-minLength") ;}));
+	errors = errors.add(inputsMinLength.filter(function() { return this.value.length < $(this).attr("data-minLength"); }));
+	errors = errors.add(inputsPattern.filter(function() { return !(new RegExp($(this).attr("data-validationPattern"))).test(this.value); }));
 	errors.addClass("error");
 
 	// Do it

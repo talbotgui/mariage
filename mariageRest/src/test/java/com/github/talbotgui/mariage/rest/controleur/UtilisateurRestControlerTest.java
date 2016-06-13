@@ -149,4 +149,24 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		// Nothing to do
 	}
+
+	@Test
+	public void test99BugLoginContenantUnPoint() {
+		final String login = "mon.login";
+		final String loginObtenu = "mon.login".substring(0, login.indexOf("."));
+
+		// ARRANGE
+		final ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+		Mockito.doNothing().when(this.securiteService).supprimeUtilisateur(argumentCaptor.capture());
+
+		// ACT
+		final ResponseEntity<Void> response = getREST().exchange(getURL() + "/utilisateur/" + login, HttpMethod.DELETE,
+				null, Void.class);
+
+		// ASSERT
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		Assert.assertEquals(argumentCaptor.getValue(), loginObtenu);
+		Mockito.verify(this.securiteService).supprimeUtilisateur(Mockito.anyString());
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+	}
 }

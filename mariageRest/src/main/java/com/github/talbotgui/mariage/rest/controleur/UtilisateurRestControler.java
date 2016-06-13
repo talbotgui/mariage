@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.talbotgui.mariage.metier.service.SecuriteService;
 import com.github.talbotgui.mariage.rest.controleur.dto.AbstractDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.UtilisateurDTO;
+import com.github.talbotgui.mariage.rest.exception.RestException;
 import com.github.talbotgui.mariage.rest.security.SecurityFilter;
 
 @RestController
@@ -52,7 +53,7 @@ public class UtilisateurRestControler {
 
 	/**
 	 * Suppression du cookie idMariage
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 */
@@ -71,6 +72,11 @@ public class UtilisateurRestControler {
 	public void sauvegardeUtilisateur(//
 			@RequestParam(value = "login") final String login, //
 			@RequestParam(value = "mdp") final String mdp) {
+		// Validation coté WEB car elle est nécessaire à cause d'un problème WEB (au delete avec un . dans le parametre)
+		if (login.contains(".")) {
+			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE,
+					new String[] { "login", "a-zA-Z0-9", "avec des caractères speciaux" });
+		}
 		this.securiteService.creeUtilisateur(login, mdp);
 	}
 
