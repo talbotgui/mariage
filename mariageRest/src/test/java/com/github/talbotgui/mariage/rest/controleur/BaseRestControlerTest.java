@@ -26,6 +26,10 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(BaseRestControlerTest.class);
 
+	/** ContextRoot de l'application. */
+	@Value("${server.context-path}")
+	private String contextPath;
+
 	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
 	@Autowired
 	@InjectMocks
@@ -60,6 +64,7 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	@InjectMocks
 	private PresenceEtapeRestControler peCtrl;
 
+	/** Port sur lequel démarre le serveur. */
 	@Value("${local.server.port}")
 	private int port;
 
@@ -100,7 +105,7 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 
 	/** Test URL. */
 	protected String getURL() {
-		return "http://localhost:" + this.port;
+		return "http://localhost:" + this.port + this.contextPath;
 	}
 
 }

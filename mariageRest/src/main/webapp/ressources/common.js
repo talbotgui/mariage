@@ -1,14 +1,6 @@
-// Flag du debug
-var debug = false;
-
 // Constantes
-var REST_PREFIX = "http://" + window.location.hostname + ":" + window.location.port + "/";
+var REST_PREFIX = "http://" + window.location.hostname + ":" + window.location.port + "/monMariage";
 var DHTMLX_IMAGE_PATH = "/ressources/dhtmlxGrid_v46_std/imgs/";
-
-// Modification pour le debug 
-if (debug) {
-  REST_PREFIX = "/test"
-}
 
 /**
  * Sauvegarde de l'identifiant du mariage.
@@ -156,7 +148,7 @@ var majAttribute = function (url, event, success) {
  * Déconnexion
  */
 var logout = function() {
-	var req = $.get( REST_PREFIX + "dologout");
+	var req = $.get( REST_PREFIX + "/dologout");
 	req.success(function(dataString) { 
 		document.cookie = 'idMariage=; expires=Thu, 01-Jan-1970 00:00:01 GMT;';
 		window.location.reload();

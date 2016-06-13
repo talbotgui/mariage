@@ -89,7 +89,7 @@
 
 		// Fonction JqxGrid
 		var modifieEtape = function(e) {
-			majAttribute(REST_PREFIX + "mariage/" + idMariage + "/etape", e, chargeEtapes);
+			majAttribute(REST_PREFIX + "/mariage/" + idMariage + "/etape", e, chargeEtapes);
 		}
 		
 		// Sauvegarde etape par un POST
@@ -97,7 +97,7 @@
 			e.preventDefault();
 			
 			valideForm("#" + idPopup + " form", function(data) {
-				var req = $.ajax({ type: "POST", url: REST_PREFIX + "mariage/" + idMariage + "/etape", data: data});
+				var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + idMariage + "/etape", data: data});
 				req.success(function(dataString) {
 					$("#" + idPopup).jqxWindow("close");
 					chargeEtapes();

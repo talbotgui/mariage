@@ -26,7 +26,7 @@
 				<div data-w3-include-html="./part_infoMariage.html"></div>
 				<script type="text/javascript" src="./part_infoMariage.js"></script>
 
-				<div id="courrier"></div>
+				<div id="courriers"></div>
 
 				<button id="button_afficher_popup_ajouter_courrier" class="btn btn-default">Ajouter un courrier</button>
 				
@@ -73,15 +73,15 @@
 
 		// Fonction JqxGrid
 		var modifieCourrier = function(e) {
-			majAttribute(REST_PREFIX + "mariage/" + idMariage + "/courrier", e, chargeCourriers);
+			majAttribute(REST_PREFIX + "/mariage/" + idMariage + "/courrier", e, chargeCourriers);
 		}
 		
 		// Sauvegarde courrier par un POST
-		var ajouteCourrierCeremonie = function(e) {
+		var ajouteCourrier = function(e) {
 			e.preventDefault();
 			
 			valideForm("#popupAjoutCourrier form", function(data) {
-				var req = $.ajax({ type: "POST", url: REST_PREFIX + "mariage/" + idMariage + "/courrier", data: data});
+				var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + idMariage + "/courrier", data: data});
 				req.success(function(dataString) {
 					$("#" + idPopup).jqxWindow("close");
 					chargeCourriers();

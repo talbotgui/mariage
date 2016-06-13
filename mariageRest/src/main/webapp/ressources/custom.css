@@ -11,5 +11,6 @@
 .center { text-align: center; }
 .popup {  }
 .error { border-color: red!important; }
+.errorMessage { color: red; }
 
 .datetimepicker { z-index: 9999 !important; }

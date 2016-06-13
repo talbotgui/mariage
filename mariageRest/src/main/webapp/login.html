@@ -29,8 +29,8 @@
 
 				<div id="login">
 					<h1>Connexion.</h1>
+					<p id="loginError" class="errorMessage" style="display:none">Erreur de connexion</p>
 					<form class="form-inline">
-						<div id="loginError" class="form-group" style="display:none">Erreur de connexion<br/></div>
 						<div class="form-group">
 							<label for="login">Login</label>
 							<input type="text" class="form-control" id="login" name="login" placeholder="Login" required data-minLength="6"/>
@@ -72,8 +72,8 @@
 			e.preventDefault();
 			
 			valideForm("form", function(data) {
-				var req = $.post( REST_PREFIX + "dologin", data);
-				req.success(function(dataString) { window.location.href = "/" });
+				var req = $.post( REST_PREFIX + "/dologin", data);
+				req.success(function(dataString) { window.location.href = REST_PREFIX + "/" });
 				req.fail(function(jqXHR, textStatus, errorThrown) { $("#loginError").show(); });
 			});
 		};

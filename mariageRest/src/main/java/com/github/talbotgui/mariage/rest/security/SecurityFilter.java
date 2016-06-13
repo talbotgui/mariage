@@ -37,7 +37,7 @@ public class SecurityFilter implements Filter {
 		final HttpServletRequest request = (HttpServletRequest) req;
 		final HttpServletResponse response = (HttpServletResponse) res;
 
-		final boolean pageProtegee = isPageProtegee(request.getRequestURI());
+		final boolean pageProtegee = isPageProtegee(request);
 		LOG.debug("{} => {}", request.getRequestURI(), pageProtegee);
 
 		// Page sécurisée et login valide
@@ -61,8 +61,10 @@ public class SecurityFilter implements Filter {
 		// Rien à faire
 	}
 
-	private boolean isPageProtegee(final String uri) {
-		return !LOGIN_PAGE.equals(uri) && !LOGIN_REST.equals(uri) && !uri.startsWith("/ressources");
+	private boolean isPageProtegee(final HttpServletRequest request) {
+		final String uriAcomparer = request.getRequestURI().replaceFirst(request.getContextPath(), "");
+		return !LOGIN_PAGE.equals(uriAcomparer) && !LOGIN_REST.equals(uriAcomparer)
+				&& !uriAcomparer.startsWith("/ressources");
 	}
 
 }

@@ -103,7 +103,7 @@
 			// Au changement de presence
 			var changePresence = function(idPresenceEtape, valeur) {
 				var data = { id: idPresenceEtape, presence: valeur};
-				var req = $.post( REST_PREFIX + "mariage/" + idMariage + "/presenceEtape", data);
+				var req = $.post( REST_PREFIX + "/mariage/" + idMariage + "/presenceEtape", data);
 				req.success(function(dataString) { });
 				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("changePresence");  });
 			}
@@ -115,7 +115,7 @@
 				} else {
 					
 					// Chargement des étapes
-					var req = $.get( REST_PREFIX + "mariage/" + getIdMariage() + "/etape");
+					var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/etape");
 					req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargeInvites");});
 					req.success(function(dataString) {
 						

@@ -2,9 +2,7 @@ package com.github.talbotgui.mariage.rest.selenium;
 
 import static org.junit.Assert.assertEquals;
 
-import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -20,6 +18,10 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 @SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
 public class SeleniumTest extends AbstractTestNGSpringContextTests {
 
+	/** ContextRoot de l'application. */
+	@Value("${server.context-path}")
+	private String contextPath;
+
 	private MyDriver driver;
 
 	/** Port de l'application web aléatoire injecté par Spring. */
@@ -33,17 +35,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 
 	@BeforeClass
 	public void beforeClass() {
-
-		// Pour tester sur l'IC
-		final boolean asIC = false;
-		if (!SystemUtils.IS_OS_WINDOWS || asIC) {
-			driver = new MyDriver(new HtmlUnitDriver(BrowserVersion.FIREFOX_38, true));
-		}
-
-		// Pour tester sur mon poste
-		else {
-			driver = new MyDriver(new FirefoxDriver());
-		}
+		driver = new MyDriver(new HtmlUnitDriver(BrowserVersion.FIREFOX_38, true));
 	}
 
 	@Test
@@ -52,7 +44,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		driver.deleteAllCookies();
 
 		//
-		driver.get("http://localhost:" + port + "/");
+		driver.get("http://localhost:" + port + contextPath + "/");
 
 		//
 		driver.assertPageTitle("Mariage");
