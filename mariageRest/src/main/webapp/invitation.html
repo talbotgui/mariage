@@ -29,6 +29,7 @@
 				<div id="invites"></div>
 
 				<button id="button_afficher_popup_ajouter" class="btn btn-default">Ajouter</button>
+				<button id="button_afficher_popup_ajouter_en_masse" class="btn btn-default">Ajouter en masse</button>
 				
 				<div id="popupAjoutInvite" class="popup">
 					<div>Ajout d'un invité</div>
@@ -40,6 +41,16 @@
 							<div class="form-group"><label for="prenom">Prenom</label><input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prenom" required/></div>
 							<div class="form-group"><label for="age">Age</label><select class="form-control" id="age" name="age" data-source="/parametres/age" data-empty="false" required></select></div>
 							<br/><button id="button_ajouter" class="btn btn-default">Ajouter</button>
+						</form>
+					</div>
+				</div>
+				<div id="popupAjoutInviteEnMasse" class="popup">
+					<div>Ajout d'invités en masse</div>
+					<p>Un invité par ligne. Chaque information séparée par un : ou ; ou une tabulation. Dans l'ordre, le nom, le prénom, le groupe et l'adresse</p>
+					<div class="form-inline">
+						<form>
+							<div class="form-group"><textarea id="invites" name="invites" rows="20" cols="50" required></textarea></div>
+							<br/><button id="button_ajouterEnMasse" class="btn btn-default">Ajouter</button>
 						</form>
 					</div>
 				</div>
@@ -74,6 +85,9 @@
 			var affichePopupInvite = function() {
 				$("#popupAjoutInvite").jqxWindow('open');
 			};
+			var affichePopupInviteEnMasse = function() {
+				$("#popupAjoutInviteEnMasse").jqxWindow('open');
+			};
 
 			// Fonction JqxGrid
 			var modifieInvite = function(e) {
@@ -93,7 +107,20 @@
 					req.fail(function(jqXHR, textStatus, errorThrown) { ajaxFailFunctionToDisplayWarn("ajouteInvite"); });
 				});
 			};
-			
+
+			var ajouteInviteEnMasse = function(e) {
+				e.preventDefault();
+				
+				valideForm("#popupAjoutInviteEnMasse form", function(data) {
+					var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + idMariage + "/inviteEnMasse", data: data});
+					req.success(function(dataString) {
+						$("#popupAjoutInviteEnMasse").jqxWindow("close");
+						chargeInvites();
+					});
+					req.fail(function(jqXHR, textStatus, errorThrown) { ajaxFailFunctionToDisplayWarn("ajouteInviteEnMasse"); });
+				});
+			};
+
 			var supprimeInvite = function(idInvite) {
 				var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + idMariage + "/invite/" + idInvite});
 				req.success(function(dataString) { chargeInvites(); });
@@ -174,7 +201,9 @@
 				
 				// Ajout des evenements
 				$("#button_afficher_popup_ajouter").on("click", affichePopupInvite);
+				$("#button_afficher_popup_ajouter_en_masse").on("click", affichePopupInviteEnMasse);
 				$("#button_ajouter").on("click", ajouteInvite);
+				$("#button_ajouterEnMasse").on("click", ajouteInviteEnMasse);
 			});
 		</script>
 	</body>

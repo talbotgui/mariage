@@ -166,4 +166,29 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Test
+	public void test04AjouteInviteEnMasse() {
+		final Long idMariage = 10L;
+		final String invites = "Nom1:Prenom1:Group1;Adresse1\nNom2:Prenom2:Group2;Adresse2";
+
+		// ARRANGE
+		final ArgumentCaptor<Collection> argumentCaptorInvites = ArgumentCaptor.forClass(Collection.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		Mockito.doNothing().when(this.mariageService).sauvegardeEnMasse(argumentCaptorIdMariage.capture(),
+				argumentCaptorInvites.capture());
+
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("invites", invites);
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		getREST().postForObject(getURL() + "/mariage/" + idMariage + "/inviteEnMasse", requestParam, Void.class,
+				uriVars);
+
+		// ASSERT
+		Assert.assertEquals(argumentCaptorInvites.getValue().size(), 2);
+		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
+		Mockito.verify(this.mariageService).sauvegardeEnMasse(Mockito.anyLong(), Mockito.any(Collection.class));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
 }

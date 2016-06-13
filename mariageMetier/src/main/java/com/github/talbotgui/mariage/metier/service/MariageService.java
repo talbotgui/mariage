@@ -38,6 +38,8 @@ public interface MariageService {
 
 	Long sauvegarde(Mariage mariage);
 
+	void sauvegardeEnMasse(Long idMariage, Collection<Invite> invites);
+
 	Long sauvegardeGrappe(Mariage mariage);
 
 	void suprimeCourrier(Long idMariage, Long idCourrier);

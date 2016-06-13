@@ -184,4 +184,26 @@ public class InviteServiceTest {
 		Assert.assertEquals((Long) (nbPresenceTrueAvant + 1), nbPresenceTrueApres);
 	}
 
+	@Test
+	public void test07SauvegarderInvitesEnMasse() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
+		final Collection<Invite> invitesAinserer = Arrays.asList(new Invite(null, "G1", "nom1", "prenom1", Age.adulte),
+				new Invite(null, "G1", "nom2", "prenom2", Age.adulte));
+
+		// ACT
+		this.instance.sauvegardeEnMasse(idMariage, invitesAinserer);
+
+		// ASSERT
+		final Collection<Invite> inviteApres = this.instance.listeInvitesParIdMariage(idMariage);
+		Assert.assertEquals(inviteAvant.size() + invitesAinserer.size(), inviteApres.size());
+		final Collection<Invite> diff = new TreeSet<>(new InviteComparator());
+		diff.addAll(inviteApres);
+		diff.removeAll(inviteAvant);
+		Assert.assertEquals(invitesAinserer.size(), diff.size());
+	}
+
 }

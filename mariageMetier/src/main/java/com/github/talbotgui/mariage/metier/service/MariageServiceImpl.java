@@ -156,6 +156,15 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public void sauvegardeEnMasse(final Long idMariage, final Collection<Invite> invites) {
+		if (invites != null) {
+			for (final Invite invite : invites) {
+				this.sauvegarde(idMariage, invite);
+			}
+		}
+	}
+
+	@Override
 	public Long sauvegardeGrappe(final Mariage m) {
 		final Long id = this.sauvegarde(m);
 

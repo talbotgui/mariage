@@ -4,6 +4,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,19 @@ public class InviteRestControler {
 	@Autowired
 	private MariageService mariageService;
 
+	private Age getAgeFromString(final String age) {
+		Age ageEnum = null;
+		try {
+			if (age != null) {
+				ageEnum = Age.valueOf(age);
+			}
+		} catch (final IllegalArgumentException e) {
+			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE, e,
+					new Object[] { "age", Age.values(), age });
+		}
+		return ageEnum;
+	}
+
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = GET)
 	public Collection<InviteDTO> listeInvitesParIdMariage(@PathVariable("idMariage") final Long idMariage) {
 		return AbstractDTO.creerDto(this.mariageService.listeInvitesParIdMariage(idMariage), InviteDTO.class);
@@ -42,20 +56,28 @@ public class InviteRestControler {
 			@RequestParam(required = false, value = "telephone") final String telephone, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
 
-		Age ageEnum = null;
-		try {
-			if (age != null) {
-				ageEnum = Age.valueOf(age);
-			}
-		} catch (final IllegalArgumentException e) {
-			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE, e,
-					new Object[] { "age", Age.values(), age });
-		}
-		final Invite invite = new Invite(id, groupe, nom, prenom, ageEnum);
+		final Invite invite = new Invite(id, groupe, nom, prenom, getAgeFromString(age));
 		invite.setAdresse(adresse);
 		invite.setFoyer(foyer);
 		invite.setTelephone(telephone);
 		return this.mariageService.sauvegarde(idMariage, invite);
+	}
+
+	@RequestMapping(value = "/mariage/{idMariage}/inviteEnMasse", method = POST)
+	public void sauvegardeInviteEnMasse(//
+			@RequestParam(required = true, value = "invites") final String invitesString, //
+			@PathVariable(value = "idMariage") final Long idMariage) {
+
+		final Collection<Invite> invites = new ArrayList<>();
+		for (final String ligne : invitesString.split("\n")) {
+			final String[] elements = ligne.split("[:;\t]");
+			if (elements.length == 4) {
+				final Invite invite = new Invite(null, elements[2], elements[0], elements[1], null);
+				invite.setAdresse(elements[3]);
+				invites.add(invite);
+			}
+		}
+		this.mariageService.sauvegardeEnMasse(idMariage, invites);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite/{idInvite}", method = DELETE)
