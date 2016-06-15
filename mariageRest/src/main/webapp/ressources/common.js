@@ -1,6 +1,6 @@
 // Constantes
 var REST_PREFIX = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/monMariage";
-REST_PREFIX.replace("com:/", "com/");
+REST_PREFIX = REST_PREFIX.replace("com:/", "com/");
 var DHTMLX_IMAGE_PATH = "/ressources/dhtmlxGrid_v46_std/imgs/";
 
 /**
