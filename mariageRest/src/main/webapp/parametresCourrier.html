@@ -63,7 +63,7 @@
 			valideForm("#popupAjoutCourrier form", function(data) {
 				var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + idMariage + "/courrier", data: data});
 				req.success(function(dataString) {
-					$("#" + idPopup).jqxWindow("close");
+					$("#popupAjoutCourrier").jqxWindow("close");
 					chargeCourriers();
 				});
 				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("ajouteCourrier");});

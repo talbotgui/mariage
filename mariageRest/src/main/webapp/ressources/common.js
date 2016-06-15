@@ -1,6 +1,5 @@
 // Constantes
-var REST_PREFIX = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/monMariage";
-REST_PREFIX = REST_PREFIX.replace("com:/", "com/");
+var REST_PREFIX = window.location.protocol + "//" + window.location.hostname + ((window.location.port !== "") ? ":" + window.location.port : "") + "/monMariage";
 var DHTMLX_IMAGE_PATH = "/ressources/dhtmlxGrid_v46_std/imgs/";
 
 /**
@@ -166,18 +165,18 @@ var logout = function() {
 /** Chargement des données du mariage */
 var chargementDonneesDivMaries = function() {
 	// Mise en place du timeout pour attendre le chargement de la div par le script de google
-	setTimeout(function(){ 
-			if (typeof document.getElementById("maries") !== "undefined") {
-				var req = $.get( REST_PREFIX + "/mariage/" + idMariage);
+	if (document.getElementById("maries") != null) {
+		setTimeout(function() { 
+				var req = $.get(REST_PREFIX + "/mariage/" + idMariage);
 				req.success(function(dataString) {
 					var data = eval(dataString);
 					$("#maries span:first").html(data.marie1);
 					$("#maries span:last").html(data.marie2);
 					$("#date span").html(data.dateCelebration);
 				});
-				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("readMariage");});
-			}
-	 	}, 500);
+				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargementDonneesDivMaries");});
+			}, 500);
+	}
 }
 
 /** 
