@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +65,7 @@ public class CourrierRestControler {
 					new String[] { AbstractDTO.FORMAT_DATE_TIME, sdatePrevisionEnvoi });
 		}
 		try {
-			if (StringUtils.isNotBlank(sdateEnvoiRealise)) {
+			if (sdateEnvoiRealise != null && sdateEnvoiRealise.length() > 0) {
 				dateEnvoiRealise = sdf.parse(sdateEnvoiRealise);
 			}
 		} catch (final ParseException e) {
