@@ -23,8 +23,12 @@ public class CourrierDTO extends AbstractDTO {
 		if (entity != null) {
 			final Courrier c = (Courrier) entity;
 			this.id = c.getId();
-			this.dateEnvoiRealise = sdf.format(c.getDateEnvoiRealise());
-			this.datePrevisionEnvoi = sdf.format(c.getDatePrevisionEnvoi());
+			if (c.getDateEnvoiRealise() != null) {
+				this.dateEnvoiRealise = sdf.format(c.getDateEnvoiRealise());
+			}
+			if (c.getDatePrevisionEnvoi() != null) {
+				this.datePrevisionEnvoi = sdf.format(c.getDatePrevisionEnvoi());
+			}
 			this.nom = c.getNom();
 		}
 	}
