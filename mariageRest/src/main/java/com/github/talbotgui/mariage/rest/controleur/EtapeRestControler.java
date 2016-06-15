@@ -71,7 +71,8 @@ public class EtapeRestControler {
 		} else {
 			final List<String> listeTypes = Arrays.asList(EtapeCeremonie.class.getSimpleName(),
 					EtapeRepas.class.getSimpleName());
-			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE, new Object[] { "type", listeTypes, type });
+			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE, //
+					new Object[] { "type", listeTypes, type });
 		}
 
 		// Gestion de l'ordre

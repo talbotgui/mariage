@@ -3,9 +3,11 @@ package com.github.talbotgui.mariage.metier.exception;
 import java.util.Arrays;
 
 /**
- * 400 : BAD REQUEST - La syntaxe de la requête est erronée
+ * 400 : BAD REQUEST - La syntaxe de la requête est erronée.
  *
+ * <p>
  * 409 : CONFLICT - La requête ne peut être traitée à l’état actuel
+ * </p>
  */
 public abstract class BaseException extends RuntimeException {
 
@@ -67,13 +69,13 @@ public abstract class BaseException extends RuntimeException {
 	 *
 	 * @param pExceptionId
 	 *            Exception identifier.
-	 * @param pNestedException
+	 * @param pNested
 	 *            Embedded exception.
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	public BaseException(final ExceptionId pExceptionId, final Throwable pNestedException, final Object[] pParameters) {
-		super(pNestedException);
+	public BaseException(final ExceptionId pExceptionId, final Throwable pNested, final Object[] pParameters) {
+		super(pNested);
 		this.setExceptionId(pExceptionId);
 		this.setParameters(pParameters);
 	}

@@ -16,14 +16,20 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 	@Query("select i.mariage.id from Invite i where i.id=:idInvite")
 	Long getIdMariageByInviteId(@Param("idInvite") Long idInvite);
 
-	@Query("select distinct i from Invite i left join fetch i.presencesEtape where i.mariage.id=:idMariage order by i.groupe, i.nom")
+	@Query("select distinct i" //
+			+ " from Invite i left join fetch i.presencesEtape "//
+			+ " where i.mariage.id=:idMariage order by i.groupe, i.nom")
 	Collection<Invite> listeInvitesParIdMariage(@Param("idMariage") Long idMariage);
 
-	@Query("select i from Invite i where i.mariage.id=:idMariage order by i.groupe, i.nom")
+	@Query("select i "//
+			+ " from Invite i"//
+			+ " where i.mariage.id=:idMariage order by i.groupe, i.nom")
 	Page<Invite> listeInvitesParIdMariage(@Param("idMariage") Long idMariage, Pageable page);
 
 	@Modifying
-	@Query("update Invite set adresse=:adresse, telephone=:telephone where foyer=:foyer")
+	@Query("update Invite"//
+			+ " set adresse=:adresse, telephone=:telephone"//
+			+ " where foyer=:foyer")
 	void updateAdresseEtTelephoneParFoyer(@Param("foyer") String foyer, @Param("adresse") String adresse,
 			@Param("telephone") String telephone);
 }

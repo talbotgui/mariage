@@ -16,8 +16,8 @@ public class RestException extends BaseException {
 			"Erreur durant la tranformation de modele.", ExceptionLevel.ERROR, 500);
 
 	public static final ExceptionId ERREUR_VALEUR_PARAMETRE = new ExceptionId("ERREUR_VALEUR_PARAMETRE",
-			"Le parametre '{1}' ne peut prendre que les valeurs '{2}' et pas la valeur '{3}'.", ExceptionLevel.ERROR,
-			400);
+			"Le parametre '{1}' ne peut prendre que les valeurs '{2}' et pas la valeur '{3}'.", //
+			ExceptionLevel.ERROR, 400);
 
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;

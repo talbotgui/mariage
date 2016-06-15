@@ -12,7 +12,10 @@ import com.github.talbotgui.mariage.metier.entities.Mariage;
 
 public interface MariageRepository extends CrudRepository<Mariage, Long> {
 
-	@Query("select distinct c from Mariage m join m.courriers c left join fetch c.etapesInvitation where m.id=:idMariage order by c.datePrevisionEnvoi")
+	@Query("select distinct c  from Mariage m"//
+			+ " join m.courriers c"//
+			+ " left join fetch c.etapesInvitation"//
+			+ " where m.id=:idMariage order by c.datePrevisionEnvoi")
 	Collection<Courrier> listeCourriersParIdMariageFetchEtapesInvitation(@Param("idMariage") Long idMariage);
 
 	@Query("select e from Mariage m join m.etapes e where m.id=:idMariage order by e.numOrdre")
