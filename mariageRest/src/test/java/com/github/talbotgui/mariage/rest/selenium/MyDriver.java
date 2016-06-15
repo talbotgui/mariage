@@ -24,7 +24,7 @@ public class MyDriver {
 
 	private static final long DEFAULT_TIMEOUT = 10;
 
-	private static final int NB_MS_ATTENTE_SI_ASSERTION_ERROR = 3000;
+	private static final int NB_MS_ATTENTE_SI_ASSERTION_ERROR = 5000;
 
 	/** Le driver réel. */
 	private final WebDriver driver;
