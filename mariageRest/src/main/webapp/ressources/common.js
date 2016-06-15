@@ -163,18 +163,18 @@ var logout = function() {
 /** Chargement des données du mariage */
 var chargementDonneesDivMaries = function() {
 	// Mise en place du timeout pour attendre le chargement de la div par le script de google
-	if (document.getElementById("maries") != null) {
-		setTimeout(function() { 
-				var req = $.get(REST_PREFIX + "/mariage/" + idMariage);
-				req.success(function(dataString) {
-					var data = eval(dataString);
-					$("#maries span:first").html(data.marie1);
-					$("#maries span:last").html(data.marie2);
-					$("#date span").html(data.dateCelebration);
-				});
-				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargementDonneesDivMaries");});
-			}, 500);
-	}
+	setTimeout(function() { 
+		if (document.getElementById("maries") != null) {
+			var req = $.get(REST_PREFIX + "/mariage/" + idMariage);
+			req.success(function(dataString) {
+				var data = eval(dataString);
+				$("#maries span:first").html(data.marie1);
+				$("#maries span:last").html(data.marie2);
+				$("#date span").html(data.dateCelebration);
+			});
+			req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargementDonneesDivMaries");});
+		}
+	}, 500);
 }
 
 /** 
