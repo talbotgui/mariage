@@ -136,22 +136,27 @@
 						// Render des colonnes d'étape se basant sur LES CHAMPS liés à une étape
 						var rendererColonnePresence = function (rowIndex, columnfield, value, defaulthtml, columnproperties, rowData) { var idEtape = columnfield.substring("presencesEtape".length); var idPresenceEtape = rowData["presencesEtape_ID" + idEtape]; return '<div class="center"><input type="checkbox" onchange="changePresence(' + idPresenceEtape + ', this.checked)" ' + (value?'checked':'') + '/></div>'; };
 						
+						// Valeurs possibles de la liste déroulante
+						var ages = $("select#age option").map(function() {return $(this).val();}).get();
+						
 						// Champs fixes
 						var datafields = [
 							{ name: 'id', type: 'string' },
 							{ name: 'groupe', type: 'string' },{ name: 'foyer', type: 'string' },
-							{ name: 'nom', type: 'string' },{ name: 'prenom', type: 'string' }
+							{ name: 'nom', type: 'string' },{ name: 'prenom', type: 'string' },
+							{ name: 'age', type: 'string' }
 						];
 						
-						// Calcul des largeurs des 4 colonnes fixes (7% pour les actions et 10% par etape)
+						// Calcul des largeurs des 5 colonnes fixes (7% pour les actions et 10% par etape)
 						var largeur = 10;
-						if (etapes.length > 0) { largeur = (100 - 7 - 10 * etapes.length) / 4; }
+						if (etapes.length > 0) { largeur = (100 - 7 - 10 * etapes.length) / 5; }
 						largeur = largeur + "%";
 						
 						// Colonnes fixes
 						var columns = [
 							{ text: 'Groupe', datafield: 'groupe', width: largeur, align: "center" }, { text: 'Foyer', datafield: 'foyer', width: largeur, align: "center" },
-							{ text: 'Nom', datafield: 'nom', width: largeur, align: "center" }, { text: 'Prenom', datafield: 'prenom', width: largeur, align: "center" }
+							{ text: 'Nom', datafield: 'nom', width: largeur, align: "center" }, { text: 'Prenom', datafield: 'prenom', width: largeur, align: "center" },
+							{ text: 'Age', datafield: 'age', width: largeur, align: "center", columntype: 'dropdownlist', createeditor: function (row, cellvalue, editor) {editor.jqxDropDownList({ autoDropDownHeight: true, source: ages });} }
 						];
 						
 						// Pour chaque étape, 

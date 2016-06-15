@@ -138,12 +138,10 @@ var majAttribute = function (url, event, success) {
 	if (event.args.value === event.args.oldvalue) { return; }
 
 	var data = event.args.row;
-	data.id = data.uid;
-	delete data.uid;
 	delete data.boundindex;
 	delete data.uniqueid;
 	delete data.visibleindex;
-		data[event.args.datafield] = event.args.value;
+	data[event.args.datafield] = event.args.value;
 
 	var req = $.ajax({ type: "POST", url: url, data: data});
 		req.success(function(dataString) { success(); });
