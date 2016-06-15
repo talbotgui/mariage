@@ -24,6 +24,8 @@ public class MyDriver {
 
 	private static final long DEFAULT_TIMEOUT = 10;
 
+	private static final int NB_MS_ATTENTE_SI_ASSERTION_ERROR = 3000;
+
 	/** Le driver réel. */
 	private final WebDriver driver;
 
@@ -50,20 +52,40 @@ public class MyDriver {
 		}
 	}
 
-	public void assertElementPresent(final By by) {
-		assertNotNull(driver.findElement(by));
+	public void assertElementPresent(final By by) throws InterruptedException {
+		try {
+			assertNotNull(driver.findElement(by));
+		} catch (final AssertionError e) {
+			Thread.sleep(1000);
+			assertNotNull(driver.findElement(by));
+		}
 	}
 
-	public void assertPageTitle(final String title) {
-		assertEquals(title, driver.getTitle());
+	public void assertPageTitle(final String title) throws InterruptedException {
+		try {
+			assertEquals(title, driver.getTitle());
+		} catch (final AssertionError e) {
+			Thread.sleep(1000);
+			assertEquals(title, driver.getTitle());
+		}
 	}
 
-	public void assertTextEquals(final By by, final String text) {
-		assertEquals(text, driver.findElement(by).getText());
+	public void assertTextEquals(final By by, final String text) throws InterruptedException {
+		try {
+			assertEquals(text, driver.findElement(by).getText());
+		} catch (final AssertionError e) {
+			Thread.sleep(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
+			assertEquals(text, driver.findElement(by).getText());
+		}
 	}
 
-	public void assertValueEquals(final By by, final String value) {
-		assertEquals(value, driver.findElement(by).getAttribute("value"));
+	public void assertValueEquals(final By by, final String value) throws InterruptedException {
+		try {
+			assertEquals(value, driver.findElement(by).getAttribute("value"));
+		} catch (final AssertionError e) {
+			Thread.sleep(1000);
+			assertEquals(value, driver.findElement(by).getAttribute("value"));
+		}
 	}
 
 	public void click(final By by, final long timeToWait) throws InterruptedException {

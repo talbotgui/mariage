@@ -24,7 +24,6 @@
 			<div class="content col-md-9">
 			
 				<div data-w3-include-html="./part_infoMariage.html"></div>
-				<script type="text/javascript" src="./part_infoMariage.js"></script>
 
 				<div id="invites"></div>
 
@@ -49,7 +48,7 @@
 					<p>Un invité par ligne. Chaque information séparée par un : ou ; ou une tabulation. Dans l'ordre, le nom, le prénom, le groupe et l'adresse</p>
 					<div class="form-inline">
 						<form>
-							<div class="form-group"><textarea id="invites" name="invites" rows="20" cols="50" required></textarea></div>
+							<div class="form-group"><textarea id="invites" name="invites" rows="20" cols="50" style="margin-left:15px;" required></textarea></div>
 							<br/><button id="button_ajouterEnMasse" class="btn btn-default">Ajouter</button>
 						</form>
 					</div>
@@ -58,6 +57,7 @@
 		</div>
 
 		<script type="text/javascript" src="ressources/all.js"></script>
+		<script type="text/javascript" src="ressources/jqwidgets-ver4.1.1/jqxgrid.pager.js"></script>
 		<script type="text/javascript" src="ressources/common.js"></script>
 		<script type="text/javascript">
 			var donneesDejaChargees = false;
@@ -169,7 +169,7 @@
 						
 						// Appel JqGrid
 						var dataAdapter = new $.jqx.dataAdapter({ datatype: "json", url: REST_PREFIX + "/mariage/" + idMariage + "/invite", datafields: datafields, id: 'id' });
-						$("#invites").jqxGrid({ source: dataAdapter, columns: columns, editable: true, sortable: true, filterable: true, autoheight: true, width: 950 });
+						$("#invites").jqxGrid({ source: dataAdapter, columns: columns, pageable: true, editable: true, sortable: true, filterable: true, autoheight: true, width: 950, pagesizeoptions: ['20', '50', '100', '500'] });
 						$("#invites").on('cellendedit', modifieInvite);
 						donneesDejaChargees = true;
 					});

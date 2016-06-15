@@ -85,6 +85,16 @@
 					</rulesets>
 				</configuration>
 			</plugin>
+			<!--<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>1.3.6</version>
+				<reportSets>
+					<reportSet>
+						<reports><report>aggregate</report></reports>
+					</reportSet>
+				</reportSets>
+			</plugin>-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>

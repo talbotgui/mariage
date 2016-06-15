@@ -18,10 +18,13 @@ var setIdMariage = function(idMariage) {
  * Affiche le menu et sélectionne le bon élément
  */
 var afficheMenu = function() {
-	var nomPage = window.location.pathname.substring(1);
-	if (nomPage === "") { nomPage = "index.html"; }
-	$(".nav a[href$='" + nomPage + "']").parent().addClass("active");
-	$("div[role=navigation]").show();
+	// Mise en place du timeout pour attendre le chargement de la div par le script de google
+	setTimeout(function(){ 
+			var nomPage = window.location.pathname.substring(1);
+			if (nomPage === "") { nomPage = "index.html"; }
+			$(".nav a[href$='" + nomPage + "']").parent().addClass("active");
+			$("div[role=navigation]").show();
+ 	}, 500);
 };
 
 /**
@@ -159,24 +162,45 @@ var logout = function() {
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("logout");});
 }
 
+/** Chargement des données du mariage */
+var chargementDonneesDivMaries = function() {
+	// Mise en place du timeout pour attendre le chargement de la div par le script de google
+	setTimeout(function(){ 
+			if (typeof document.getElementById("maries") !== "undefined") {
+				var req = $.get( REST_PREFIX + "/mariage/" + idMariage);
+				req.success(function(dataString) {
+					var data = eval(dataString);
+					$("#maries span:first").html(data.marie1);
+					$("#maries span:last").html(data.marie2);
+					$("#date span").html(data.dateCelebration);
+				});
+				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("readMariage");});
+			}
+	 	}, 500);
+}
+
 /** 
  * On ready.
  */
 $(document).ready(function() {
 
-	 // Execution de toutes les fonctions onReady presentes
-	 if (typeof onReadyFunctions !== "undefined") {
-		 onReadyFunctions.forEach(function(e, i, array) { e(); });
-	 }
+	// Redirection si pas de mariage sélectionné
+	idMariage = getIdMariage();
+	if (idMariage === "" && window.location.href !== REST_PREFIX + "/" && window.location.href !== REST_PREFIX + "/login.html") {
+		window.location.href = REST_PREFIX + "/";
+	}
+
+	// Chargement des données du mariage
+	chargementDonneesDivMaries();
+	
+	// Alimentation des <select> avec les info en parametres du tag
+	alimentationSelectBox();
 	 
-	 // Alimentation des <select> avec les info en parametres du tag
-	 alimentationSelectBox();
+	// Initialisation des timepicker
+	$(".datePicker").datetimepicker({ format: 'dd/mm/yyyy', autoclose: true, weekStart: 1, language: 'fr', minView: 2 });
+	$(".dateTimePicker").datetimepicker({ format: 'dd/mm/yyyy hh:ii', autoclose: true, weekStart: 1, language: 'fr' });
 	 
-	 // Initialisation des timepicker
-	 $(".datePicker").datetimepicker({ format: 'dd/mm/yyyy', autoclose: true, weekStart: 1, language: 'fr', minView: 2 });
-	 $(".dateTimePicker").datetimepicker({ format: 'dd/mm/yyyy hh:ii', autoclose: true, weekStart: 1, language: 'fr' });
-	 
-	 // Préparation des popup
-	 var popups = $(".popup");
-	 if (popups.length > 0) { popups.jqxWindow({ width: 450, autoOpen: false }); }
+	// Préparation des popup
+	var popups = $(".popup");
+	if (popups.length > 0) { popups.jqxWindow({ width: 450, autoOpen: false }); }
 });

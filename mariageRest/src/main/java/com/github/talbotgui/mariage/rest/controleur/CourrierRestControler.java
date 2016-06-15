@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class CourrierRestControler {
 			@RequestParam(required = false, value = "id") final Long id, //
 			@RequestParam(value = "nom") final String nom, //
 			@RequestParam(value = "datePrevisionEnvoi") final String sdatePrevisionEnvoi, //
-			@RequestParam(value = "dateEnvoiRealise") final String sdateEnvoiRealise, //
+			@RequestParam(required = false, value = "dateEnvoiRealise") final String sdateEnvoiRealise, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
 
 		// Transformation des dates
@@ -65,7 +66,9 @@ public class CourrierRestControler {
 					new String[] { AbstractDTO.FORMAT_DATE_TIME, sdatePrevisionEnvoi });
 		}
 		try {
-			dateEnvoiRealise = sdf.parse(sdateEnvoiRealise);
+			if (StringUtils.isNotBlank(sdateEnvoiRealise)) {
+				dateEnvoiRealise = sdf.parse(sdateEnvoiRealise);
+			}
 		} catch (final ParseException e) {
 			LOG.error("Erreur de format des paramètres d'entrée", e);
 			throw new RestException(RestException.ERREUR_FORMAT_DATE, e,

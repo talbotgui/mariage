@@ -170,7 +170,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 	@Test
 	public void test04AjouteInviteEnMasse() {
 		final Long idMariage = 10L;
-		final String invites = "Nom1:Prenom1:Group1;Adresse1\nNom2:Prenom2:Group2;Adresse2";
+		final String invites = "Nom1:Prenom1:Group1;Adresse1\nNom3:Prenom1:Group3;Adresse3\n\nNom2:Prenom2:Group2;Adresse2\n";
 
 		// ARRANGE
 		final ArgumentCaptor<Collection> argumentCaptorInvites = ArgumentCaptor.forClass(Collection.class);
@@ -186,7 +186,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 				uriVars);
 
 		// ASSERT
-		Assert.assertEquals(argumentCaptorInvites.getValue().size(), 2);
+		Assert.assertEquals(argumentCaptorInvites.getValue().size(), 3);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
 		Mockito.verify(this.mariageService).sauvegardeEnMasse(Mockito.anyLong(), Mockito.any(Collection.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
