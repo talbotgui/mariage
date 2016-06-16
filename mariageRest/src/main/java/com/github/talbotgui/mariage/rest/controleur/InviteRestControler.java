@@ -29,7 +29,7 @@ public class InviteRestControler {
 	private Age getAgeFromString(final String age) {
 		Age ageEnum = null;
 		try {
-			if (age != null) {
+			if (age != null && age.length() > 0) {
 				ageEnum = Age.valueOf(age);
 			}
 		} catch (final IllegalArgumentException e) {
