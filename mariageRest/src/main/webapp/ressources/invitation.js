@@ -89,8 +89,9 @@ var chargeInvites = function() {
 			];
 			
 			// Calcul des largeurs des 5 colonnes fixes (7% pour les actions et 10% par etape)
+			var largeurEtape = 5;
 			var largeur = 10;
-			if (etapes.length > 0) { largeur = (100 - 7 - 10 * etapes.length) / 5; }
+			if (etapes.length > 0) { largeur = (100 - 7 - largeurEtape * etapes.length) / 5; }
 			largeur = largeur + "%";
 			
 			// Colonnes fixes
@@ -107,7 +108,7 @@ var chargeInvites = function() {
 				// un champ avec la valeur de l'idPresenceEtape (clef du champ contenant toujours l'idEtape)
 				datafields.push({ name: 'presencesEtape_ID' + e.id, type: 'string', map: 'presencesEtape>' + i + '>idPresenceEtape' });
 				// colonne utilisant le render custo
-				columns.push({ text: e.nom, datafield: 'presencesEtape' + e.id, editable: false, width: "10%", align: "center", cellsrenderer: rendererColonnePresence });
+				columns.push({ text: e.nom, datafield: 'presencesEtape' + e.id, editable: false, width: largeurEtape + "%", align: "center", cellsrenderer: rendererColonnePresence });
 			});
 			
 			// colonne action pour finir
