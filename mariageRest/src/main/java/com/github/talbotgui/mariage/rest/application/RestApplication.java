@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.ErrorPage;
+import org.springframework.boot.context.embedded.MimeMappings;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -61,10 +62,16 @@ public class RestApplication {
 	@Bean
 	public EmbeddedServletContainerCustomizer containerCustomizer() {
 		return (container -> {
+
+			// Error pages
 			final ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/401.html");
 			final ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404.html");
 			final ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.html");
 			container.addErrorPages(error401Page, error404Page, error500Page);
+
+			// Mime types
+			final MimeMappings mappings = new MimeMappings(MimeMappings.DEFAULT);
+			container.setMimeMappings(mappings);
 		});
 	}
 
