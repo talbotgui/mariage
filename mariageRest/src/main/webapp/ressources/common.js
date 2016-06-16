@@ -112,7 +112,10 @@ var alimentationSelectBox = function() {
 				sel.append($('<option>', {value:"", text:""}));
 			}
 			
-			var data = eval(dataString);
+			var data = dataString;
+			if (typeof dataString === "string") {
+				data = JSON.parse(dataString);
+			}
 			
 			data.forEach(function(e, i, array) {
 				var txt = e;
@@ -167,7 +170,10 @@ var chargementDonneesDivMaries = function() {
 		if (document.getElementById("maries") != null) {
 			var req = $.get(REST_PREFIX + "/mariage/" + idMariage);
 			req.success(function(dataString) {
-				var data = eval(dataString);
+				var data = dataString;
+				if (typeof dataString === "string") {
+					data = JSON.parse(dataString);
+				}
 				$("#maries span:first").html(data.marie1);
 				$("#maries span:last").html(data.marie2);
 				$("#date span").html(data.dateCelebration);

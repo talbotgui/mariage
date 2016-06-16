@@ -33,11 +33,11 @@
 					<form class="form-inline">
 						<div class="form-group">
 							<label for="login">Login</label>
-							<input type="text" class="form-control" id="login" name="login" placeholder="Login" required data-minLength="6"/>
+							<input type="text" class="form-control" id="login" name="login" placeholder="Login" required data-minLength="6" autocomplete="off"/>
 						</div>
 						<div class="form-group">
 							<label for="mdp">Mot de passe</label>
-							<input type="password" class="form-control" id="mdp" name="mdp"  placeholder="Mot de passe" required data-minLength="6"/>
+							<input type="password" class="form-control" id="mdp" name="mdp"  placeholder="Mot de passe" required data-minLength="6" autocomplete="off"/>
 						</div>
 						<br/><button id="button_login" class="btn btn-default">Entrer</button>
 					</form>
@@ -46,22 +46,8 @@
 			</div>
 		</div>
 
-		<script type="text/javascript" src="ressources/all.js"></script>
-		<script type="text/javascript" src="ressources/common.js"></script>
-		<script type="text/javascript">
-		var login = function(e) {
-			e.preventDefault();
-			
-			valideForm("form", function(data) {
-				var req = $.post( REST_PREFIX + "/dologin", data);
-				req.success(function(dataString) { window.location.href = REST_PREFIX + "/" });
-				req.fail(function(jqXHR, textStatus, errorThrown) { $("#loginError").show(); });
-			});
-		};
-		
-		$(document).ready(function() {
-			$("#button_login").on("click", login);
-		});
-		</script>
+		<script type="application/javascript" src="ressources/all.js"></script>
+		<script type="application/javascript" src="ressources/common.js"></script>
+		<script type="application/javascript" src="ressources/login.js"></script>
 	</body>
 </html>

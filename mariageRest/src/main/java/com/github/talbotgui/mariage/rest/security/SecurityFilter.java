@@ -26,17 +26,16 @@ public class SecurityFilter implements Filter {
 	public static final String LOGIN_REST = "/dologin";
 	public static final String LOGOUT_REST = "/dologout";
 
-	@Override
-	public void destroy() {
-		// Rien à faire
+	private void addResponseHeaders(final HttpServletResponse response) {
+		response.addHeader("X-XSS-Protection", "1; mode=block;");
+		response.addHeader("X-Frame-Options", "DENY");
+		response.addHeader("X-Content-Type-Options", "nosniff");
+		response.addHeader("Content-Security-Policy", "script-src 'self'; child-src 'none'; object-src 'none'");
+		response.addHeader("Strict-Transport-Security", "max-age=31536000");
 	}
 
-	@Override
-	public void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain)
-			throws IOException, ServletException {
-		final HttpServletRequest request = (HttpServletRequest) req;
-		final HttpServletResponse response = (HttpServletResponse) res;
-
+	private void checkUserIsLoggedIn(final FilterChain chain, final HttpServletRequest request,
+			final HttpServletResponse response) throws IOException, ServletException {
 		final boolean pageProtegee = isPageProtegee(request);
 		LOG.debug("{} => {}", request.getRequestURI(), pageProtegee);
 
@@ -54,6 +53,22 @@ public class SecurityFilter implements Filter {
 		else {
 			chain.doFilter(request, response);
 		}
+	}
+
+	@Override
+	public void destroy() {
+		// Rien à faire
+	}
+
+	@Override
+	public void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain)
+			throws IOException, ServletException {
+		final HttpServletRequest request = (HttpServletRequest) req;
+		final HttpServletResponse response = (HttpServletResponse) res;
+
+		addResponseHeaders(response);
+		checkUserIsLoggedIn(chain, request, response);
+
 	}
 
 	@Override
