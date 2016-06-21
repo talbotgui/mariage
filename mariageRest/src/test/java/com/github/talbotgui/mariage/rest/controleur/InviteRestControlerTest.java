@@ -170,7 +170,12 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 	@Test
 	public void test04AjouteInviteEnMasse() {
 		final Long idMariage = 10L;
-		final String invites = "Nom1:Prenom1:Group1;Adresse1\nNom3:Prenom1:Group3;Adresse3\n\nNom2:Prenom2:Group2;Adresse2\n";
+		final String nom = "Nom1";
+		final String prenom = "Prenom1";
+		final String groupe = "Groupe1";
+		final String adresse = "Adresse1";
+		final String invites = nom + ":" + prenom + ":" + groupe + ":" + adresse
+				+ "\nNom3:Prenom1:Group3;Adresse3\n\nNom2:Prenom2:Group2;Adresse2\nNom4:Prenom4:Group4;Adresse4";
 
 		// ARRANGE
 		final ArgumentCaptor<Collection> argumentCaptorInvites = ArgumentCaptor.forClass(Collection.class);
@@ -186,7 +191,18 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 				uriVars);
 
 		// ASSERT
-		Assert.assertEquals(argumentCaptorInvites.getValue().size(), 3);
+		Assert.assertEquals(argumentCaptorInvites.getValue().size(), 4);
+		for (final Invite i : (Collection<Invite>) argumentCaptorInvites.getValue()) {
+			Assert.assertTrue(i.getNom() != null && i.getNom().length() > 0);
+			Assert.assertTrue(i.getPrenom() != null && i.getPrenom().length() > 0);
+			Assert.assertTrue(i.getGroupe() != null && i.getGroupe().length() > 0);
+			Assert.assertTrue(i.getAdresse() != null && i.getAdresse().length() > 0);
+		}
+		final Invite invite1 = (Invite) argumentCaptorInvites.getValue().iterator().next();
+		Assert.assertEquals(invite1.getNom(), nom);
+		Assert.assertEquals(invite1.getPrenom(), prenom);
+		Assert.assertEquals(invite1.getGroupe(), groupe);
+		Assert.assertEquals(invite1.getAdresse(), adresse);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
 		Mockito.verify(this.mariageService).sauvegardeEnMasse(Mockito.anyLong(), Mockito.any(Collection.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
