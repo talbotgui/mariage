@@ -30,9 +30,8 @@ var chargeInvites = function() {
 				{ text: 'Nom', datafield: 'nom', editable: false, width: "15%" }, { text: 'Prenom', datafield: 'prenom', editable: false, width: "15%" },
 				{ text: 'Adresse', datafield: 'adresse', width: "37%" }, { text: 'Téléphone', datafield: 'telephone', width: "13%" }
 			],
-			editable: true,
-			sortable: true,
-			filterable: true,
+			pageable: true, pagesizeoptions: JQX_GRID_PAGE_OPTIONS,
+			editable: true, sortable: true, filterable: true,
 			autoheight: true,
 			width: 950
 		});

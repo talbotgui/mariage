@@ -1,6 +1,7 @@
 // Constantes
 var REST_PREFIX = window.location.protocol + "//" + window.location.hostname + ((window.location.port !== "") ? ":" + window.location.port : "") + "/monMariage";
 var DHTMLX_IMAGE_PATH = "/ressources/dhtmlxGrid_v46_std/imgs/";
+var JQX_GRID_PAGE_OPTIONS = ['20', '50', '100', '500'];
 
 /**
  * Sauvegarde de l'identifiant du mariage.
