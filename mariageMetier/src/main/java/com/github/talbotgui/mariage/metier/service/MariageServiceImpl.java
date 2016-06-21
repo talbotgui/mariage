@@ -2,20 +2,25 @@ package com.github.talbotgui.mariage.metier.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
-import javax.transaction.Transactional;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.talbotgui.mariage.metier.dao.CourrierRepository;
 import com.github.talbotgui.mariage.metier.dao.EtapeRepository;
 import com.github.talbotgui.mariage.metier.dao.InviteRepository;
 import com.github.talbotgui.mariage.metier.dao.MariageRepository;
 import com.github.talbotgui.mariage.metier.dao.PresenceEtapeRepository;
+import com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
+import com.github.talbotgui.mariage.metier.dto.StatistiquesRepartitionsInvitesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
@@ -25,7 +30,7 @@ import com.github.talbotgui.mariage.metier.entities.PresenceEtape;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
 
 @Service
-@Transactional(Transactional.TxType.REQUIRED)
+@Transactional(propagation = Propagation.REQUIRED)
 public class MariageServiceImpl implements MariageService {
 
 	@Autowired
@@ -43,9 +48,31 @@ public class MariageServiceImpl implements MariageService {
 	@Autowired
 	private PresenceEtapeRepository presenceEtapeRepository;
 
+	private Map<String, Integer> arrayToMap(final List<Object[]> liste) {
+		final Map<String, Integer> result = new HashMap<>();
+		if (liste != null) {
+			for (final Object[] objects : liste) {
+				final String key = (objects[0] != null) ? objects[0].toString() : "";
+				final int value = ((Number) objects[1]).intValue();
+				result.put(key, value);
+			}
+		}
+		return result;
+	}
+
 	@Override
 	public StatistiquesMariage calculStatistiques(final Long idMariage) {
-		return this.inviteRepository.calculStatistiques(idMariage);
+		final StatistiquesInvitesMariage invites = this.inviteRepository.calculStatistiquesInvites(idMariage);
+
+		final Map<String, Integer> nbInvitesParGroupe = arrayToMap(
+				this.inviteRepository.compteNombreInviteParGroupe(idMariage));
+		final Map<String, Integer> nbInvitesParFoyer = arrayToMap(
+				this.inviteRepository.compteNombreInviteParFoyer(idMariage));
+		final Map<String, Integer> nbInvitesParAge = arrayToMap(
+				this.inviteRepository.compteNombreInviteParAge(idMariage));
+		final StatistiquesRepartitionsInvitesMariage repartition = new StatistiquesRepartitionsInvitesMariage(
+				nbInvitesParAge, nbInvitesParFoyer, nbInvitesParGroupe);
+		return new StatistiquesMariage(repartition, invites);
 	}
 
 	@Override
@@ -53,6 +80,7 @@ public class MariageServiceImpl implements MariageService {
 		return this.mariageRepository.findOne(idMariage);
 	}
 
+	@Override
 	public void lieUneEtapeEtUnCourrier(final Long idMariage, final Long idEtape, final Long idCourrier,
 			final boolean lie) {
 		final Courrier c = this.courrierRepository.findOne(idCourrier);

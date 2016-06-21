@@ -1,6 +1,7 @@
 package com.github.talbotgui.mariage.metier.dao;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,13 +9,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
+import com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 
+@Transactional(readOnly = true)
 public interface InviteRepository extends PagingAndSortingRepository<Invite, Long> {
 
-	@Query("select new com.github.talbotgui.mariage.metier.dto.StatistiquesMariage("//
+	@Query("select new com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage("//
 			// nbFoyers
 			+ " (select count(distinct i.foyer) from Mariage m join m.invites i where m.id = :idMariage)"//
 	// nbGroupes
@@ -31,7 +34,16 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 			+ ")"//
 			+ " from Mariage m"//
 			+ " where m.id = :idMariage")
-	StatistiquesMariage calculStatistiques(@Param("idMariage") Long idMariage);
+	StatistiquesInvitesMariage calculStatistiquesInvites(@Param("idMariage") Long idMariage);
+
+	@Query("select i.age, count(i) from Mariage m join m.invites i where m.id = :idMariage group by i.age")
+	List<Object[]> compteNombreInviteParAge(@Param("idMariage") Long idMariage);
+
+	@Query("select i.foyer, count(i) from Mariage m join m.invites i where m.id = :idMariage group by i.foyer")
+	List<Object[]> compteNombreInviteParFoyer(@Param("idMariage") Long idMariage);
+
+	@Query("select i.groupe, count(i) from Mariage m join m.invites i where m.id = :idMariage group by i.groupe")
+	List<Object[]> compteNombreInviteParGroupe(@Param("idMariage") Long idMariage);
 
 	@Query("select i.mariage.id from Invite i where i.id=:idInvite")
 	Long getIdMariageByInviteId(@Param("idInvite") Long idInvite);
@@ -46,6 +58,7 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 			+ " where i.mariage.id=:idMariage order by i.groupe, i.nom")
 	Page<Invite> listeInvitesParIdMariage(@Param("idMariage") Long idMariage, Pageable page);
 
+	@Transactional(readOnly = false)
 	@Modifying
 	@Query("update Invite"//
 			+ " set adresse=:adresse, telephone=:telephone"//

@@ -26,7 +26,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
+import com.github.talbotgui.mariage.metier.dto.StatistiquesRepartitionsInvitesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
@@ -223,13 +225,26 @@ public class InviteServiceTest {
 
 		// ASSERT
 		Assert.assertNotNull(dto);
-		Assert.assertEquals("invites", (Integer) 12, dto.getNbInvites());
-		Assert.assertEquals("foyers", (Integer) 3, dto.getNbFoyers());
-		Assert.assertEquals("groupes", (Integer) 2, dto.getNbGroupes());
+		final StatistiquesInvitesMariage invites = dto.getInvites();
+		final StatistiquesRepartitionsInvitesMariage repartitions = dto.getRepartitions();
 
-		Assert.assertEquals("invites incomplets", (Integer) 1, dto.getNbInvitesIncomplets());
-		Assert.assertEquals("invites sans adresse", (Integer) 1, dto.getNbInvitesSansAdresse());
-		Assert.assertEquals("invites sans age", (Integer) 3, dto.getNbInvitesSansAge());
+		Assert.assertEquals("invites", (Integer) 12, invites.getNbInvites());
+		Assert.assertEquals("foyers", (Integer) 3, invites.getNbFoyers());
+		Assert.assertEquals("groupes", (Integer) 2, invites.getNbGroupes());
+
+		Assert.assertEquals("invites incomplets", (Integer) 1, invites.getNbInvitesIncomplets());
+		Assert.assertEquals("invites sans adresse", (Integer) 1, invites.getNbInvitesSansAdresse());
+		Assert.assertEquals("invites sans age", (Integer) 3, invites.getNbInvitesSansAge());
+
+		Assert.assertEquals("invites par age nb", 6, repartitions.getNbParAge().size());
+		Assert.assertEquals("invites par age value", (Integer) 1, repartitions.getNbParAge().get(Age.bebe.toString()));
+		Assert.assertEquals("invites par age value", (Integer) 3, repartitions.getNbParAge().get(""));
+
+		Assert.assertEquals("invites par groupe nb", 2, repartitions.getNbParGroupe().size());
+		Assert.assertEquals("invites par groupe value", (Integer) 8, repartitions.getNbParGroupe().get("GROUPE1"));
+
+		Assert.assertEquals("invites par foyer nb", 3, repartitions.getNbParFoyer().size());
+		Assert.assertEquals("invites par foyer value", (Integer) 4, repartitions.getNbParFoyer().get("FOYER1"));
 	}
 
 }

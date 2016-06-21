@@ -1,46 +1,23 @@
 package com.github.talbotgui.mariage.metier.dto;
 
 public class StatistiquesMariage {
-	private final Integer nbFoyers;
-	private final Integer nbGroupes;
-	private final Integer nbInvites;
-	private final Integer nbInvitesIncomplets;
 
-	private final Integer nbInvitesSansAdresse;
-	private final Integer nbInvitesSansAge;
+	private final StatistiquesInvitesMariage invites;
+	private final StatistiquesRepartitionsInvitesMariage repartitions;
 
-	public StatistiquesMariage(final Long nbFoyers, final Long nbGroupes, final Integer nbInvites,
-			final Integer nbInvitesIncomplets, final Integer nbInvitesSansAdresse, final Integer nbInvitesSansAge) {
+	public StatistiquesMariage(final StatistiquesRepartitionsInvitesMariage repartitions,
+			final StatistiquesInvitesMariage invites) {
 		super();
-		this.nbFoyers = nbFoyers.intValue();
-		this.nbGroupes = nbGroupes.intValue();
-		this.nbInvites = nbInvites;
-		this.nbInvitesIncomplets = nbInvitesIncomplets;
-		this.nbInvitesSansAdresse = nbInvitesSansAdresse;
-		this.nbInvitesSansAge = nbInvitesSansAge;
+		this.repartitions = repartitions;
+		this.invites = invites;
 	}
 
-	public Integer getNbFoyers() {
-		return nbFoyers;
+	public StatistiquesInvitesMariage getInvites() {
+		return invites;
 	}
 
-	public Integer getNbGroupes() {
-		return nbGroupes;
+	public StatistiquesRepartitionsInvitesMariage getRepartitions() {
+		return repartitions;
 	}
 
-	public Integer getNbInvites() {
-		return nbInvites;
-	}
-
-	public Integer getNbInvitesIncomplets() {
-		return nbInvitesIncomplets;
-	}
-
-	public Integer getNbInvitesSansAdresse() {
-		return nbInvitesSansAdresse;
-	}
-
-	public Integer getNbInvitesSansAge() {
-		return nbInvitesSansAge;
-	}
 }
