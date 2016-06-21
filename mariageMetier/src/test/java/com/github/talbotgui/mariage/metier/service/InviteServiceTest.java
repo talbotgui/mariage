@@ -26,6 +26,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
@@ -204,6 +205,31 @@ public class InviteServiceTest {
 		diff.addAll(inviteApres);
 		diff.removeAll(inviteAvant);
 		Assert.assertEquals(invitesAinserer.size(), diff.size());
+	}
+
+	@Test
+	public void test07Statistiques() throws ParseException, IOException, URISyntaxException {
+
+		// ARRANGE
+		final Collection<String> strings = Files
+				.readAllLines(Paths.get(ClassLoader.getSystemResource("sql/dataSet_1.sql").toURI()));
+		final String[] requetes = strings.toArray(new String[strings.size()]);
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		jdbc.batchUpdate(requetes);
+		final Long idMariage = jdbc.queryForObject("select id from mariage", Long.class);
+
+		// ACT
+		final StatistiquesMariage dto = this.instance.calculStatistiques(idMariage);
+
+		// ASSERT
+		Assert.assertNotNull(dto);
+		Assert.assertEquals("invites", (Integer) 12, dto.getNbInvites());
+		Assert.assertEquals("foyers", (Integer) 3, dto.getNbFoyers());
+		Assert.assertEquals("groupes", (Integer) 2, dto.getNbGroupes());
+
+		Assert.assertEquals("invites incomplets", (Integer) 1, dto.getNbInvitesIncomplets());
+		Assert.assertEquals("invites sans adresse", (Integer) 1, dto.getNbInvitesSansAdresse());
+		Assert.assertEquals("invites sans age", (Integer) 3, dto.getNbInvitesSansAge());
 	}
 
 }

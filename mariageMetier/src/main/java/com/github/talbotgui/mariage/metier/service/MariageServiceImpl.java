@@ -15,6 +15,7 @@ import com.github.talbotgui.mariage.metier.dao.EtapeRepository;
 import com.github.talbotgui.mariage.metier.dao.InviteRepository;
 import com.github.talbotgui.mariage.metier.dao.MariageRepository;
 import com.github.talbotgui.mariage.metier.dao.PresenceEtapeRepository;
+import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
@@ -41,6 +42,11 @@ public class MariageServiceImpl implements MariageService {
 
 	@Autowired
 	private PresenceEtapeRepository presenceEtapeRepository;
+
+	@Override
+	public StatistiquesMariage calculStatistiques(final Long idMariage) {
+		return this.inviteRepository.calculStatistiques(idMariage);
+	}
 
 	@Override
 	public Mariage chargeMariageParId(final Long idMariage) {

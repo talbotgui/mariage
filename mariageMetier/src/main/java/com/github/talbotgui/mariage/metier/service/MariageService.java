@@ -5,12 +5,15 @@ import java.util.Collection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 
 public interface MariageService {
+
+	StatistiquesMariage calculStatistiques(Long idMariage);
 
 	Mariage chargeMariageParId(Long idMariage);
 
