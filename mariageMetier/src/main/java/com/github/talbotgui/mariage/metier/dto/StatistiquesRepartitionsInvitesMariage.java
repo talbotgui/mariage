@@ -8,6 +8,13 @@ public class StatistiquesRepartitionsInvitesMariage {
 	private final Map<String, Integer> nbParFoyer;
 	private final Map<String, Integer> nbParGroupe;
 
+	public StatistiquesRepartitionsInvitesMariage() {
+		super();
+		this.nbParAge = null;
+		this.nbParFoyer = null;
+		this.nbParGroupe = null;
+	}
+
 	public StatistiquesRepartitionsInvitesMariage(final Map<String, Integer> nbParAge,
 			final Map<String, Integer> nbParFoyer, final Map<String, Integer> nbParGroupe) {
 		super();

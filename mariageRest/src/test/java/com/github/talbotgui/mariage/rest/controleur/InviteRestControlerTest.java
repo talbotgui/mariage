@@ -17,6 +17,9 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage;
+import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
+import com.github.talbotgui.mariage.metier.dto.StatistiquesRepartitionsInvitesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.rest.controleur.dto.InviteDTO;
@@ -205,6 +208,30 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(invite1.getAdresse(), adresse);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
 		Mockito.verify(this.mariageService).sauvegardeEnMasse(Mockito.anyLong(), Mockito.any(Collection.class));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test05CalculStatistiques() {
+		final Long idMariage = 10L;
+
+		// ARRANGE
+		final StatistiquesMariage dto = new StatistiquesMariage(
+				new StatistiquesRepartitionsInvitesMariage(null, null, null),
+				new StatistiquesInvitesMariage(0L, 0L, 0, 0, 0, 0));
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		Mockito.doReturn(dto).when(this.mariageService).calculStatistiques(argumentCaptorIdMariage.capture());
+
+		// ACT
+		final StatistiquesMariage resultats = getREST()
+				.getForObject(getURL() + "/mariage/" + idMariage + "/statistiques", StatistiquesMariage.class);
+
+		// ASSERT
+		Assert.assertNotNull(resultats);
+		Assert.assertNotNull(resultats.getInvites());
+		Assert.assertNotNull(resultats.getRepartitions());
+		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
+		Mockito.verify(this.mariageService).calculStatistiques(Mockito.anyLong());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 }

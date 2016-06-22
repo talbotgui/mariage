@@ -9,6 +9,16 @@ public class StatistiquesInvitesMariage {
 	private final Integer nbInvitesSansAdresse;
 	private final Integer nbInvitesSansAge;
 
+	public StatistiquesInvitesMariage() {
+		super();
+		this.nbFoyers = null;
+		this.nbGroupes = null;
+		this.nbInvites = null;
+		this.nbInvitesIncomplets = null;
+		this.nbInvitesSansAdresse = null;
+		this.nbInvitesSansAge = null;
+	}
+
 	public StatistiquesInvitesMariage(final Long nbFoyers, final Long nbGroupes, final Integer nbInvites,
 			final Integer nbInvitesIncomplets, final Integer nbInvitesSansAdresse, final Integer nbInvitesSansAge) {
 		super();

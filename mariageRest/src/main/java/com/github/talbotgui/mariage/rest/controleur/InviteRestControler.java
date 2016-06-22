@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.service.MariageService;
@@ -25,6 +26,11 @@ public class InviteRestControler {
 
 	@Autowired
 	private MariageService mariageService;
+
+	@RequestMapping(value = "/mariage/{idMariage}/statistiques", method = GET)
+	public StatistiquesMariage calculStatistiques(@PathVariable("idMariage") final Long idMariage) {
+		return this.mariageService.calculStatistiques(idMariage);
+	}
 
 	private Age getAgeFromString(final String age) {
 		Age ageEnum = null;
