@@ -14,3 +14,5 @@
 .errorMessage { color: red; }
 
 .datetimepicker { z-index: 9999 !important; }
+
+#statistiques label { min-width:280px; font-weight: 100; }

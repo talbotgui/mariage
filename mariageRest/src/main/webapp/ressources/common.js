@@ -28,6 +28,16 @@ var afficheMenu = function() {
  	}, 500);
 };
 
+var attributesToArray = function(obj) {
+	var arr = [];
+	for (var key in obj) {
+		if (obj.hasOwnProperty(key)) {
+			arr.push({clef:key, valeur:obj[key]});
+		}
+	};
+	return arr;
+};
+
 /**
  * Lecture de l'identifiant du mariage dans les cookies
  * et affichage du menu

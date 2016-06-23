@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		
+		<title>Mariage</title>
+		
+		<link rel="stylesheet" href="ressources/jquery-ui-1.11.4.custom/jquery-ui.min.css" />
+		<link rel="stylesheet" href="ressources/bootstrap-3.3.6-dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="ressources/bootstrap-datetimepicker-master/bootstrap-datetimepicker.min.css"/>
+		<link rel="stylesheet" href="ressources/jqwidgets-ver4.1.1/jqx.base.css" />
+		<link rel="stylesheet" href="ressources/custom.css" />
+	</head>
+	<body>
+		<div class="container-fluid">
+
+			<!-- Colonne gauche -->
+			<div class="header col-md-3">
+				<div data-w3-include-html="./part_menu.html"></div> 
+			</div>
+			
+			<div class="content col-md-9">
+			
+				<div data-w3-include-html="./part_infoMariage.html"></div>
+
+				<div id="statistiques">
+					<div class="form-inline">
+						<div class="form-group"><label for="nbInvites">Nombre d'invités</label><label id="nbInvites"></label></div>
+						<div class="form-group"><label for="nbInvitesIncomplets">Nombre d'invités incomplets</label><label id="nbInvitesIncomplets"></label></div>
+						<div class="form-group"><label for="nbFoyers">Nombre de foyers</label><label id="nbFoyers"></label></div>
+						<div class="form-group"><label for="nbInvitesSansAdresse">Nombre d'invités sans adresse définie</label><label id="nbInvitesSansAdresse"></label></div>
+						<div class="form-group"><label for="nbGroupes">Nombre de groupes</label><label id="nbGroupes" ></label></div>
+						<div class="form-group"><label for="nbInvitesSansAge">Nombre d'invités sans age défini</label><label id="nbInvitesSansAge"></label></div>
+					</div>
+
+					<br/><br/>
+
+					<div class="col-md-4">
+						<div id="repartitionsAge"></div>
+					</div>
+					<div class="col-md-4">
+						<div id="repartitionsFoyer"></div>
+					</div>
+					<div class="col-md-4">
+						<div id="repartitionsGroupe"></div>
+					</div>		
+					
+				</div>
+			</div>
+		</div>
+
+		<script type="application/javascript" src="ressources/all.js"></script>
+		<script type="application/javascript" src="ressources/common.js"></script>
+		<script type="application/javascript" src="ressources/statistiques.js"></script>
+	</body>
+</html>
