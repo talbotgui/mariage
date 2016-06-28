@@ -30,7 +30,7 @@ public class SecurityFilter implements Filter {
 		response.addHeader("X-XSS-Protection", "1; mode=block;");
 		response.addHeader("X-Frame-Options", "DENY");
 		response.addHeader("X-Content-Type-Options", "nosniff");
-		response.addHeader("Content-Security-Policy", "script-src 'self'; child-src 'none'; object-src 'none'");
+		response.addHeader("Content-Security-Policy", "child-src 'none'; object-src 'none'");
 		response.addHeader("Strict-Transport-Security", "max-age=31536000");
 	}
 
