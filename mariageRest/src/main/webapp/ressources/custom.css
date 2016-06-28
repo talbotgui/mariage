@@ -12,7 +12,13 @@
 .popup {  }
 .error { border-color: red!important; }
 .errorMessage { color: red; }
-
 .datetimepicker { z-index: 9999 !important; }
 
+/* Pour les boutons dans les cases d action des tableaux */
+.jqx-grid-cell .ui-icon { display: inline-block; }
+
+/* Pour les libelles des stats */
 #statistiques label { min-width:280px; font-weight: 100; }
+
+/* Pour le modele des invitations */ 
+#modele > div { float:right; margin:0 200px 20px 0; border-color: #aaa; background: #e8e8e8 none repeat scroll 0 0 }

@@ -52,7 +52,16 @@ var changePresence = function(idPresenceEtape, valeur) {
 	var req = $.post( REST_PREFIX + "/mariage/" + idMariage + "/presenceEtape", data);
 	req.success(function(dataString) { });
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("changePresence");  });
-}
+};
+
+var applyModel = function(idInvite) {
+	var inputsOfLine = $("#btnApplyModel" + idInvite).parents("div[id^='row']").find("input");
+	inputsOfLine.each(function (i, e) {
+		if (e.checked != $("#modele input")[i].checked) {
+			e.click();
+		}
+	});
+};
 
 // Chargement des invites
 var chargeInvites = function() {
@@ -72,7 +81,7 @@ var chargeInvites = function() {
 			}
 			
 			// Render de la colonne des boutons pour un bouton supprimer se basant sur l'id de l'invite
-			var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties, rowData) {  return '<div class="center"><a href="javascript:supprimeInvite(' + value + ')" id="btn' + value + '"><span class="ui-icon ui-icon-trash"></span></a></div>'; };
+			var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties, rowData) {  return '<div class="center"><a href="javascript:supprimeInvite(' + value + ')" id="btnSupprimeInvite' + value + '"><span class="ui-icon ui-icon-trash"></span></a><a href="javascript:applyModel(' + value + ')" id="btnApplyModel' + value + '"><span class="ui-icon ui-icon-shuffle"></span></a></div>'; };
 			
 			// Render des colonnes d'étape se basant sur LES CHAMPS liés à une étape
 			var rendererColonnePresence = function (rowIndex, columnfield, value, defaulthtml, columnproperties, rowData) { var idEtape = columnfield.substring("presencesEtape".length); var idPresenceEtape = rowData["presencesEtape_ID" + idEtape]; return '<div class="center"><input type="checkbox" onchange="changePresence(' + idPresenceEtape + ', this.checked)" ' + (value?'checked':'') + '/></div>'; };
@@ -119,6 +128,13 @@ var chargeInvites = function() {
 			$("#invites").jqxGrid({ source: dataAdapter, columns: columns, pageable: true, editable: true, sortable: true, filterable: true, autoheight: true, width: 950, pagesizeoptions: JQX_GRID_PAGE_OPTIONS });
 			$("#invites").on('cellendedit', modifieInvite);
 			donneesDejaChargees = true;
+			
+			// Initialisation du modèle de saisie rapide
+			var htmlModele = '';
+			etapes.forEach(function(e, i, array) {
+				htmlModele = htmlModele + '<td><input type="checkbox" data-id="' + e.id + '">&nbsp;' + e.nom + '&nbsp;</td>'
+			});
+			$("#modele tr:last").append(htmlModele);
 		});
 	}
 };
