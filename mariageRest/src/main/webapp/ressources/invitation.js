@@ -54,10 +54,23 @@ var changePresence = function(idPresenceEtape, valeur) {
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("changePresence");  });
 };
 
-var applyModel = function(idInvite) {
-	var inputsOfLine = $("#btnApplyModel" + idInvite).parents("div[id^='row']").find("input");
+var applyModel = function(idInvite, foyer) {
+	
+	// Recherche des input a modifier
+	var rowToSearch;
+	if (document.getElementById("appliquerAuFoyer").checked) {
+		rowToSearch = $(".jqx-grid-cell:contains(" + foyer + ")");
+	} else {
+		rowToSearch = $("#btnApplyModel" + idInvite);
+	}
+	var inputsOfLine = rowToSearch.parents("div[id^='row']").find("input");
+	
+	// Recherche des input du modele
+	var modele = $("#modele table input");
+	
+	// Application du modèle
 	inputsOfLine.each(function (i, e) {
-		if (e.checked != $("#modele input")[i].checked) {
+		if (e.checked != modele[i % modele.length].checked) {
 			e.click();
 		}
 	});
@@ -81,7 +94,7 @@ var chargeInvites = function() {
 			}
 			
 			// Render de la colonne des boutons pour un bouton supprimer se basant sur l'id de l'invite
-			var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties, rowData) {  return '<div class="center"><a href="javascript:supprimeInvite(' + value + ')" id="btnSupprimeInvite' + value + '"><span class="ui-icon ui-icon-trash"></span></a><a href="javascript:applyModel(' + value + ')" id="btnApplyModel' + value + '"><span class="ui-icon ui-icon-shuffle"></span></a></div>'; };
+			var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties, rowData) {  return '<div class="center"><a href="javascript:supprimeInvite(' + value + ')" id="btnSupprimeInvite' + value + '"><span class="ui-icon ui-icon-trash"></span></a><a href="javascript:applyModel(' + value + ',\'' + rowData.foyer + '\')" id="btnApplyModel' + value + '"><span class="ui-icon ui-icon-shuffle"></span></a></div>'; };
 			
 			// Render des colonnes d'étape se basant sur LES CHAMPS liés à une étape
 			var rendererColonnePresence = function (rowIndex, columnfield, value, defaulthtml, columnproperties, rowData) { var idEtape = columnfield.substring("presencesEtape".length); var idPresenceEtape = rowData["presencesEtape_ID" + idEtape]; return '<div class="center"><input type="checkbox" onchange="changePresence(' + idPresenceEtape + ', this.checked)" ' + (value?'checked':'') + '/></div>'; };
