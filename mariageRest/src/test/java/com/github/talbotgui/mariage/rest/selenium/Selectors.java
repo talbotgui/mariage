@@ -91,6 +91,10 @@ public class Selectors {
 		static final By LIEN_PARAMETAPES = By.linkText("Paramètres - étapes");
 	}
 
+	public static class Monitoring {
+		static final By ENTETES[] = { By.xpath("//th[1]"), By.xpath("//th[2]") };
+	}
+
 	/**
 	 *
 	 */

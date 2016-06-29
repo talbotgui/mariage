@@ -23,11 +23,13 @@ X Modifier les constructeurs pour utiliser les setter
 X Refactoring des ControlerTest pour mutualiser la construction des MAP de paramètres et simplifier le code (des constantes et une méthode commune de création de la map)
 X Faire de dateHeure un date & time picker pour les étapes
 X Compléter les tests Selenium
-X  Dans la page "paramètres", ajouter la liste des Courier (nom, dateEnvoiPrevu)
-X  Ajouter une page de Statistiques (répartition par age, par groupe, par foyer)
-
+X Dans la page "paramètres", ajouter la liste des Courier (nom, dateEnvoiPrevu)
+X Ajouter une page de Statistiques (répartition par age, par groupe, par foyer)
+X Refactoring pour sortir les selecteur Selenium du Test unitaire
+  Découper le test Selenium en plusieurs test (chacun utilisant un mariage différent)
+  
   Ajouter des tests Selenium pour :
-	@RequestMapping(value = "/monitoring", method = GET)
+X	@RequestMapping(value = "/monitoring", method = GET)
 	@RequestMapping(value = "/mariage/{idMariage}/etape/{idEtape}", method = DELETE)
 	@RequestMapping(value = "/mariage/{idMariage}/statistiques", method = GET)
 	@RequestMapping(value = "/mariage/{idMariage}/invite/{idInvite}", method = DELETE)
@@ -44,7 +46,6 @@ X  Ajouter une page de Statistiques (répartition par age, par groupe, par foyer
   Ajouter un email dans les courriers
 
   Dans la page "gestion des invitations", ajouter l'autocomplétion dans le champ "groupe" et "foyer"
-
 
   Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
   
