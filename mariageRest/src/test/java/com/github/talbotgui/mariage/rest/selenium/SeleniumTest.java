@@ -3,7 +3,7 @@ package com.github.talbotgui.mariage.rest.selenium;
 import static org.junit.Assert.assertEquals;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
@@ -11,6 +11,8 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 @WebIntegrationTest(randomPort = true)
 @SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
