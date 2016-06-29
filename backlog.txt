@@ -23,6 +23,21 @@ X Modifier les constructeurs pour utiliser les setter
 X Refactoring des ControlerTest pour mutualiser la construction des MAP de paramètres et simplifier le code (des constantes et une méthode commune de création de la map)
 X Faire de dateHeure un date & time picker pour les étapes
 X Compléter les tests Selenium
+X  Dans la page "paramètres", ajouter la liste des Courier (nom, dateEnvoiPrevu)
+X  Ajouter une page de Statistiques (répartition par age, par groupe, par foyer)
+
+  Ajouter des tests Selenium pour :
+	@RequestMapping(value = "/monitoring", method = GET)
+	@RequestMapping(value = "/mariage/{idMariage}/etape/{idEtape}", method = DELETE)
+	@RequestMapping(value = "/mariage/{idMariage}/statistiques", method = GET)
+	@RequestMapping(value = "/mariage/{idMariage}/invite/{idInvite}", method = DELETE)
+	@RequestMapping(value = "/mariage/{idMariage}/courrier/{idCourrier}", method = POST)
+	@RequestMapping(value = "/mariage/{idMariage}/courrier", method = GET)
+	@RequestMapping(value = "/mariage/{idMariage}/courrier", method = POST)
+	@RequestMapping(value = "/mariage/{idMariage}/courrier/{idCourrier}", method = DELETE)
+	@RequestMapping(value = "/utilisateur/{login}", method = DELETE)
+	@RequestMapping(value = SecurityFilter.LOGIN_REST, method = POST)
+	@RequestMapping(value = SecurityFilter.LOGOUT_REST, method = GET)
 
   Ajout les étapes dans le tableau des courriers
   
@@ -30,7 +45,6 @@ X Compléter les tests Selenium
 
   Dans la page "gestion des invitations", ajouter l'autocomplétion dans le champ "groupe" et "foyer"
 
-  Dans la page "paramètres", ajouter la liste des Courier (nom, dateEnvoiPrevu)
 
   Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
   
@@ -42,7 +56,4 @@ X Compléter les tests Selenium
   
   Gérér les hébergements
   
-  Ajouter une page de Statistiques
-	répartition par age, par groupe, par foyer
-
   Changer le "no data to display"
