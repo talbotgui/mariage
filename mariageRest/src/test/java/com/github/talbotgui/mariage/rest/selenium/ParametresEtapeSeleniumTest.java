@@ -26,7 +26,7 @@ public class ParametresEtapeSeleniumTest extends SeleniumTest {
 
 		//
 		driver.select(Index.Input.SELECTION_MARIAGE, "M & G", 100);
-		driver.click(Menu.LIEN_PARAMETAPES, 200);
+		driver.click(Menu.LIEN_PARAMETAPES, 500);
 
 		//
 		driver.assertTextEquals(Commun.DIV_MARIES, "Mariage de M & G");
