@@ -50,12 +50,14 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 
 	@Query("select distinct i" //
 			+ " from Invite i left join fetch i.presencesEtape "//
-			+ " where i.mariage.id=:idMariage order by i.groupe, i.foyer, i.nom, i.prenom")
+			+ " where i.mariage.id=:idMariage"//
+			+ " order by i.groupe, i.foyer, i.nom, i.prenom")
 	Collection<Invite> listeInvitesParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("select i "//
 			+ " from Invite i"//
-			+ " where i.mariage.id=:idMariage order by i.groupe, i.nom")
+			+ " where i.mariage.id=:idMariage"//
+			+ " order by i.groupe, i.nom")
 	Page<Invite> listeInvitesParIdMariage(@Param("idMariage") Long idMariage, Pageable page);
 
 	@Transactional(readOnly = false)
