@@ -11,7 +11,8 @@ import org.testng.annotations.Test;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.github.talbotgui.mariage.rest.application.SeleniumTestApplication;
-import com.github.talbotgui.mariage.rest.selenium.Selectors.Monitoring;
+import com.github.talbotgui.mariage.rest.selenium.utils.MyDriver;
+import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Monitoring;
 
 @WebIntegrationTest(randomPort = true)
 @SpringApplicationConfiguration(classes = SeleniumTestApplication.class)

@@ -12,13 +12,14 @@ import org.testng.annotations.Test;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.github.talbotgui.mariage.rest.application.SeleniumTestApplication;
-import com.github.talbotgui.mariage.rest.selenium.Selectors.Admin;
-import com.github.talbotgui.mariage.rest.selenium.Selectors.Commun;
-import com.github.talbotgui.mariage.rest.selenium.Selectors.Index;
-import com.github.talbotgui.mariage.rest.selenium.Selectors.Invite;
-import com.github.talbotgui.mariage.rest.selenium.Selectors.Invite.Input;
-import com.github.talbotgui.mariage.rest.selenium.Selectors.Menu;
-import com.github.talbotgui.mariage.rest.selenium.Selectors.ParametresEtape;
+import com.github.talbotgui.mariage.rest.selenium.utils.MyDriver;
+import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Admin;
+import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Commun;
+import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Index;
+import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Invite;
+import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Invite.Input;
+import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Menu;
+import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.ParametresEtape;
 
 @WebIntegrationTest(randomPort = true)
 @SpringApplicationConfiguration(classes = SeleniumTestApplication.class)

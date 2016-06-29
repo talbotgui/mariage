@@ -1,4 +1,4 @@
-package com.github.talbotgui.mariage.rest.selenium;
+package com.github.talbotgui.mariage.rest.selenium.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
