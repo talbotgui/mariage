@@ -26,7 +26,8 @@ X Compléter les tests Selenium
 X Dans la page "paramètres", ajouter la liste des Courier (nom, dateEnvoiPrevu)
 X Ajouter une page de Statistiques (répartition par age, par groupe, par foyer)
 X Refactoring pour sortir les selecteur Selenium du Test unitaire
-  Découper le test Selenium en plusieurs test (chacun utilisant un mariage différent)
+X Découper le test Selenium en plusieurs test (chacun utilisant un mariage différent)
+  Supprimer les InteruptedException
   
   Ajouter des tests Selenium pour :
 X	@RequestMapping(value = "/monitoring", method = GET)

@@ -15,6 +15,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 /**
@@ -131,6 +132,11 @@ public class MyDriver {
 
 	public void quit() {
 		this.driver.quit();
+	}
+
+	public void select(final By by, final String visibleText, final int timeToWait) throws InterruptedException {
+		new Select(this.driver.findElement(by)).selectByVisibleText(visibleText);
+		Thread.sleep(timeToWait);
 	}
 
 	public void type(final By by, final String value, final int timeToWait) throws InterruptedException {
