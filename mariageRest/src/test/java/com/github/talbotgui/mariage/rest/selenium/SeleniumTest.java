@@ -310,6 +310,28 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
+	public void test03Invite08AjoutEnMasse() throws InterruptedException {
+		//
+		final String nom = "Nom1";
+		final String prenom = "Prenom1";
+		final String groupe = "Groupe1";
+		final String adresse = "Adresse1";
+		final String invites = nom + ":" + prenom + ":" + groupe + ":" + adresse
+				+ "\nNom3:Prenom1:Groupe3;Adresse3\n\nNom2:Prenom2:Groupe2;Adresse2\nNom4:Prenom4:Groupe4;Adresse4";
+
+		//
+		driver.click(By.id("button_afficher_popup_ajouter_en_masse"), 200);
+		driver.type(By.xpath("//textarea[@id='invites']"), invites, 200);
+		driver.click(By.id("button_ajouterEnMasse"), 200);
+
+		//
+		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[1]/div"), groupe);
+		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[2]/div"), "");
+		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[3]/div"), nom);
+		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[4]/div"), prenom);
+	}
+
+	@Test
 	public void test04Admin01accesPage() throws InterruptedException {
 		//
 
