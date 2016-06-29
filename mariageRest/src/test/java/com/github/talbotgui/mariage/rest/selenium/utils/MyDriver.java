@@ -44,11 +44,11 @@ public class MyDriver {
 		driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 	}
 
-	public void assertChecked(final By by, final boolean checked) throws InterruptedException {
+	public void assertChecked(final By by, final boolean checked) {
 		try {
 			assertEquals(checked, driver.findElement(by).isSelected());
 		} catch (final AssertionError e) {
-			Thread.sleep(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
+			sleepSilencieux(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
 			assertEquals(checked, driver.findElement(by).isSelected());
 		}
 	}
@@ -62,45 +62,45 @@ public class MyDriver {
 		}
 	}
 
-	public void assertElementPresent(final By by) throws InterruptedException {
+	public void assertElementPresent(final By by) {
 		try {
 			assertNotNull(driver.findElement(by));
 		} catch (final AssertionError e) {
-			Thread.sleep(1000);
+			sleepSilencieux(1000);
 			assertNotNull(driver.findElement(by));
 		}
 	}
 
-	public void assertPageTitle(final String title) throws InterruptedException {
+	public void assertPageTitle(final String title) {
 		try {
 			assertEquals(title, driver.getTitle());
 		} catch (final AssertionError e) {
-			Thread.sleep(1000);
+			sleepSilencieux(1000);
 			assertEquals(title, driver.getTitle());
 		}
 	}
 
-	public void assertTextEquals(final By by, final String text) throws InterruptedException {
+	public void assertTextEquals(final By by, final String text) {
 		try {
 			assertEquals(text, driver.findElement(by).getText());
 		} catch (final AssertionError e) {
-			Thread.sleep(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
+			sleepSilencieux(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
 			assertEquals(text, driver.findElement(by).getText());
 		}
 	}
 
-	public void assertValueEquals(final By by, final String value) throws InterruptedException {
+	public void assertValueEquals(final By by, final String value) {
 		try {
 			assertEquals(value, driver.findElement(by).getAttribute("value"));
 		} catch (final AssertionError e) {
-			Thread.sleep(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
+			sleepSilencieux(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
 			assertEquals(value, driver.findElement(by).getAttribute("value"));
 		}
 	}
 
-	public void click(final By by, final long timeToWait) throws InterruptedException {
+	public void click(final By by, final int timeToWait) {
 		driver.findElement(by).click();
-		Thread.sleep(timeToWait);
+		sleepSilencieux(timeToWait);
 	}
 
 	public void count(final By by, final int count) {
@@ -117,9 +117,9 @@ public class MyDriver {
 		this.driver.manage().deleteAllCookies();
 	}
 
-	public void executeScript(final String script, final long timeToWait) throws InterruptedException {
+	public void executeScript(final String script, final int timeToWait) {
 		((JavascriptExecutor) driver).executeScript(script);
-		Thread.sleep(timeToWait);
+		sleepSilencieux(timeToWait);
 	}
 
 	public void get(final String baseUrl) {
@@ -134,17 +134,25 @@ public class MyDriver {
 		this.driver.quit();
 	}
 
-	public void select(final By by, final String visibleText, final int timeToWait) throws InterruptedException {
+	public void select(final By by, final String visibleText, final int timeToWait) {
 		new Select(this.driver.findElement(by)).selectByVisibleText(visibleText);
-		Thread.sleep(timeToWait);
+		sleepSilencieux(timeToWait);
 	}
 
-	public void type(final By by, final String value, final int timeToWait) throws InterruptedException {
+	private void sleepSilencieux(final int timeToWait) {
+		try {
+			Thread.sleep(timeToWait);
+		} catch (final InterruptedException e) {
+			// Rien à faire
+		}
+	}
+
+	public void type(final By by, final String value, final int timeToWait) {
 		this.assertElementPresent(by);
 
 		final WebElement e = driver.findElement(by);
 		e.clear();
 		e.sendKeys(value);
-		Thread.sleep(timeToWait);
+		sleepSilencieux(timeToWait);
 	}
 }

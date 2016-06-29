@@ -18,7 +18,7 @@ public class MonitoringSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test01accesPage() throws InterruptedException {
+	public void test01accesPage() {
 		//
 
 		//

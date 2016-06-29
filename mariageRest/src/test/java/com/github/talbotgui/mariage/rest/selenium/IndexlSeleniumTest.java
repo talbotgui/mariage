@@ -20,7 +20,7 @@ public class IndexlSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test01accesPage() throws InterruptedException {
+	public void test01accesPage() {
 		//
 
 		//
@@ -34,7 +34,7 @@ public class IndexlSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test02nouveauMariage() throws InterruptedException {
+	public void test02nouveauMariage() {
 		//
 		driver.click(Index.Button.NOUVEAU, 500);
 		driver.assertElementPresent(Index.Button.SAUVEGARDER);
@@ -55,7 +55,7 @@ public class IndexlSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test03modifierMariage() throws InterruptedException {
+	public void test03modifierMariage() {
 		//
 		driver.click(Index.Button.MODIFIER, 200);
 

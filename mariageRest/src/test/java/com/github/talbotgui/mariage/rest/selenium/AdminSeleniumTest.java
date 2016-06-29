@@ -21,7 +21,7 @@ public class AdminSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test01accesPage() throws InterruptedException {
+	public void test01accesPage() {
 		//
 
 		//
@@ -37,7 +37,7 @@ public class AdminSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test02ajoutKo() throws InterruptedException {
+	public void test02ajoutKo() {
 
 		//
 		driver.click(Admin.Button.AFFICHE_POPUP, 500);
@@ -52,7 +52,7 @@ public class AdminSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test03ajoutOk() throws InterruptedException {
+	public void test03ajoutOk() {
 		//
 
 		//

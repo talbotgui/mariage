@@ -21,7 +21,7 @@ public class ParametresEtapeSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test01Acces() throws InterruptedException {
+	public void test01Acces() {
 		//
 
 		//
@@ -43,7 +43,7 @@ public class ParametresEtapeSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test02ValidationFormulaireRepas() throws InterruptedException {
+	public void test02ValidationFormulaireRepas() {
 		//
 
 		//
@@ -58,7 +58,7 @@ public class ParametresEtapeSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test03AjouterEtapeRepas() throws InterruptedException {
+	public void test03AjouterEtapeRepas() {
 		//
 
 		//
@@ -77,7 +77,7 @@ public class ParametresEtapeSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test04ValidationFormulaireCeremonie() throws InterruptedException {
+	public void test04ValidationFormulaireCeremonie() {
 		//
 
 		//
@@ -93,7 +93,7 @@ public class ParametresEtapeSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test05AjouterEtapeCeremonie() throws InterruptedException {
+	public void test05AjouterEtapeCeremonie() {
 		//
 
 		//

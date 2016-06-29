@@ -23,7 +23,7 @@ public class InvitesSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test01accesPage() throws InterruptedException {
+	public void test01accesPage() {
 		//
 
 		//
@@ -39,7 +39,7 @@ public class InvitesSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test02ajoutKo() throws InterruptedException {
+	public void test02ajoutKo() {
 
 		//
 		driver.click(Invite.Button.AFFICHE_POPUP_SAISIE, 500);
@@ -54,7 +54,7 @@ public class InvitesSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test03ajoutOk() throws InterruptedException {
+	public void test03ajoutOk() {
 		//
 
 		//
@@ -72,7 +72,7 @@ public class InvitesSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test04modifInviteOk() throws InterruptedException {
+	public void test04modifInviteOk() {
 		//
 
 		//
@@ -90,7 +90,7 @@ public class InvitesSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test05modifPresenceOn() throws InterruptedException {
+	public void test05modifPresenceOn() {
 		//
 
 		//
@@ -102,7 +102,7 @@ public class InvitesSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test06modifPresenceOff() throws InterruptedException {
+	public void test06modifPresenceOff() {
 		//
 
 		//
@@ -114,7 +114,7 @@ public class InvitesSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test07modifPresenceAvecModele() throws InterruptedException {
+	public void test07modifPresenceAvecModele() {
 		//
 
 		//
@@ -132,7 +132,7 @@ public class InvitesSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test07modifPresenceAvecModele2() throws InterruptedException {
+	public void test07modifPresenceAvecModele2() {
 		//
 
 		//
@@ -149,7 +149,7 @@ public class InvitesSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test08AjoutEnMasse() throws InterruptedException {
+	public void test08AjoutEnMasse() {
 		//
 		final String nom = "Nom1";
 		final String prenom = "Prenom1";
