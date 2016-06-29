@@ -10,10 +10,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.github.talbotgui.mariage.rest.application.SeleniumTestApplication;
 import com.github.talbotgui.mariage.rest.selenium.Selectors.Monitoring;
 
 @WebIntegrationTest(randomPort = true)
-@SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
+@SpringApplicationConfiguration(classes = SeleniumTestApplication.class)
 public class MonitoringSeleniumTest extends AbstractTestNGSpringContextTests {
 
 	/** ContextRoot de l'application. */

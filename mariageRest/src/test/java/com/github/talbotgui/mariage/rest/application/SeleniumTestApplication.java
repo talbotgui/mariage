@@ -1,4 +1,4 @@
-package com.github.talbotgui.mariage.rest.selenium;
+package com.github.talbotgui.mariage.rest.application;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.orm.jpa.EntityScan;
@@ -16,6 +16,6 @@ import com.github.talbotgui.mariage.rest.application.RestApplication;
 @ComponentScan({ RestApplication.COMPONENT_SCAN_WEB, RestApplication.COMPONENT_SCAN_SRV })
 @EnableJpaRepositories(RestApplication.JPA_REPOSITORIES)
 @PropertySource("classpath:db-config-test.properties")
-public class SpringApplicationForTests {
+public class SeleniumTestApplication {
 
 }

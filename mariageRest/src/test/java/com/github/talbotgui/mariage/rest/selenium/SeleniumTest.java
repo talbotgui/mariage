@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.github.talbotgui.mariage.rest.application.SeleniumTestApplication;
 import com.github.talbotgui.mariage.rest.selenium.Selectors.Admin;
 import com.github.talbotgui.mariage.rest.selenium.Selectors.Commun;
 import com.github.talbotgui.mariage.rest.selenium.Selectors.Index;
@@ -20,7 +21,7 @@ import com.github.talbotgui.mariage.rest.selenium.Selectors.Menu;
 import com.github.talbotgui.mariage.rest.selenium.Selectors.ParametresEtape;
 
 @WebIntegrationTest(randomPort = true)
-@SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
+@SpringApplicationConfiguration(classes = SeleniumTestApplication.class)
 public class SeleniumTest extends AbstractTestNGSpringContextTests {
 
 	/** ContextRoot de l'application. */
