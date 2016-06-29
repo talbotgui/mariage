@@ -11,6 +11,8 @@ public class Selectors {
 		public static class Button {
 			public static final By AFFICHE_POPUP = By.id("button_afficher_popup_ajouter_utilisateur");
 			public static final By AJOUT = By.id("button_ajouter_utilisateur");
+			public static final By[] SUPPRIMER = { By.xpath("//div[1]/div[2]/a/span"),
+					By.xpath("//div[2]/div[2]/a/span") };
 		}
 
 		public static class Input {
@@ -18,7 +20,8 @@ public class Selectors {
 			public static final By MDP = By.id("mdp");
 		}
 
-		public static final By CASES[][] = { { By.xpath("//div[@id='row0utilisateurs']/div[1]/div") } };
+		public static final By CASES[][] = { { By.xpath("//div[@id='row0utilisateurs']/div[1]/div") },
+				{ By.xpath("//div[@id='row1utilisateurs']/div[1]/div") } };
 	}
 
 	/**

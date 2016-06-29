@@ -64,4 +64,21 @@ public class AdminSeleniumTest extends SeleniumTest {
 		driver.assertTextEquals(Admin.CASES[0][0], "monLogin");
 	}
 
+	@Test
+	public void test04SupprimeOk() {
+		//
+		driver.click(Admin.Button.AFFICHE_POPUP, 500);
+		driver.type(Admin.Input.LOGIN, "vaEtreSupprimer", 200);
+		driver.type(Admin.Input.MDP, "vaEtreSupprimer", 200);
+		driver.click(Admin.Button.AJOUT, 500);
+		driver.assertTextEquals(Admin.CASES[1][0], "vaEtreSupprimer");
+
+		//
+		driver.click(Admin.Button.SUPPRIMER[1], 500);
+
+		//
+		driver.assertTextEquals(Admin.CASES[0][0], "monLogin");
+		driver.assertElementNotPresent(Admin.Button.SUPPRIMER[1]);
+	}
+
 }

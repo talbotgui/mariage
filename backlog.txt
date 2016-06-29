@@ -38,7 +38,7 @@ X	@RequestMapping(value = "/monitoring", method = GET)
 	@RequestMapping(value = "/mariage/{idMariage}/courrier", method = GET)
 	@RequestMapping(value = "/mariage/{idMariage}/courrier", method = POST)
 	@RequestMapping(value = "/mariage/{idMariage}/courrier/{idCourrier}", method = DELETE)
-	@RequestMapping(value = "/utilisateur/{login}", method = DELETE)
+X   @RequestMapping(value = "/utilisateur/{login}", method = DELETE)
 	@RequestMapping(value = SecurityFilter.LOGIN_REST, method = POST)
 	@RequestMapping(value = SecurityFilter.LOGOUT_REST, method = GET)
 
