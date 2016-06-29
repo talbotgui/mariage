@@ -33,8 +33,7 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 
 	@BeforeClass
 	public void beforeClass() {
-		// driver = new MyDriver(new HtmlUnitDriver(BrowserVersion.FIREFOX_38, true));
-		driver = new MyDriver(new FirefoxDriver());
+		driver = new MyDriver(new HtmlUnitDriver(BrowserVersion.FIREFOX_38, true));
 	}
 
 	@Test
