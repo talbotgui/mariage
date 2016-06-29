@@ -3,7 +3,7 @@ package com.github.talbotgui.mariage.rest.selenium;
 import static org.junit.Assert.assertEquals;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
@@ -11,8 +11,6 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 @WebIntegrationTest(randomPort = true)
 @SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
@@ -35,7 +33,8 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 
 	@BeforeClass
 	public void beforeClass() {
-		driver = new MyDriver(new HtmlUnitDriver(BrowserVersion.FIREFOX_38, true));
+		// driver = new MyDriver(new HtmlUnitDriver(BrowserVersion.FIREFOX_38, true));
+		driver = new MyDriver(new FirefoxDriver());
 	}
 
 	@Test
@@ -232,21 +231,82 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void test03Invite04modifOk() throws InterruptedException {
+	public void test03Invite04modifInviteOk() throws InterruptedException {
 		//
 
 		//
-		driver.executeScript("$('#invites').jqxGrid('begincelledit', 0,'groupe');", 200);
+		driver.executeScript("$('#invites').jqxGrid('begincelledit', 0, 'groupe');", 200);
 		driver.type(By.id("textboxeditorinvitesgroupe"), "groupe1_modif", 100);
-		driver.executeScript("$('#invites').jqxGrid('endcelledit', 0,'groupe');", 500);
-		driver.executeScript("$('#invites').jqxGrid('begincelledit', 0,'nom');", 200);
+		driver.executeScript("$('#invites').jqxGrid('endcelledit', 0, 'groupe');", 500);
+		driver.executeScript("$('#invites').jqxGrid('begincelledit', 0, 'nom');", 200);
 		driver.type(By.id("textboxeditorinvitesnom"), "nom1_modif", 100);
-		driver.executeScript("$('#invites').jqxGrid('endcelledit', 0,'nom');", 500);
+		driver.executeScript("$('#invites').jqxGrid('endcelledit', 0, 'nom');", 500);
 		driver.click(By.linkText("Invitation"), 500);
 
 		//
 		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[1]/div"), "groupe1_modif");
 		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[3]/div"), "nom1_modif");
+	}
+
+	@Test
+	public void test03Invite05modifPresenceOn() throws InterruptedException {
+		//
+		final String checkBox1 = "//div[@id='row0invites']/div[6]/div/input";
+
+		//
+		driver.click(By.xpath(checkBox1), 200);
+		driver.click(By.linkText("Invitation"), 500);
+
+		//
+		driver.assertChecked(By.xpath(checkBox1), true);
+	}
+
+	@Test
+	public void test03Invite06modifPresenceOff() throws InterruptedException {
+		//
+		final String checkBox1 = "//div[@id='row0invites']/div[6]/div/input";
+
+		//
+		driver.click(By.xpath(checkBox1), 200);
+		driver.click(By.linkText("Invitation"), 500);
+
+		//
+		driver.assertChecked(By.xpath(checkBox1), false);
+	}
+
+	@Test
+	public void test03Invite07modifPresenceAvecModele() throws InterruptedException {
+		//
+
+		//
+		driver.click(By.id("appliquerAuFoyer"), 200);
+		driver.click(By.xpath("//div[@id='modele']/div/table/tbody/tr/td[1]/input"), 200);
+		driver.click(By.xpath("//div[@id='modele']/div/table/tbody/tr/td[2]/input"), 200);
+
+		driver.click(By.xpath("//a[@id='btnApplyModel1']/span"), 200);
+
+		driver.click(By.linkText("Invitation"), 500);
+
+		//
+		driver.assertChecked(By.xpath("//div[@id='row0invites']/div[6]/div/input"), true);
+		driver.assertChecked(By.xpath("//div[@id='row0invites']/div[7]/div/input"), true);
+	}
+
+	@Test
+	public void test03Invite07modifPresenceAvecModele2() throws InterruptedException {
+		//
+
+		//
+		driver.click(By.id("appliquerAuFoyer"), 200);
+		driver.click(By.xpath("//div[@id='modele']/div/table/tbody/tr/td[1]/input"), 200);
+
+		driver.click(By.xpath("//a[@id='btnApplyModel1']/span"), 200);
+
+		driver.click(By.linkText("Invitation"), 500);
+
+		//
+		driver.assertChecked(By.xpath("//div[@id='row0invites']/div[6]/div/input"), true);
+		driver.assertChecked(By.xpath("//div[@id='row0invites']/div[7]/div/input"), false);
 	}
 
 	@Test

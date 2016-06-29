@@ -43,6 +43,15 @@ public class MyDriver {
 		driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 	}
 
+	public void assertChecked(final By by, final boolean checked) throws InterruptedException {
+		try {
+			assertEquals(checked, driver.findElement(by).isSelected());
+		} catch (final AssertionError e) {
+			Thread.sleep(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
+			assertEquals(checked, driver.findElement(by).isSelected());
+		}
+	}
+
 	public void assertElementNotPresent(final By by) {
 		try {
 			driver.findElement(by);
@@ -83,7 +92,7 @@ public class MyDriver {
 		try {
 			assertEquals(value, driver.findElement(by).getAttribute("value"));
 		} catch (final AssertionError e) {
-			Thread.sleep(1000);
+			Thread.sleep(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
 			assertEquals(value, driver.findElement(by).getAttribute("value"));
 		}
 	}
