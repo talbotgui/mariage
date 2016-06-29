@@ -102,6 +102,10 @@ public class MyDriver {
 		Thread.sleep(timeToWait);
 	}
 
+	public void count(final By by, final int count) {
+		assertEquals(this.driver.findElements(by).size(), count);
+	}
+
 	public void createSnapshot(final String filename) throws IOException {
 		final File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		final File file = new File(filename);
@@ -137,5 +141,4 @@ public class MyDriver {
 		e.sendKeys(value);
 		Thread.sleep(timeToWait);
 	}
-
 }

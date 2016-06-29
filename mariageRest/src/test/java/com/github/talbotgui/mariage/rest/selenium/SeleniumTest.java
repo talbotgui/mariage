@@ -1,7 +1,5 @@
 package com.github.talbotgui.mariage.rest.selenium;
 
-import static org.junit.Assert.assertEquals;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +11,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.github.talbotgui.mariage.rest.selenium.Selectors.Admin;
+import com.github.talbotgui.mariage.rest.selenium.Selectors.Commun;
+import com.github.talbotgui.mariage.rest.selenium.Selectors.Index;
+import com.github.talbotgui.mariage.rest.selenium.Selectors.Invite;
+import com.github.talbotgui.mariage.rest.selenium.Selectors.Invite.Input;
+import com.github.talbotgui.mariage.rest.selenium.Selectors.Menu;
+import com.github.talbotgui.mariage.rest.selenium.Selectors.ParametresEtape;
 
 @WebIntegrationTest(randomPort = true)
 @SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
@@ -48,48 +53,48 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 
 		//
 		driver.assertPageTitle("Mariage");
-		driver.assertElementNotPresent(By.linkText("Accueil"));
-		driver.assertElementNotPresent(By.linkText("Invitation"));
-		driver.assertElementPresent(By.linkText("Nouveau"));
-		driver.assertElementPresent(By.id("selectionMariage"));
+		driver.assertElementNotPresent(Menu.LIEN_ACCUEIL);
+		driver.assertElementNotPresent(Menu.LIEN_INVITATION);
+		driver.assertElementPresent(Index.Button.NOUVEAU);
+		driver.assertElementPresent(Index.Input.SELECTION_MARIAGE);
 	}
 
 	@Test
 	public void test01Index01nouveauMariage() throws InterruptedException {
 		//
-		driver.click(By.linkText("Nouveau"), 500);
-		driver.assertElementPresent(By.linkText("Sauvegarder"));
+		driver.click(Index.Button.NOUVEAU, 500);
+		driver.assertElementPresent(Index.Button.SAUVEGARDER);
 
 		//
-		driver.type(By.id("dateCelebration"), "01/01/2017", 100);
-		driver.click(By.id("marie1"), 0);// Pour fermer le timepicker
-		driver.type(By.id("marie1"), "M", 100);
-		driver.type(By.id("marie2"), "G", 100);
-		driver.click(By.linkText("Sauvegarder"), 500);
+		driver.type(Index.Input.DATE_CELEBRATION, "01/01/2017", 100);
+		driver.click(Index.Input.MARIE1, 0);// Pour fermer le timepicker
+		driver.type(Index.Input.MARIE1, "M", 100);
+		driver.type(Index.Input.MARIE2, "G", 100);
+		driver.click(Index.Button.SAUVEGARDER, 500);
 
 		//
-		driver.assertElementPresent(By.linkText("Modifier"));
-		driver.assertTextEquals(By.id("maries"), "Mariage de M  &  G");
-		driver.assertTextEquals(By.cssSelector("#date > span"), "01/01/2017");
-		driver.assertElementPresent(By.linkText("Modifier"));
-		driver.assertElementPresent(By.linkText("Accueil"));
+		driver.assertElementPresent(Index.Button.MODIFIER);
+		driver.assertTextEquals(Commun.DIV_MARIES, "Mariage de M  &  G");
+		driver.assertTextEquals(Commun.DIV_DATE_MARIAGE, "01/01/2017");
+		driver.assertElementPresent(Index.Button.MODIFIER);
+		driver.assertElementPresent(Menu.LIEN_ACCUEIL);
 	}
 
 	@Test
 	public void test01Index02modifierMariage() throws InterruptedException {
 		//
-		driver.click(By.linkText("Modifier"), 200);
+		driver.click(Index.Button.MODIFIER, 200);
 
 		//
-		driver.assertValueEquals(By.id("marie1"), "M");
-		driver.assertValueEquals(By.id("marie2"), "G");
-		driver.assertValueEquals(By.id("dateCelebration"), "01/01/2017");
-		driver.click(By.linkText("Sauvegarder"), 500);
+		driver.assertValueEquals(Index.Input.MARIE1, "M");
+		driver.assertValueEquals(Index.Input.MARIE2, "G");
+		driver.assertValueEquals(Index.Input.DATE_CELEBRATION, "01/01/2017");
+		driver.click(Index.Button.SAUVEGARDER, 500);
 
 		//
-		driver.assertElementPresent(By.linkText("Modifier"));
-		driver.assertTextEquals(By.id("maries"), "Mariage de M  &  G");
-		driver.assertTextEquals(By.cssSelector("#date > span"), "01/01/2017");
+		driver.assertElementPresent(Index.Button.MODIFIER);
+		driver.assertTextEquals(Commun.DIV_MARIES, "Mariage de M  &  G");
+		driver.assertTextEquals(Commun.DIV_DATE_MARIAGE, "01/01/2017");
 	}
 
 	@Test
@@ -97,20 +102,20 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.click(By.linkText("Paramètres - étapes"), 200);
+		driver.click(Menu.LIEN_PARAMETAPES, 200);
 
 		//
-		driver.assertTextEquals(By.id("maries"), "Mariage de M & G");
-		driver.assertTextEquals(By.cssSelector("#date > span"), "01/01/2017");
+		driver.assertTextEquals(Commun.DIV_MARIES, "Mariage de M & G");
+		driver.assertTextEquals(Commun.DIV_DATE_MARIAGE, "01/01/2017");
 
-		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[1]/div/div"), "Type");
-		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[2]/div/div"), "Ordre");
-		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[3]/div/div"), "Nom");
-		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[4]/div/div"), "Date et heure");
-		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[5]/div/div"), "Lieu");
-		driver.assertTextEquals(By.xpath("//div[@id='columntableetapes']/div[6]/div/div"), "Actions");
+		driver.assertTextEquals(ParametresEtape.ENTETES[0], "Type");
+		driver.assertTextEquals(ParametresEtape.ENTETES[1], "Ordre");
+		driver.assertTextEquals(ParametresEtape.ENTETES[2], "Nom");
+		driver.assertTextEquals(ParametresEtape.ENTETES[3], "Date et heure");
+		driver.assertTextEquals(ParametresEtape.ENTETES[4], "Lieu");
+		driver.assertTextEquals(ParametresEtape.ENTETES[5], "Actions");
 
-		driver.assertTextEquals(By.cssSelector("div.jqx-grid-cell.jqx-grid-empty-cell > span"), "No data to display");
+		driver.assertTextEquals(Commun.TABLEAU_MESSAGE_VIDE, "No data to display");
 	}
 
 	@Test
@@ -118,14 +123,14 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.click(By.id("button_afficher_popup_ajouter_repas"), 500);
-		driver.type(By.id("repa_nom"), "", 15);
-		driver.type(By.id("repa_lieu"), "", 15);
-		driver.type(By.id("repa_dateHeure"), "", 15);
-		driver.click(By.id("button_ajouter_etapeRepas"), 200);
+		driver.click(ParametresEtape.Button.AFFICHE_POPUP_REPAS, 500);
+		driver.type(ParametresEtape.Input.REPA_NOM, "", 15);
+		driver.type(ParametresEtape.Input.REPA_LIEU, "", 15);
+		driver.type(ParametresEtape.Input.REPA_DATEHEURE, "", 15);
+		driver.click(ParametresEtape.Button.AJOUT, 200);
 
 		//
-		assertEquals(driver.getRealDriver().findElements(By.className("error")).size(), 3);
+		driver.count(Commun.DIV_ERREUR, 3);
 	}
 
 	@Test
@@ -133,18 +138,18 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.click(By.id("button_afficher_popup_ajouter_repas"), 500);
-		driver.type(By.id("repa_nom"), "Repas1", 15);
-		driver.type(By.id("repa_lieu"), "LieuRepas1", 15);
-		driver.type(By.id("repa_dateHeure"), "01/01/2017 12:00", 15);
-		driver.click(By.id("button_ajouter_etapeRepas"), 200);
+		driver.click(ParametresEtape.Button.AFFICHE_POPUP_REPAS, 500);
+		driver.type(ParametresEtape.Input.REPA_NOM, "Repas1", 15);
+		driver.type(ParametresEtape.Input.REPA_LIEU, "LieuRepas1", 15);
+		driver.type(ParametresEtape.Input.REPA_DATEHEURE, "01/01/2017 12:00", 15);
+		driver.click(ParametresEtape.Button.AJOUT, 200);
 
 		//
-		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[1]/div"), "EtapeRepas");
-		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[2]/div"), "1");
-		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[3]/div"), "Repas1");
-		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[4]/div"), "01/01/2017 12:00");
-		driver.assertTextEquals(By.xpath("//div[@id='row0etapes']/div[5]/div"), "LieuRepas1");
+		driver.assertTextEquals(ParametresEtape.CASES[0][0], "EtapeRepas");
+		driver.assertTextEquals(ParametresEtape.CASES[0][1], "1");
+		driver.assertTextEquals(ParametresEtape.CASES[0][2], "Repas1");
+		driver.assertTextEquals(ParametresEtape.CASES[0][3], "01/01/2017 12:00");
+		driver.assertTextEquals(ParametresEtape.CASES[0][4], "LieuRepas1");
 	}
 
 	@Test
@@ -152,15 +157,15 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.click(By.id("button_afficher_popup_ajouter_ceremonie"), 500);
-		driver.type(By.id("cere_nom"), "", 15);
-		driver.type(By.id("cere_lieu"), "", 15);
-		driver.type(By.id("cere_dateHeure"), "", 15);
-		driver.type(By.id("cere_celebrant"), "", 15);
-		driver.click(By.id("button_ajouter_etapeCeremonie"), 200);
+		driver.click(ParametresEtape.Button.AFFICHE_POPUP_CEREMONIE, 500);
+		driver.type(ParametresEtape.Input.CERE_NOM, "", 15);
+		driver.type(ParametresEtape.Input.CERE_LIEU, "", 15);
+		driver.type(ParametresEtape.Input.CERE_DATEHEURE, "", 15);
+		driver.type(ParametresEtape.Input.CERE_CELEBRANT, "", 15);
+		driver.click(ParametresEtape.Button.CERE_AJOUT, 200);
 
 		//
-		assertEquals(driver.getRealDriver().findElements(By.className("error")).size(), 4);
+		driver.count(Commun.DIV_ERREUR, 4);
 	}
 
 	@Test
@@ -168,19 +173,19 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.click(By.id("button_afficher_popup_ajouter_ceremonie"), 500);
-		driver.type(By.id("cere_nom"), "Ceremonie1", 15);
-		driver.type(By.id("cere_lieu"), "LieuCeremonie1", 15);
-		driver.type(By.id("cere_dateHeure"), "01/01/2017 13:00", 15);
-		driver.type(By.id("cere_celebrant"), "Celebrant1", 15);
-		driver.click(By.id("button_ajouter_etapeCeremonie"), 200);
+		driver.click(ParametresEtape.Button.AFFICHE_POPUP_CEREMONIE, 500);
+		driver.type(ParametresEtape.Input.CERE_NOM, "Ceremonie1", 15);
+		driver.type(ParametresEtape.Input.CERE_LIEU, "LieuCeremonie1", 15);
+		driver.type(ParametresEtape.Input.CERE_DATEHEURE, "01/01/2017 13:00", 15);
+		driver.type(ParametresEtape.Input.CERE_CELEBRANT, "Celebrant1", 15);
+		driver.click(ParametresEtape.Button.CERE_AJOUT, 200);
 
 		//
-		driver.assertTextEquals(By.xpath("//div[@id='row1etapes']/div[1]/div"), "EtapeCeremonie");
-		driver.assertTextEquals(By.xpath("//div[@id='row1etapes']/div[2]/div"), "2");
-		driver.assertTextEquals(By.xpath("//div[@id='row1etapes']/div[3]/div"), "Ceremonie1");
-		driver.assertTextEquals(By.xpath("//div[@id='row1etapes']/div[4]/div"), "01/01/2017 13:00");
-		driver.assertTextEquals(By.xpath("//div[@id='row1etapes']/div[5]/div"), "LieuCeremonie1");
+		driver.assertTextEquals(ParametresEtape.CASES[1][0], "EtapeCeremonie");
+		driver.assertTextEquals(ParametresEtape.CASES[1][1], "2");
+		driver.assertTextEquals(ParametresEtape.CASES[1][2], "Ceremonie1");
+		driver.assertTextEquals(ParametresEtape.CASES[1][3], "01/01/2017 13:00");
+		driver.assertTextEquals(ParametresEtape.CASES[1][4], "LieuCeremonie1");
 	}
 
 	@Test
@@ -188,29 +193,29 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.click(By.linkText("Invitation"), 500);
+		driver.click(Menu.LIEN_INVITATION, 500);
 
 		//
 		driver.assertPageTitle("Mariage");
-		driver.assertTextEquals(By.id("maries"), "Mariage de M & G");
-		driver.assertTextEquals(By.cssSelector("#date > span"), "01/01/2017");
-		driver.assertTextEquals(By.cssSelector("div.jqx-grid-cell.jqx-grid-empty-cell > span"), "No data to display");
-		driver.assertElementPresent(By.id("button_afficher_popup_ajouter"));
+		driver.assertTextEquals(Commun.DIV_MARIES, "Mariage de M & G");
+		driver.assertTextEquals(Commun.DIV_DATE_MARIAGE, "01/01/2017");
+		driver.assertTextEquals(Commun.TABLEAU_MESSAGE_VIDE, "No data to display");
+		driver.assertElementPresent(Invite.Button.AFFICHE_POPUP_SAISIE);
 	}
 
 	@Test
 	public void test03Invite02ajoutKo() throws InterruptedException {
 
 		//
-		driver.click(By.id("button_afficher_popup_ajouter"), 500);
-		driver.assertElementPresent(By.id("button_ajouter"));
-		driver.assertElementPresent(By.xpath("//div[@id='popupAjoutInvite']"));
+		driver.click(Invite.Button.AFFICHE_POPUP_SAISIE, 500);
+		driver.assertElementPresent(Invite.Button.AJOUTER);
+		driver.assertElementPresent(Invite.DIV_POPUP);
 
 		//
-		driver.click(By.id("button_ajouter"), 500);
+		driver.click(Invite.Button.AJOUTER, 500);
 
 		//
-		assertEquals(driver.getRealDriver().findElements(By.className("error")).size(), 4);
+		driver.count(Commun.DIV_ERREUR, 4);
 	}
 
 	@Test
@@ -218,17 +223,17 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.type(By.id("groupe"), "groupe1", 200);
-		driver.type(By.id("foyer"), "foyer1", 200);
-		driver.type(By.id("nom"), "nom1", 200);
-		driver.type(By.id("prenom"), "prenom1", 200);
-		driver.click(By.id("button_ajouter"), 500);
+		driver.type(Invite.Input.GROUPE, "groupe1", 200);
+		driver.type(Invite.Input.FOYER, "foyer1", 200);
+		driver.type(Invite.Input.NOM, "nom1", 200);
+		driver.type(Invite.Input.PRENOM, "prenom1", 200);
+		driver.click(Invite.Button.AJOUTER, 500);
 
 		//
-		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[1]/div"), "groupe1");
-		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[2]/div"), "foyer1");
-		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[3]/div"), "nom1");
-		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[4]/div"), "prenom1");
+		driver.assertTextEquals(Invite.CASES[0][0], "groupe1");
+		driver.assertTextEquals(Invite.CASES[0][1], "foyer1");
+		driver.assertTextEquals(Invite.CASES[0][2], "nom1");
+		driver.assertTextEquals(Invite.CASES[0][3], "prenom1");
 	}
 
 	@Test
@@ -242,37 +247,35 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		driver.executeScript("$('#invites').jqxGrid('begincelledit', 0, 'nom');", 200);
 		driver.type(By.id("textboxeditorinvitesnom"), "nom1_modif", 100);
 		driver.executeScript("$('#invites').jqxGrid('endcelledit', 0, 'nom');", 500);
-		driver.click(By.linkText("Invitation"), 500);
+		driver.click(Menu.LIEN_INVITATION, 500);
 
 		//
-		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[1]/div"), "groupe1_modif");
-		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[3]/div"), "nom1_modif");
+		driver.assertTextEquals(Invite.CASES[0][0], "groupe1_modif");
+		driver.assertTextEquals(Invite.CASES[0][2], "nom1_modif");
 	}
 
 	@Test
 	public void test03Invite05modifPresenceOn() throws InterruptedException {
 		//
-		final String checkBox1 = "//div[@id='row0invites']/div[6]/div/input";
 
 		//
-		driver.click(By.xpath(checkBox1), 200);
-		driver.click(By.linkText("Invitation"), 500);
+		driver.click(Invite.Input.LIGNE1_PRESENCES[0], 200);
+		driver.click(Menu.LIEN_INVITATION, 500);
 
 		//
-		driver.assertChecked(By.xpath(checkBox1), true);
+		driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[0], true);
 	}
 
 	@Test
 	public void test03Invite06modifPresenceOff() throws InterruptedException {
 		//
-		final String checkBox1 = "//div[@id='row0invites']/div[6]/div/input";
 
 		//
-		driver.click(By.xpath(checkBox1), 200);
-		driver.click(By.linkText("Invitation"), 500);
+		driver.click(Invite.Input.LIGNE1_PRESENCES[0], 200);
+		driver.click(Menu.LIEN_INVITATION, 500);
 
 		//
-		driver.assertChecked(By.xpath(checkBox1), false);
+		driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[0], false);
 	}
 
 	@Test
@@ -280,17 +283,17 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.click(By.id("appliquerAuFoyer"), 200);
-		driver.click(By.xpath("//div[@id='modele']/div/table/tbody/tr/td[1]/input"), 200);
-		driver.click(By.xpath("//div[@id='modele']/div/table/tbody/tr/td[2]/input"), 200);
+		driver.click(Invite.Input.APPLIQUER_AU_FOYER, 200);
+		driver.click(Invite.Input.MODELE_ETAPES[0], 200);
+		driver.click(Invite.Input.MODELE_ETAPES[1], 200);
 
-		driver.click(By.xpath("//a[@id='btnApplyModel1']/span"), 200);
+		driver.click(Invite.Button.LIGNE1_APPLIQUER_MODEL, 200);
 
-		driver.click(By.linkText("Invitation"), 500);
+		driver.click(Menu.LIEN_INVITATION, 500);
 
 		//
-		driver.assertChecked(By.xpath("//div[@id='row0invites']/div[6]/div/input"), true);
-		driver.assertChecked(By.xpath("//div[@id='row0invites']/div[7]/div/input"), true);
+		driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[0], true);
+		driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[1], true);
 	}
 
 	@Test
@@ -298,16 +301,16 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.click(By.id("appliquerAuFoyer"), 200);
-		driver.click(By.xpath("//div[@id='modele']/div/table/tbody/tr/td[1]/input"), 200);
+		driver.click(Invite.Input.APPLIQUER_AU_FOYER, 200);
+		driver.click(Invite.Input.MODELE_ETAPES[0], 200);
 
-		driver.click(By.xpath("//a[@id='btnApplyModel1']/span"), 200);
+		driver.click(Invite.Button.LIGNE1_APPLIQUER_MODEL, 200);
 
-		driver.click(By.linkText("Invitation"), 500);
+		driver.click(Menu.LIEN_INVITATION, 500);
 
 		//
-		driver.assertChecked(By.xpath("//div[@id='row0invites']/div[6]/div/input"), true);
-		driver.assertChecked(By.xpath("//div[@id='row0invites']/div[7]/div/input"), false);
+		driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[0], true);
+		driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[1], false);
 	}
 
 	@Test
@@ -321,15 +324,15 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 				+ "\nNom3:Prenom1:Groupe3;Adresse3\n\nNom2:Prenom2:Groupe2;Adresse2\nNom4:Prenom4:Groupe4;Adresse4";
 
 		//
-		driver.click(By.id("button_afficher_popup_ajouter_en_masse"), 200);
-		driver.type(By.xpath("//textarea[@id='invites']"), invites, 200);
-		driver.click(By.id("button_ajouterEnMasse"), 200);
+		driver.click(Invite.Button.AFFICHE_POPUP_EN_MASSE, 200);
+		driver.type(Input.INVITE_EN_MASSE, invites, 200);
+		driver.click(Invite.Button.AJOUT_EN_MASSE, 200);
 
 		//
-		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[1]/div"), groupe);
-		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[2]/div"), "");
-		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[3]/div"), nom);
-		driver.assertTextEquals(By.xpath("//div[@id='row0invites']/div[4]/div"), prenom);
+		driver.assertTextEquals(Invite.CASES[0][0], groupe);
+		driver.assertTextEquals(Invite.CASES[0][1], "");
+		driver.assertTextEquals(Invite.CASES[0][2], nom);
+		driver.assertTextEquals(Invite.CASES[0][3], prenom);
 	}
 
 	@Test
@@ -337,29 +340,29 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.click(By.linkText("Administration"), 1000);
+		driver.click(Menu.LIEN_ADMINISTRATION, 1000);
 
 		//
 		driver.assertPageTitle("Mariage");
-		driver.assertTextEquals(By.id("maries"), "Mariage de M & G");
-		driver.assertTextEquals(By.cssSelector("#date > span"), "01/01/2017");
-		driver.assertTextEquals(By.cssSelector("div.jqx-grid-cell.jqx-grid-empty-cell > span"), "No data to display");
-		driver.assertElementPresent(By.id("button_afficher_popup_ajouter_utilisateur"));
+		driver.assertTextEquals(Commun.DIV_MARIES, "Mariage de M & G");
+		driver.assertTextEquals(Commun.DIV_DATE_MARIAGE, "01/01/2017");
+		driver.assertTextEquals(Commun.TABLEAU_MESSAGE_VIDE, "No data to display");
+		driver.assertElementPresent(Admin.Button.AFFICHE_POPUP);
 	}
 
 	@Test
 	public void test04Admin02ajoutKo() throws InterruptedException {
 
 		//
-		driver.click(By.id("button_afficher_popup_ajouter_utilisateur"), 500);
-		driver.assertElementPresent(By.id("button_ajouter_utilisateur"));
-		driver.assertElementPresent(By.xpath("//div[@id='popupAjoutUtilisateur']"));
+		driver.click(Admin.Button.AFFICHE_POPUP, 500);
+		driver.assertElementPresent(Admin.Button.AJOUT);
+		driver.assertElementPresent(Admin.Button.AFFICHE_POPUP);
 
 		//
-		driver.click(By.id("button_ajouter_utilisateur"), 500);
+		driver.click(Admin.Button.AJOUT, 500);
 
 		//
-		assertEquals(driver.getRealDriver().findElements(By.className("error")).size(), 2);
+		driver.count(Commun.DIV_ERREUR, 2);
 	}
 
 	@Test
@@ -367,12 +370,12 @@ public class SeleniumTest extends AbstractTestNGSpringContextTests {
 		//
 
 		//
-		driver.type(By.id("login"), "monLogin", 200);
-		driver.type(By.id("mdp"), "monMdp", 200);
-		driver.click(By.id("button_ajouter_utilisateur"), 500);
+		driver.type(Admin.Input.LOGIN, "monLogin", 200);
+		driver.type(Admin.Input.MDP, "monMdp", 200);
+		driver.click(Admin.Button.AJOUT, 500);
 
 		//
-		driver.assertTextEquals(By.xpath("//div[@id='row0utilisateurs']/div[1]/div"), "monLogin");
+		driver.assertTextEquals(Admin.CASES[0][0], "monLogin");
 	}
 
 }
