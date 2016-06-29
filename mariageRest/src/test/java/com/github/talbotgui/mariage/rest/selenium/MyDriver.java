@@ -130,6 +130,8 @@ public class MyDriver {
 	}
 
 	public void type(final By by, final String value, final int timeToWait) throws InterruptedException {
+		this.assertElementPresent(by);
+
 		final WebElement e = driver.findElement(by);
 		e.clear();
 		e.sendKeys(value);
