@@ -28,6 +28,7 @@ X Ajouter une page de Statistiques (répartition par age, par groupe, par foyer)
 X Refactoring pour sortir les selecteur Selenium du Test unitaire
 X Découper le test Selenium en plusieurs test (chacun utilisant un mariage différent)
 X Supprimer les InteruptedException
+X Ajouter un email dans les courriers
   
   Ajouter des tests Selenium pour :
 X	@RequestMapping(value = "/monitoring", method = GET)
@@ -44,8 +45,6 @@ X   @RequestMapping(value = "/utilisateur/{login}", method = DELETE)
 
   Ajout les étapes dans le tableau des courriers
   
-  Ajouter un email dans les courriers
-
   Dans la page "gestion des invitations", ajouter l'autocomplétion dans le champ "groupe" et "foyer"
 
   Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
