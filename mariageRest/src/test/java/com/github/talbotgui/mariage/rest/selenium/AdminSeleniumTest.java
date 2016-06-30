@@ -78,7 +78,7 @@ public class AdminSeleniumTest extends SeleniumTest {
 
 		//
 		driver.assertTextEquals(Admin.CASES[0][0], "monLogin");
-		driver.assertElementNotPresent(Admin.Button.SUPPRIMER[1]);
+		driver.assertElementNotPresent(Admin.CASES[1][0]);
 	}
 
 }

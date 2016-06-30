@@ -11,8 +11,8 @@ public class Selectors {
 		public static class Button {
 			public static final By AFFICHE_POPUP = By.id("button_afficher_popup_ajouter_utilisateur");
 			public static final By AJOUT = By.id("button_ajouter_utilisateur");
-			public static final By[] SUPPRIMER = { By.xpath("//div[1]/div[2]/a/span"),
-					By.xpath("//div[2]/div[2]/a/span") };
+			public static final By[] SUPPRIMER = { By.xpath("//div[@id='row0utilisateurs']/div[2]/a/span"),
+					By.xpath("//div[@id='row1utilisateurs']/div[2]/a/span") };
 		}
 
 		public static class Input {

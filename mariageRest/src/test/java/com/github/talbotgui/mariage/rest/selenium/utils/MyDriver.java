@@ -14,6 +14,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -55,8 +56,10 @@ public class MyDriver {
 
 	public void assertElementNotPresent(final By by) {
 		try {
-			driver.findElement(by);
-			Assert.fail("L'élement '" + by.toString() + "' est présent");
+			WebElement e = driver.findElement(by);
+			sleepSilencieux(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
+			e = driver.findElement(by);
+			Assert.fail("L'élement '" + by.toString() + "' est présent : " + e.toString());
 		} catch (final NoSuchElementException e) {
 			// OK
 		}
@@ -66,7 +69,7 @@ public class MyDriver {
 		try {
 			assertNotNull(driver.findElement(by));
 		} catch (final AssertionError e) {
-			sleepSilencieux(1000);
+			sleepSilencieux(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
 			assertNotNull(driver.findElement(by));
 		}
 	}
@@ -75,7 +78,7 @@ public class MyDriver {
 		try {
 			assertEquals(title, driver.getTitle());
 		} catch (final AssertionError e) {
-			sleepSilencieux(1000);
+			sleepSilencieux(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
 			assertEquals(title, driver.getTitle());
 		}
 	}
@@ -107,10 +110,14 @@ public class MyDriver {
 		assertEquals(this.driver.findElements(by).size(), count);
 	}
 
-	public void createSnapshot(final String filename) throws IOException {
-		final File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		final File file = new File(filename);
-		FileUtils.copyFile(scrFile, file);
+	public void createSnapshot(final String filename) {
+		try {
+			final File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+			final File file = new File(filename);
+			FileUtils.copyFile(scrFile, file);
+		} catch (final WebDriverException | IOException e) {
+			Assert.fail(e.getMessage());
+		}
 	}
 
 	public void deleteAllCookies() {
