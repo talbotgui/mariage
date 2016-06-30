@@ -59,7 +59,7 @@ var applyModel = function(idInvite, foyer) {
 	// Recherche des input a modifier
 	var rowToSearch;
 	if (document.getElementById("appliquerAuFoyer").checked) {
-		rowToSearch = $(".jqx-grid-cell:contains(" + foyer + ")");
+		rowToSearch = $(".jqx-grid-cell:contains(" + foyer + ")").filter(function(index) {return $(this).text() === foyer;} );
 	} else {
 		rowToSearch = $("#btnApplyModel" + idInvite);
 	}
