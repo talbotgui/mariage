@@ -176,8 +176,8 @@ var logout = function() {
 
 /** Chargement des données du mariage */
 var chargementDonneesDivMaries = function() {
-	// Mise en place du timeout pour attendre le chargement de la div par le script de google
-	setTimeout(function() { 
+	
+	var maj = function() { 
 		if (document.getElementById("maries") != null) {
 			var req = $.get(REST_PREFIX + "/mariage/" + idMariage);
 			req.success(function(dataString) {
@@ -191,7 +191,17 @@ var chargementDonneesDivMaries = function() {
 			});
 			req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargementDonneesDivMaries");});
 		}
-	}, 500);
+	};
+	
+	// Mise en place du timeout pour attendre le chargement de la div par le script de google
+	setTimeout(maj, 500);
+	
+	// Pour le cas où
+	setTimeout(function() {
+		if ($("#maries span:first").html() == "") {
+			maj();
+		}
+	}, 2000);
 }
 
 /** 
