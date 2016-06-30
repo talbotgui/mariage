@@ -58,8 +58,8 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 	@Transactional(readOnly = false)
 	@Modifying
 	@Query("update Invite"//
-			+ " set adresse=:adresse, telephone=:telephone"//
+			+ " set adresse=:adresse, telephone=:telephone, email=:email"//
 			+ " where foyer=:foyer")
-	void updateAdresseEtTelephoneParFoyer(@Param("foyer") String foyer, @Param("adresse") String adresse,
-			@Param("telephone") String telephone);
+	void updateAdresseEtTelephoneEtEmailParFoyer(@Param("foyer") String foyer, @Param("adresse") String adresse,
+			@Param("telephone") String telephone, @Param("email") String email);
 }

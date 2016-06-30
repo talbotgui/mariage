@@ -53,6 +53,7 @@ public class InviteRestControler {
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = POST)
 	public Long sauvegardeInvite(//
 			@RequestParam(required = false, value = "adresse") final String adresse, //
+			@RequestParam(required = false, value = "email") final String email, //
 			@RequestParam(required = false, value = "age") final String age, //
 			@RequestParam(required = false, value = "foyer") final String foyer, //
 			@RequestParam(required = false, value = "groupe") final String groupe, //
@@ -64,6 +65,7 @@ public class InviteRestControler {
 
 		final Invite invite = new Invite(id, groupe, nom, prenom, getAgeFromString(age));
 		invite.setAdresse(adresse);
+		invite.setEmail(email);
 		invite.setFoyer(foyer);
 		invite.setTelephone(telephone);
 		return this.mariageService.sauvegarde(idMariage, invite);

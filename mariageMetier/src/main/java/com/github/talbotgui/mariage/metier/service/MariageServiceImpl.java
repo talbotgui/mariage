@@ -178,8 +178,8 @@ public class MariageServiceImpl implements MariageService {
 		this.presenceEtapeRepository.insertPresenceEtapePourNouvelInvite(id, idMariage);
 
 		// mAj adresse et téléphone du foyer
-		this.inviteRepository.updateAdresseEtTelephoneParFoyer(invite.getFoyer(), invite.getAdresse(),
-				invite.getTelephone());
+		this.inviteRepository.updateAdresseEtTelephoneEtEmailParFoyer(invite.getFoyer(), invite.getAdresse(),
+				invite.getTelephone(), invite.getEmail());
 
 		return id;
 	}

@@ -13,7 +13,10 @@ public class InviteDTO extends AbstractDTO {
 
 	private String adresse;
 	private String age;
+	private String email;
+
 	private String foyer;
+
 	private String groupe;
 	private Long id;
 	private String nom;
@@ -31,6 +34,7 @@ public class InviteDTO extends AbstractDTO {
 		if (entity != null) {
 			final Invite i = (Invite) entity;
 			this.adresse = i.getAdresse();
+			this.email = i.getEmail();
 			if (i.getAge() != null) {
 				this.age = i.getAge().toString();
 			}
@@ -54,6 +58,10 @@ public class InviteDTO extends AbstractDTO {
 
 	public String getAge() {
 		return age;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 
 	public String getFoyer() {
@@ -90,6 +98,10 @@ public class InviteDTO extends AbstractDTO {
 
 	public void setAge(final String age) {
 		this.age = age;
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
 	}
 
 	public void setFoyer(final String foyer) {

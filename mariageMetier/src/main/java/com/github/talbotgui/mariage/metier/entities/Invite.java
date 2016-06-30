@@ -24,6 +24,8 @@ public class Invite implements Serializable {
 
 	private Age age;
 
+	private String email;
+
 	private String foyer;
 
 	private String groupe;
@@ -77,6 +79,10 @@ public class Invite implements Serializable {
 		return age;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
 	public String getFoyer() {
 		return foyer;
 	}
@@ -123,6 +129,10 @@ public class Invite implements Serializable {
 
 	public void setAge(final Age age) {
 		this.age = age;
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
 	}
 
 	public void setFoyer(final String foyer) {

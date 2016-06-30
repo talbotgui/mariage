@@ -56,6 +56,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final Long idMariage = 10L;
 		final Long idInvite = 100L;
 		final String adresse = "adresse";
+		final String email = "email";
 		final String age = Age.adulte.toString();
 		final String foyer = "foyer";
 		final String groupe = "Groupe1";
@@ -69,8 +70,9 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Mockito.doReturn(idInvite).when(this.mariageService).sauvegarde(argumentCaptorIdMariage.capture(),
 				argumentCaptorInvite.capture());
 
-		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("adresse", adresse, "age",
-				age, "foyer", foyer, "groupe", groupe, "nom", nom, "prenom", prenom, "telephone", telephone);
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("adresse", adresse,
+				"email", email, "age", age, "foyer", foyer, "groupe", groupe, "nom", nom, "prenom", prenom, "telephone",
+				telephone);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
@@ -81,6 +83,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertNotNull(idInviteRetour);
 		Assert.assertEquals(idInviteRetour, idInvite);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getAdresse(), adresse);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getEmail(), email);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getAge().toString(), age);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer(), foyer);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getGroupe(), groupe);

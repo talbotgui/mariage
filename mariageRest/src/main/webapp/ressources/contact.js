@@ -18,7 +18,7 @@ var chargeInvites = function() {
 				{ name: 'id', type: 'string' },
 				{ name: 'groupe', type: 'string' }, { name: 'foyer', type: 'string' },
 				{ name: 'nom', type: 'string' }, { name: 'prenom', type: 'string' },
-				{ name: 'adresse', type: 'string' }, { name: 'telephone', type: 'string' }
+				{ name: 'adresse', type: 'string' }, { name: 'telephone', type: 'string' }, { name: 'email', type: 'string' }
 			],
 			id: 'id'
 		});
@@ -28,7 +28,7 @@ var chargeInvites = function() {
 			columns: [
 				{ text: 'Groupe', datafield: 'groupe', editable: false, width: "10%" }, { text: 'Foyer', datafield: 'foyer', editable: false, width: "10%" },
 				{ text: 'Nom', datafield: 'nom', editable: false, width: "15%" }, { text: 'Prenom', datafield: 'prenom', editable: false, width: "15%" },
-				{ text: 'Adresse', datafield: 'adresse', width: "37%" }, { text: 'Téléphone', datafield: 'telephone', width: "13%" }
+				{ text: 'Adresse', datafield: 'adresse', width: "30%" }, { text: 'Téléphone', datafield: 'telephone', width: "10%" }, { text: 'Email', datafield: 'email', width: "10%" }
 			],
 			pageable: true, pagesizeoptions: JQX_GRID_PAGE_OPTIONS,
 			editable: true, sortable: true, filterable: true,
