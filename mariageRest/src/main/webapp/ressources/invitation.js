@@ -46,16 +46,37 @@ var supprimeInvite = function(idInvite) {
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("ajouteInvite");});
 };
 
+var requestCount = 0;
+var afficheDivAttente = function() {
+	if (requestCount === 0) {
+		$('#invites').jqxGrid('showloadelement');
+	}
+	requestCount = requestCount + 1;
+}
+var masqueDivAttente = function() {
+	requestCount = requestCount - 1;
+	if (requestCount === 0) {
+		$('#invites').jqxGrid('hideloadelement');
+	}
+}
+
 // Au changement de presence
-var changePresence = function(idPresenceEtape, valeur) {
-	var data = { id: idPresenceEtape, presence: valeur};
+var changePresence = function(idPresenceEtape, checkbox) {
+	afficheDivAttente();
+	
+	// Sauvegarde et annulation
+	var valeur = checkbox.checked;
+	checkbox.checked = !checkbox.checked;
+	
+	// Requete
+	var data = { id: idPresenceEtape, presence: checkbox.checked};
 	var req = $.post( REST_PREFIX + "/mariage/" + idMariage + "/presenceEtape", data);
-	req.success(function(dataString) { });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("changePresence");  });
+	req.success(function(dataString) { checkbox.checked = valeur; masqueDivAttente(); });
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("changePresence"); masqueDivAttente(); });
 };
 
 var applyModel = function(idInvite, foyer) {
-	
+
 	// Recherche des input a modifier
 	var rowToSearch;
 	if (document.getElementById("appliquerAuFoyer").checked) {
@@ -97,7 +118,7 @@ var chargeInvites = function() {
 			var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties, rowData) {  return '<div class="center"><a href="javascript:supprimeInvite(' + value + ')" id="btnSupprimeInvite' + value + '"><span class="ui-icon ui-icon-trash"></span></a><a href="javascript:applyModel(' + value + ',\'' + rowData.foyer + '\')" id="btnApplyModel' + value + '"><span class="ui-icon ui-icon-shuffle"></span></a></div>'; };
 			
 			// Render des colonnes d'étape se basant sur LES CHAMPS liés à une étape
-			var rendererColonnePresence = function (rowIndex, columnfield, value, defaulthtml, columnproperties, rowData) { var idEtape = columnfield.substring("presencesEtape".length); var idPresenceEtape = rowData["presencesEtape_ID" + idEtape]; return '<div class="center"><input type="checkbox" onchange="changePresence(' + idPresenceEtape + ', this.checked)" ' + (value?'checked':'') + '/></div>'; };
+			var rendererColonnePresence = function (rowIndex, columnfield, value, defaulthtml, columnproperties, rowData) { var idEtape = columnfield.substring("presencesEtape".length); var idPresenceEtape = rowData["presencesEtape_ID" + idEtape]; return '<div class="center"><input type="checkbox" onchange="changePresence(' + idPresenceEtape + ', this)" ' + (value?'checked':'') + '/></div>'; };
 			
 			// Valeurs possibles de la liste déroulante
 			var ages = $("select#age option").map(function() {return $(this).val();}).get();
