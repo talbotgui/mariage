@@ -20,7 +20,8 @@ public class StatistiquesInvitesMariage {
 	}
 
 	public StatistiquesInvitesMariage(final Long nbFoyers, final Long nbGroupes, final Integer nbInvites,
-			final Integer nbInvitesIncomplets, final Integer nbInvitesSansAdresse, final Integer nbInvitesSansAge) {
+			final Integer nbInvitesIncomplets, final Integer nbInvitesSansAdresse, //
+			final Integer nbInvitesSansAge) {
 		super();
 		this.nbFoyers = nbFoyers.intValue();
 		this.nbGroupes = nbGroupes.intValue();

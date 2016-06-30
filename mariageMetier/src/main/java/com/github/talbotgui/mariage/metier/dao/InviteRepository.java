@@ -18,18 +18,13 @@ import com.github.talbotgui.mariage.metier.entities.Invite;
 public interface InviteRepository extends PagingAndSortingRepository<Invite, Long> {
 
 	@Query("select new com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage("//
-			// nbFoyers
-			+ " (select count(distinct i.foyer) from Mariage m join m.invites i where m.id = :idMariage)"//
-	// nbGroupes
-			+ ", (select count(distinct i.groupe) from Mariage m join m.invites i where m.id = :idMariage)"//
-	// nbInvites
-			+ ", (select size(i) from Mariage m join m.invites i where m.id = :idMariage)"//
-	// nbInvitesIncomplets
+			//
+			+ " (select count(distinct i.foyer) from Mariage m join m.invites i where m.id = :idMariage)"
+			+ ", (select count(distinct i.groupe) from Mariage m join m.invites i where m.id = :idMariage)"
+			+ ", (select size(i) from Mariage m join m.invites i where m.id = :idMariage)"
 			+ ", (select size(i) from Mariage m join m.invites i where m.id = :idMariage and"
-			+ " (i.nom is null or i.prenom is null or i.groupe is null or i.foyer is null))"//
-	// nbInvitesSansAdresse
-			+ ", (select size(i) from Mariage m join m.invites i where m.id = :idMariage and i.adresse is null)"//
-	// nbInvitesSansAge
+			+ " (i.nom is null or i.prenom is null or i.groupe is null or i.foyer is null))"
+			+ ", (select size(i) from Mariage m join m.invites i where m.id = :idMariage and i.adresse is null)"
 			+ ", (select size(i) from Mariage m join m.invites i where m.id = :idMariage and i.age is null)"//
 			+ ")"//
 			+ " from Mariage m"//
