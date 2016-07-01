@@ -15,6 +15,8 @@ public interface MariageService {
 
 	StatistiquesMariage calculStatistiques(Long idMariage);
 
+	Invite chargeInviteParId(Long id);
+
 	Mariage chargeMariageParId(Long idMariage);
 
 	void lieUneEtapeEtUnCourrier(Long idMariage, Long idEtape, Long idCourrier, boolean lie);

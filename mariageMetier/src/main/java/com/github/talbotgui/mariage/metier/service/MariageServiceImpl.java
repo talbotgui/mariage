@@ -76,6 +76,11 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public Invite chargeInviteParId(final Long id) {
+		return this.inviteRepository.findOne(id);
+	}
+
+	@Override
 	public Mariage chargeMariageParId(final Long idMariage) {
 		return this.mariageRepository.findOne(idMariage);
 	}

@@ -91,6 +91,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(argumentCaptorInvite.getValue().getPrenom(), prenom);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getTelephone(), telephone);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
+		Mockito.verify(this.mariageService).chargeInviteParId(Mockito.anyLong());
 		Mockito.verify(this.mariageService).sauvegarde(Mockito.anyLong(), Mockito.any(Invite.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
@@ -120,6 +121,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
 		Assert.assertTrue(
 				((HttpStatusCodeException) CatchException.caughtException()).getResponseBodyAsString().contains(age));
+		Mockito.verify(this.mariageService).chargeInviteParId(Mockito.anyLong());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -146,6 +148,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
 		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
+		Mockito.verify(this.mariageService).chargeInviteParId(Mockito.anyLong());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -237,4 +240,58 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Mockito.verify(this.mariageService).calculStatistiques(Mockito.anyLong());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
+
+	@Test
+	public void test06ModificationInvite() {
+		final Long idMariage = 10L;
+		final Long idInvite = 100L;
+		final String adresse = "adresse";
+		final String email = "email";
+		final String email2 = "email2";
+		final Age age = Age.adulte;
+		final String foyer = "foyer";
+		final String groupe = "Groupe1";
+		final String nom = "InviteA";
+		final String prenom = "BB";
+		final String telephone = "telephone";
+
+		// ARRANGE
+		final Invite invite = new Invite(idInvite, groupe, nom, prenom, age);
+		invite.setAdresse(adresse);
+		invite.setFoyer(foyer);
+		invite.setEmail(email);
+		invite.setTelephone(telephone);
+		final ArgumentCaptor<Long> argumentCaptorIdInvite = ArgumentCaptor.forClass(Long.class);
+		Mockito.doReturn(invite).when(this.mariageService).chargeInviteParId(argumentCaptorIdInvite.capture());
+
+		final ArgumentCaptor<Invite> argumentCaptorInvite = ArgumentCaptor.forClass(Invite.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		Mockito.doReturn(idInvite).when(this.mariageService).sauvegarde(argumentCaptorIdMariage.capture(),
+				argumentCaptorInvite.capture());
+
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("id", idInvite, "email",
+				email2);
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		final Long idInviteRetour = getREST().postForObject(getURL() + "/mariage/" + idMariage + "/invite",
+				requestParam, Long.class, uriVars);
+
+		// ASSERT
+		Assert.assertNotNull(idInviteRetour);
+		Assert.assertEquals(idInviteRetour, idInvite);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getAdresse(), adresse);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getAge(), age);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer(), foyer);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getGroupe(), groupe);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getNom(), nom);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getPrenom(), prenom);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getTelephone(), telephone);
+		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getEmail(), email2);
+		Mockito.verify(this.mariageService).chargeInviteParId(idInvite);
+		Mockito.verify(this.mariageService).sauvegarde(Mockito.eq(idMariage), Mockito.any(Invite.class));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
 }

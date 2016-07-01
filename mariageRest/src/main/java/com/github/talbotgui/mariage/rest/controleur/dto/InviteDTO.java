@@ -14,9 +14,7 @@ public class InviteDTO extends AbstractDTO {
 	private String adresse;
 	private String age;
 	private String email;
-
 	private String foyer;
-
 	private String groupe;
 	private Long id;
 	private String nom;
@@ -127,4 +125,5 @@ public class InviteDTO extends AbstractDTO {
 	public void setTelephone(final String telephone) {
 		this.telephone = telephone;
 	}
+
 }

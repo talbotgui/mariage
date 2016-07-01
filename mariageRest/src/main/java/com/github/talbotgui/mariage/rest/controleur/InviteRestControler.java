@@ -63,11 +63,35 @@ public class InviteRestControler {
 			@RequestParam(required = false, value = "telephone") final String telephone, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
 
-		final Invite invite = new Invite(id, groupe, nom, prenom, getAgeFromString(age));
-		invite.setAdresse(adresse);
-		invite.setEmail(email);
-		invite.setFoyer(foyer);
-		invite.setTelephone(telephone);
+		Invite invite = this.mariageService.chargeInviteParId(id);
+		if (invite == null) {
+			invite = new Invite(id, groupe, nom, prenom, getAgeFromString(age));
+		} else {
+			if (groupe != null) {
+				invite.setGroupe(groupe);
+			}
+			if (nom != null) {
+				invite.setNom(nom);
+			}
+			if (prenom != null) {
+				invite.setPrenom(prenom);
+			}
+			if (age != null) {
+				invite.setAge(getAgeFromString(age));
+			}
+		}
+		if (adresse != null) {
+			invite.setAdresse(adresse);
+		}
+		if (email != null) {
+			invite.setEmail(email);
+		}
+		if (foyer != null) {
+			invite.setFoyer(foyer);
+		}
+		if (telephone != null) {
+			invite.setTelephone(telephone);
+		}
 		return this.mariageService.sauvegarde(idMariage, invite);
 	}
 
