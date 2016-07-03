@@ -159,7 +159,12 @@ var chargeInvites = function() {
 			
 			// Appel JqGrid
 			var dataAdapter = new $.jqx.dataAdapter({ datatype: "json", url: REST_PREFIX + "/mariage/" + idMariage + "/invite", datafields: datafields, id: 'id' });
-			$("#invites").jqxGrid({ source: dataAdapter, columns: columns, pageable: true, editable: true, sortable: true, filterable: true, autoheight: true, width: 950, pagesizeoptions: JQX_GRID_PAGE_OPTIONS });
+			$("#invites").jqxGrid({ 
+				source: dataAdapter, columns: columns, 
+				pageable: true, editable: true, sortable: true, filterable: true, autoheight: true, 
+				width: 950, pagesizeoptions: JQX_GRID_PAGE_OPTIONS,
+				ready: afficheContent
+				});
 			$("#invites").on('cellendedit', modifieInvite);
 			donneesDejaChargees = true;
 			

@@ -4,6 +4,13 @@ var DHTMLX_IMAGE_PATH = "/ressources/dhtmlxGrid_v46_std/imgs/";
 var JQX_GRID_PAGE_OPTIONS = ['20', '50', '100', '500'];
 
 /**
+ * Affiche la div class="content"
+ */
+var afficheContent = function() {
+	document.getElementsByClassName("content")[0].style.visibility = "visible";
+};
+
+/**
  * Sauvegarde de l'identifiant du mariage.
  * Cookie de 8 heures
  */
