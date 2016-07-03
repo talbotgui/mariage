@@ -19,8 +19,7 @@
 		<version.testng>6.8.13</version.testng>
 		<version.mockito>1.10.19</version.mockito>
 		<version.hsqldb>2.3.3</version.hsqldb>
-		<version.selenium>2.53.0</version.selenium>
-		<version.seleniumHTML>2.52.0</version.seleniumHTML>
+		<version.selenium>2.53.1</version.selenium>
 	</properties>
 
 	<build>
@@ -70,6 +69,12 @@
 			<groupId>com.github.talbotgui.mariage</groupId>
 			<artifactId>mariageMetier</artifactId>
 			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>xml-apis</artifactId>
+					<groupId>xml-apis</groupId>
+				</exclusion>        
+			</exclusions>
 		</dependency>
 
 		<!-- Spring Boot -->
@@ -122,24 +127,6 @@
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>${version.selenium}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-htmlunit-driver</artifactId>
-			<version>${version.seleniumHTML}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-chrome-driver</artifactId>
-			<version>${version.seleniumHTML}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-ie-driver</artifactId>
-			<version>${version.seleniumHTML}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

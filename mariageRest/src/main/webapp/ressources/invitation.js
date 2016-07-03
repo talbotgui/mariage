@@ -69,7 +69,7 @@ var changePresence = function(idPresenceEtape, checkbox) {
 	checkbox.checked = !checkbox.checked;
 	
 	// Requete
-	var data = { id: idPresenceEtape, presence: checkbox.checked};
+	var data = { id: idPresenceEtape, presence: valeur};
 	var req = $.post( REST_PREFIX + "/mariage/" + idMariage + "/presenceEtape", data);
 	req.success(function(dataString) { checkbox.checked = valeur; masqueDivAttente(); });
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("changePresence"); masqueDivAttente(); });

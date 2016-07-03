@@ -63,10 +63,11 @@ public class InviteRestControler {
 			@RequestParam(required = false, value = "telephone") final String telephone, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
 
-		Invite invite = this.mariageService.chargeInviteParId(id);
-		if (invite == null) {
+		Invite invite;
+		if (id == null) {
 			invite = new Invite(id, groupe, nom, prenom, getAgeFromString(age));
 		} else {
+			invite = this.mariageService.chargeInviteParId(id);
 			if (groupe != null) {
 				invite.setGroupe(groupe);
 			}

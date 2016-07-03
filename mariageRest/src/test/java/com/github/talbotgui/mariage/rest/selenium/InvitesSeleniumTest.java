@@ -87,15 +87,16 @@ public class InvitesSeleniumTest extends SeleniumTest {
 		//
 		driver.assertTextEquals(Invite.CASES[0][0], "groupe1_modif");
 		driver.assertTextEquals(Invite.CASES[0][2], "nom1_modif");
+		driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[0], false);
 	}
 
 	@Test
 	public void test05modifPresenceOn() {
 		//
+		driver.click(Menu.LIEN_INVITATION, 500);
 
 		//
 		driver.click(Invite.Input.LIGNE1_PRESENCES[0], 200);
-		driver.click(Menu.LIEN_INVITATION, 500);
 
 		//
 		driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[0], true);
@@ -104,10 +105,10 @@ public class InvitesSeleniumTest extends SeleniumTest {
 	@Test
 	public void test06modifPresenceOff() {
 		//
+		driver.click(Menu.LIEN_INVITATION, 500);
 
 		//
 		driver.click(Invite.Input.LIGNE1_PRESENCES[0], 200);
-		driver.click(Menu.LIEN_INVITATION, 500);
 
 		//
 		driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[0], false);
