@@ -91,7 +91,6 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(argumentCaptorInvite.getValue().getPrenom(), prenom);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getTelephone(), telephone);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.mariageService).chargeInviteParId(Mockito.anyLong());
 		Mockito.verify(this.mariageService).sauvegarde(Mockito.anyLong(), Mockito.any(Invite.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
@@ -121,7 +120,6 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
 		Assert.assertTrue(
 				((HttpStatusCodeException) CatchException.caughtException()).getResponseBodyAsString().contains(age));
-		Mockito.verify(this.mariageService).chargeInviteParId(Mockito.anyLong());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -148,7 +146,6 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
 		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
-		Mockito.verify(this.mariageService).chargeInviteParId(Mockito.anyLong());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
