@@ -1,6 +1,9 @@
 .titre { font-size: 30px; }
 #infoMariage { margin-bottom: 50px; }
 
+/* Pour masquer le contenu tant qu'il n'est pas prêt */
+.invisible { visibility: hidden; }
+
 .formPerso .form-control { display: none; }
 .formPerso .btn-sauvegarder { display: none; }
 .form-group label { width: 100px; }

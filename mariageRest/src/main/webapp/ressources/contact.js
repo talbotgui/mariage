@@ -33,7 +33,8 @@ var chargeInvites = function() {
 			pageable: true, pagesizeoptions: JQX_GRID_PAGE_OPTIONS,
 			editable: true, sortable: true, filterable: true,
 			autoheight: true,
-			width: 950
+			width: 950,
+			ready: afficheContent
 		});
 		$("#invites").on('cellendedit', modifieInvite);
 		donneesDejaChargees = true;

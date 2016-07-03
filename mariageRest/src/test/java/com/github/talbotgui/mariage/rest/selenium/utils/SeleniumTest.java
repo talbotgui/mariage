@@ -47,8 +47,6 @@ public abstract class SeleniumTest extends AbstractTestNGSpringContextTests {
 
 	@BeforeClass
 	public void beforeClass() {
-		//
-		driver = new MyDriver(new HtmlUnitDriver(BrowserVersion.FIREFOX_38, true));
 
 		//
 		final String[] jdds = getJeuDeDonnees();
@@ -67,6 +65,7 @@ public abstract class SeleniumTest extends AbstractTestNGSpringContextTests {
 		}
 
 		//
+		driver = new MyDriver(new HtmlUnitDriver(BrowserVersion.FIREFOX_45, true));
 		driver.deleteAllCookies();
 		driver.get("http://localhost:" + port + contextPath + "/");
 

@@ -31,17 +31,20 @@ var chargeStatistiques= function() {
 		$("#repartitionsAge").jqxGrid({
 			source: dataAdapterAge, sortable: true,	
 			autoheight: true, autowidth: true,
-			columns: [ { text:'Répartition par age', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }]
+			columns: [ { text:'Répartition par age', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }],
+			ready: afficheContent
 		});
 		$("#repartitionsFoyer").jqxGrid({
 			source: dataAdapterFoyer, sortable: true,	
 			autoheight: true, autowidth: true,
-			columns: [ { text:'Répartition par foyer', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }]
+			columns: [ { text:'Répartition par foyer', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }],
+			ready: afficheContent
 		});
 		$("#repartitionsGroupe").jqxGrid({
 			source: dataAdapterGroupe, sortable: true,	
 			autoheight: true, autowidth: true,
-			columns: [ { text:'Répartition par groupe', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }]
+			columns: [ { text:'Répartition par groupe', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }],
+			ready: afficheContent
 		});
 
 	});

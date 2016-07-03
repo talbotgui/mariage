@@ -41,6 +41,9 @@ public class MyDriver {
 		super();
 		this.driver = driver;
 
+		// Maximisation de la fenetre
+		driver.manage().window().maximize();
+
 		// Initialisation du timeout par défaut
 		driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 	}
@@ -162,4 +165,5 @@ public class MyDriver {
 		e.sendKeys(value);
 		sleepSilencieux(timeToWait);
 	}
+
 }

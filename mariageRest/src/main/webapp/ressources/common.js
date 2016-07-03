@@ -7,7 +7,7 @@ var JQX_GRID_PAGE_OPTIONS = ['20', '50', '100', '500'];
  * Affiche la div class="content"
  */
 var afficheContent = function() {
-	document.getElementsByClassName("content")[0].style.visibility = "visible";
+	document.getElementsByClassName("invisible")[0].style.visibility = "visible";
 };
 
 /**

@@ -58,7 +58,8 @@ var chargeEtapes = function() {
 			sortable: true,
 			filterable: true,
 			autoheight: true,
-			width: 950
+			width: 950,
+			ready: afficheContent
 		});
 		$("#etapes").on('cellendedit', modifieEtape);
 		donneesDejaChargees = true;

@@ -44,7 +44,8 @@ var chargeUtilisateurs = function() {
 			sortable: true,
 			filterable: true,
 			autoheight: true,
-			width: 950
+			width: 950,
+			ready: afficheContent
 		});
 		donneesDejaChargees = true;
 	}
