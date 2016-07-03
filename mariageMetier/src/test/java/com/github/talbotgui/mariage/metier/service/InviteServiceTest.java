@@ -245,6 +245,9 @@ public class InviteServiceTest {
 
 		Assert.assertEquals("invites par foyer nb", 3, repartitions.getNbParFoyer().size());
 		Assert.assertEquals("invites par foyer value", (Integer) 4, repartitions.getNbParFoyer().get("FOYER1"));
+
+		Assert.assertEquals("invites par etape nb", 4, repartitions.getNbParEtape().size());
+		Assert.assertEquals("invites par etape value", (Integer) 8, repartitions.getNbParEtape().get("Mairie"));
 	}
 
 }

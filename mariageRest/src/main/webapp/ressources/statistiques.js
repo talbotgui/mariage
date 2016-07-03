@@ -27,6 +27,10 @@ var chargeStatistiques= function() {
             localdata: attributesToArray(data.repartitions.nbParGroupe),
             datatype: "array", datafields: [ { name: 'clef', type: 'string' }, { name: 'valeur', type: 'number' } ]
         });
+		var dataAdapterEtape = new $.jqx.dataAdapter({
+            localdata: attributesToArray(data.repartitions.nbParEtape),
+            datatype: "array", datafields: [ { name: 'clef', type: 'string' }, { name: 'valeur', type: 'number' } ]
+        });
 
 		$("#repartitionsAge").jqxGrid({
 			source: dataAdapterAge, sortable: true,	
@@ -44,6 +48,12 @@ var chargeStatistiques= function() {
 			source: dataAdapterGroupe, sortable: true,	
 			autoheight: true, autowidth: true,
 			columns: [ { text:'Répartition par groupe', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }],
+			ready: afficheContent
+		});
+		$("#repartitionsEtape").jqxGrid({
+			source: dataAdapterEtape, sortable: true,	
+			autoheight: true, autowidth: true,
+			columns: [ { text:'Répartition par etape', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }],
 			ready: afficheContent
 		});
 

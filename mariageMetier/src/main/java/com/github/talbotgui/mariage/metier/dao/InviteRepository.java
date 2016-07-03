@@ -34,6 +34,9 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 	@Query("select i.age, count(i) from Mariage m join m.invites i where m.id = :idMariage group by i.age")
 	List<Object[]> compteNombreInviteParAge(@Param("idMariage") Long idMariage);
 
+	@Query("select pe.etape.nom, count(i) from Mariage m join m.invites i join i.presencesEtape pe where m.id = :idMariage and pe.present = true group by pe.etape.nom")
+	List<Object[]> compteNombreInviteParEtape(@Param("idMariage") Long idMariage);
+
 	@Query("select i.foyer, count(i) from Mariage m join m.invites i where m.id = :idMariage group by i.foyer")
 	List<Object[]> compteNombreInviteParFoyer(@Param("idMariage") Long idMariage);
 
