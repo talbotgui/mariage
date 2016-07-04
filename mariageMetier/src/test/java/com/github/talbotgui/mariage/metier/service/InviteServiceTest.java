@@ -250,4 +250,26 @@ public class InviteServiceTest {
 		Assert.assertEquals("invites par etape value", (Integer) 8, repartitions.getNbParEtape().get("Mairie"));
 	}
 
+	@Test
+	public void test08ChargerInvite() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final String groupe = "G1";
+		final String nom = "N1";
+		final String prenom = "P1";
+		final Age age = Age.adulte;
+		final Long id = this.instance.sauvegarde(idMariage, new Invite(null, groupe, nom, prenom, age));
+
+		// ACT
+		final Invite invite = this.instance.chargeInviteParId(id);
+
+		// ASSERT
+		Assert.assertNotNull(invite);
+		Assert.assertEquals(nom, invite.getNom());
+		Assert.assertEquals(groupe, invite.getGroupe());
+		Assert.assertEquals(prenom, invite.getPrenom());
+		Assert.assertEquals(age, invite.getAge());
+	}
 }
