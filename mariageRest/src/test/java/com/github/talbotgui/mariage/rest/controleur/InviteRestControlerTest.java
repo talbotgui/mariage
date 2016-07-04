@@ -239,7 +239,64 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 	}
 
 	@Test
-	public void test06ModificationInvite() {
+	public void test06ModificationInvitePlusieursChamps() {
+		final Long idMariage = 10L;
+		final Long idInvite = 100L;
+		final String adresse = "adresse";
+		final String adresse2 = "adresse2";
+		final String email = "email";
+		final String email2 = "email2";
+		final Age age = Age.adulte;
+		final Age age2 = Age.aine;
+		final String foyer = "foyer";
+		final String foyer2 = "foyer2";
+		final String groupe = "Groupe1";
+		final String groupe2 = "Groupe2";
+		final String nom = "InviteA";
+		final String nom2 = "InviteB";
+		final String prenom = "BB";
+		final String prenom2 = "CC";
+		final String telephone = "telephone";
+		final String telephone2 = "telephone2";
+
+		// ARRANGE
+		final Invite invite = new Invite(idInvite, nom, prenom, groupe, foyer, age, adresse, telephone, email);
+		final ArgumentCaptor<Long> argumentCaptorIdInvite = ArgumentCaptor.forClass(Long.class);
+		Mockito.doReturn(invite).when(this.mariageService).chargeInviteParId(argumentCaptorIdInvite.capture());
+
+		final ArgumentCaptor<Invite> argumentCaptorInvite = ArgumentCaptor.forClass(Invite.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		Mockito.doReturn(idInvite).when(this.mariageService).sauvegarde(argumentCaptorIdMariage.capture(),
+				argumentCaptorInvite.capture());
+
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("id", idInvite, "email",
+				email2, "nom", nom2, "prenom", prenom2, "telephone", telephone2, "groupe", groupe2, "foyer", foyer2,
+				"age", age2.toString(), "adresse", adresse2);
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		final Long idInviteRetour = getREST().postForObject(getURL() + "/mariage/" + idMariage + "/invite",
+				requestParam, Long.class, uriVars);
+
+		// ASSERT
+		Assert.assertNotNull(idInviteRetour);
+		Assert.assertEquals(idInviteRetour, idInvite);
+		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getAdresse(), adresse2);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getAge(), age2);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer(), foyer2);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getGroupe(), groupe2);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getNom(), nom2);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getPrenom(), prenom2);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getTelephone(), telephone2);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getEmail(), email2);
+		Mockito.verify(this.mariageService).chargeInviteParId(idInvite);
+		Mockito.verify(this.mariageService).sauvegarde(Mockito.eq(idMariage), Mockito.any(Invite.class));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test06ModificationInviteUnSeulChamp() {
 		final Long idMariage = 10L;
 		final Long idInvite = 100L;
 		final String adresse = "adresse";
@@ -253,11 +310,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final String telephone = "telephone";
 
 		// ARRANGE
-		final Invite invite = new Invite(idInvite, groupe, nom, prenom, age);
-		invite.setAdresse(adresse);
-		invite.setFoyer(foyer);
-		invite.setEmail(email);
-		invite.setTelephone(telephone);
+		final Invite invite = new Invite(idInvite, nom, prenom, groupe, foyer, age, adresse, telephone, email);
 		final ArgumentCaptor<Long> argumentCaptorIdInvite = ArgumentCaptor.forClass(Long.class);
 		Mockito.doReturn(invite).when(this.mariageService).chargeInviteParId(argumentCaptorIdInvite.capture());
 

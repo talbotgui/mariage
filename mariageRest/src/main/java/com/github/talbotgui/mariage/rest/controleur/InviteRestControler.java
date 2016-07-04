@@ -65,7 +65,7 @@ public class InviteRestControler {
 
 		Invite invite;
 		if (id == null) {
-			invite = new Invite(id, groupe, nom, prenom, getAgeFromString(age));
+			invite = new Invite(id, nom, prenom, groupe, foyer, getAgeFromString(age), adresse, telephone, email);
 		} else {
 			invite = this.mariageService.chargeInviteParId(id);
 			if (groupe != null) {
@@ -80,18 +80,18 @@ public class InviteRestControler {
 			if (age != null) {
 				invite.setAge(getAgeFromString(age));
 			}
-		}
-		if (adresse != null) {
-			invite.setAdresse(adresse);
-		}
-		if (email != null) {
-			invite.setEmail(email);
-		}
-		if (foyer != null) {
-			invite.setFoyer(foyer);
-		}
-		if (telephone != null) {
-			invite.setTelephone(telephone);
+			if (adresse != null) {
+				invite.setAdresse(adresse);
+			}
+			if (email != null) {
+				invite.setEmail(email);
+			}
+			if (foyer != null) {
+				invite.setFoyer(foyer);
+			}
+			if (telephone != null) {
+				invite.setTelephone(telephone);
+			}
 		}
 		return this.mariageService.sauvegarde(idMariage, invite);
 	}

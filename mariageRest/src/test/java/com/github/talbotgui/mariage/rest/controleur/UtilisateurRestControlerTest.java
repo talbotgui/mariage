@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -151,7 +152,28 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 	}
 
 	@Test
-	public void test99BugLoginContenantUnPoint() {
+	public void test06SauvegardeUtilisateurKo() {
+		final String login = "mon.Login";
+		final String mdp = "monMdp";
+
+		// ARRANGE
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp",
+				mdp);
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		CatchException.catchException(getREST()).postForObject(getURL() + "/utilisateur", requestParam, Void.class,
+				uriVars);
+
+		// ASSERT
+		Assert.assertNotNull(CatchException.caughtException());
+		Assert.assertEquals(HttpServerErrorException.class, CatchException.caughtException().getClass());
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+
+	}
+
+	@Test
+	public void test99BugSuppressionUtilisateurDontLoginContientUnPoint() {
 		final String login = "mon.login";
 		final String loginObtenu = "mon.login".substring(0, login.indexOf("."));
 

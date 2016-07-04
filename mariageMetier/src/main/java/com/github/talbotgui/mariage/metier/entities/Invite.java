@@ -56,6 +56,20 @@ public class Invite implements Serializable {
 		this.setId(id);
 	}
 
+	public Invite(final Long id, final String nom, final String prenom, final String groupe, final String foyer,
+			final Age age, final String adresse, final String telephone, final String email) {
+		super();
+		this.setId(id);
+		this.setNom(nom);
+		this.setPrenom(prenom);
+		this.setGroupe(groupe);
+		this.setFoyer(foyer);
+		this.setAge(age);
+		this.setAdresse(adresse);
+		this.setTelephone(telephone);
+		this.setEmail(email);
+	}
+
 	public Invite(final String groupe, final String nom, final String prenom, final Age age) {
 		super();
 		this.setGroupe(groupe);
