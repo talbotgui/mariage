@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -167,7 +167,9 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
-		Assert.assertEquals(HttpServerErrorException.class, CatchException.caughtException().getClass());
+		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
+		Assert.assertTrue(((HttpStatusCodeException) CatchException.caughtException()).getResponseBodyAsString()
+				.contains("login"));
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 
 	}

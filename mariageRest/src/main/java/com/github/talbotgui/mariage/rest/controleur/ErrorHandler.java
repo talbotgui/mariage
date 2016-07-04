@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
+import com.github.talbotgui.mariage.rest.exception.RestException;
 
 @ControllerAdvice
 public class ErrorHandler {
 
 	@ResponseBody
-	@ExceptionHandler(BusinessException.class)
+	@ExceptionHandler({ BusinessException.class, RestException.class })
 	public ResponseEntity<Object> defaultErrorHandler(final HttpServletRequest req, final BusinessException e) {
 		return new ResponseEntity<Object>(e.getExceptionId().getId() + "-" + e.getMessage(),
 				HttpStatus.valueOf(e.getExceptionId().getHttpStatusCode()));
