@@ -12,7 +12,7 @@ import com.github.talbotgui.mariage.rest.selenium.utils.SeleniumTest;
 
 @WebIntegrationTest(randomPort = true)
 @SpringApplicationConfiguration(classes = SeleniumTestApplication.class)
-public class IndexlSeleniumTest extends SeleniumTest {
+public class IndexSeleniumTest extends SeleniumTest {
 
 	@Override
 	public String[] getJeuDeDonnees() {
@@ -34,7 +34,7 @@ public class IndexlSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
-	public void test02nouveauMariage() {
+	public void test02nouveauMariageOk() {
 		//
 		driver.click(Index.Button.NOUVEAU, 500);
 		driver.assertElementPresent(Index.Button.SAUVEGARDER);

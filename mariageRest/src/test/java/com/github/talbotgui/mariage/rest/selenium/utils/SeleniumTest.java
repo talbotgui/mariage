@@ -10,7 +10,7 @@ import java.util.Collection;
 import javax.sql.DataSource;
 
 import org.junit.Assert;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-
-import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 public abstract class SeleniumTest extends AbstractTestNGSpringContextTests {
 
@@ -65,7 +63,7 @@ public abstract class SeleniumTest extends AbstractTestNGSpringContextTests {
 		}
 
 		//
-		driver = new MyDriver(new HtmlUnitDriver(BrowserVersion.FIREFOX_45, true));
+		driver = new MyDriver(/* new HtmlUnitDriver(BrowserVersion.FIREFOX_45, true) */new FirefoxDriver());
 		driver.deleteAllCookies();
 		driver.get("http://localhost:" + port + contextPath + "/");
 
