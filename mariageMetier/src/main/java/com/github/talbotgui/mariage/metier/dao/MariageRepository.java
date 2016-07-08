@@ -12,7 +12,7 @@ import com.github.talbotgui.mariage.metier.entities.Mariage;
 
 public interface MariageRepository extends CrudRepository<Mariage, Long> {
 
-	@Query("select distinct c  from Mariage m"//
+	@Query("select distinct c from Mariage m"//
 			+ " join m.courriers c"//
 			+ " left join fetch c.etapesInvitation"//
 			+ " where m.id=:idMariage order by c.datePrevisionEnvoi")
