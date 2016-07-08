@@ -43,6 +43,10 @@ X   @RequestMapping(value = "/utilisateur/{login}", method = DELETE)
 	@RequestMapping(value = SecurityFilter.LOGIN_REST, method = POST)
 	@RequestMapping(value = SecurityFilter.LOGOUT_REST, method = GET)
 
+  css event/odd dans les tableaux !
+  
+  div attente tableau et bloquante !!
+  
   Ajout les étapes dans le tableau des courriers
   
   Dans la page "gestion des invitations", ajouter l'autocomplétion dans le champ "groupe" et "foyer"
