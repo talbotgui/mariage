@@ -50,13 +50,11 @@ public class CourrierRestControler {
 			@RequestParam(required = false, value = "id") final Long id, //
 			@RequestParam(value = "nom") final String nom, //
 			@RequestParam(value = "datePrevisionEnvoi") final String sdatePrevisionEnvoi, //
-			@RequestParam(required = false, value = "dateEnvoiRealise") final String sdateEnvoiRealise, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
 
 		// Transformation des dates
 		final SimpleDateFormat sdf = new SimpleDateFormat(AbstractDTO.FORMAT_DATE);
 		Date datePrevisionEnvoi = null;
-		Date dateEnvoiRealise = null;
 		try {
 			datePrevisionEnvoi = sdf.parse(sdatePrevisionEnvoi);
 		} catch (final ParseException e) {
@@ -64,18 +62,9 @@ public class CourrierRestControler {
 			throw new RestException(RestException.ERREUR_FORMAT_DATE, e,
 					new String[] { AbstractDTO.FORMAT_DATE_TIME, sdatePrevisionEnvoi });
 		}
-		try {
-			if (sdateEnvoiRealise != null && sdateEnvoiRealise.length() > 0) {
-				dateEnvoiRealise = sdf.parse(sdateEnvoiRealise);
-			}
-		} catch (final ParseException e) {
-			LOG.error("Erreur de format des paramètres d'entrée", e);
-			throw new RestException(RestException.ERREUR_FORMAT_DATE, e,
-					new String[] { AbstractDTO.FORMAT_DATE_TIME, sdateEnvoiRealise });
-		}
 
 		// Gestion des types
-		final Courrier courrier = new Courrier(id, nom, datePrevisionEnvoi, dateEnvoiRealise);
+		final Courrier courrier = new Courrier(id, nom, datePrevisionEnvoi);
 
 		// Sauvegarde
 		return this.mariageService.sauvegarde(idMariage, courrier);

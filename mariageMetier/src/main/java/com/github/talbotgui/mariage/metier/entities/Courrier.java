@@ -17,8 +17,6 @@ import javax.persistence.ManyToOne;
 public class Courrier implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Date dateEnvoiRealise;
-
 	private Date datePrevisionEnvoi;
 
 	@ManyToMany
@@ -38,10 +36,9 @@ public class Courrier implements Serializable {
 		super();
 	}
 
-	public Courrier(final Long id, final String nom, final Date datePrevisionEnvoi, final Date dateEnvoiRealise) {
+	public Courrier(final Long id, final String nom, final Date datePrevisionEnvoi) {
 		this(nom, datePrevisionEnvoi);
 		this.setId(id);
-		this.setDateEnvoiRealise(dateEnvoiRealise);
 	}
 
 	public Courrier(final String nom, final Date datePrevisionEnvoi) {
@@ -52,10 +49,6 @@ public class Courrier implements Serializable {
 
 	public void addEtapeInvitation(final Etape etapeInvitation) {
 		this.etapesInvitation.add(etapeInvitation);
-	}
-
-	public Date getDateEnvoiRealise() {
-		return dateEnvoiRealise;
 	}
 
 	public Date getDatePrevisionEnvoi() {
@@ -84,10 +77,6 @@ public class Courrier implements Serializable {
 		this.etapesInvitation.remove(e);
 	}
 
-	public void setDateEnvoiRealise(final Date dateEnvoiRealise) {
-		this.dateEnvoiRealise = dateEnvoiRealise;
-	}
-
 	public void setDatePrevisionEnvoi(final Date datePrevisionEnvoi) {
 		this.datePrevisionEnvoi = datePrevisionEnvoi;
 	}
@@ -110,8 +99,7 @@ public class Courrier implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Courrier [id=" + id + ", nom=" + nom + ", datePrevisionEnvoi=" + datePrevisionEnvoi
-				+ ", dateEnvoiRealise=" + dateEnvoiRealise + "]";
+		return "Courrier [id=" + id + ", nom=" + nom + ", datePrevisionEnvoi=" + datePrevisionEnvoi + "]";
 	}
 
 }

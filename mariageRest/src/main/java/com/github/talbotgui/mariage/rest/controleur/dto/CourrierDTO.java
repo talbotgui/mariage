@@ -7,7 +7,6 @@ import com.github.talbotgui.mariage.metier.entities.Courrier;
 public class CourrierDTO extends AbstractDTO {
 	private static final long serialVersionUID = 1L;
 
-	private String dateEnvoiRealise;
 	private String datePrevisionEnvoi;
 	private Long id;
 	private String nom;
@@ -23,18 +22,11 @@ public class CourrierDTO extends AbstractDTO {
 		if (entity != null) {
 			final Courrier c = (Courrier) entity;
 			this.id = c.getId();
-			if (c.getDateEnvoiRealise() != null) {
-				this.dateEnvoiRealise = sdf.format(c.getDateEnvoiRealise());
-			}
 			if (c.getDatePrevisionEnvoi() != null) {
 				this.datePrevisionEnvoi = sdf.format(c.getDatePrevisionEnvoi());
 			}
 			this.nom = c.getNom();
 		}
-	}
-
-	public String getDateEnvoiRealise() {
-		return dateEnvoiRealise;
 	}
 
 	public String getDatePrevisionEnvoi() {
@@ -47,10 +39,6 @@ public class CourrierDTO extends AbstractDTO {
 
 	public String getNom() {
 		return nom;
-	}
-
-	public void setDateEnvoiRealise(final String dateEnvoiRealise) {
-		this.dateEnvoiRealise = dateEnvoiRealise;
 	}
 
 	public void setDatePrevisionEnvoi(final String datePrevisionEnvoi) {

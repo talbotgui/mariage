@@ -3,9 +3,11 @@ var donneesDejaChargees = false;
 // Affiche la popup des invités
 var affichePopupInvite = function() {
 	$("#popupAjoutInvite").jqxWindow('open');
+	window.scrollTo(500, 0);
 };
 var affichePopupInviteEnMasse = function() {
 	$("#popupAjoutInviteEnMasse").jqxWindow('open');
+	window.scrollTo(500, 0);
 };
 
 // Fonction JqxGrid

@@ -37,7 +37,7 @@ var chargeCourriers = function() {
 		var dataAdapter = new $.jqx.dataAdapter({
 			datatype: "json",
 			url: REST_PREFIX + "/mariage/" + idMariage + "/courrier",
-			datafields: [{ name: 'id', type: 'string' },{ name: 'nom', type: 'string' },{ name: 'dateEnvoiRealise', type: 'string' },{ name: 'datePrevisionEnvoi', type: 'string' }],
+			datafields: [{ name: 'id', type: 'string' },{ name: 'nom', type: 'string' },{ name: 'datePrevisionEnvoi', type: 'string' }],
 			id: 'id'
 		});
 		var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties) { return '<a href="javascript:supprimeCourrier(' + value + ')" id="btn' + value + '"><span class="ui-icon ui-icon-trash"></span></a>' };
@@ -46,7 +46,6 @@ var chargeCourriers = function() {
 			columns: [
 				{ text: 'Nom', datafield: 'nom', width: "30%" },
 				{ text: 'Date envoi prévu', datafield: 'datePrevisionEnvoi', width: "30%" },
-				{ text: 'Date envoi réalisé', datafield: 'dateEnvoiRealise', width: "30%" },
 				{ text: 'Actions', datafield: 'id', width: "10%", editable: false, sortable: false, menu: false, cellsrenderer: rendererColonneBouton }
 			],
 			editable: true,

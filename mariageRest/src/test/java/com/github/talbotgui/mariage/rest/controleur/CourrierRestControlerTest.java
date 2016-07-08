@@ -30,9 +30,9 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 	@Test
 	public void test01GetListeCourriers() {
 		final Long idMariage = 10L;
-		final List<Courrier> toReturn = Arrays.asList(new Courrier(1L, "C1", new Date(), new Date()),
-				new Courrier(2L, "C2", new Date(), new Date()), new Courrier(3L, "C4", new Date(), new Date()),
-				new Courrier(4L, "C3", new Date(), new Date()), new Courrier(5L, "C5", new Date(), new Date()));
+		final List<Courrier> toReturn = Arrays.asList(new Courrier(1L, "C1", new Date()),
+				new Courrier(2L, "C2", new Date()), new Courrier(3L, "C4", new Date()),
+				new Courrier(4L, "C3", new Date()), new Courrier(5L, "C5", new Date()));
 
 		// ARRANGE
 		Mockito.doReturn(toReturn).when(this.mariageService).listeCourriersParIdMariage(Mockito.anyLong());
@@ -55,7 +55,6 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 		final Long idCourrier = 100L;
 		final String nom = "N1";
 		final String datePrevisionEnvoi = "01/01/2017";
-		final String dateEnvoiRealise = "01/01/2017";
 
 		// ARRANGE
 		final ArgumentCaptor<Courrier> argumentCaptorCourrier = ArgumentCaptor.forClass(Courrier.class);
@@ -64,7 +63,7 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 				argumentCaptorCourrier.capture());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("nom", nom,
-				"datePrevisionEnvoi", datePrevisionEnvoi, "dateEnvoiRealise", dateEnvoiRealise);
+				"datePrevisionEnvoi", datePrevisionEnvoi);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
@@ -76,7 +75,6 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 		Assert.assertNotNull(idCourrierRetour);
 		Assert.assertEquals(idCourrierRetour, idCourrier);
 		Assert.assertEquals(argumentCaptorCourrier.getValue().getNom(), nom);
-		Assert.assertEquals(sdf.format(argumentCaptorCourrier.getValue().getDateEnvoiRealise()), dateEnvoiRealise);
 		Assert.assertEquals(sdf.format(argumentCaptorCourrier.getValue().getDatePrevisionEnvoi()), datePrevisionEnvoi);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
 		Mockito.verify(this.mariageService).sauvegarde(Mockito.anyLong(), Mockito.any(Courrier.class));
@@ -109,40 +107,9 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 		Assert.assertNotNull(idCourrierRetour);
 		Assert.assertEquals(idCourrierRetour, idCourrier);
 		Assert.assertEquals(argumentCaptorCourrier.getValue().getNom(), nom);
-		Assert.assertNull(argumentCaptorCourrier.getValue().getDateEnvoiRealise());
 		Assert.assertEquals(sdf.format(argumentCaptorCourrier.getValue().getDatePrevisionEnvoi()), datePrevisionEnvoi);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
 		Mockito.verify(this.mariageService).sauvegarde(Mockito.anyLong(), Mockito.any(Courrier.class));
-		Mockito.verifyNoMoreInteractions(this.mariageService);
-	}
-
-	@Test
-	public void test02AjouteCourrier02DateEnvoiInvalide() {
-		final Long idMariage = 10L;
-		final Long idCourrier = 100L;
-		final String nom = "N1";
-		final String datePrevisionEnvoi = "01/01/2017";
-		final String dateEnvoiRealise = "01-01-2017";
-
-		// ARRANGE
-		final ArgumentCaptor<Courrier> argumentCaptorCourrier = ArgumentCaptor.forClass(Courrier.class);
-		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doReturn(idCourrier).when(this.mariageService).sauvegarde(argumentCaptorIdMariage.capture(),
-				argumentCaptorCourrier.capture());
-
-		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("nom", nom,
-				"datePrevisionEnvoi", datePrevisionEnvoi, "dateEnvoiRealise", dateEnvoiRealise);
-		final Map<String, Object> uriVars = new HashMap<String, Object>();
-
-		// ACT
-		CatchException.catchException(getREST()).postForObject(getURL() + "/mariage/" + idMariage + "/courrier",
-				requestParam, Long.class, uriVars);
-
-		// ASSERT
-		Assert.assertNotNull(CatchException.caughtException());
-		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
-		Assert.assertTrue(((HttpStatusCodeException) CatchException.caughtException()).getResponseBodyAsString()
-				.contains(dateEnvoiRealise));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -152,7 +119,6 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 		final Long idCourrier = 100L;
 		final String nom = "N1";
 		final String datePrevisionEnvoi = "01-01-2017";
-		final String dateEnvoiRealise = "01/01/2017";
 
 		// ARRANGE
 		final ArgumentCaptor<Courrier> argumentCaptorCourrier = ArgumentCaptor.forClass(Courrier.class);
@@ -161,7 +127,7 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 				argumentCaptorCourrier.capture());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("nom", nom,
-				"datePrevisionEnvoi", datePrevisionEnvoi, "dateEnvoiRealise", dateEnvoiRealise);
+				"datePrevisionEnvoi", datePrevisionEnvoi);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
