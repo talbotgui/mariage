@@ -48,23 +48,9 @@ var supprimeInvite = function(idInvite) {
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("ajouteInvite");});
 };
 
-var requestCount = 0;
-var afficheDivAttente = function() {
-	if (requestCount === 0) {
-		$('#invites').jqxGrid('showloadelement');
-	}
-	requestCount = requestCount + 1;
-}
-var masqueDivAttente = function() {
-	requestCount = requestCount - 1;
-	if (requestCount === 0) {
-		$('#invites').jqxGrid('hideloadelement');
-	}
-}
-
 // Au changement de presence
 var changePresence = function(idPresenceEtape, checkbox) {
-	afficheDivAttente();
+	afficheDivAttente('#invites');
 	
 	// Sauvegarde et annulation
 	var valeur = checkbox.checked;
@@ -73,8 +59,8 @@ var changePresence = function(idPresenceEtape, checkbox) {
 	// Requete
 	var data = { id: idPresenceEtape, presence: valeur};
 	var req = $.post( REST_PREFIX + "/mariage/" + idMariage + "/presenceEtape", data);
-	req.success(function(dataString) { checkbox.checked = valeur; masqueDivAttente(); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("changePresence"); masqueDivAttente(); });
+	req.success(function(dataString) { checkbox.checked = valeur; masqueDivAttente('#invites'); });
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("changePresence"); masqueDivAttente('#invites'); });
 };
 
 var applyModel = function(idInvite, foyer) {
@@ -136,7 +122,8 @@ var chargeInvites = function() {
 			// Calcul des largeurs des 5 colonnes fixes (7% pour les actions et 10% par etape)
 			var largeurEtape = 5;
 			var largeur = 10;
-			if (etapes.length > 0) { largeur = (100 - 7 - largeurEtape * etapes.length) / 5; }
+			var largeurAction = 7
+			if (etapes.length > 0) { largeur = (100 - largeurAction - largeurEtape * etapes.length) / 5; }
 			largeur = largeur + "%";
 			
 			// Colonnes fixes
@@ -157,7 +144,7 @@ var chargeInvites = function() {
 			});
 			
 			// colonne action pour finir
-			columns.push({ text: 'Actions', datafield: 'id', width: "7%", editable: false, sortable: false, menu: false, align: "center", cellsrenderer: rendererColonneBouton });
+			columns.push({ text: 'Actions', datafield: 'id', width: largeurAction + "%", editable: false, sortable: false, menu: false, align: "center", cellsrenderer: rendererColonneBouton });
 			
 			// Appel JqGrid
 			var dataAdapter = new $.jqx.dataAdapter({ datatype: "json", url: REST_PREFIX + "/mariage/" + idMariage + "/invite", datafields: datafields, id: 'id' });

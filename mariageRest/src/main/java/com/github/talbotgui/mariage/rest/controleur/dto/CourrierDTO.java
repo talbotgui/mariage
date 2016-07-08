@@ -1,14 +1,20 @@
 package com.github.talbotgui.mariage.rest.controleur.dto;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.hibernate.Hibernate;
 
 import com.github.talbotgui.mariage.metier.entities.Courrier;
+import com.github.talbotgui.mariage.metier.entities.Etape;
 
 public class CourrierDTO extends AbstractDTO {
 	private static final long serialVersionUID = 1L;
 
 	private String datePrevisionEnvoi;
 	private Long id;
+	private Collection<LienCourrierEtapeDTO> liensCourrierEtape = new ArrayList<>();
 	private String nom;
 
 	public CourrierDTO() {
@@ -26,6 +32,12 @@ public class CourrierDTO extends AbstractDTO {
 				this.datePrevisionEnvoi = sdf.format(c.getDatePrevisionEnvoi());
 			}
 			this.nom = c.getNom();
+
+			if (c.getEtapesInvitation() != null && Hibernate.isInitialized(c.getEtapesInvitation())) {
+				for (final Etape e : c.getEtapesInvitation()) {
+					this.liensCourrierEtape.add(new LienCourrierEtapeDTO(c.getId(), e.getId(), true));
+				}
+			}
 		}
 	}
 
@@ -35,6 +47,10 @@ public class CourrierDTO extends AbstractDTO {
 
 	public Long getId() {
 		return id;
+	}
+
+	public Collection<LienCourrierEtapeDTO> getLiensCourrierEtape() {
+		return liensCourrierEtape;
 	}
 
 	public String getNom() {
@@ -47,6 +63,10 @@ public class CourrierDTO extends AbstractDTO {
 
 	public void setId(final Long id) {
 		this.id = id;
+	}
+
+	public void setLiensCourrierEtape(final Collection<LienCourrierEtapeDTO> liensCourrierEtape) {
+		this.liensCourrierEtape = liensCourrierEtape;
 	}
 
 	public void setNom(final String nom) {

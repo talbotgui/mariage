@@ -35,6 +35,16 @@ var afficheMenu = function() {
  	}, 500);
 };
 
+/**
+ * Affiche une div d'attente devant un tableau jqxGrid
+ */
+var requestCount = 0;
+var afficheDivAttente = function(idTableau) { if (requestCount === 0) { $(idTableau).jqxGrid('showloadelement'); } requestCount = requestCount + 1; }
+var masqueDivAttente = function(idTableau) { requestCount = requestCount - 1; if (requestCount === 0) { $(idTableau).jqxGrid('hideloadelement'); } }
+
+/**
+ * Transforme un objet en tableau de clef/valeur
+ */
 var attributesToArray = function(obj) {
 	var arr = [];
 	for (var key in obj) {
