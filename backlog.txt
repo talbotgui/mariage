@@ -47,6 +47,10 @@ X   @RequestMapping(value = "/utilisateur/{login}", method = DELETE)
   
   div attente tableau et bloquante !!
   
+  dupliquer les boutons "ajouter" et "ajouter en masse" en haut
+  
+  ajouter un bouton raffraichir avec conservation du nombre d'item de pagination
+  
   Ajout les étapes dans le tableau des courriers
   
   Dans la page "gestion des invitations", ajouter l'autocomplétion dans le champ "groupe" et "foyer"
