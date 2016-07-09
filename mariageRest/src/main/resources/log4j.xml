@@ -16,6 +16,12 @@
 	<logger name="org.springframework"><level value="INFO" /></logger>
 	<logger name="org.springframework.context"><level value="WARN" /></logger>
 	<logger name="org.jboss.logging"><level value="WARN" /></logger>
+	<logger name="org.apache.coyote"><level value="WARN" /></logger>
+	
+	<!-- For Selenium tests -->
+	<logger name="com.gargoylesoftware.htmlunit"><level value="WARN" /></logger>
+	<logger name="org.apache.http"><level value="WARN" /></logger>
+	<logger name="com.gargoylesoftware.htmlunit.javascript.StrictErrorReporter"><level value="FATAL" /></logger>
 
 	<root>
 		<level value="debug" />
