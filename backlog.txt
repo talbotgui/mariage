@@ -43,6 +43,8 @@ X   @RequestMapping(value = "/utilisateur/{login}", method = DELETE)
 	@RequestMapping(value = SecurityFilter.LOGIN_REST, method = POST)
 	@RequestMapping(value = SecurityFilter.LOGOUT_REST, method = GET)
 
+X menu collapsible
+  
   css event/odd dans les tableaux !
   
   div attente tableau et bloquante !!
