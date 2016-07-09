@@ -1,5 +1,6 @@
 /target
 
+/mariageRest/*.log*
 /mariageRest/database/
 /mariageRest/target/
 /mariageRest/test-output/
