@@ -122,6 +122,37 @@ public class InviteServiceTest {
 	}
 
 	@Test
+	public void test02SauvegarderInviteAvecModificationAdresse() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+
+		// ACT
+		final String groupe = "G1";
+		final String nom = "N1";
+		final String prenom = "P1";
+		final String foyer = "F1";
+		final String adresse = "adresse du test";
+		final Age age = Age.adulte;
+		final Invite nouvelInvite = new Invite(groupe, foyer, nom, prenom, age);
+		nouvelInvite.setAdresse(adresse);
+		final Long id = this.instance.sauvegarde(idMariage, nouvelInvite);
+
+		// ASSERT
+		Assert.assertNotNull(id);
+		final Collection<Invite> invites = this.instance.listeInvitesParIdMariage(idMariage);
+		int count = 0;
+		for (final Invite i : invites) {
+			if (foyer.equals(i.getFoyer())) {
+				Assert.assertEquals(adresse, i.getAdresse());
+				count++;
+			}
+		}
+		Assert.assertEquals(3, count);
+	}
+
+	@Test
 	public void test03SupprimeInvite() throws ParseException {
 
 		// ARRANGE
