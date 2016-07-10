@@ -29,10 +29,7 @@ var chargeInvites = function() {
 				{ text: 'Groupe', datafield: 'groupe', editable: false, width: "25%" }, { text: 'Foyer', datafield: 'foyer', editable: false, width: "25%" },
 				{ text: 'Nom', datafield: 'nom', editable: false, width: "25%" }, { text: 'Prenom', datafield: 'prenom', editable: false, width: "25%" }
 			],
-			editable: true,
-			sortable: true,
-			filterable: true,
-			autoheight: true,
+			editable: true, sortable: true, filterable: true, autoheight: true, altrows: true,
 			width: 950,
 			ready: afficheContent
 		});

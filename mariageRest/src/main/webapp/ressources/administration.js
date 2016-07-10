@@ -41,9 +41,7 @@ var chargeUtilisateurs = function() {
 				{ text: 'Login', datafield: 'login', width: "80%" },
 				{ text: 'Actions', datafield: 'id', width: "20%", editable: false, sortable: false, menu: false, cellsrenderer: rendererColonneBouton }
 			],
-			sortable: true,
-			filterable: true,
-			autoheight: true,
+			sortable: true, filterable: true, autoheight: true, altrows: true,
 			width: 950,
 			ready: afficheContent
 		});

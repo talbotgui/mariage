@@ -33,25 +33,25 @@ var chargeStatistiques= function() {
         });
 
 		$("#repartitionsAge").jqxGrid({
-			source: dataAdapterAge, sortable: true,	
+			source: dataAdapterAge, sortable: true, altrows: true,	
 			autoheight: true, autowidth: true,
 			columns: [ { text:'Répartition par age', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }],
 			ready: afficheContent
 		});
 		$("#repartitionsFoyer").jqxGrid({
-			source: dataAdapterFoyer, sortable: true,	
+			source: dataAdapterFoyer, sortable: true, altrows: true,
 			autoheight: true, autowidth: true,
 			columns: [ { text:'Répartition par foyer', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }],
 			ready: afficheContent
 		});
 		$("#repartitionsGroupe").jqxGrid({
-			source: dataAdapterGroupe, sortable: true,	
+			source: dataAdapterGroupe, sortable: true, altrows: true,
 			autoheight: true, autowidth: true,
 			columns: [ { text:'Répartition par groupe', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }],
 			ready: afficheContent
 		});
 		$("#repartitionsEtape").jqxGrid({
-			source: dataAdapterEtape, sortable: true,	
+			source: dataAdapterEtape, sortable: true, altrows: true,
 			autoheight: true, autowidth: true,
 			columns: [ { text:'Répartition par etape', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }],
 			ready: afficheContent

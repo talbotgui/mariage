@@ -95,7 +95,7 @@ var chargeCourriers = function() {
 			$("#courriers").jqxGrid({
 				source: dataAdapter,
 				columns: columns,
-				editable: true, sortable: true, filterable: true,
+				editable: true, sortable: true, filterable: true, altrows: true,
 				autoheight: true, width: 950,
 				ready: afficheContent
 			});

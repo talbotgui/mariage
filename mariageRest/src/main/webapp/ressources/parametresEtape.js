@@ -54,10 +54,7 @@ var chargeEtapes = function() {
 				{ text: 'Lieu', datafield: 'lieu', width: "25%" },
 				{ text: 'Actions', datafield: 'id', width: "10%", editable: false, sortable: false, menu: false, cellsrenderer: rendererColonneBouton }
 			],
-			editable: true,
-			sortable: true,
-			filterable: true,
-			autoheight: true,
+			editable: true, sortable: true, filterable: true, autoheight: true, altrows: true,
 			width: 950,
 			ready: afficheContent
 		});

@@ -31,8 +31,7 @@ var chargeInvites = function() {
 				{ text: 'Adresse', datafield: 'adresse', width: "30%" }, { text: 'Téléphone', datafield: 'telephone', width: "10%" }, { text: 'Email', datafield: 'email', width: "10%" }
 			],
 			pageable: true, pagesizeoptions: JQX_GRID_PAGE_OPTIONS,
-			editable: true, sortable: true, filterable: true,
-			autoheight: true,
+			editable: true, sortable: true, filterable: true, autoheight: true, altrows: true,
 			width: 950,
 			ready: afficheContent
 		});
