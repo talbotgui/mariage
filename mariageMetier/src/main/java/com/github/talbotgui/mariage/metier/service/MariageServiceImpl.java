@@ -72,8 +72,10 @@ public class MariageServiceImpl implements MariageService {
 				this.inviteRepository.compteNombreInviteParAge(idMariage));
 		final Map<String, Integer> nbInvitesParEtape = arrayToMap(
 				this.inviteRepository.compteNombreInviteParEtape(idMariage));
+		final Map<String, Integer> nbFoyersParEtape = arrayToMap(
+				this.inviteRepository.compteNombreFoyerParEtape(idMariage));
 		final StatistiquesRepartitionsInvitesMariage repartition = new StatistiquesRepartitionsInvitesMariage(
-				nbInvitesParAge, nbInvitesParFoyer, nbInvitesParGroupe, nbInvitesParEtape);
+				nbInvitesParAge, nbInvitesParFoyer, nbInvitesParGroupe, nbInvitesParEtape, nbFoyersParEtape);
 		return new StatistiquesMariage(repartition, invites);
 	}
 

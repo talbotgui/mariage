@@ -27,8 +27,12 @@ var chargeStatistiques= function() {
             localdata: attributesToArray(data.repartitions.nbParGroupe),
             datatype: "array", datafields: [ { name: 'clef', type: 'string' }, { name: 'valeur', type: 'number' } ]
         });
-		var dataAdapterEtape = new $.jqx.dataAdapter({
+		var dataAdapterInviteEtape = new $.jqx.dataAdapter({
             localdata: attributesToArray(data.repartitions.nbParEtape),
+            datatype: "array", datafields: [ { name: 'clef', type: 'string' }, { name: 'valeur', type: 'number' } ]
+        });
+		var dataAdapterFoyerEtape = new $.jqx.dataAdapter({
+            localdata: attributesToArray(data.repartitions.nbFoyersParEtape),
             datatype: "array", datafields: [ { name: 'clef', type: 'string' }, { name: 'valeur', type: 'number' } ]
         });
 
@@ -50,13 +54,18 @@ var chargeStatistiques= function() {
 			columns: [ { text:'Répartition par groupe', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }],
 			ready: afficheContent
 		});
-		$("#repartitionsEtape").jqxGrid({
-			source: dataAdapterEtape, sortable: true, altrows: true,
+		$("#repartitionsInviteParEtape").jqxGrid({
+			source: dataAdapterInviteEtape, sortable: true, altrows: true,
 			autoheight: true, autowidth: true,
-			columns: [ { text:'Répartition par etape', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }],
+			columns: [ { text:'Répartition invités par etape', datafield: 'clef' }, { text:'Nombre d\'invités', datafield: 'valeur' }],
 			ready: afficheContent
 		});
-
+		$("#repartitionsFoyerParEtape").jqxGrid({
+			source: dataAdapterFoyerEtape, sortable: true, altrows: true,
+			autoheight: true, autowidth: true,
+			columns: [ { text:'Répartition foyers par etape', datafield: 'clef' }, { text:'Nombre de foyers', datafield: 'valeur' }],
+			ready: afficheContent
+		});
 	});
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargeStatistiques");});
 

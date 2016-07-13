@@ -220,7 +220,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 
 		// ARRANGE
 		final StatistiquesMariage dto = new StatistiquesMariage(
-				new StatistiquesRepartitionsInvitesMariage(null, null, null, null),
+				new StatistiquesRepartitionsInvitesMariage(null, null, null, null, null),
 				new StatistiquesInvitesMariage(0L, 0L, 0, 0, 0, 0));
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
 		Mockito.doReturn(dto).when(this.mariageService).calculStatistiques(argumentCaptorIdMariage.capture());
