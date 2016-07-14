@@ -88,12 +88,6 @@
 				</exclusion>
 			</exclusions>
     	</dependency>
-    	
-    	<!-- Spring logs -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-log4j</artifactId>
-		</dependency>
 
 		<!-- Spring MVC & REST utilisant Embedded Tomcat -->
 		<dependency>

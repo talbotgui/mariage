@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %c{1.} - %msg%n" />
+		</Console>
+		<RollingFile name="RollingFile" fileName="rollingLog.log" filePattern="rollingLog-%d{MM-dd-yyyy}-%i.log">
+			<PatternLayout><Pattern>%d{HH:mm:ss.SSS} %-5level %c{1.} - %msg%n</Pattern></PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="5 MB" />
+			</Policies>
+		</RollingFile>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="org.hibernate.type" level="info"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		<Logger name="org.hibernate.SQL" level="trace"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		
+		<Logger name="org.springframework" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		<Logger name="org.hibernate" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		<Logger name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper" level="error"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		<Root level="debug">
+			<AppenderRef ref="Console" /><AppenderRef ref="RollingFile" />
+		</Root>
+	</Loggers>
+</Configuration>
