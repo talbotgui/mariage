@@ -15,12 +15,13 @@
 	</Appenders>
 
 	<Loggers>
-		<Logger name="org.hibernate.type" level="info"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
-		<Logger name="org.hibernate.SQL" level="trace"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
-		
+		<Logger name="com.gargoylesoftware" level="error"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		<Logger name="com.gargoylesoftware.htmlunit.javascript.StrictErrorReporter" level="fatal"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		<Logger name="org.apache" level="error"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 		<Logger name="org.springframework" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 		<Logger name="org.hibernate" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 		<Logger name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper" level="error"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+
 		<Root level="debug">
 			<AppenderRef ref="Console" /><AppenderRef ref="RollingFile" />
 		</Root>
