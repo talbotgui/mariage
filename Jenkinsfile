@@ -32,4 +32,5 @@ node {
     sh "rm /var/lib/mariage/*.war || true"
     sh "cp ./mariageRest.war /var/lib/mariage/"
     sh "/var/lib/mariage/startMariage.sh"
+	step([$class: 'GitHubSetCommitStatusBuilder'])
 }
