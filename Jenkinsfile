@@ -1,3 +1,8 @@
+#!groovy
+
+step([$class: 'GitHubSetCommitStatusBuilder'])
+step([$class: 'GitHubCommitNotifier', resultOnFailure: 'FAILURE'])
+
 node {
     stage 'Checkout'
     git url: 'https://github.com/talbotgui/mariage.git'
@@ -21,16 +26,22 @@ node {
     step([$class: 'CheckStylePublisher'])
     step([$class: 'AnalysisPublisher'])
     step([$class: 'JavadocArchiver', javadocDir: 'mariageRest/target/site/apidocs', keepAll: false])
+}
 
-    stage 'Approve'
-    timeout(time:1, unit:'DAYS') {
-        input message:'Go to production?'
-    }
+stage 'Approve'
+timeout(time:1, unit:'DAYS') {
+	input message:'Go to production?'
+}
 
+if (currentBuild.result == null) {
+	currentBuild.result = 'SUCCESS'
+}
+
+node {
     stage 'Production'
     sh "/var/lib/mariage/stopMariage.sh"
     sh "rm /var/lib/mariage/*.war || true"
     sh "cp ./mariageRest.war /var/lib/mariage/"
-    sh "/var/lib/mariage/startMariage.sh"
-	step([$class: 'GitHubSetCommitStatusBuilder'])
+    sh "/var/lib/mariage/startMariage.sh"	
 }
+
