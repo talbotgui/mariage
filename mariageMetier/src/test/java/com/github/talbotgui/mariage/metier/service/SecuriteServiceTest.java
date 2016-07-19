@@ -30,7 +30,7 @@ import com.googlecode.catchexception.CatchException;
 @SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SecuriteServiceTest {
-	private static final Logger LOG = LoggerFactory.getLogger(EtapeServiceTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SecuriteServiceTest.class);
 
 	@Autowired
 	private DataSource dataSource;
