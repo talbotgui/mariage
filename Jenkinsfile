@@ -1,8 +1,5 @@
 #!groovy
 
-step([$class: 'GitHubSetCommitStatusBuilder'])
-step([$class: 'GitHubCommitNotifier', resultOnFailure: 'FAILURE'])
-
 node {
     stage 'Checkout'
     git url: 'https://github.com/talbotgui/mariage.git'
