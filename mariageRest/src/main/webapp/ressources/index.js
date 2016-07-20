@@ -13,19 +13,21 @@ var afficheInfoMariage = function(data) {
 	$("#date input").val(data.dateCelebration);
 	
 	// Affichage du countDown
-	var d = data.dateCelebration.split("/");
-	var d = d[2] + "-" + d[1] + "-" + d[0] + " 00:00:00";
-	$("#dateCountdown").attr("data-date", d);
-
-	$("#dateCountdown").TimeCircles({
-	    "animation": "ticks", "bg_width": 1.2, "fg_width": 0.1, "circle_bg_color": "#60686F",
-	    "time": {
-	    	"Days": { "text": "Jours", "color": "#FFCC66", "show": true },
-	    	"Hours": { "text": "Heures", "color": "#99CCFF", "show": true },
-	    	"Minutes": { "text": "Minutes", "color": "#BBFFBB", "show": true },
-	        "Seconds": { "text": "Secondes", "color": "#FF9999", "show": true }
-	    }
-	});
+	if (data.dateCelebration) {
+		var d = data.dateCelebration.split("/");
+		var d = d[2] + "-" + d[1] + "-" + d[0] + " 00:00:00";
+		$("#dateCountdown").attr("data-date", d);
+	
+		$("#dateCountdown").TimeCircles({
+		    "animation": "ticks", "bg_width": 1.2, "fg_width": 0.1, "circle_bg_color": "#60686F",
+		    "time": {
+		    	"Days": { "text": "Jours", "color": "#FFCC66", "show": true },
+		    	"Hours": { "text": "Heures", "color": "#99CCFF", "show": true },
+		    	"Minutes": { "text": "Minutes", "color": "#BBFFBB", "show": true },
+		        "Seconds": { "text": "Secondes", "color": "#FF9999", "show": true }
+		    }
+		});
+	}
 };
 
 var afficheInfoMariageDepuisId = function() {
