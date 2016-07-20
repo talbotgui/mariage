@@ -255,4 +255,12 @@ public class MariageServiceImpl implements MariageService {
 		this.inviteRepository.delete(idInvite);
 	}
 
+	@Override
+	public void suprimeMariage(final Long idMariage) {
+		this.courrierRepository.delete(this.listeCourriersParIdMariage(idMariage));
+		this.etapeRepository.delete(this.listeEtapesParIdMariage(idMariage));
+		this.inviteRepository.delete(this.listeInvitesParIdMariage(idMariage));
+		this.mariageRepository.delete(idMariage);
+	}
+
 }

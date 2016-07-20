@@ -53,6 +53,23 @@ var clicBoutonModifier = function(e) {
 	divParente.find("a").toggle();
 }
 
+var supprimeMariage = function(e) {
+	$("#dialogConfirmSuppression").dialog({
+		resizable: false, height: "auto", width: 400, modal: true,
+		buttons: {
+			"Supprimer le mariage": function() {
+				var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + getIdMariage()});
+				req.success(function(dataString) { setIdMariage(""); location.reload(); });
+				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("supprimeMariage");});
+				$(this).dialog( "close" );
+			},
+			Cancel: function() {
+				$(this).dialog( "close" );
+			}
+		}
+	});
+};
+
 var sauvegardeInfoMariage = function(e) {
 	valideForm("#infoMariage form", function(data) {
 		var req = $.post( REST_PREFIX + "/mariage/", data);
@@ -74,6 +91,7 @@ $(document).ready(function() {
 	// Events
 	$(".btn-nouveau").on("click", afficheInfoMariagePourNouveau);
 	$(".btn-sauvegarder").on("click", sauvegardeInfoMariage);
+	$(".btn-supprimer").on("click", supprimeMariage);
 	$(".btn-modifier").on("click", clicBoutonModifier);
 	
 	// Affichage / masquage des divs

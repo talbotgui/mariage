@@ -31,6 +31,7 @@ public class IndexSeleniumTest extends SeleniumTest {
 		driver.assertElementNotPresent(Menu.LIEN_INVITATION);
 		driver.assertElementPresent(Index.Button.NOUVEAU);
 		driver.assertElementPresent(Index.Input.SELECTION_MARIAGE);
+		driver.assertCookieNotPresentOrValid(Index.Cookie.ID_MARIAGE);
 	}
 
 	@Test
@@ -45,6 +46,7 @@ public class IndexSeleniumTest extends SeleniumTest {
 		driver.type(Index.Input.MARIE1, "M", 100);
 		driver.type(Index.Input.MARIE2, "G", 100);
 		driver.click(Index.Button.SAUVEGARDER, 500);
+		driver.assertCookiePresentAndValid(Index.Cookie.ID_MARIAGE);
 
 		//
 		driver.assertElementPresent(Index.Button.MODIFIER);
@@ -58,17 +60,34 @@ public class IndexSeleniumTest extends SeleniumTest {
 	public void test03modifierMariage() {
 		//
 		driver.click(Index.Button.MODIFIER, 200);
-
-		//
+		driver.assertElementNotPresent(Index.Button.MODIFIER);
 		driver.assertValueEquals(Index.Input.MARIE1, "M");
 		driver.assertValueEquals(Index.Input.MARIE2, "G");
 		driver.assertValueEquals(Index.Input.DATE_CELEBRATION, "01/01/2017");
+
+		//
 		driver.click(Index.Button.SAUVEGARDER, 500);
 
 		//
 		driver.assertElementPresent(Index.Button.MODIFIER);
 		driver.assertTextEquals(Commun.DIV_MARIES, "Mariage de M  &  G");
 		driver.assertTextEquals(Commun.DIV_DATE_MARIAGE, "01/01/2017");
+	}
+
+	@Test
+	public void test04supprimerMariage() {
+		//
+
+		//
+		driver.click(Index.Button.SUPPRIMER, 200);
+
+		//
+		driver.getRealDriver().get(driver.getRealDriver().getCurrentUrl());
+		driver.assertCookieNotPresentOrValid(Index.Cookie.ID_MARIAGE);
+		driver.assertElementNotPresent(Index.Button.MODIFIER);
+		driver.assertElementNotPresent(Index.Button.SAUVEGARDER);
+		driver.assertElementNotPresent(Index.Button.SUPPRIMER);
+		driver.assertElementPresent(Index.Input.SELECTION_MARIAGE);
 	}
 
 }

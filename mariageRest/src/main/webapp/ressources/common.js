@@ -15,11 +15,16 @@ var afficheContent = function() {
  * Cookie de 8 heures
  */
 var setIdMariage = function(idMariage) {
-    var d = new Date();
-    d.setTime(d.getTime() + (8*60*60*1000));
-    var expires = "expires=" + d.toUTCString();
-    document.cookie = "idMariage=" + idMariage + "; " + expires;
-    afficheMenu();
+	var cookieName = "idMariage";
+	if (idMariage === "") {
+		document.cookie = cookieName + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	} else {
+		var d = new Date();
+		d.setTime(d.getTime() + (8*60*60*1000));
+		var expires = "expires=" + d.toUTCString();
+		document.cookie = cookieName + "=" + idMariage + "; " + expires;
+	}
+	afficheMenu();
 };
 
 /**
@@ -27,11 +32,15 @@ var setIdMariage = function(idMariage) {
  */
 var afficheMenu = function() {
 	// Mise en place du timeout pour attendre le chargement de la div par le script de google
-	setTimeout(function(){ 
-			var nomPage = window.location.pathname.substring(1);
-			if (nomPage === "") { nomPage = "index.html"; }
-			$(".nav a[href$='" + nomPage + "']").parent().addClass("active");
-			$("div[role=navigation]").show();
+	setTimeout(function(){
+			if (getIdMariage() === "") {
+				$("div[role=navigation]").hide();
+			} else {
+				var nomPage = window.location.pathname.substring(1);
+				if (nomPage === "") { nomPage = "index.html"; }
+				$(".nav a[href$='" + nomPage + "']").parent().addClass("active");
+				$("div[role=navigation]").show();
+			}
  	}, 500);
 };
 

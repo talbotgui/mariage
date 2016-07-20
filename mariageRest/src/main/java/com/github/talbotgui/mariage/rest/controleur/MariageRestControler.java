@@ -1,5 +1,6 @@
 package com.github.talbotgui.mariage.rest.controleur;
 
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -55,6 +56,11 @@ public class MariageRestControler {
 			throw new RestException(RestException.ERREUR_FORMAT_DATE, e,
 					new String[] { AbstractDTO.FORMAT_DATE, dateCelebration });
 		}
+	}
+
+	@RequestMapping(value = "/mariage/{idMariage}", method = DELETE)
+	public void suprimeMariage(@PathVariable("idMariage") final Long idMariage) {
+		this.mariageService.suprimeMariage(idMariage);
 	}
 
 }

@@ -23,7 +23,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.github.talbotgui.mariage.metier.entities.Mariage;
-import com.github.talbotgui.mariage.metier.service.MariageService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
@@ -97,5 +96,33 @@ public class MariageServiceTest {
 
 		// ASSERT
 		Assert.assertEquals(1, mariages.size());
+	}
+
+	@Test
+	public void test04SupprimeMariage01Seul() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSeul();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+
+		// ACT
+		this.instance.suprimeMariage(idMariage);
+
+		// ASSERT
+		Assert.assertNull(this.instance.chargeMariageParId(idMariage));
+	}
+
+	@Test
+	public void test04SupprimeMariage02Simple() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+
+		// ACT
+		this.instance.suprimeMariage(idMariage);
+
+		// ASSERT
+		Assert.assertNull(this.instance.chargeMariageParId(idMariage));
 	}
 }

@@ -11,6 +11,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -112,6 +113,26 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
 		Assert.assertTrue(((HttpStatusCodeException) CatchException.caughtException()).getResponseBodyAsString()
 				.contains(dateCelebration));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test05SupprimeMariage() {
+
+		final Long idMariage = 10L;
+
+		// ARRANGE
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		Mockito.doNothing().when(this.mariageService).suprimeMariage(argumentCaptorIdMariage.capture());
+
+		// ACT
+		final ResponseEntity<Void> response = getREST().exchange(getURL() + "/mariage/" + idMariage, HttpMethod.DELETE,
+				null, Void.class);
+
+		// ASSERT
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
+		Mockito.verify(this.mariageService).suprimeMariage(Mockito.anyLong());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 

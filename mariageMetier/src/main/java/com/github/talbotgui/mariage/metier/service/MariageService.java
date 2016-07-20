@@ -47,6 +47,8 @@ public interface MariageService {
 
 	Long sauvegardeGrappe(Mariage mariage);
 
+	void suprimeMariage(Long idMariage);
+
 	void suprimeCourrier(Long idMariage, Long idCourrier);
 
 	void suprimeEtape(Long idMariage, Long idEtape);

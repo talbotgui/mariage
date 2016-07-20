@@ -5,10 +5,12 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
@@ -54,6 +56,28 @@ public class MyDriver {
 		} catch (final AssertionError e) {
 			sleepSilencieux(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
 			assertEquals(checked, driver.findElement(by).isSelected());
+		}
+	}
+
+	public void assertCookieNotPresentOrValid(final String cookieName) {
+		try {
+			final Cookie cookie = driver.manage().getCookieNamed(cookieName);
+			Assert.assertTrue(cookie == null || cookie.getExpiry().before(new Date()));
+		} catch (final AssertionError e) {
+			sleepSilencieux(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
+			final Cookie cookie = driver.manage().getCookieNamed(cookieName);
+			Assert.assertTrue(cookie == null || cookie.getExpiry().before(new Date()));
+		}
+	}
+
+	public void assertCookiePresentAndValid(final String cookieName) {
+		try {
+			final Cookie cookie = driver.manage().getCookieNamed(cookieName);
+			Assert.assertTrue(cookie != null && cookie.getExpiry().after(new Date()));
+		} catch (final AssertionError e) {
+			sleepSilencieux(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
+			final Cookie cookie = driver.manage().getCookieNamed(cookieName);
+			Assert.assertTrue(cookie != null && cookie.getExpiry().after(new Date()));
 		}
 	}
 

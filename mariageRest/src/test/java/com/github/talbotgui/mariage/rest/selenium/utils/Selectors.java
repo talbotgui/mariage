@@ -42,6 +42,11 @@ public class Selectors {
 			public static final By MODIFIER = By.linkText("Modifier");
 			public static final By NOUVEAU = By.linkText("Nouveau");
 			public static final By SAUVEGARDER = By.linkText("Sauvegarder");
+			public static final By SUPPRIMER = By.linkText("Supprimer");
+		}
+
+		public static class Cookie {
+			public static final String ID_MARIAGE = "idMariage";
 		}
 
 		public static class Input {
