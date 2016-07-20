@@ -145,11 +145,11 @@ public class EtapeServiceTest {
 		final Long idMariage = this.instance.sauvegardeGrappe(original);
 		final Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
 		for (final Courrier c : original.getCourriers()) {
-			this.instance.suprimeCourrier(original.getId(), c.getId());
+			this.instance.supprimeCourrier(original.getId(), c.getId());
 		}
 
 		// ACT
-		this.instance.suprimeEtape(idMariage, etapeAvant.iterator().next().getId());
+		this.instance.supprimeEtape(idMariage, etapeAvant.iterator().next().getId());
 
 		// ASSERT
 		final Collection<Etape> etapeApres = this.instance.listeEtapesParIdMariage(idMariage);
@@ -165,7 +165,7 @@ public class EtapeServiceTest {
 		final Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
 
 		// ACT
-		CatchException.catchException(this.instance).suprimeEtape(idMariage, etapeAvant.iterator().next().getId());
+		CatchException.catchException(this.instance).supprimeEtape(idMariage, etapeAvant.iterator().next().getId());
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
@@ -180,7 +180,7 @@ public class EtapeServiceTest {
 		// ARRANGE
 
 		// ACT
-		CatchException.catchException(this.instance).suprimeEtape(-1L, -1L);
+		CatchException.catchException(this.instance).supprimeEtape(-1L, -1L);
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());

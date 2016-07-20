@@ -106,7 +106,7 @@ public class CourrierServiceTest {
 		final Collection<Courrier> courrierAvant = this.instance.listeCourriersParIdMariage(idMariage);
 
 		// ACT
-		this.instance.suprimeCourrier(idMariage, courrierAvant.iterator().next().getId());
+		this.instance.supprimeCourrier(idMariage, courrierAvant.iterator().next().getId());
 
 		// ASSERT
 		final Collection<Courrier> courrierApres = this.instance.listeCourriersParIdMariage(idMariage);
@@ -119,7 +119,7 @@ public class CourrierServiceTest {
 		// ARRANGE
 
 		// ACT
-		CatchException.catchException(this.instance).suprimeCourrier(-1L, -1L);
+		CatchException.catchException(this.instance).supprimeCourrier(-1L, -1L);
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());

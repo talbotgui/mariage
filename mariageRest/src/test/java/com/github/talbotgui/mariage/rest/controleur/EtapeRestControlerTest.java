@@ -213,7 +213,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		// ARRANGE
 		final ArgumentCaptor<Long> argumentCaptorIdIEtape = ArgumentCaptor.forClass(Long.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doNothing().when(this.mariageService).suprimeEtape(argumentCaptorIdMariage.capture(),
+		Mockito.doNothing().when(this.mariageService).supprimeEtape(argumentCaptorIdMariage.capture(),
 				argumentCaptorIdIEtape.capture());
 
 		// ACT
@@ -224,7 +224,7 @@ public class EtapeRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		Assert.assertEquals(argumentCaptorIdIEtape.getValue(), idEtape);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.mariageService).suprimeEtape(Mockito.anyLong(), Mockito.anyLong());
+		Mockito.verify(this.mariageService).supprimeEtape(Mockito.anyLong(), Mockito.anyLong());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 

@@ -123,7 +123,7 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 
 		// ARRANGE
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doNothing().when(this.mariageService).suprimeMariage(argumentCaptorIdMariage.capture());
+		Mockito.doNothing().when(this.mariageService).supprimeMariage(argumentCaptorIdMariage.capture());
 
 		// ACT
 		final ResponseEntity<Void> response = getREST().exchange(getURL() + "/mariage/" + idMariage, HttpMethod.DELETE,
@@ -132,7 +132,7 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.mariageService).suprimeMariage(Mockito.anyLong());
+		Mockito.verify(this.mariageService).supprimeMariage(Mockito.anyLong());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 

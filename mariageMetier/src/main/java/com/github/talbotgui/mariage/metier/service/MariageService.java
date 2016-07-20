@@ -47,11 +47,11 @@ public interface MariageService {
 
 	Long sauvegardeGrappe(Mariage mariage);
 
-	void suprimeMariage(Long idMariage);
+	void supprimeMariage(Long idMariage);
 
-	void suprimeCourrier(Long idMariage, Long idCourrier);
+	void supprimeCourrier(Long idMariage, Long idCourrier);
 
-	void suprimeEtape(Long idMariage, Long idEtape);
+	void supprimeEtape(Long idMariage, Long idEtape);
 
-	void suprimeInvite(Long idMariage, Long idInvite);
+	void supprimeInvite(Long idMariage, Long idInvite);
 }

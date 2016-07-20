@@ -229,7 +229,7 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
-	public void suprimeCourrier(final Long idMariage, final Long idCourrier) {
+	public void supprimeCourrier(final Long idMariage, final Long idCourrier) {
 		if (idMariage == null || !idMariage.equals(this.courrierRepository.getIdMariageByCourrierId(idCourrier))) {
 			throw new BusinessException(BusinessException.ERREUR_ID_MARIAGE, new Object[] { idMariage });
 		}
@@ -237,7 +237,7 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
-	public void suprimeEtape(final Long idMariage, final Long idEtape) {
+	public void supprimeEtape(final Long idMariage, final Long idEtape) {
 		if (idMariage == null || !idMariage.equals(this.etapeRepository.getIdMariageByEtapeId(idEtape))) {
 			throw new BusinessException(BusinessException.ERREUR_ID_MARIAGE, new Object[] { idMariage });
 		}
@@ -248,7 +248,7 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
-	public void suprimeInvite(final Long idMariage, final Long idInvite) {
+	public void supprimeInvite(final Long idMariage, final Long idInvite) {
 		if (idMariage == null || !idMariage.equals(this.inviteRepository.getIdMariageByInviteId(idInvite))) {
 			throw new BusinessException(BusinessException.ERREUR_ID_MARIAGE, new Object[] { idMariage });
 		}
@@ -256,7 +256,7 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
-	public void suprimeMariage(final Long idMariage) {
+	public void supprimeMariage(final Long idMariage) {
 		this.courrierRepository.delete(this.listeCourriersParIdMariage(idMariage));
 		this.etapeRepository.delete(this.listeEtapesParIdMariage(idMariage));
 		this.inviteRepository.delete(this.listeInvitesParIdMariage(idMariage));

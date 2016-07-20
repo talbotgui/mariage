@@ -117,6 +117,6 @@ public class InviteRestControler {
 	public void supprimeInvite(//
 			@PathVariable(value = "idInvite") final Long idInvite, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
-		this.mariageService.suprimeInvite(idMariage, idInvite);
+		this.mariageService.supprimeInvite(idMariage, idInvite);
 	}
 }

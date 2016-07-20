@@ -157,7 +157,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ARRANGE
 		final ArgumentCaptor<Long> argumentCaptorIdInvite = ArgumentCaptor.forClass(Long.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doNothing().when(this.mariageService).suprimeInvite(argumentCaptorIdMariage.capture(),
+		Mockito.doNothing().when(this.mariageService).supprimeInvite(argumentCaptorIdMariage.capture(),
 				argumentCaptorIdInvite.capture());
 
 		// ACT
@@ -168,7 +168,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		Assert.assertEquals(argumentCaptorIdInvite.getValue(), idInvite);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.mariageService).suprimeInvite(Mockito.anyLong(), Mockito.anyLong());
+		Mockito.verify(this.mariageService).supprimeInvite(Mockito.anyLong(), Mockito.anyLong());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 

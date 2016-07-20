@@ -92,6 +92,6 @@ public class EtapeRestControler {
 	public void supprimeEtape(//
 			@PathVariable(value = "idEtape") final Long idEtape, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
-		this.mariageService.suprimeEtape(idMariage, idEtape);
+		this.mariageService.supprimeEtape(idMariage, idEtape);
 	}
 }

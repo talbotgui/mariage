@@ -74,6 +74,6 @@ public class CourrierRestControler {
 	public void supprimeCourrier(//
 			@PathVariable(value = "idCourrier") final Long idCourrier, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
-		this.mariageService.suprimeCourrier(idMariage, idCourrier);
+		this.mariageService.supprimeCourrier(idMariage, idCourrier);
 	}
 }

@@ -161,7 +161,7 @@ public class InviteServiceTest {
 		final Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
 
 		// ACT
-		this.instance.suprimeInvite(idMariage, inviteAvant.iterator().next().getId());
+		this.instance.supprimeInvite(idMariage, inviteAvant.iterator().next().getId());
 
 		// ASSERT
 		final Collection<Invite> inviteApres = this.instance.listeInvitesParIdMariage(idMariage);
@@ -174,7 +174,7 @@ public class InviteServiceTest {
 		// ARRANGE
 
 		// ACT
-		CatchException.catchException(this.instance).suprimeInvite(-1L, -1L);
+		CatchException.catchException(this.instance).supprimeInvite(-1L, -1L);
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());

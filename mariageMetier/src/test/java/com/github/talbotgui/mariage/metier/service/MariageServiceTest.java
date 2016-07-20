@@ -106,7 +106,7 @@ public class MariageServiceTest {
 		final Long idMariage = this.instance.sauvegardeGrappe(original);
 
 		// ACT
-		this.instance.suprimeMariage(idMariage);
+		this.instance.supprimeMariage(idMariage);
 
 		// ASSERT
 		Assert.assertNull(this.instance.chargeMariageParId(idMariage));
@@ -120,7 +120,7 @@ public class MariageServiceTest {
 		final Long idMariage = this.instance.sauvegardeGrappe(original);
 
 		// ACT
-		this.instance.suprimeMariage(idMariage);
+		this.instance.supprimeMariage(idMariage);
 
 		// ASSERT
 		Assert.assertNull(this.instance.chargeMariageParId(idMariage));

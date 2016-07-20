@@ -59,8 +59,8 @@ public class MariageRestControler {
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}", method = DELETE)
-	public void suprimeMariage(@PathVariable("idMariage") final Long idMariage) {
-		this.mariageService.suprimeMariage(idMariage);
+	public void supprimeMariage(@PathVariable("idMariage") final Long idMariage) {
+		this.mariageService.supprimeMariage(idMariage);
 	}
 
 }
