@@ -22,9 +22,10 @@ public class SecurityFilter implements Filter {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SecurityFilter.class);
 
-	private static final String LOGIN_PAGE = "/login.html";
+	protected static final String LOGIN_PAGE = "/login.html";
 	public static final String LOGIN_REST = "/dologin";
 	public static final String LOGOUT_REST = "/dologout";
+	protected static final String SESSION_KEY_USER_LOGIN = "USER_LOGIN";
 
 	private void addResponseHeaders(final HttpServletResponse response) {
 		response.addHeader("X-XSS-Protection", "1; mode=block;");
@@ -36,11 +37,11 @@ public class SecurityFilter implements Filter {
 
 	private void checkUserIsLoggedIn(final FilterChain chain, final HttpServletRequest request,
 			final HttpServletResponse response) throws IOException, ServletException {
-		final boolean pageProtegee = isPageProtegee(request);
+		final boolean pageProtegee = this.isPageProtegee(request);
 		LOG.debug("{} => {}", request.getRequestURI(), pageProtegee);
 
 		// Page sécurisée et login valide
-		if (pageProtegee && request.getSession().getAttribute("USER_LOGIN") != null) {
+		if (pageProtegee && request.getSession().getAttribute(SESSION_KEY_USER_LOGIN) != null) {
 			chain.doFilter(request, response);
 		}
 
@@ -66,8 +67,8 @@ public class SecurityFilter implements Filter {
 		final HttpServletRequest request = (HttpServletRequest) req;
 		final HttpServletResponse response = (HttpServletResponse) res;
 
-		addResponseHeaders(response);
-		checkUserIsLoggedIn(chain, request, response);
+		this.addResponseHeaders(response);
+		this.checkUserIsLoggedIn(chain, request, response);
 
 	}
 
