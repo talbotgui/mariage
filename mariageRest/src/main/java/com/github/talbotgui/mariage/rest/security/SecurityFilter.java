@@ -80,7 +80,7 @@ public class SecurityFilter implements Filter {
 	private boolean isPageProtegee(final HttpServletRequest request) {
 		final String uriAcomparer = request.getRequestURI().replaceFirst(request.getContextPath(), "");
 		return !LOGIN_PAGE.equals(uriAcomparer) && !LOGIN_REST.equals(uriAcomparer)
-				&& !uriAcomparer.startsWith("/ressources");
+				&& !uriAcomparer.startsWith("/ressources/");
 	}
 
 }

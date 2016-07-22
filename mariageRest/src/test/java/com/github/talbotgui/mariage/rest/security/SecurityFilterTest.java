@@ -16,6 +16,11 @@ import org.springframework.mock.web.MockHttpServletResponse;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SecurityFilterTest {
 
+	private void assertRedirectionPageLogin(final MockHttpServletResponse res) {
+		Assert.assertEquals(302, res.getStatus());
+		Assert.assertEquals("/login.html", res.getHeaderValue("Location"));
+	}
+
 	private void assertStatutOkEtHeaders(final HttpServletResponse res) {
 		Assert.assertEquals(200, res.getStatus());
 		Assert.assertNotNull(res.getHeader("X-XSS-Protection"));
@@ -26,7 +31,7 @@ public class SecurityFilterTest {
 	}
 
 	@Test
-	public void test01RessourceStatique() throws IOException, ServletException {
+	public void test01RessourceStatique01Redirection() throws IOException, ServletException {
 		// Arrange
 		final SecurityFilter sf = new SecurityFilter();
 
@@ -41,6 +46,36 @@ public class SecurityFilterTest {
 	}
 
 	@Test
+	public void test01RessourceStatique02QuiNenEstPasUne() throws IOException, ServletException {
+		// Arrange
+		final SecurityFilter sf = new SecurityFilter();
+
+		// Act
+		final MockHttpServletRequest req = new MockHttpServletRequest("GET", "/ressources.html");
+		final MockHttpServletResponse res = new MockHttpServletResponse();
+		final MockFilterChain chain = new MockFilterChain();
+		sf.doFilter(req, res, chain);
+
+		// Assert
+		this.assertRedirectionPageLogin(res);
+	}
+
+	@Test
+	public void test01RessourceStatique03QuiNenEstPasUne() throws IOException, ServletException {
+		// Arrange
+		final SecurityFilter sf = new SecurityFilter();
+
+		// Act
+		final MockHttpServletRequest req = new MockHttpServletRequest("GET", "/toto/ressources/page.html");
+		final MockHttpServletResponse res = new MockHttpServletResponse();
+		final MockFilterChain chain = new MockFilterChain();
+		sf.doFilter(req, res, chain);
+
+		// Assert
+		this.assertRedirectionPageLogin(res);
+	}
+
+	@Test
 	public void test02PageRoot01SansSession() throws IOException, ServletException {
 		// Arrange
 		final SecurityFilter sf = new SecurityFilter();
@@ -52,8 +87,7 @@ public class SecurityFilterTest {
 		sf.doFilter(req, res, chain);
 
 		// Assert
-		Assert.assertEquals(302, res.getStatus());
-		Assert.assertEquals("/login.html", res.getHeaderValue("Location"));
+		this.assertRedirectionPageLogin(res);
 	}
 
 	@Test
