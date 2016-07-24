@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
+import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 
@@ -15,9 +16,13 @@ public interface MariageService {
 
 	StatistiquesMariage calculStatistiques(Long idMariage);
 
+	Foyer chargeFoyerParId(Long id);
+
 	Invite chargeInviteParId(Long id);
 
 	Mariage chargeMariageParId(Long idMariage);
+
+	Foyer getFoyer(Long idMariage, String nomFoyer);
 
 	void lieUneEtapeEtUnCourrier(Long idMariage, Long idEtape, Long idCourrier, boolean lie);
 
@@ -26,6 +31,8 @@ public interface MariageService {
 	Collection<Courrier> listeCourriersParIdMariage(Long idMariage);
 
 	Collection<Etape> listeEtapesParIdMariage(Long idMariage);
+
+	Collection<Foyer> listeFoyersParIdMariage(Long idMariage);
 
 	Collection<Invite> listeInvitesParIdMariage(Long idMariage);
 
@@ -39,6 +46,8 @@ public interface MariageService {
 	Long sauvegarde(Long idMariage, Courrier courrier);
 
 	Long sauvegarde(Long idMariage, Etape etape);
+
+	Long sauvegarde(Long idMariage, Foyer foyer);
 
 	Long sauvegarde(Mariage mariage);
 

@@ -365,4 +365,20 @@ public class InviteEtFoyerServiceTest {
 		Assert.assertEquals(age, invite.getAge());
 		Assert.assertEquals(foyer, invite.getFoyer().getNom());
 	}
+
+	@Test
+	public void test09ListeFoyers() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+
+		// ACT
+		final Collection<Foyer> foyers = this.instance.listeFoyersParIdMariage(idMariage);
+
+		// ASSERT
+		Assert.assertNotNull(foyers);
+		Assert.assertEquals(3, foyers.size());
+		Assert.assertEquals("F1", foyers.iterator().next().getNom());
+	}
 }

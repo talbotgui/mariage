@@ -25,18 +25,9 @@
 			
 				<div data-w3-include-html="./part_infoMariage.html"></div>
 
-				<div id="modele">
-					<div>
-						<div style="font-weight: bold;">Modèle de saisie rapide applicable en cliquant sur&nbsp;<span class="ui-icon ui-icon-shuffle" style="display:inline-block;"></span></div>
-						<div>Appliquer à tous les membres d'un même foyer <input type="checkbox" id="appliquerAuFoyer"></input></div>
-						<table><tr></tr></table>
-					</div>
-				</div>
-				
 				<div id="invites"></div>
 
 				<button id="button_afficher_popup_ajouter" class="btn btn-default">Ajouter</button>
-				<button id="button_afficher_popup_ajouter_en_masse" class="btn btn-default">Ajouter en masse</button>
 				
 				<div id="popupAjoutInvite" class="popup">
 					<div>Ajout d'un invité</div>
@@ -51,24 +42,12 @@
 						</form>
 					</div>
 				</div>
-				<div id="popupAjoutInviteEnMasse" class="popup">
-					<div>Ajout d'invités en masse</div>
-					<div>
-						<p>Un invité par ligne. Chaque information séparée par un : ou ; ou une tabulation. Dans l'ordre, le nom, le prénom, le groupe et l'adresse</p>
-						<div class="form-inline">
-							<form>
-								<div class="form-group"><textarea id="invites" name="invites" rows="20" cols="50" style="margin-left:15px;" required></textarea></div>
-								<br/><button id="button_ajouterEnMasse" class="btn btn-default">Ajouter</button>
-							</form>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 
 		<script type="application/javascript" src="ressources/all.js?_version=${buildTimestamp}"></script>
 		<script type="application/javascript" src="ressources/jqwidgets-ver4.1.1/jqxgrid.pager.js?_version=${buildTimestamp}"></script>
 		<script type="application/javascript" src="ressources/common.js?_version=${buildTimestamp}"></script>
-		<script type="application/javascript" src="ressources/invitation.js?_version=${buildTimestamp}"></script>
+		<script type="application/javascript" src="ressources/invites.js?_version=${buildTimestamp}"></script>
 	</body>
 </html>

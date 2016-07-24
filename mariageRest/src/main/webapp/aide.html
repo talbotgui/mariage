@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		
+		<title>Mariage</title>
+		
+		<link rel="stylesheet" href="ressources/jquery-ui-1.11.4.custom/jquery-ui.min.css" />
+		<link rel="stylesheet" href="ressources/bootstrap-3.3.6-dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="ressources/bootstrap-datetimepicker-master/bootstrap-datetimepicker.min.css"/>
+		<link rel="stylesheet" href="ressources/jqwidgets-ver4.1.1/jqx.base.css" />
+		<link rel="stylesheet" href="ressources/custom.css?_version=${buildTimestamp}" />
+	</head>
+	<body>
+		<div class="container-fluid">
+
+			<!-- Colonne gauche -->
+			<div class="header col-md-3">
+				<div data-w3-include-html="./part_menu.html"></div> 
+			</div>
+			
+			<div class="content col-md-9">
+				<div data-w3-include-html="./part_infoMariage.html"></div>
+				Cette application vous aide à préparer votre mariage.
+				Vous aurez à saisir, dans l'ordre, les éléments suivants :
+				<ol>
+					<li>Saisir les détails des différentes étapes du grand jour (ou des grands jours)</li>
+					<li>Définir les différents types de courrier que vous penser envoyer qu'ils soient papier, téléphonique, ... Par exemple : "faire-part du vin d'honneur uniquement" ou "faire part du mariage complet", ...</li>
+					<li>Lister tous vos invités en les répartissant par groupe et par foyer. Le groupe n'est qu'une information subjective d'un foyer. Par exemple : "famille du marié", "amis de la mariée", ...</li>
+					<li>Renseigner l'adresse, le mail et/ou le téléphone de chaque foyer pour préparer l'envoi de vos courrier</li>
+					<li>Mémoriser la date d'envoi de chaque courrier</li>
+					<li>Récupérer la réponse de chaque invité</li>
+				</ol>
+				Bien entendu, il est toujours possible de revenir en arrière et modifier une information.
+				<br/>
+				En plus de ces informations, les statistiques peuvent vous donner des informations supplémentaires
+			</div>
+
+		</div>
+
+		<script type="application/javascript" src="ressources/all.js?_version=${buildTimestamp}"></script>
+		<script type="application/javascript" src="ressources/common.js?_version=${buildTimestamp}"></script>
+		<script type="application/javascript" src="ressources/reponse.js?_version=${buildTimestamp}"></script>
+	</body>
+</html>

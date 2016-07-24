@@ -87,6 +87,11 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public Foyer chargeFoyerParId(final Long id) {
+		return this.foyerRepository.findOne(id);
+	}
+
+	@Override
 	public Invite chargeInviteParId(final Long id) {
 		return this.inviteRepository.findOne(id);
 	}
@@ -94,6 +99,11 @@ public class MariageServiceImpl implements MariageService {
 	@Override
 	public Mariage chargeMariageParId(final Long idMariage) {
 		return this.mariageRepository.findOne(idMariage);
+	}
+
+	@Override
+	public Foyer getFoyer(final Long idMariage, final String nomFoyer) {
+		return this.foyerRepository.findOneParNom(idMariage, nomFoyer);
 	}
 
 	@Override
@@ -141,6 +151,11 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public Collection<Foyer> listeFoyersParIdMariage(final Long idMariage) {
+		return this.foyerRepository.listeFoyersParIdMariage(idMariage);
+	}
+
+	@Override
 	public Collection<Invite> listeInvitesParIdMariage(final Long idMariage) {
 		return this.inviteRepository.listeInvitesParIdMariage(idMariage);
 	}
@@ -183,6 +198,13 @@ public class MariageServiceImpl implements MariageService {
 			etape.setNumOrdre(1 + this.etapeRepository.getNombreEtapeByIdMariage(idMariage));
 		}
 		return this.etapeRepository.save(etape).getId();
+	}
+
+	@Override
+	public Long sauvegarde(final Long idMariage, final Foyer foyer) {
+		foyer.setMariage(this.mariageRepository.findOne(idMariage));
+		return this.foyerRepository.save(foyer).getId();
+
 	}
 
 	@Override

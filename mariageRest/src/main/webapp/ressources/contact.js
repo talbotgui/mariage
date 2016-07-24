@@ -1,46 +1,52 @@
 var donneesDejaChargees = false;
 
 // Fonction JqxGrid
-var modifieInvite = function(e) {
-	majAttribute(REST_PREFIX + "/mariage/" + idMariage + "/invite", e, chargeInvites);
+var modifieFoyer = function(e) {
+	majAttribute(REST_PREFIX + "/mariage/" + idMariage + "/foyer", e, chargeFoyers);
 }
 
-
 // Chargement des invites
-var chargeInvites = function() {
+var chargeFoyers = function() {
 	if (donneesDejaChargees) {
-		$("#invites").jqxGrid('updatebounddata', 'cells');
+		$("#foyers").jqxGrid('updatebounddata', 'cells');
 	} else {
+		
+		var datafields = [
+			{ name: 'id', type: 'string' },
+			{ name: 'groupe', type: 'string' },
+			{ name: 'nom', type: 'string' },
+			{ name: 'adresse', type: 'string' },
+			{ name: 'telephone', type: 'string' },
+			{ name: 'email', type: 'string' }
+		];
+
+		var columns = [
+			{ text: 'Groupe', datafield: 'groupe', editable: false, width: "15%" },
+			{ text: 'Foyer', datafield: 'nom', editable: false, width: "15%" },
+			{ text: 'Adresse', datafield: 'adresse', width: "40%" },
+			{ text: 'Téléphone', datafield: 'telephone', width: "10%" },
+			{ text: 'Email', datafield: 'email', width: "20%" }
+		];
+
 		var dataAdapter = new $.jqx.dataAdapter({
 			datatype: "json",
-			url: REST_PREFIX + "/mariage/" + idMariage + "/invite",
-			datafields: [
-				{ name: 'id', type: 'string' },
-				{ name: 'groupe', type: 'string' }, { name: 'foyer', type: 'string' },
-				{ name: 'nom', type: 'string' }, { name: 'prenom', type: 'string' },
-				{ name: 'adresse', type: 'string' }, { name: 'telephone', type: 'string' }, { name: 'email', type: 'string' }
-			],
-			id: 'id'
+			url: REST_PREFIX + "/mariage/" + idMariage + "/foyer",
+			datafields: datafields, id: 'id'
 		});
-		var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties) { return '<a href="javascript:supprimeInvite(' + value + ')" id="btn' + value + '"><span class="ui-icon ui-icon-trash"></span></a>' };
-		$("#invites").jqxGrid({
+		$("#foyers").jqxGrid({
 			source: dataAdapter,
-			columns: [
-				{ text: 'Groupe', datafield: 'groupe', editable: false, width: "10%" }, { text: 'Foyer', datafield: 'foyer', editable: false, width: "10%" },
-				{ text: 'Nom', datafield: 'nom', editable: false, width: "15%" }, { text: 'Prenom', datafield: 'prenom', editable: false, width: "15%" },
-				{ text: 'Adresse', datafield: 'adresse', width: "30%" }, { text: 'Téléphone', datafield: 'telephone', width: "10%" }, { text: 'Email', datafield: 'email', width: "10%" }
-			],
+			columns: columns,
 			pageable: true, pagesizeoptions: JQX_GRID_PAGE_OPTIONS,
 			editable: true, sortable: true, filterable: true, autoheight: true, altrows: true,
 			width: 950,
 			ready: afficheContent
 		});
-		$("#invites").on('cellendedit', modifieInvite);
+		$("#foyers").on('cellendedit', modifieFoyer);
 		donneesDejaChargees = true;
 	}
 };
 
 $(document).ready(function() {
 	// Init
-	chargeInvites();
+	chargeFoyers();
 });

@@ -7,16 +7,13 @@ import com.github.talbotgui.mariage.metier.entities.Invite;
 public class InviteDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private String adresse;
 	private String age;
-	private String email;
 	private String foyer;
 	private String groupe;
 	private Long id;
 	private Long idFoyer;
 	private String nom;
 	private String prenom;
-	private String telephone;
 
 	public InviteDTO() {
 		super();
@@ -30,12 +27,9 @@ public class InviteDTO implements Serializable {
 		this.nom = i.getNom();
 		this.prenom = i.getPrenom();
 		if (i.getFoyer() != null) {
-			this.adresse = i.getFoyer().getAdresse();
-			this.email = i.getFoyer().getEmail();
 			this.foyer = i.getFoyer().getNom();
 			this.idFoyer = i.getFoyer().getId();
 			this.groupe = i.getFoyer().getGroupe();
-			this.telephone = i.getFoyer().getTelephone();
 		}
 	}
 
@@ -43,16 +37,8 @@ public class InviteDTO implements Serializable {
 		this((Invite) i);
 	}
 
-	public String getAdresse() {
-		return this.adresse;
-	}
-
 	public String getAge() {
 		return this.age;
-	}
-
-	public String getEmail() {
-		return this.email;
 	}
 
 	public String getFoyer() {
@@ -79,20 +65,8 @@ public class InviteDTO implements Serializable {
 		return this.prenom;
 	}
 
-	public String getTelephone() {
-		return this.telephone;
-	}
-
-	public void setAdresse(final String adresse) {
-		this.adresse = adresse;
-	}
-
 	public void setAge(final String age) {
 		this.age = age;
-	}
-
-	public void setEmail(final String email) {
-		this.email = email;
 	}
 
 	public void setFoyer(final String foyer) {
@@ -117,10 +91,6 @@ public class InviteDTO implements Serializable {
 
 	public void setPrenom(final String prenom) {
 		this.prenom = prenom;
-	}
-
-	public void setTelephone(final String telephone) {
-		this.telephone = telephone;
 	}
 
 }

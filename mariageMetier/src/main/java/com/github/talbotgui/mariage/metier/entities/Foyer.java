@@ -72,6 +72,12 @@ public class Foyer implements Serializable {
 		this.nom = nom;
 	}
 
+	public Foyer(final String groupe, final String foyer) {
+		super();
+		this.groupe = groupe;
+		this.nom = foyer;
+	}
+
 	public Foyer(final String groupe, final String nom, final String adresse, final String email,
 			final String telephone) {
 		this(null, groupe, nom, adresse, email, telephone);

@@ -52,21 +52,24 @@ public class InviteRestControler {
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = POST)
 	public Long sauvegardeInvite(//
-			@RequestParam(required = false, value = "adresse") final String adresse, //
-			@RequestParam(required = false, value = "email") final String email, //
 			@RequestParam(required = false, value = "age") final String age, //
-			@RequestParam(required = false, value = "foyer") final String foyer, //
+			@RequestParam(required = false, value = "foyer") final String nomFoyer, //
 			@RequestParam(required = false, value = "groupe") final String groupe, //
 			@RequestParam(required = false, value = "id") final Long id, //
 			@RequestParam(required = false, value = "nom") final String nom, //
 			@RequestParam(required = false, value = "prenom") final String prenom, //
-			@RequestParam(required = false, value = "telephone") final String telephone, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
 
 		Invite invite;
 		if (id == null) {
 			invite = new Invite(id, nom, prenom, this.getAgeFromString(age));
-			invite.setFoyer(new Foyer(null, groupe, foyer, adresse, email, telephone));
+			Foyer foyer = this.mariageService.getFoyer(idMariage, nomFoyer);
+			if (foyer == null) {
+				foyer = new Foyer(groupe, nomFoyer);
+			} else {
+				foyer.setGroupe(groupe);
+			}
+			invite.setFoyer(foyer);
 			;
 		} else {
 			invite = this.mariageService.chargeInviteParId(id);
@@ -79,20 +82,11 @@ public class InviteRestControler {
 			if (age != null) {
 				invite.setAge(this.getAgeFromString(age));
 			}
-			if (adresse != null) {
-				invite.getFoyer().setAdresse(adresse);
-			}
-			if (email != null) {
-				invite.getFoyer().setEmail(email);
-			}
-			if (foyer != null) {
-				invite.getFoyer().setNom(foyer);
+			if (nomFoyer != null) {
+				invite.getFoyer().setNom(nomFoyer);
 			}
 			if (groupe != null) {
 				invite.getFoyer().setGroupe(groupe);
-			}
-			if (telephone != null) {
-				invite.getFoyer().setTelephone(telephone);
 			}
 		}
 		return this.mariageService.sauvegardeInviteEtFoyer(idMariage, invite);
