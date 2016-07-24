@@ -3,7 +3,6 @@ package com.github.talbotgui.mariage.rest.controleur;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.github.talbotgui.mariage.metier.entities.Courrier;
-import com.github.talbotgui.mariage.rest.controleur.dto.CourrierDTO;
+import com.github.talbotgui.mariage.metier.entities.Etape;
+import com.github.talbotgui.mariage.metier.entities.EtapeCeremonie;
+import com.github.talbotgui.mariage.metier.entities.EtapeRepas;
+import com.github.talbotgui.mariage.rest.controleur.dto.ReponseAvecChoix;
 import com.googlecode.catchexception.CatchException;
 
 public class CourrierRestControlerTest extends BaseRestControlerTest {
@@ -30,22 +32,28 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 	@Test
 	public void test01GetListeCourriers() {
 		final Long idMariage = 10L;
-		final List<Courrier> toReturn = Arrays.asList(new Courrier(1L, "C1", new Date()),
+		final List<Courrier> courrierToReturn = Arrays.asList(new Courrier(1L, "C1", new Date()),
 				new Courrier(2L, "C2", new Date()), new Courrier(3L, "C4", new Date()),
 				new Courrier(4L, "C3", new Date()), new Courrier(5L, "C5", new Date()));
+		final List<Etape> etapesToReturn = Arrays.asList(new EtapeCeremonie(1, "etape1", new Date(), "lieu1"),
+				new EtapeCeremonie(2, "etape2", new Date(), "lieu2"), new EtapeRepas(3, "etape3", new Date(), "lieu3"),
+				new EtapeRepas(3, "etape3", new Date(), "lieu3"));
 
 		// ARRANGE
-		Mockito.doReturn(toReturn).when(this.mariageService).listeCourriersParIdMariage(Mockito.anyLong());
+		Mockito.doReturn(courrierToReturn).when(this.mariageService).listeCourriersParIdMariage(Mockito.anyLong());
+		Mockito.doReturn(etapesToReturn).when(this.mariageService).listeEtapesParIdMariage(Mockito.anyLong());
 
 		// ACT
-		final ParameterizedTypeReference<Collection<CourrierDTO>> typeRetour = new ParameterizedTypeReference<Collection<CourrierDTO>>() {
+		final ParameterizedTypeReference<ReponseAvecChoix> typeRetour = new ParameterizedTypeReference<ReponseAvecChoix>() {
 		};
-		final ResponseEntity<Collection<CourrierDTO>> courriers = getREST()
-				.exchange(getURL() + "/mariage/" + idMariage + "/courrier", HttpMethod.GET, null, typeRetour);
+		final ResponseEntity<ReponseAvecChoix> courriers = this.getREST()
+				.exchange(this.getURL() + "/mariage/" + idMariage + "/courrier", HttpMethod.GET, null, typeRetour);
 
 		// ASSERT
-		Assert.assertEquals(courriers.getBody().size(), 5);
+		Assert.assertEquals(courriers.getBody().getChoixPossibles().size(), 4);
+		Assert.assertEquals(courriers.getBody().getDtos().size(), 5);
 		Mockito.verify(this.mariageService).listeCourriersParIdMariage(idMariage);
+		Mockito.verify(this.mariageService).listeEtapesParIdMariage(idMariage);
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -67,8 +75,8 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		final Long idCourrierRetour = getREST().postForObject(getURL() + "/mariage/" + idMariage + "/courrier",
-				requestParam, Long.class, uriVars);
+		final Long idCourrierRetour = this.getREST().postForObject(
+				this.getURL() + "/mariage/" + idMariage + "/courrier", requestParam, Long.class, uriVars);
 
 		// ASSERT
 		final SimpleDateFormat sdf = (new SimpleDateFormat("dd/MM/yyyy"));
@@ -99,8 +107,8 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		final Long idCourrierRetour = getREST().postForObject(getURL() + "/mariage/" + idMariage + "/courrier",
-				requestParam, Long.class, uriVars);
+		final Long idCourrierRetour = this.getREST().postForObject(
+				this.getURL() + "/mariage/" + idMariage + "/courrier", requestParam, Long.class, uriVars);
 
 		// ASSERT
 		final SimpleDateFormat sdf = (new SimpleDateFormat("dd/MM/yyyy"));
@@ -131,8 +139,8 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		CatchException.catchException(getREST()).postForObject(getURL() + "/mariage/" + idMariage + "/courrier",
-				requestParam, Long.class, uriVars);
+		CatchException.catchException(this.getREST()).postForObject(
+				this.getURL() + "/mariage/" + idMariage + "/courrier", requestParam, Long.class, uriVars);
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
@@ -154,8 +162,9 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 				argumentCaptorIdICourrier.capture());
 
 		// ACT
-		final ResponseEntity<Void> response = getREST().exchange(
-				getURL() + "/mariage/" + idMariage + "/courrier/" + idCourrier, HttpMethod.DELETE, null, Void.class);
+		final ResponseEntity<Void> response = this.getREST().exchange(
+				this.getURL() + "/mariage/" + idMariage + "/courrier/" + idCourrier, HttpMethod.DELETE, null,
+				Void.class);
 
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
@@ -184,8 +193,8 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 				lie);
 
 		// ACT
-		final ResponseEntity<Void> response = getREST().exchange(
-				getURL() + "/mariage/" + idMariage + "/courrier/" + idCourrier, HttpMethod.POST,
+		final ResponseEntity<Void> response = this.getREST().exchange(
+				this.getURL() + "/mariage/" + idMariage + "/courrier/" + idCourrier, HttpMethod.POST,
 				new HttpEntity<>(requestParam), Void.class);
 
 		// ASSERT

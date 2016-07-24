@@ -15,7 +15,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<version.catchException>1.4.4</version.catchException>
-		<version.hsqldb>2.3.3</version.hsqldb>
+		<version.hsqldb>2.3.4</version.hsqldb>
 	</properties>
 
 	<build>
@@ -70,7 +70,7 @@
 			<artifactId>jamon</artifactId>
 			<version>2.81</version>
 		</dependency>
-
+		
 		<!-- In-memory database -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>

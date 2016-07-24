@@ -62,10 +62,9 @@ public class MariageServiceTest {
 
 		// ASSERT
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		Assert.assertEquals(Long.valueOf(1), jdbc.queryForObject("select count(*) from MARIAGE", Long.class));
-		Assert.assertEquals(Long.valueOf(6), jdbc.queryForObject("select count(*) from ETAPE", Long.class));
-		Assert.assertEquals(Long.valueOf(10), jdbc.queryForObject("select count(*) from INVITE", Long.class));
-		Assert.assertEquals(Long.valueOf(60), jdbc.queryForObject("select count(*) from PRESENCE_ETAPE", Long.class));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from MARIAGE", Long.class));
+		Assert.assertEquals((Long) 6L, jdbc.queryForObject("select count(*) from ETAPE", Long.class));
+		Assert.assertEquals((Long) 10L, jdbc.queryForObject("select count(*) from INVITE", Long.class));
 	}
 
 	@Test

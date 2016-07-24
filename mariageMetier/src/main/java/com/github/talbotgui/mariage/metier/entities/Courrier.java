@@ -20,7 +20,7 @@ public class Courrier implements Serializable {
 	private Date datePrevisionEnvoi;
 
 	@ManyToMany
-	private Collection<Etape> etapesInvitation = new ArrayList<>();
+	private Collection<Etape> etapes = new ArrayList<>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,42 +47,40 @@ public class Courrier implements Serializable {
 		this.setDatePrevisionEnvoi(datePrevisionEnvoi);
 	}
 
-	public void addEtapeInvitation(final Etape etapeInvitation) {
-		this.etapesInvitation.add(etapeInvitation);
+	public void addEtape(final Etape etapeInvitation) {
+		this.etapes.add(etapeInvitation);
 	}
 
 	public Date getDatePrevisionEnvoi() {
-		return datePrevisionEnvoi;
+		return this.datePrevisionEnvoi;
 	}
 
-	public Collection<Etape> getEtapesInvitation() {
-		final Collection<Etape> e = new ArrayList<>();
-		e.addAll(this.etapesInvitation);
-		return e;
+	public Collection<Etape> getEtapes() {
+		return new ArrayList<>(this.etapes);
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public Mariage getMariage() {
-		return mariage;
+		return this.mariage;
 	}
 
 	public String getNom() {
-		return nom;
+		return this.nom;
 	}
 
-	public void removeEtapeInvitatino(final Etape e) {
-		this.etapesInvitation.remove(e);
+	public void removeEtape(final Etape e) {
+		this.etapes.remove(e);
 	}
 
 	public void setDatePrevisionEnvoi(final Date datePrevisionEnvoi) {
 		this.datePrevisionEnvoi = datePrevisionEnvoi;
 	}
 
-	public void setEtapesInvitation(final Collection<Etape> etapesInvitation) {
-		this.etapesInvitation = new ArrayList<>(etapesInvitation);
+	public void setEtapes(final Collection<Etape> etapes) {
+		this.etapes = new ArrayList<>(etapes);
 	}
 
 	private void setId(final Long id) {
@@ -99,7 +97,8 @@ public class Courrier implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Courrier [id=" + id + ", nom=" + nom + ", datePrevisionEnvoi=" + datePrevisionEnvoi + "]";
+		return "Courrier [id=" + this.id + ", nom=" + this.nom + ", datePrevisionEnvoi=" + this.datePrevisionEnvoi
+				+ "]";
 	}
 
 }

@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.talbotgui.mariage.metier.dto.DTOUtils;
 import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.EtapeCeremonie;
 import com.github.talbotgui.mariage.metier.entities.EtapeRepas;
 import com.github.talbotgui.mariage.metier.service.MariageService;
-import com.github.talbotgui.mariage.rest.controleur.dto.AbstractDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.EtapeDTO;
 import com.github.talbotgui.mariage.rest.exception.RestException;
 
@@ -37,7 +37,7 @@ public class EtapeRestControler {
 
 	@RequestMapping(value = "/mariage/{idMariage}/etape", method = GET)
 	public Collection<EtapeDTO> listeEtapeParIdMariage(@PathVariable("idMariage") final Long idMariage) {
-		return AbstractDTO.creerDto(this.mariageService.listeEtapesParIdMariage(idMariage), EtapeDTO.class);
+		return DTOUtils.creerDtos(this.mariageService.listeEtapesParIdMariage(idMariage), EtapeDTO.class);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/etape", method = POST)
@@ -54,12 +54,12 @@ public class EtapeRestControler {
 		// Transformation de la date
 		Date date = null;
 		try {
-			final SimpleDateFormat sdf = new SimpleDateFormat(AbstractDTO.FORMAT_DATE_TIME);
+			final SimpleDateFormat sdf = new SimpleDateFormat(DTOUtils.FORMAT_DATE_TIME);
 			date = sdf.parse(dateHeure);
 		} catch (final ParseException e) {
 			LOG.error("Erreur de format des paramètres d'entrée", e);
 			throw new RestException(RestException.ERREUR_FORMAT_DATE, e,
-					new String[] { AbstractDTO.FORMAT_DATE_TIME, dateHeure });
+					new String[] { DTOUtils.FORMAT_DATE_TIME, dateHeure });
 		}
 
 		// Gestion des types

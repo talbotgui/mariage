@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.TreeSet;
 
 import javax.sql.DataSource;
@@ -30,9 +31,10 @@ import com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesRepartitionsInvitesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
+import com.github.talbotgui.mariage.metier.entities.Etape;
+import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
-import com.github.talbotgui.mariage.metier.entities.PresenceEtape;
 import com.github.talbotgui.mariage.metier.entities.comparator.InviteComparator;
 import com.github.talbotgui.mariage.metier.exception.BaseException;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
@@ -41,9 +43,9 @@ import com.googlecode.catchexception.CatchException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class InviteServiceTest {
+public class InviteEtFoyerServiceTest {
 
-	private static final Logger LOG = LoggerFactory.getLogger(InviteServiceTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(InviteEtFoyerServiceTest.class);
 
 	@Autowired
 	private DataSource dataSource;
@@ -90,10 +92,13 @@ public class InviteServiceTest {
 		Assert.assertEquals(2, page3.getSize());
 		Assert.assertEquals(2, page4.getSize());
 		Assert.assertEquals(2, page5.getSize());
+		for (final Invite i : page1.getContent()) {
+			Assert.assertNotNull(i.getFoyer());
+		}
 	}
 
 	@Test
-	public void test02SauvegarderInvite() throws ParseException {
+	public void test02SauvegarderInvite01Creation() throws ParseException {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
@@ -101,11 +106,14 @@ public class InviteServiceTest {
 		final Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
 
 		// ACT
-		final String groupe = "G1";
 		final String nom = "N1";
 		final String prenom = "P1";
 		final Age age = Age.adulte;
-		final Long id = this.instance.sauvegarde(idMariage, new Invite(null, groupe, nom, prenom, age));
+		final String foyer = "foyer";
+		final String groupe = "groupe";
+		final String adresse = "adresse";
+		final Long id = this.instance.sauvegardeInviteEtFoyer(idMariage,
+				new Invite(null, nom, prenom, age, new Foyer(groupe, foyer, adresse, null, null)));
 
 		// ASSERT
 		Assert.assertNotNull(id);
@@ -115,41 +123,53 @@ public class InviteServiceTest {
 		diff.addAll(inviteApres);
 		diff.removeAll(inviteAvant);
 		Assert.assertEquals(1, diff.size());
-		Assert.assertEquals(nom, diff.iterator().next().getNom());
-		Assert.assertEquals(groupe, diff.iterator().next().getGroupe());
-		Assert.assertEquals(prenom, diff.iterator().next().getPrenom());
-		Assert.assertEquals(age, diff.iterator().next().getAge());
+		final Invite nouvelInvite = diff.iterator().next();
+		Assert.assertEquals(nom, nouvelInvite.getNom());
+		Assert.assertEquals(prenom, nouvelInvite.getPrenom());
+		Assert.assertEquals(age, nouvelInvite.getAge());
+		Assert.assertEquals(foyer, nouvelInvite.getFoyer().getNom());
+		Assert.assertEquals(groupe, nouvelInvite.getFoyer().getGroupe());
+		Assert.assertEquals(adresse, nouvelInvite.getFoyer().getAdresse());
 	}
 
 	@Test
-	public void test02SauvegarderInviteAvecModificationAdresse() throws ParseException {
+	public void test02SauvegarderInvite02FoyerExistant() throws ParseException {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
 		final Long idMariage = this.instance.sauvegardeGrappe(original);
-
-		// ACT
-		final String groupe = "G1";
 		final String nom = "N1";
 		final String prenom = "P1";
-		final String foyer = "F1";
-		final String adresse = "adresse du test";
 		final Age age = Age.adulte;
-		final Invite nouvelInvite = new Invite(groupe, foyer, nom, prenom, age);
-		nouvelInvite.setAdresse(adresse);
-		final Long id = this.instance.sauvegarde(idMariage, nouvelInvite);
+		final String foyer = "foyer";
+		final String groupe = "groupe";
+		final String adresse = "adresse";
+		final Long idPremierInvite = this.instance.sauvegardeInviteEtFoyer(idMariage,
+				new Invite(null, nom, prenom, age, new Foyer(groupe, foyer, adresse, null, null)));
+		final Invite premierInvite = this.instance.chargeInviteParId(idPremierInvite);
+		final Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
+
+		// ACT
+		final String prenom2 = "P2";
+		final Age age2 = Age.adulte;
+		final Long id = this.instance.sauvegardeInviteEtFoyer(idMariage,
+				new Invite(null, nom, prenom2, age2, new Foyer(premierInvite.getFoyer().getId())));
 
 		// ASSERT
 		Assert.assertNotNull(id);
-		final Collection<Invite> invites = this.instance.listeInvitesParIdMariage(idMariage);
-		int count = 0;
-		for (final Invite i : invites) {
-			if (foyer.equals(i.getFoyer())) {
-				Assert.assertEquals(adresse, i.getAdresse());
-				count++;
-			}
-		}
-		Assert.assertEquals(3, count);
+		final Collection<Invite> inviteApres = this.instance.listeInvitesParIdMariage(idMariage);
+		Assert.assertEquals(inviteAvant.size() + 1, inviteApres.size());
+		final Collection<Invite> diff = new TreeSet<>(new InviteComparator());
+		diff.addAll(inviteApres);
+		diff.removeAll(inviteAvant);
+		Assert.assertEquals(1, diff.size());
+		final Invite nouvelInvite = diff.iterator().next();
+		Assert.assertEquals(nom, nouvelInvite.getNom());
+		Assert.assertEquals(prenom2, nouvelInvite.getPrenom());
+		Assert.assertEquals(age2, nouvelInvite.getAge());
+		Assert.assertEquals(foyer, nouvelInvite.getFoyer().getNom());
+		Assert.assertEquals(groupe, nouvelInvite.getFoyer().getGroupe());
+		Assert.assertEquals(adresse, nouvelInvite.getFoyer().getAdresse());
 	}
 
 	@Test
@@ -161,11 +181,17 @@ public class InviteServiceTest {
 		final Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
 
 		// ACT
-		this.instance.supprimeInvite(idMariage, inviteAvant.iterator().next().getId());
+		final Iterator<Invite> iter = inviteAvant.iterator();
+		this.instance.supprimeInvite(idMariage, iter.next().getId());
+		this.instance.supprimeInvite(idMariage, iter.next().getId());
+		this.instance.supprimeInvite(idMariage, iter.next().getId());
 
 		// ASSERT
 		final Collection<Invite> inviteApres = this.instance.listeInvitesParIdMariage(idMariage);
-		Assert.assertEquals(inviteAvant.size() - 1, inviteApres.size());
+		Assert.assertEquals(inviteAvant.size() - 3, inviteApres.size());
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final Long nbFoyer = jdbc.queryForObject("select count(*) from Foyer", Long.class);
+		Assert.assertEquals((Long) 2L, nbFoyer);
 	}
 
 	@Test
@@ -196,26 +222,53 @@ public class InviteServiceTest {
 	}
 
 	@Test
-	public void test05ModifiePresence() throws ParseException {
+	public void test05ModifieInvitation01Ajout() throws ParseException {
 
 		// ARRANGE
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final Mariage original = ObjectMother.creeMariageSimple();
 		final Long idMariage = this.instance.sauvegardeGrappe(original);
 
-		final String sql = "select count(*) from presence_etape where present=true";
+		final String sql = "select count(*) from FOYER_ETAPE_INVITATION";
 		final Long nbPresenceTrueAvant = jdbc.queryForObject(sql, Long.class);
 
 		final Collection<Invite> invites = this.instance.listeInvitesParIdMariage(idMariage);
 		final Invite invite = invites.iterator().next();
-		final PresenceEtape pe = invite.getPresencesEtape().iterator().next();
+		final Collection<Etape> etapes = this.instance.listeEtapesParIdMariage(idMariage);
+		final Etape etape = etapes.iterator().next();
 
 		// ACT
-		this.instance.modifiePresenceEtape(idMariage, pe.getId(), true);
+		this.instance.modifieFoyerEtapeInvitation(idMariage, etape.getId(), invite.getFoyer().getId(), true);
 
 		// ASSERT
 		final Long nbPresenceTrueApres = jdbc.queryForObject(sql, Long.class);
 		Assert.assertEquals((Long) (nbPresenceTrueAvant + 1), nbPresenceTrueApres);
+	}
+
+	@Test
+	public void test05ModifieInvitation02Retire() throws ParseException {
+
+		// ARRANGE
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+
+		final String sql = "select count(*) from FOYER_ETAPE_INVITATION";
+		final Long nbPresenceTrueAvant = jdbc.queryForObject(sql, Long.class);
+
+		final Collection<Invite> invites = this.instance.listeInvitesParIdMariage(idMariage);
+		final Invite invite = invites.iterator().next();
+		final Collection<Etape> etapes = this.instance.listeEtapesParIdMariage(idMariage);
+		final Etape etape = etapes.iterator().next();
+
+		this.instance.modifieFoyerEtapeInvitation(idMariage, etape.getId(), invite.getFoyer().getId(), true);
+
+		// ACT
+		this.instance.modifieFoyerEtapeInvitation(idMariage, etape.getId(), invite.getFoyer().getId(), false);
+
+		// ASSERT
+		final Long nbPresenceTrueApres = jdbc.queryForObject(sql, Long.class);
+		Assert.assertEquals((nbPresenceTrueAvant), nbPresenceTrueApres);
 	}
 
 	@Test
@@ -225,8 +278,10 @@ public class InviteServiceTest {
 		final Mariage original = ObjectMother.creeMariageSimple();
 		final Long idMariage = this.instance.sauvegardeGrappe(original);
 		final Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
-		final Collection<Invite> invitesAinserer = Arrays.asList(new Invite(null, "G1", "nom1", "prenom1", Age.adulte),
-				new Invite(null, "G1", "nom2", "prenom2", Age.adulte));
+		final Collection<Invite> invitesAinserer = Arrays.asList(
+				new Invite(null, "nom1", "prenom1", Age.adulte, new Foyer("foyer1")),
+				new Invite(null, "nom2", "prenom2", Age.adulte, new Foyer("foyer1")),
+				new Invite(null, "nom3", "prenom3", Age.adulte, new Foyer("foyer2")));
 
 		// ACT
 		this.instance.sauvegardeEnMasse(idMariage, invitesAinserer);
@@ -238,6 +293,9 @@ public class InviteServiceTest {
 		diff.addAll(inviteApres);
 		diff.removeAll(inviteAvant);
 		Assert.assertEquals(invitesAinserer.size(), diff.size());
+		for (final Invite i : diff) {
+			Assert.assertNotNull(i.getFoyer());
+		}
 	}
 
 	@Test
@@ -264,7 +322,7 @@ public class InviteServiceTest {
 		Assert.assertEquals("groupes", (Integer) 2, invites.getNbGroupes());
 
 		Assert.assertEquals("invites incomplets", (Integer) 1, invites.getNbInvitesIncomplets());
-		Assert.assertEquals("invites sans adresse", (Integer) 1, invites.getNbInvitesSansAdresse());
+		Assert.assertEquals("invites sans adresse", (Integer) 4, invites.getNbInvitesSansAdresse());
 		Assert.assertEquals("invites sans age", (Integer) 3, invites.getNbInvitesSansAge());
 
 		Assert.assertEquals("invites par age nb", 6, repartitions.getNbParAge().size());
@@ -278,10 +336,10 @@ public class InviteServiceTest {
 		Assert.assertEquals("invites par foyer value", (Integer) 4, repartitions.getNbParFoyer().get("FOYER1"));
 
 		Assert.assertEquals("invites par etape nb", 4, repartitions.getNbParEtape().size());
-		Assert.assertEquals("invites par etape value", (Integer) 8, repartitions.getNbParEtape().get("Mairie"));
+		Assert.assertEquals("invites par etape value", (Integer) 12, repartitions.getNbParEtape().get("Mairie"));
 
 		Assert.assertEquals("foyers par etape nb", 4, repartitions.getNbFoyersParEtape().size());
-		Assert.assertEquals("foyers par etape value", (Integer) 2, repartitions.getNbFoyersParEtape().get("Mairie"));
+		Assert.assertEquals("foyers par etape value", (Integer) 3, repartitions.getNbFoyersParEtape().get("Mairie"));
 	}
 
 	@Test
@@ -290,11 +348,12 @@ public class InviteServiceTest {
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
 		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final String groupe = "G1";
 		final String nom = "N1";
 		final String prenom = "P1";
 		final Age age = Age.adulte;
-		final Long id = this.instance.sauvegarde(idMariage, new Invite(null, groupe, nom, prenom, age));
+		final String foyer = "foyer";
+		final Long id = this.instance.sauvegardeInviteEtFoyer(idMariage,
+				new Invite(null, nom, prenom, age, new Foyer(foyer)));
 
 		// ACT
 		final Invite invite = this.instance.chargeInviteParId(id);
@@ -302,8 +361,8 @@ public class InviteServiceTest {
 		// ASSERT
 		Assert.assertNotNull(invite);
 		Assert.assertEquals(nom, invite.getNom());
-		Assert.assertEquals(groupe, invite.getGroupe());
 		Assert.assertEquals(prenom, invite.getPrenom());
 		Assert.assertEquals(age, invite.getAge());
+		Assert.assertEquals(foyer, invite.getFoyer().getNom());
 	}
 }

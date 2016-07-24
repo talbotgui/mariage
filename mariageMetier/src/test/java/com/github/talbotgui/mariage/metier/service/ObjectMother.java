@@ -8,6 +8,7 @@ import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.EtapeCeremonie;
 import com.github.talbotgui.mariage.metier.entities.EtapeRepas;
+import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 
@@ -38,36 +39,33 @@ public class ObjectMother {
 		mariage.addEtape(f);
 
 		final Courrier c1 = new Courrier("Courrier1", sdf.parse("15/10/2015"));
-		c1.addEtapeInvitation(a);
-		c1.addEtapeInvitation(b);
+		c1.addEtape(a);
+		c1.addEtape(b);
 		final Courrier c2 = new Courrier("Courrier2", sdf.parse("16/10/2015"));
-		c2.addEtapeInvitation(c);
-		c2.addEtapeInvitation(d);
-		c2.addEtapeInvitation(e);
-		c2.addEtapeInvitation(f);
+		c2.addEtape(c);
+		c2.addEtape(d);
+		c2.addEtape(e);
+		c2.addEtape(f);
 		mariage.addCourrier(c1);
 		mariage.addCourrier(c2);
 
-		final Invite i01 = new Invite("G", "F1", "G F", "X", Age.adulte);
-		final Invite i02 = new Invite("G", "F1", "G A", "X", Age.adulte);
-		final Invite i03 = new Invite("G", "F2", "G C", "X", Age.adulte);
-		final Invite i04 = new Invite("G", "F2", "G I", "X", Age.adulte);
-		final Invite i05 = new Invite("G", "F3", "G J", "X", Age.adulte);
-		final Invite i06 = new Invite("B", "F3", "T P", "X", Age.adulte);
-		final Invite i07 = new Invite("B", "F3", "T A", "X", Age.adulte);
-		final Invite i08 = new Invite("C", "F4", "T J", "X", Age.adulte);
-		final Invite i09 = new Invite("C", "F4", "T A", "X", Age.adulte);
-		final Invite i10 = new Invite("C", "F5", "T J", "X", Age.adulte);
-		mariage.addInvite(i01);
-		mariage.addInvite(i02);
-		mariage.addInvite(i03);
-		mariage.addInvite(i04);
-		mariage.addInvite(i05);
-		mariage.addInvite(i06);
-		mariage.addInvite(i07);
-		mariage.addInvite(i08);
-		mariage.addInvite(i09);
-		mariage.addInvite(i10);
+		final Foyer foyer1 = new Foyer("G1", "F1", "add1", null, null);
+		final Foyer foyer2 = new Foyer("G1", "F2", "add1", null, null);
+		final Foyer foyer3 = new Foyer("G2", "F3", "add1", null, null);
+		mariage.addFoyer(foyer1);
+		mariage.addFoyer(foyer2);
+		mariage.addFoyer(foyer3);
+
+		foyer1.addInvite(new Invite(null, "G F", "X", Age.adulte, foyer1));
+		foyer1.addInvite(new Invite(null, "G A", "X", Age.adulte, foyer1));
+		foyer1.addInvite(new Invite(null, "G C", "X", Age.adulte, foyer1));
+		foyer2.addInvite(new Invite(null, "G I", "X", Age.adulte, foyer2));
+		foyer2.addInvite(new Invite(null, "G J", "X", Age.adulte, foyer2));
+		foyer2.addInvite(new Invite(null, "T P", "X", Age.adulte, foyer2));
+		foyer3.addInvite(new Invite(null, "T A", "X", Age.adulte, foyer3));
+		foyer3.addInvite(new Invite(null, "T J", "X", Age.adulte, foyer3));
+		foyer3.addInvite(new Invite(null, "T A", "X", Age.adulte, foyer3));
+		foyer3.addInvite(new Invite(null, "T J", "X", Age.adulte, foyer3));
 
 		return mariage;
 	}

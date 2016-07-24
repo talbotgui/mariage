@@ -1,11 +1,13 @@
 package com.github.talbotgui.mariage.rest.controleur.dto;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
+import com.github.talbotgui.mariage.metier.dto.DTOUtils;
 import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.EtapeCeremonie;
 
-public class EtapeDTO extends AbstractDTO {
+public class EtapeDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String celebrant;
@@ -17,56 +19,55 @@ public class EtapeDTO extends AbstractDTO {
 	private String type;
 
 	public EtapeDTO() {
-		super(null);
+		super();
 	}
 
-	public EtapeDTO(final Object entity) {
-		super(entity);
+	public EtapeDTO(final Etape e) {
+		final SimpleDateFormat sdf = new SimpleDateFormat(DTOUtils.FORMAT_DATE_TIME);
+		this.id = e.getId();
+		this.dateHeure = sdf.format(e.getDateHeure());
+		this.nom = e.getNom();
+		this.lieu = e.getLieu();
+		if (e.getNumOrdre() != null) {
+			this.numOrdre = e.getNumOrdre().toString();
+		}
+		this.type = e.getClass().getSimpleName();
 
-		final SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE_TIME);
-		if (entity != null) {
-			final Etape e = (Etape) entity;
-			this.id = e.getId();
-			this.dateHeure = sdf.format(e.getDateHeure());
-			this.nom = e.getNom();
-			this.lieu = e.getLieu();
-			if (e.getNumOrdre() != null) {
-				this.numOrdre = e.getNumOrdre().toString();
-			}
-			this.type = e.getClass().getSimpleName();
-
-			if (e instanceof EtapeCeremonie) {
-				this.celebrant = ((EtapeCeremonie) e).getCelebrant();
-			}
+		if (e instanceof EtapeCeremonie) {
+			this.celebrant = ((EtapeCeremonie) e).getCelebrant();
 		}
 	}
 
+	public EtapeDTO(final Object e) {
+		this((Etape) e);
+	}
+
 	public String getCelebrant() {
-		return celebrant;
+		return this.celebrant;
 	}
 
 	public String getDateHeure() {
-		return dateHeure;
+		return this.dateHeure;
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getLieu() {
-		return lieu;
+		return this.lieu;
 	}
 
 	public String getNom() {
-		return nom;
+		return this.nom;
 	}
 
 	public String getNumOrdre() {
-		return numOrdre;
+		return this.numOrdre;
 	}
 
 	public String getType() {
-		return type;
+		return this.type;
 	}
 
 	public void setCelebrant(final String celebrant) {

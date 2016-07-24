@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.talbotgui.mariage.metier.dto.DTOUtils;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 import com.github.talbotgui.mariage.metier.service.MariageService;
-import com.github.talbotgui.mariage.rest.controleur.dto.AbstractDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.MariageDTO;
 import com.github.talbotgui.mariage.rest.exception.RestException;
 
@@ -39,7 +39,7 @@ public class MariageRestControler {
 	@RequestMapping(value = "/mariage", method = GET)
 	public Collection<MariageDTO> listeTousMariages() {
 		final Collection<Mariage> mariages = this.mariageService.listeTousMariages();
-		return AbstractDTO.creerDto(mariages, MariageDTO.class);
+		return DTOUtils.creerDtos(mariages, MariageDTO.class);
 	}
 
 	@RequestMapping(value = "/mariage", method = POST)
@@ -49,12 +49,12 @@ public class MariageRestControler {
 			@RequestParam(value = "marie1") final String marie1, //
 			@RequestParam(value = "marie2") final String marie2) {
 		try {
-			final SimpleDateFormat sdf = new SimpleDateFormat(AbstractDTO.FORMAT_DATE);
+			final SimpleDateFormat sdf = new SimpleDateFormat(DTOUtils.FORMAT_DATE);
 			return this.mariageService.sauvegarde(new Mariage(id, sdf.parse(dateCelebration), marie1, marie2));
 		} catch (final ParseException e) {
 			LOG.error("Erreur de format des paramètres d'entrée", e);
 			throw new RestException(RestException.ERREUR_FORMAT_DATE, e,
-					new String[] { AbstractDTO.FORMAT_DATE, dateCelebration });
+					new String[] { DTOUtils.FORMAT_DATE, dateCelebration });
 		}
 	}
 

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.talbotgui.mariage.metier.dto.DTOUtils;
 import com.github.talbotgui.mariage.metier.service.SecuriteService;
-import com.github.talbotgui.mariage.rest.controleur.dto.AbstractDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.UtilisateurDTO;
 import com.github.talbotgui.mariage.rest.exception.RestException;
 import com.github.talbotgui.mariage.rest.security.SecurityFilter;
@@ -48,7 +48,7 @@ public class UtilisateurRestControler {
 
 	@RequestMapping(value = "/utilisateur", method = GET)
 	public Collection<UtilisateurDTO> listeUtilisateur() {
-		return AbstractDTO.creerDto(this.securiteService.listeUtilisateurs(), UtilisateurDTO.class);
+		return DTOUtils.creerDtos(this.securiteService.listeUtilisateurs(), UtilisateurDTO.class);
 	}
 
 	/**

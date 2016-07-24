@@ -1,10 +1,12 @@
 package com.github.talbotgui.mariage.rest.controleur.dto;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
+import com.github.talbotgui.mariage.metier.dto.DTOUtils;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 
-public class MariageDTO extends AbstractDTO {
+public class MariageDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String dateCelebration;
@@ -13,40 +15,39 @@ public class MariageDTO extends AbstractDTO {
 	private String marie2;
 
 	public MariageDTO() {
-		super(null);
+		super();
 	}
 
-	public MariageDTO(final Object entity) {
-		super(entity);
+	public MariageDTO(final Mariage m) {
+		final SimpleDateFormat sdf = new SimpleDateFormat(DTOUtils.FORMAT_DATE);
+		this.id = m.getId();
+		this.dateCelebration = sdf.format(m.getDateCelebration());
+		this.marie1 = m.getMarie1();
+		this.marie2 = m.getMarie2();
+	}
 
-		if (entity != null) {
-			final SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE);
-			final Mariage m = (Mariage) entity;
-			this.id = m.getId();
-			this.dateCelebration = sdf.format(m.getDateCelebration());
-			this.marie1 = m.getMarie1();
-			this.marie2 = m.getMarie2();
-		}
+	public MariageDTO(final Object m) {
+		this((Mariage) m);
 	}
 
 	public String getDateCelebration() {
-		return dateCelebration;
+		return this.dateCelebration;
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getMarie1() {
-		return marie1;
+		return this.marie1;
 	}
 
 	public String getMarie2() {
-		return marie2;
+		return this.marie2;
 	}
 
 	public String getNomMaries() {
-		return marie1 + " & " + marie2;
+		return this.marie1 + " & " + this.marie2;
 	}
 
 	public void setDateCelebration(final String dateCelebration) {

@@ -32,6 +32,8 @@ X Ajouter un email dans les courriers
 X menu collapsible 
 X css event/odd dans les tableaux !
 X Gérer les problèmes de cache des javascript !
+  Refactoring profond pour ajouter l'entité Foyer
+  
   Ajouter des tests Selenium pour :
 X	@RequestMapping(value = "/monitoring", method = GET)
 	@RequestMapping(value = "/mariage/{idMariage}/etape/{idEtape}", method = DELETE)

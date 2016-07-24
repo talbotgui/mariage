@@ -4,6 +4,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -17,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.talbotgui.mariage.metier.dto.DTOUtils;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
+import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.service.MariageService;
-import com.github.talbotgui.mariage.rest.controleur.dto.AbstractDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.CourrierDTO;
+import com.github.talbotgui.mariage.rest.controleur.dto.EtapeDTO;
+import com.github.talbotgui.mariage.rest.controleur.dto.ReponseAvecChoix;
 import com.github.talbotgui.mariage.rest.exception.RestException;
 
 @RestController
@@ -37,12 +41,27 @@ public class CourrierRestControler {
 			@RequestParam(value = "lie") final Boolean lie, //
 			@PathVariable(value = "idMariage") final Long idMariage, //
 			@PathVariable(value = "idCourrier") final Long idCourrier) {
-		mariageService.lieUneEtapeEtUnCourrier(idMariage, idEtape, idCourrier, lie);
+		this.mariageService.lieUneEtapeEtUnCourrier(idMariage, idEtape, idCourrier, lie);
 	}
 
+	// @RequestMapping(value = "/mariage/{idMariage}/courrier", method = GET)
+	// public Collection<CourrierDTO>
+	// listeCourrierParIdMariage(@PathVariable("idMariage") final Long
+	// idMariage) {
+	// return
+	// DTOUtils.creerDto(this.mariageService.listeCourriersParIdMariage(idMariage),
+	// CourrierDTO.class);
+	// }
+
 	@RequestMapping(value = "/mariage/{idMariage}/courrier", method = GET)
-	public Collection<CourrierDTO> listeCourrierParIdMariage(@PathVariable("idMariage") final Long idMariage) {
-		return AbstractDTO.creerDto(this.mariageService.listeCourriersParIdMariage(idMariage), CourrierDTO.class);
+	public ReponseAvecChoix listeCourrierParIdMariage(@PathVariable("idMariage") final Long idMariage)
+			throws NoSuchMethodException, SecurityException, ReflectiveOperationException, IllegalArgumentException {
+
+		final Collection<Courrier> courriers = this.mariageService.listeCourriersParIdMariage(idMariage);
+		final Collection<Etape> etapes = this.mariageService.listeEtapesParIdMariage(idMariage);
+		final Method method = Courrier.class.getMethod("getEtapes");
+
+		return new ReponseAvecChoix(etapes, EtapeDTO.class, courriers, CourrierDTO.class, method);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/courrier", method = POST)
@@ -53,14 +72,14 @@ public class CourrierRestControler {
 			@PathVariable(value = "idMariage") final Long idMariage) {
 
 		// Transformation des dates
-		final SimpleDateFormat sdf = new SimpleDateFormat(AbstractDTO.FORMAT_DATE);
+		final SimpleDateFormat sdf = new SimpleDateFormat(DTOUtils.FORMAT_DATE);
 		Date datePrevisionEnvoi = null;
 		try {
 			datePrevisionEnvoi = sdf.parse(sdatePrevisionEnvoi);
 		} catch (final ParseException e) {
 			LOG.error("Erreur de format des paramètres d'entrée", e);
 			throw new RestException(RestException.ERREUR_FORMAT_DATE, e,
-					new String[] { AbstractDTO.FORMAT_DATE_TIME, sdatePrevisionEnvoi });
+					new String[] { DTOUtils.FORMAT_DATE_TIME, sdatePrevisionEnvoi });
 		}
 
 		// Gestion des types

@@ -19,6 +19,9 @@ public class BusinessException extends BaseException {
 	public static final ExceptionId ERREUR_SHA = new ExceptionId("ERREUR_SHA", "Erreur de cryptage",
 			ExceptionLevel.ERROR, 500);
 
+	public static final ExceptionId ERREUR_TRANSFORMATION_MODEL = new ExceptionId("ERREUR_TRANSFORMATION_MODEL",
+			"Erreur durant la tranformation de modele.", ExceptionLevel.ERROR, 500);
+
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;
 

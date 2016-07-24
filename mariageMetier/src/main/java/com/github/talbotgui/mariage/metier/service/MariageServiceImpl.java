@@ -15,18 +15,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.talbotgui.mariage.metier.dao.CourrierRepository;
 import com.github.talbotgui.mariage.metier.dao.EtapeRepository;
+import com.github.talbotgui.mariage.metier.dao.FoyerEtapeInvitationRepository;
+import com.github.talbotgui.mariage.metier.dao.FoyerRepository;
 import com.github.talbotgui.mariage.metier.dao.InviteRepository;
 import com.github.talbotgui.mariage.metier.dao.MariageRepository;
-import com.github.talbotgui.mariage.metier.dao.PresenceEtapeRepository;
+import com.github.talbotgui.mariage.metier.dto.DTOUtils;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesRepartitionsInvitesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
+import com.github.talbotgui.mariage.metier.entities.EtapeRepas;
+import com.github.talbotgui.mariage.metier.entities.Foyer;
+import com.github.talbotgui.mariage.metier.entities.FoyerEtapeInvitation;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
-import com.github.talbotgui.mariage.metier.entities.PresenceEtape;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
 
 @Service
@@ -40,13 +44,16 @@ public class MariageServiceImpl implements MariageService {
 	private EtapeRepository etapeRepository;
 
 	@Autowired
+	private FoyerEtapeInvitationRepository foyerEtapeInvitationRepository;
+
+	@Autowired
+	private FoyerRepository foyerRepository;
+
+	@Autowired
 	private InviteRepository inviteRepository;
 
 	@Autowired
 	private MariageRepository mariageRepository;
-
-	@Autowired
-	private PresenceEtapeRepository presenceEtapeRepository;
 
 	private Map<String, Integer> arrayToMap(final List<Object[]> liste) {
 		final Map<String, Integer> result = new HashMap<>();
@@ -64,16 +71,16 @@ public class MariageServiceImpl implements MariageService {
 	public StatistiquesMariage calculStatistiques(final Long idMariage) {
 		final StatistiquesInvitesMariage invites = this.inviteRepository.calculStatistiquesInvites(idMariage);
 
-		final Map<String, Integer> nbInvitesParGroupe = arrayToMap(
-				this.inviteRepository.compteNombreInviteParGroupe(idMariage));
-		final Map<String, Integer> nbInvitesParFoyer = arrayToMap(
-				this.inviteRepository.compteNombreInviteParFoyer(idMariage));
-		final Map<String, Integer> nbInvitesParAge = arrayToMap(
-				this.inviteRepository.compteNombreInviteParAge(idMariage));
-		final Map<String, Integer> nbInvitesParEtape = arrayToMap(
-				this.inviteRepository.compteNombreInviteParEtape(idMariage));
-		final Map<String, Integer> nbFoyersParEtape = arrayToMap(
-				this.inviteRepository.compteNombreFoyerParEtape(idMariage));
+		final Map<String, Integer> nbInvitesParGroupe = this
+				.arrayToMap(this.inviteRepository.compteNombreInviteParGroupe(idMariage));
+		final Map<String, Integer> nbInvitesParFoyer = this
+				.arrayToMap(this.inviteRepository.compteNombreInviteParFoyer(idMariage));
+		final Map<String, Integer> nbInvitesParAge = this
+				.arrayToMap(this.inviteRepository.compteNombreInviteParAge(idMariage));
+		final Map<String, Integer> nbInvitesParEtape = this
+				.arrayToMap(this.inviteRepository.compteNombreInviteParEtape(idMariage));
+		final Map<String, Integer> nbFoyersParEtape = this
+				.arrayToMap(this.inviteRepository.compteNombreFoyerParEtape(idMariage));
 		final StatistiquesRepartitionsInvitesMariage repartition = new StatistiquesRepartitionsInvitesMariage(
 				nbInvitesParAge, nbInvitesParFoyer, nbInvitesParGroupe, nbInvitesParEtape, nbFoyersParEtape);
 		return new StatistiquesMariage(repartition, invites);
@@ -101,14 +108,14 @@ public class MariageServiceImpl implements MariageService {
 		}
 
 		// Pour lier
-		if (lie && !c.getEtapesInvitation().contains(e)) {
-			c.addEtapeInvitation(e);
+		if (lie && !c.getEtapes().contains(e)) {
+			c.addEtape(e);
 			this.courrierRepository.save(c);
 		}
 
 		// Pour délier
-		if (!lie && c.getEtapesInvitation().contains(e)) {
-			c.removeEtapeInvitatino(e);
+		if (!lie && c.getEtapes().contains(e)) {
+			c.removeEtape(e);
 			this.courrierRepository.save(c);
 		}
 
@@ -125,7 +132,7 @@ public class MariageServiceImpl implements MariageService {
 
 	@Override
 	public Collection<Courrier> listeCourriersParIdMariage(final Long idMariage) {
-		return this.mariageRepository.listeCourriersParIdMariageFetchEtapesInvitation(idMariage);
+		return this.mariageRepository.listeCourriersParIdMariageFetchEtapesDuCourrier(idMariage);
 	}
 
 	@Override
@@ -135,12 +142,12 @@ public class MariageServiceImpl implements MariageService {
 
 	@Override
 	public Collection<Invite> listeInvitesParIdMariage(final Long idMariage) {
-		return inviteRepository.listeInvitesParIdMariage(idMariage);
+		return this.inviteRepository.listeInvitesParIdMariage(idMariage);
 	}
 
 	@Override
 	public Page<Invite> listeInvitesParIdMariage(final Long idMariage, final Pageable page) {
-		return inviteRepository.listeInvitesParIdMariage(idMariage, page);
+		return this.inviteRepository.listeInvitesParIdMariage(idMariage, page);
 	}
 
 	@Override
@@ -151,9 +158,16 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
-	public void modifiePresenceEtape(final Long idMariage, final Long idPresenceEtape, final Boolean presence) {
-		final PresenceEtape pe = this.presenceEtapeRepository.findPresenceEtape(idMariage, idPresenceEtape);
-		pe.setPresent(presence);
+	public void modifieFoyerEtapeInvitation(final Long idMariage, final Long idEtape, final Long idFoyer,
+			final boolean invitation) {
+		final FoyerEtapeInvitation fei = this.foyerEtapeInvitationRepository.findFoyerEtapeInvitation(idMariage,
+				idEtape, idFoyer);
+		if (fei != null && !invitation) {
+			this.foyerEtapeInvitationRepository.delete(fei);
+		} else if (fei == null && invitation) {
+			this.foyerEtapeInvitationRepository
+					.save(new FoyerEtapeInvitation(new EtapeRepas(idEtape), new Foyer(idFoyer)));
+		}
 	}
 
 	@Override
@@ -168,31 +182,7 @@ public class MariageServiceImpl implements MariageService {
 		if (etape.getNumOrdre() == null) {
 			etape.setNumOrdre(1 + this.etapeRepository.getNombreEtapeByIdMariage(idMariage));
 		}
-		final boolean estNouveau = etape.getId() == null;
-		final Long idEtape = this.etapeRepository.save(etape).getId();
-		if (estNouveau) {
-			this.presenceEtapeRepository.insertPresenceEtapePourNouvelEtape(idEtape, idMariage);
-		}
-		return idEtape;
-	}
-
-	@Override
-	public Long sauvegarde(final Long idMariage, final Invite invite) {
-
-		// save
-		invite.setMariage(this.mariageRepository.findOne(idMariage));
-		final Long id = this.inviteRepository.save(invite).getId();
-
-		// Set PresenceEtape
-		this.presenceEtapeRepository.insertPresenceEtapePourNouvelInvite(id, idMariage);
-
-		// mAj adresse et téléphone du foyer
-		if (invite.getAdresse() != null) {
-			this.inviteRepository.updateAdresseEtTelephoneEtEmailParFoyer(invite.getFoyer(), invite.getAdresse(),
-					invite.getTelephone(), invite.getEmail());
-		}
-
-		return id;
+		return this.etapeRepository.save(etape).getId();
 	}
 
 	@Override
@@ -204,7 +194,7 @@ public class MariageServiceImpl implements MariageService {
 	public void sauvegardeEnMasse(final Long idMariage, final Collection<Invite> invites) {
 		if (invites != null) {
 			for (final Invite invite : invites) {
-				this.sauvegarde(idMariage, invite);
+				this.sauvegardeInviteEtFoyer(idMariage, invite);
 			}
 		}
 	}
@@ -221,11 +211,28 @@ public class MariageServiceImpl implements MariageService {
 			this.sauvegarde(id, c);
 		}
 
-		for (final Invite i : m.getInvites()) {
-			this.sauvegarde(id, i);
+		for (final Foyer f : m.getFoyers()) {
+			for (final Invite i : f.getInvites()) {
+				this.sauvegardeInviteEtFoyer(id, i);
+			}
 		}
 
 		return id;
+	}
+
+	@Override
+	public Long sauvegardeInviteEtFoyer(final Long idMariage, final Invite invite) {
+
+		if (invite.getFoyer().getId() == null) {
+			invite.getFoyer().setMariage(this.mariageRepository.findOne(idMariage));
+		} else {
+			final Foyer f = this.foyerRepository.findOne(invite.getFoyer().getId());
+			DTOUtils.copyBeanProperties(invite.getFoyer(), f, true, "adresse", "email", "groupe", "nom", "telephone");
+			invite.setFoyer(f);
+		}
+		this.foyerRepository.save(invite.getFoyer());
+
+		return this.inviteRepository.save(invite).getId();
 	}
 
 	@Override
@@ -249,17 +256,32 @@ public class MariageServiceImpl implements MariageService {
 
 	@Override
 	public void supprimeInvite(final Long idMariage, final Long idInvite) {
+
+		// Verification de la coherence des ID
 		if (idMariage == null || !idMariage.equals(this.inviteRepository.getIdMariageByInviteId(idInvite))) {
 			throw new BusinessException(BusinessException.ERREUR_ID_MARIAGE, new Object[] { idMariage });
 		}
+
+		// Suppression du foyer ?
+		final Foyer f = this.inviteRepository.findOne(idInvite).getFoyer();
+		final boolean supprimeFoyer = f.getInvites().size() == 1;
+
+		// Supprime l'invite
 		this.inviteRepository.delete(idInvite);
+
+		// Supprime eventuellement le foyer
+		if (supprimeFoyer) {
+			this.foyerRepository.delete(f);
+		}
 	}
 
 	@Override
 	public void supprimeMariage(final Long idMariage) {
-		this.courrierRepository.delete(this.listeCourriersParIdMariage(idMariage));
-		this.etapeRepository.delete(this.listeEtapesParIdMariage(idMariage));
-		this.inviteRepository.delete(this.listeInvitesParIdMariage(idMariage));
+		this.courrierRepository.deleteCourriersParIdMariage(idMariage);
+		this.foyerEtapeInvitationRepository.deletePresenceEtapesParIdMariage(idMariage);
+		this.etapeRepository.deleteEtapesParIdMariage(idMariage);
+		this.inviteRepository.deleteInvitesParIdMariage(idMariage);
+		this.foyerRepository.deleteFoyersParIdMariage(idMariage);
 		this.mariageRepository.delete(idMariage);
 	}
 

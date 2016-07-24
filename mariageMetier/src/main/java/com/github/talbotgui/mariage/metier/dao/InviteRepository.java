@@ -19,57 +19,54 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 
 	@Query("select new com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage("//
 			//
-			+ " (select count(distinct i.foyer) from Mariage m join m.invites i where m.id = :idMariage)"
-			+ ", (select count(distinct i.groupe) from Mariage m join m.invites i where m.id = :idMariage)"
-			+ ", (select size(i) from Mariage m join m.invites i where m.id = :idMariage)"
-			+ ", (select size(i) from Mariage m join m.invites i where m.id = :idMariage and"
-			+ " (i.nom is null or i.prenom is null or i.groupe is null or i.foyer is null))"
-			+ ", (select size(i) from Mariage m join m.invites i where m.id = :idMariage and i.adresse is null)"
-			+ ", (select size(i) from Mariage m join m.invites i where m.id = :idMariage and i.age is null)"//
+			+ " (select count(distinct i.foyer.nom) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage)"
+			+ ", (select count(distinct i.foyer.groupe) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage)"
+			+ ", (select size(i) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage)"
+			+ ", (select size(i) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage and"
+			+ " (i.nom is null or i.prenom is null or i.foyer.groupe is null or i.foyer.nom is null))"
+			+ ", (select size(i) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage and i.foyer.adresse is null)"
+			+ ", (select size(i) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage and i.age is null)"//
 			+ ")"//
 			+ " from Mariage m"//
 			+ " where m.id = :idMariage")
 	StatistiquesInvitesMariage calculStatistiquesInvites(@Param("idMariage") Long idMariage);
 
-	@Query("select pe.etape.nom, count(distinct i.foyer)"//
-			+ " from Mariage m join m.invites i join i.presencesEtape pe"//
-			+ " where m.id = :idMariage and pe.present = true group by pe.etape.nom")
+	@Query("select e.nom, size(e.foyersInvites) from Mariage m join m.etapes e where m.id = :idMariage group by e.nom")
 	List<Object[]> compteNombreFoyerParEtape(@Param("idMariage") Long idMariage);
 
-	@Query("select i.age, count(i) from Mariage m join m.invites i where m.id = :idMariage group by i.age")
+	@Query("select i.age, count(i)"//
+			+ " from Mariage m join m.foyers f join f.invites i"//
+			+ " where m.id = :idMariage group by i.age")
 	List<Object[]> compteNombreInviteParAge(@Param("idMariage") Long idMariage);
 
-	@Query("select pe.etape.nom, count(i)"//
-			+ " from Mariage m join m.invites i join i.presencesEtape pe"//
-			+ " where m.id = :idMariage and pe.present = true group by pe.etape.nom")
+	@Query("select e.nom, count(i)"//
+			+ " from Mariage m join m.etapes e join e.foyersInvites f join f.invites i"//
+			+ " where m.id = :idMariage group by e.nom")
 	List<Object[]> compteNombreInviteParEtape(@Param("idMariage") Long idMariage);
 
-	@Query("select i.foyer, count(i) from Mariage m join m.invites i where m.id = :idMariage group by i.foyer")
+	@Query("select f.nom, size(f.invites) from Mariage m join m.foyers f where m.id = :idMariage group by f.nom")
 	List<Object[]> compteNombreInviteParFoyer(@Param("idMariage") Long idMariage);
 
-	@Query("select i.groupe, count(i) from Mariage m join m.invites i where m.id = :idMariage group by i.groupe")
+	@Query("select f.groupe, count(i) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage group by f.groupe")
 	List<Object[]> compteNombreInviteParGroupe(@Param("idMariage") Long idMariage);
 
-	@Query("select i.mariage.id from Invite i where i.id=:idInvite")
+	@Query("delete Invite where id in (select i.id from Invite i where i.foyer.mariage.id = :idMariage)")
+	@Modifying
+	void deleteInvitesParIdMariage(@Param("idMariage") Long idMariage);
+
+	@Query("select i.foyer.mariage.id from Invite i where i.id=:idInvite")
 	Long getIdMariageByInviteId(@Param("idInvite") Long idInvite);
 
 	@Query("select distinct i" //
-			+ " from Invite i left join fetch i.presencesEtape "//
-			+ " where i.mariage.id=:idMariage"//
-			+ " order by i.groupe, i.foyer, i.nom, i.prenom")
+			+ " from Invite i join fetch i.foyer f left join fetch i.etapesPresence"//
+			+ " where i.foyer.mariage.id=:idMariage"//
+			+ " order by f.groupe, f.nom, i.nom, i.prenom")
 	Collection<Invite> listeInvitesParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("select i "//
 			+ " from Invite i"//
-			+ " where i.mariage.id=:idMariage"//
-			+ " order by i.groupe, i.nom")
+			+ " where i.foyer.mariage.id=:idMariage"//
+			+ " order by i.foyer.groupe, i.nom")
 	Page<Invite> listeInvitesParIdMariage(@Param("idMariage") Long idMariage, Pageable page);
 
-	@Transactional(readOnly = false)
-	@Modifying
-	@Query("update Invite"//
-			+ " set adresse=:adresse, telephone=:telephone, email=:email"//
-			+ " where foyer=:foyer")
-	void updateAdresseEtTelephoneEtEmailParFoyer(@Param("foyer") String foyer, @Param("adresse") String adresse,
-			@Param("telephone") String telephone, @Param("email") String email);
 }

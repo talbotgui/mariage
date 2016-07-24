@@ -4,7 +4,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.talbotgui.mariage.metier.dto.DTOUtils;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
+import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.service.MariageService;
-import com.github.talbotgui.mariage.rest.controleur.dto.AbstractDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.InviteDTO;
 import com.github.talbotgui.mariage.rest.exception.RestException;
 
@@ -47,7 +47,7 @@ public class InviteRestControler {
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = GET)
 	public Collection<InviteDTO> listeInvitesParIdMariage(@PathVariable("idMariage") final Long idMariage) {
-		return AbstractDTO.creerDto(this.mariageService.listeInvitesParIdMariage(idMariage), InviteDTO.class);
+		return DTOUtils.creerDtos(this.mariageService.listeInvitesParIdMariage(idMariage), InviteDTO.class);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = POST)
@@ -65,12 +65,11 @@ public class InviteRestControler {
 
 		Invite invite;
 		if (id == null) {
-			invite = new Invite(id, nom, prenom, groupe, foyer, getAgeFromString(age), adresse, telephone, email);
+			invite = new Invite(id, nom, prenom, this.getAgeFromString(age));
+			invite.setFoyer(new Foyer(null, groupe, foyer, adresse, email, telephone));
+			;
 		} else {
 			invite = this.mariageService.chargeInviteParId(id);
-			if (groupe != null) {
-				invite.setGroupe(groupe);
-			}
 			if (nom != null) {
 				invite.setNom(nom);
 			}
@@ -78,39 +77,25 @@ public class InviteRestControler {
 				invite.setPrenom(prenom);
 			}
 			if (age != null) {
-				invite.setAge(getAgeFromString(age));
+				invite.setAge(this.getAgeFromString(age));
 			}
 			if (adresse != null) {
-				invite.setAdresse(adresse);
+				invite.getFoyer().setAdresse(adresse);
 			}
 			if (email != null) {
-				invite.setEmail(email);
+				invite.getFoyer().setEmail(email);
 			}
 			if (foyer != null) {
-				invite.setFoyer(foyer);
+				invite.getFoyer().setNom(foyer);
+			}
+			if (groupe != null) {
+				invite.getFoyer().setGroupe(groupe);
 			}
 			if (telephone != null) {
-				invite.setTelephone(telephone);
+				invite.getFoyer().setTelephone(telephone);
 			}
 		}
-		return this.mariageService.sauvegarde(idMariage, invite);
-	}
-
-	@RequestMapping(value = "/mariage/{idMariage}/inviteEnMasse", method = POST)
-	public void sauvegardeInviteEnMasse(//
-			@RequestParam(required = true, value = "invites") final String invitesString, //
-			@PathVariable(value = "idMariage") final Long idMariage) {
-
-		final Collection<Invite> invites = new ArrayList<>();
-		for (final String ligne : invitesString.split("\n")) {
-			final String[] elements = ligne.split("[:;\t]");
-			if (elements.length == 4) {
-				final Invite invite = new Invite(null, elements[2], elements[0], elements[1], null);
-				invite.setAdresse(elements[3]);
-				invites.add(invite);
-			}
-		}
-		this.mariageService.sauvegardeEnMasse(idMariage, invites);
+		return this.mariageService.sauvegardeInviteEtFoyer(idMariage, invite);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite/{idInvite}", method = DELETE)

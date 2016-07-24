@@ -224,7 +224,7 @@ public class EtapeServiceTest {
 		// ASSERT
 		final Collection<Courrier> courriers = this.instance.listeCourriersParIdMariage(idMariage);
 		final Courrier c = courriers.iterator().next();
-		Assert.assertEquals(original.getEtapes().size(), c.getEtapesInvitation().size());
+		Assert.assertEquals(original.getEtapes().size(), c.getEtapes().size());
 	}
 
 	@Test
@@ -243,7 +243,7 @@ public class EtapeServiceTest {
 		// ASSERT
 		final Collection<Courrier> courriers = this.instance.listeCourriersParIdMariage(idMariage);
 		final Courrier c = courriers.iterator().next();
-		Assert.assertEquals(0, c.getEtapesInvitation().size());
+		Assert.assertEquals(0, c.getEtapes().size());
 	}
 
 }

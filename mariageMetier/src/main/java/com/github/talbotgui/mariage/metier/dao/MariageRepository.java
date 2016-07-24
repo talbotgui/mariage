@@ -14,10 +14,11 @@ public interface MariageRepository extends CrudRepository<Mariage, Long> {
 
 	@Query("select distinct c from Mariage m"//
 			+ " join m.courriers c"//
-			+ " left join fetch c.etapesInvitation"//
+			+ " left join fetch c.etapes"//
 			+ " where m.id=:idMariage order by c.datePrevisionEnvoi")
-	Collection<Courrier> listeCourriersParIdMariageFetchEtapesInvitation(@Param("idMariage") Long idMariage);
+	Collection<Courrier> listeCourriersParIdMariageFetchEtapesDuCourrier(@Param("idMariage") Long idMariage);
 
 	@Query("select e from Mariage m join m.etapes e where m.id=:idMariage order by e.numOrdre")
 	Collection<Etape> listeEtapesParIdMariage(@Param("idMariage") Long idMariage);
+
 }

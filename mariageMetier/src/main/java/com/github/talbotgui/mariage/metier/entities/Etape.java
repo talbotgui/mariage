@@ -1,20 +1,19 @@
 package com.github.talbotgui.mariage.metier.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -23,9 +22,15 @@ public abstract class Etape implements Serializable {
 
 	private Date dateHeure;
 
+	@ManyToMany(mappedBy = "etapesInvitation")
+	private Collection<Foyer> foyersInvites;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+
+	@ManyToMany(mappedBy = "etapesPresence")
+	private Collection<Invite> invitesPresents;
 
 	private String lieu;
 
@@ -36,9 +41,6 @@ public abstract class Etape implements Serializable {
 	private String nom;
 
 	private Integer numOrdre;
-
-	@OneToMany(mappedBy = "etape", fetch = FetchType.EAGER, cascade = { CascadeType.REMOVE })
-	private Collection<PresenceEtape> presences;
 
 	protected Etape() {
 		super();
@@ -52,6 +54,11 @@ public abstract class Etape implements Serializable {
 		}
 		this.setNom(nom);
 		this.setLieu(lieu);
+	}
+
+	public Etape(final Long id) {
+		super();
+		this.id = id;
 	}
 
 	public Etape(final Long id, final String nom, final Date dateHeure, final String lieu) {
@@ -71,34 +78,46 @@ public abstract class Etape implements Serializable {
 		return null;
 	}
 
+	public Collection<Foyer> getFoyersInvites() {
+		return new ArrayList<>(this.foyersInvites);
+	}
+
 	public Long getId() {
-		return id;
+		return this.id;
+	}
+
+	public Collection<Invite> getInvitesPresents() {
+		return new ArrayList<>(this.invitesPresents);
 	}
 
 	public String getLieu() {
-		return lieu;
+		return this.lieu;
 	}
 
 	public Mariage getMariage() {
-		return mariage;
+		return this.mariage;
 	}
 
 	public String getNom() {
-		return nom;
+		return this.nom;
 	}
 
 	public Integer getNumOrdre() {
-		return numOrdre;
-	}
-
-	public Collection<PresenceEtape> getPresences() {
-		return presences;
+		return this.numOrdre;
 	}
 
 	public void setDateHeure(final Date dateHeure) {
 		if (dateHeure != null) {
 			this.dateHeure = new Date(dateHeure.getTime());
 		}
+	}
+
+	public void setFoyersInvites(final Collection<Foyer> foyersInvites) {
+		this.foyersInvites = new ArrayList<>(foyersInvites);
+	}
+
+	public void setFoyersPresents(final Collection<Invite> invitesPresents) {
+		this.invitesPresents = new ArrayList<>(invitesPresents);
 	}
 
 	private void setId(final Long id) {
@@ -119,10 +138,6 @@ public abstract class Etape implements Serializable {
 
 	public void setNumOrdre(final Integer numOrdre) {
 		this.numOrdre = numOrdre;
-	}
-
-	public void setPresences(final Collection<PresenceEtape> presences) {
-		this.presences = presences;
 	}
 
 }

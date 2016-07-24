@@ -31,12 +31,12 @@ public class Mariage implements Serializable {
 	@OrderBy("numOrdre")
 	private Collection<Etape> etapes = new ArrayList<>();
 
+	@OneToMany(mappedBy = "mariage")
+	private Collection<Foyer> foyers = new ArrayList<>();
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
-	@OneToMany(mappedBy = "mariage")
-	private Collection<Invite> invites = new ArrayList<>();
 
 	private String marie1;
 
@@ -68,8 +68,8 @@ public class Mariage implements Serializable {
 		this.etapes.add(e);
 	}
 
-	public void addInvite(final Invite i) {
-		this.invites.add(i);
+	public void addFoyer(final Foyer f) {
+		this.foyers.add(f);
 	}
 
 	public Collection<Autorisation> getAutorisations() {
@@ -97,22 +97,22 @@ public class Mariage implements Serializable {
 		return e;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public Collection<Invite> getInvites() {
-		final Collection<Invite> c = new ArrayList<>();
-		c.addAll(this.invites);
+	public Collection<Foyer> getFoyers() {
+		final Collection<Foyer> c = new ArrayList<>();
+		c.addAll(this.foyers);
 		return c;
 	}
 
+	public Long getId() {
+		return this.id;
+	}
+
 	public String getMarie1() {
-		return marie1;
+		return this.marie1;
 	}
 
 	public String getMarie2() {
-		return marie2;
+		return this.marie2;
 	}
 
 	public void setAutorisations(final Collection<Autorisation> autorisations) {
@@ -133,12 +133,12 @@ public class Mariage implements Serializable {
 		this.etapes = new ArrayList<>(etapes);
 	}
 
-	private void setId(final Long id) {
-		this.id = id;
+	public void setFoyers(final Collection<Foyer> foyers) {
+		this.foyers = new ArrayList<>(foyers);
 	}
 
-	public void setInvites(final Collection<Invite> invites) {
-		this.invites = new ArrayList<>(invites);
+	private void setId(final Long id) {
+		this.id = id;
 	}
 
 	public void setMarie1(final String marie1) {

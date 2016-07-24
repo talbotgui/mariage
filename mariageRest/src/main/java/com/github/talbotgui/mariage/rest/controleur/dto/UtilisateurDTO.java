@@ -1,23 +1,24 @@
 package com.github.talbotgui.mariage.rest.controleur.dto;
 
+import java.io.Serializable;
+
 import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur;
 
-public class UtilisateurDTO extends AbstractDTO {
+public class UtilisateurDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String login;
 
 	public UtilisateurDTO() {
-		super(null);
+		super();
 	}
 
-	public UtilisateurDTO(final Object entity) {
-		super(entity);
+	public UtilisateurDTO(final Object u) {
+		this((Utilisateur) u);
+	}
 
-		if (entity != null) {
-			final Utilisateur u = (Utilisateur) entity;
-			this.login = u.getLogin();
-		}
+	public UtilisateurDTO(final Utilisateur u) {
+		this.login = u.getLogin();
 	}
 
 	public String getId() {
@@ -25,7 +26,7 @@ public class UtilisateurDTO extends AbstractDTO {
 	}
 
 	public String getLogin() {
-		return login;
+		return this.login;
 	}
 
 	public void setLogin(final String login) {

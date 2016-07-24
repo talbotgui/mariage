@@ -11,17 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.talbotgui.mariage.metier.service.MariageService;
 
 @RestController
-public class PresenceEtapeRestControler {
+public class FoyerRestControler {
 
 	@Autowired
 	private MariageService mariageService;
 
-	@RequestMapping(value = "/mariage/{idMariage}/presenceEtape", method = POST)
-	public void modifiePresenceEtape(//
-			@RequestParam(value = "id") final Long idPresenceEtape, //
-			@RequestParam(value = "presence") final Boolean presence, //
+	@RequestMapping(value = "/mariage/{idMariage}/foyer/{idFoyer}", method = POST)
+	public void modifieInvitationFoyer(//
+			@RequestParam(value = "idEtape") final Long idEtape, //
+			@RequestParam(value = "estInvite") final Boolean estInvite, //
+			@PathVariable(value = "idFoyer") final Long idFoyer, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
 
-		this.mariageService.modifiePresenceEtape(idMariage, idPresenceEtape, presence);
+		this.mariageService.modifieFoyerEtapeInvitation(idMariage, idEtape, idFoyer, estInvite);
 	}
+
 }

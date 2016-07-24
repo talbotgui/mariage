@@ -1,14 +1,10 @@
 package com.github.talbotgui.mariage.rest.controleur.dto;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.hibernate.Hibernate;
+import java.io.Serializable;
 
 import com.github.talbotgui.mariage.metier.entities.Invite;
-import com.github.talbotgui.mariage.metier.entities.PresenceEtape;
 
-public class InviteDTO extends AbstractDTO {
+public class InviteDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String adresse;
@@ -17,77 +13,74 @@ public class InviteDTO extends AbstractDTO {
 	private String foyer;
 	private String groupe;
 	private Long id;
+	private Long idFoyer;
 	private String nom;
 	private String prenom;
-	private final Collection<PresenceEtapeDTO> presencesEtape = new ArrayList<>();
 	private String telephone;
 
 	public InviteDTO() {
-		super(null);
+		super();
 	}
 
-	public InviteDTO(final Object entity) {
-		super(entity);
-
-		if (entity != null) {
-			final Invite i = (Invite) entity;
-			this.adresse = i.getAdresse();
-			this.email = i.getEmail();
-			if (i.getAge() != null) {
-				this.age = i.getAge().toString();
-			}
-			this.foyer = i.getFoyer();
-			this.groupe = i.getGroupe();
-			this.id = i.getId();
-			this.nom = i.getNom();
-			this.prenom = i.getPrenom();
-			if (i.getPresencesEtape() != null && Hibernate.isInitialized(i.getPresencesEtape())) {
-				for (final PresenceEtape pe : i.getPresencesEtape()) {
-					this.presencesEtape.add(new PresenceEtapeDTO(pe));
-				}
-			}
-			this.telephone = i.getTelephone();
+	public InviteDTO(final Invite i) {
+		if (i.getAge() != null) {
+			this.age = i.getAge().toString();
+		}
+		this.id = i.getId();
+		this.nom = i.getNom();
+		this.prenom = i.getPrenom();
+		if (i.getFoyer() != null) {
+			this.adresse = i.getFoyer().getAdresse();
+			this.email = i.getFoyer().getEmail();
+			this.foyer = i.getFoyer().getNom();
+			this.idFoyer = i.getFoyer().getId();
+			this.groupe = i.getFoyer().getGroupe();
+			this.telephone = i.getFoyer().getTelephone();
 		}
 	}
 
+	public InviteDTO(final Object i) {
+		this((Invite) i);
+	}
+
 	public String getAdresse() {
-		return adresse;
+		return this.adresse;
 	}
 
 	public String getAge() {
-		return age;
+		return this.age;
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public String getFoyer() {
-		return foyer;
+		return this.foyer;
 	}
 
 	public String getGroupe() {
-		return groupe;
+		return this.groupe;
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
+	}
+
+	public Long getIdFoyer() {
+		return this.idFoyer;
 	}
 
 	public String getNom() {
-		return nom;
+		return this.nom;
 	}
 
 	public String getPrenom() {
-		return prenom;
-	}
-
-	public Collection<PresenceEtapeDTO> getPresencesEtape() {
-		return presencesEtape;
+		return this.prenom;
 	}
 
 	public String getTelephone() {
-		return telephone;
+		return this.telephone;
 	}
 
 	public void setAdresse(final String adresse) {
@@ -112,6 +105,10 @@ public class InviteDTO extends AbstractDTO {
 
 	public void setId(final Long id) {
 		this.id = id;
+	}
+
+	public void setIdFoyer(final Long idFoyer) {
+		this.idFoyer = idFoyer;
 	}
 
 	public void setNom(final String nom) {

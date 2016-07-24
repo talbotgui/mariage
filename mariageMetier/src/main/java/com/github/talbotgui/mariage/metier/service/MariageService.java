@@ -33,13 +33,12 @@ public interface MariageService {
 
 	Collection<Mariage> listeTousMariages();
 
-	void modifiePresenceEtape(Long idMariage, Long idPresenceEtape, Boolean presence);
+	void modifieFoyerEtapeInvitation(final Long idMariage, final Long idEtape, final Long idFoyer,
+			final boolean invitation);
 
 	Long sauvegarde(Long idMariage, Courrier courrier);
 
 	Long sauvegarde(Long idMariage, Etape etape);
-
-	Long sauvegarde(Long idMariage, Invite invite);
 
 	Long sauvegarde(Mariage mariage);
 
@@ -47,11 +46,13 @@ public interface MariageService {
 
 	Long sauvegardeGrappe(Mariage mariage);
 
-	void supprimeMariage(Long idMariage);
+	Long sauvegardeInviteEtFoyer(Long idMariage, Invite invite);
 
 	void supprimeCourrier(Long idMariage, Long idCourrier);
 
 	void supprimeEtape(Long idMariage, Long idEtape);
 
 	void supprimeInvite(Long idMariage, Long idInvite);
+
+	void supprimeMariage(Long idMariage);
 }
