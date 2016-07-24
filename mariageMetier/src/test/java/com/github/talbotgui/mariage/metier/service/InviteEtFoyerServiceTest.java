@@ -381,4 +381,36 @@ public class InviteEtFoyerServiceTest {
 		Assert.assertEquals(3, foyers.size());
 		Assert.assertEquals("F1", foyers.iterator().next().getNom());
 	}
+
+	@Test
+	public void test10GetFoyer() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final String nomFoyer = "F1";
+
+		// ACT
+		final Foyer foyer = this.instance.getFoyer(idMariage, nomFoyer);
+
+		// ASSERT
+		Assert.assertNotNull(foyer);
+		Assert.assertEquals(nomFoyer, foyer.getNom());
+	}
+
+	@Test
+	public void test11ChargeFoyerParId() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idFoyer = this.instance.listeFoyersParIdMariage(idMariage).iterator().next().getId();
+
+		// ACT
+		final Foyer foyer = this.instance.chargeFoyerParId(idFoyer);
+
+		// ASSERT
+		Assert.assertNotNull(foyer);
+		Assert.assertEquals("F1", foyer.getNom());
+	}
 }

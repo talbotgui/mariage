@@ -35,15 +35,6 @@ public class FoyerRestControler {
 		this.mariageService.lieUnFoyerEtUnCourrier(idMariage, idCourrier, idFoyer, estInvite);
 	}
 
-	// @RequestMapping(value = "/mariage/{idMariage}/foyer", method = GET)
-	// public Collection<FoyerDTO>
-	// listeFoyersParIdMariage(@PathVariable("idMariage") final Long idMariage)
-	// {
-	// return
-	// DTOUtils.creerDtos(this.mariageService.listeFoyersParIdMariage(idMariage),
-	// FoyerDTO.class);
-	// }
-
 	@RequestMapping(value = "/mariage/{idMariage}/foyer", method = GET)
 	public ReponseAvecChoix listeFoyersParIdMariage(@PathVariable("idMariage") final Long idMariage)
 			throws NoSuchMethodException, SecurityException, ReflectiveOperationException, IllegalArgumentException {

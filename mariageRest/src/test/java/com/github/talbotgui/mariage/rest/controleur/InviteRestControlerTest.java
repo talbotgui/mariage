@@ -53,27 +53,24 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 	}
 
 	@Test
-	public void test02AjouteInvite() {
+	public void test02AjouteInvite01FoyerInexistant() {
 		final Long idMariage = 10L;
 		final Long idInvite = 100L;
-		final String adresse = "adresse";
-		final String email = "email";
 		final String age = Age.adulte.toString();
 		final String foyer = "foyer";
 		final String groupe = "Groupe1";
 		final String nom = "InviteA";
 		final String prenom = "BB";
-		final String telephone = "telephone";
 
 		// ARRANGE
 		final ArgumentCaptor<Invite> argumentCaptorInvite = ArgumentCaptor.forClass(Invite.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		Mockito.doReturn(null).when(this.mariageService).getFoyer(Mockito.anyLong(), Mockito.anyString());
 		Mockito.doReturn(idInvite).when(this.mariageService).sauvegardeInviteEtFoyer(argumentCaptorIdMariage.capture(),
 				argumentCaptorInvite.capture());
 
-		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("adresse", adresse,
-				"email", email, "age", age, "foyer", foyer, "groupe", groupe, "nom", nom, "prenom", prenom, "telephone",
-				telephone);
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("age", age, "foyer",
+				foyer, "groupe", groupe, "nom", nom, "prenom", prenom);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
@@ -83,15 +80,64 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertNotNull(idInviteRetour);
 		Assert.assertEquals(idInviteRetour, idInvite);
-		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getAdresse(), adresse);
-		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getEmail(), email);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getAge().toString(), age);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getNom(), foyer);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getGroupe(), groupe);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getNom(), nom);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getPrenom(), prenom);
-		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getTelephone(), telephone);
+		Assert.assertNull(argumentCaptorInvite.getValue().getFoyer().getTelephone());
+		Assert.assertNull(argumentCaptorInvite.getValue().getFoyer().getAdresse());
+		Assert.assertNull(argumentCaptorInvite.getValue().getFoyer().getEmail());
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
+		Mockito.verify(this.mariageService).getFoyer(idMariage, foyer);
+		Mockito.verify(this.mariageService).sauvegardeInviteEtFoyer(Mockito.anyLong(), Mockito.any(Invite.class));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test02AjouteInvite02FoyerExistant() {
+		final Long idMariage = 10L;
+		final Long idInvite = 100L;
+		final Long idFoyer = 50L;
+		final String age = Age.adulte.toString();
+		final String foyer = "foyer";
+		final String groupe1 = "Groupe1";
+		final String groupe2 = "Groupe2";
+		final String nom = "InviteA";
+		final String prenom = "BB";
+		final String adresse = "add";
+		final String email = "email";
+		final String telephone = "telephone";
+
+		// ARRANGE
+		final ArgumentCaptor<Invite> argumentCaptorInvite = ArgumentCaptor.forClass(Invite.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
+		Mockito.doReturn(new Foyer(idFoyer, groupe1, foyer, adresse, email, telephone)).when(this.mariageService)
+				.getFoyer(Mockito.anyLong(), Mockito.anyString());
+		Mockito.doReturn(idInvite).when(this.mariageService).sauvegardeInviteEtFoyer(argumentCaptorIdMariage.capture(),
+				argumentCaptorInvite.capture());
+
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("age", age, "foyer",
+				foyer, "groupe", groupe2, "nom", nom, "prenom", prenom);
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		final Long idInviteRetour = this.getREST().postForObject(this.getURL() + "/mariage/" + idMariage + "/invite",
+				requestParam, Long.class, uriVars);
+
+		// ASSERT
+		Assert.assertNotNull(idInviteRetour);
+		Assert.assertEquals(idInviteRetour, idInvite);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getAge().toString(), age);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getNom(), foyer);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getGroupe(), groupe2);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getNom(), nom);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getPrenom(), prenom);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getTelephone(), telephone);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getAdresse(), adresse);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getEmail(), email);
+		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
+		Mockito.verify(this.mariageService).getFoyer(idMariage, foyer);
 		Mockito.verify(this.mariageService).sauvegardeInviteEtFoyer(Mockito.anyLong(), Mockito.any(Invite.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
@@ -242,14 +288,17 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertNotNull(idInviteRetour);
 		Assert.assertEquals(idInviteRetour, idInvite);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getAdresse(), adresse2);
+
 		Assert.assertEquals(argumentCaptorInvite.getValue().getAge(), age2);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getNom(), foyer2);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getGroupe(), groupe2);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getNom(), nom2);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getPrenom(), prenom2);
-		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getTelephone(), telephone2);
-		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getEmail(), email2);
+
+		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getAdresse(), adresse);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getTelephone(), telephone);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getEmail(), email);
+
 		Mockito.verify(this.mariageService).chargeInviteParId(idInvite);
 		Mockito.verify(this.mariageService).sauvegardeInviteEtFoyer(Mockito.eq(idMariage), Mockito.any(Invite.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
@@ -291,15 +340,17 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertNotNull(idInviteRetour);
 		Assert.assertEquals(idInviteRetour, idInvite);
-		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getAdresse(), adresse);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getAge(), age);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getNom(), foyer);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getGroupe(), groupe);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getNom(), nom);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getPrenom(), prenom);
+
+		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getAdresse(), adresse);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getTelephone(), telephone);
+		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getEmail(), email);
+
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getEmail(), email2);
 		Mockito.verify(this.mariageService).chargeInviteParId(idInvite);
 		Mockito.verify(this.mariageService).sauvegardeInviteEtFoyer(Mockito.eq(idMariage), Mockito.any(Invite.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);

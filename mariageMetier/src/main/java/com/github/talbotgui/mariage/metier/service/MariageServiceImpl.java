@@ -131,6 +131,19 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public void lieUnFoyerEtUnCourrier(final Long idMariage, final Long idCourrier, final Long idFoyer,
+			final boolean invitation) {
+		final FoyerCourrierInvitation fei = this.foyerCourrierInvitationRepository
+				.findFoyerCourrierInvitation(idMariage, idCourrier, idFoyer);
+		if (fei != null && !invitation) {
+			this.foyerCourrierInvitationRepository.delete(fei);
+		} else if (fei == null && invitation) {
+			this.foyerCourrierInvitationRepository
+					.save(new FoyerCourrierInvitation(new Courrier(idCourrier), new Foyer(idFoyer)));
+		}
+	}
+
+	@Override
 	public Collection<String> listeAgePossible() {
 		final Collection<String> liste = new ArrayList<>();
 		for (final Age a : Age.values()) {
@@ -169,19 +182,6 @@ public class MariageServiceImpl implements MariageService {
 		final Collection<Mariage> liste = new ArrayList<>();
 		liste.addAll((Collection<Mariage>) this.mariageRepository.findAll());
 		return liste;
-	}
-
-	@Override
-	public void lieUnFoyerEtUnCourrier(final Long idMariage, final Long idCourrier, final Long idFoyer,
-			final boolean invitation) {
-		final FoyerCourrierInvitation fei = this.foyerCourrierInvitationRepository.findFoyerCourrierInvitation(idMariage,
-				idCourrier, idFoyer);
-		if (fei != null && !invitation) {
-			this.foyerCourrierInvitationRepository.delete(fei);
-		} else if (fei == null && invitation) {
-			this.foyerCourrierInvitationRepository
-					.save(new FoyerCourrierInvitation(new Courrier(idCourrier), new Foyer(idFoyer)));
-		}
 	}
 
 	@Override
@@ -244,14 +244,12 @@ public class MariageServiceImpl implements MariageService {
 	@Override
 	public Long sauvegardeInviteEtFoyer(final Long idMariage, final Invite invite) {
 
-		if (invite.getFoyer().getId() == null) {
-			invite.getFoyer().setMariage(this.mariageRepository.findOne(idMariage));
-		} else {
+		if (invite.getFoyer().getId() != null) {
 			final Foyer f = this.foyerRepository.findOne(invite.getFoyer().getId());
 			DTOUtils.copyBeanProperties(invite.getFoyer(), f, true, "adresse", "email", "groupe", "nom", "telephone");
 			invite.setFoyer(f);
 		}
-		this.foyerRepository.save(invite.getFoyer());
+		this.sauvegarde(idMariage, invite.getFoyer());
 
 		return this.inviteRepository.save(invite).getId();
 	}
