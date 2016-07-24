@@ -22,6 +22,9 @@ public class Courrier implements Serializable {
 	@ManyToMany
 	private Collection<Etape> etapes = new ArrayList<>();
 
+	@ManyToMany(mappedBy = "courriersInvitation")
+	private Collection<Foyer> foyersInvites;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -34,6 +37,11 @@ public class Courrier implements Serializable {
 
 	public Courrier() {
 		super();
+	}
+
+	public Courrier(final Long id) {
+		super();
+		this.id = id;
 	}
 
 	public Courrier(final Long id, final String nom, final Date datePrevisionEnvoi) {
@@ -59,6 +67,10 @@ public class Courrier implements Serializable {
 		return new ArrayList<>(this.etapes);
 	}
 
+	public Collection<Foyer> getFoyersInvites() {
+		return new ArrayList<>(this.foyersInvites);
+	}
+
 	public Long getId() {
 		return this.id;
 	}
@@ -81,6 +93,10 @@ public class Courrier implements Serializable {
 
 	public void setEtapes(final Collection<Etape> etapes) {
 		this.etapes = new ArrayList<>(etapes);
+	}
+
+	public void setFoyersInvites(final Collection<Foyer> foyersInvites) {
+		this.foyersInvites = new ArrayList<>(foyersInvites);
 	}
 
 	private void setId(final Long id) {

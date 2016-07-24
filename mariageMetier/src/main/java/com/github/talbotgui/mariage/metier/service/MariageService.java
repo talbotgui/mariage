@@ -40,7 +40,7 @@ public interface MariageService {
 
 	Collection<Mariage> listeTousMariages();
 
-	void modifieFoyerEtapeInvitation(final Long idMariage, final Long idEtape, final Long idFoyer,
+	void lieUnFoyerEtUnCourrier(final Long idMariage, final Long idEtape, final Long idFoyer,
 			final boolean invitation);
 
 	Long sauvegarde(Long idMariage, Courrier courrier);

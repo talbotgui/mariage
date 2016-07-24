@@ -44,15 +44,6 @@ public class CourrierRestControler {
 		this.mariageService.lieUneEtapeEtUnCourrier(idMariage, idEtape, idCourrier, lie);
 	}
 
-	// @RequestMapping(value = "/mariage/{idMariage}/courrier", method = GET)
-	// public Collection<CourrierDTO>
-	// listeCourrierParIdMariage(@PathVariable("idMariage") final Long
-	// idMariage) {
-	// return
-	// DTOUtils.creerDto(this.mariageService.listeCourriersParIdMariage(idMariage),
-	// CourrierDTO.class);
-	// }
-
 	@RequestMapping(value = "/mariage/{idMariage}/courrier", method = GET)
 	public ReponseAvecChoix listeCourrierParIdMariage(@PathVariable("idMariage") final Long idMariage)
 			throws NoSuchMethodException, SecurityException, ReflectiveOperationException, IllegalArgumentException {

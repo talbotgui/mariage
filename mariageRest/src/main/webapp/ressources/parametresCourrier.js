@@ -47,7 +47,7 @@ var etapes = [];
 var chargeCourriers = function() {
 	// Chargement des courriers
 	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/courrier");
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargeInvites");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargeCourriers");});
 	req.success(function(dataString) {
 
 		// Avec les donnees
@@ -61,17 +61,17 @@ var chargeCourriers = function() {
 		var courriers = data.dtos;
 
 		// Calcul des largeurs
-		var largeurEtape = 5;
+		var largeurChoix = 5;
 		var largeur = 10;
 		var largeurAction = 7;
-		if (etapes.length > 0) { largeur = (100 - largeurAction - largeurEtape * etapes.length) / 2; }
+		if (etapes.length > 0) { largeur = (100 - largeurAction - largeurChoix * etapes.length) / 2; }
 		largeur = largeur + "%";
 
 		// Initialisation des fields et column fixes
 		var datafields = [{ name: 'id', map: 'dto>id', type: 'string' }, { name: 'nom', map: 'dto>nom', type: 'string' },{ name: 'datePrevisionEnvoi', map: 'dto>datePrevisionEnvoi', type: 'string' }];
-		var columns = [{ text: 'Nom', datafield: 'nom', width: largeur + "%" }, { text: 'Date envoi prévu', datafield: 'datePrevisionEnvoi', width: largeur + "%" }];
+		var columns = [{ text: 'Nom', datafield: 'nom', width: largeur }, { text: 'Date envoi prévu', datafield: 'datePrevisionEnvoi', width: largeur }];
 
-		// Render des colonnes d'étape
+		// Render des colonnes
 		var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties) { return '<a href="javascript:supprimeCourrier(' + value + ')" id="btn' + value + '"><span class="ui-icon ui-icon-trash"></span></a>' };
 		var rendererColonneLien = function (rowIndex, columnfield, value, defaulthtml, columnproperties, rowData) {
 			var indexEtape = parseInt(columnfield.substring("choix".length)); 
@@ -85,7 +85,7 @@ var chargeCourriers = function() {
 			// un champ avec le lien (clef du champ 'choixI')
 			datafields.push({ name: 'choix' + i, type: 'string'});
 			// colonne utilisant le render custo
-			columns.push({ text: e.nom, datafield: 'choix' + i, editable: false, width: largeurEtape + "%", align: "center", cellsrenderer: rendererColonneLien });
+			columns.push({ text: e.nom, datafield: 'choix' + i, editable: false, width: largeurChoix + "%", align: "center", cellsrenderer: rendererColonneLien });
 		});
 		
 		// Ajout de la colonne des actions
@@ -96,7 +96,6 @@ var chargeCourriers = function() {
 			localdata: courriers,
 			datafields: datafields, id: 'id'
 		});
-		var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties) { return '<a href="javascript:supprimeCourrier(' + value + ')" id="btn' + value + '"><span class="ui-icon ui-icon-trash"></span></a>' };
 		$("#courriers").jqxGrid({
 			source: dataAdapter,
 			columns: columns,

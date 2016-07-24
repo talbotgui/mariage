@@ -12,22 +12,22 @@ public class InviteEtapePresence implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private FoyerEtapeInvitationId id;
+	private InviteEtapePresenceId id;
 
 	protected InviteEtapePresence() {
 		super();
 	}
 
-	public InviteEtapePresence(final Etape etape, final Foyer foyer) {
+	public InviteEtapePresence(final Etape etape, final Invite invite) {
 		super();
-		this.setId(new FoyerEtapeInvitationId(etape, foyer));
+		this.setId(new InviteEtapePresenceId(etape, invite));
 	}
 
-	public FoyerEtapeInvitationId getId() {
+	public InviteEtapePresenceId getId() {
 		return this.id;
 	}
 
-	public void setId(final FoyerEtapeInvitationId id) {
+	public void setId(final InviteEtapePresenceId id) {
 		this.id = id;
 	}
 

@@ -22,9 +22,6 @@ public abstract class Etape implements Serializable {
 
 	private Date dateHeure;
 
-	@ManyToMany(mappedBy = "etapesInvitation")
-	private Collection<Foyer> foyersInvites;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -78,10 +75,6 @@ public abstract class Etape implements Serializable {
 		return null;
 	}
 
-	public Collection<Foyer> getFoyersInvites() {
-		return new ArrayList<>(this.foyersInvites);
-	}
-
 	public Long getId() {
 		return this.id;
 	}
@@ -110,10 +103,6 @@ public abstract class Etape implements Serializable {
 		if (dateHeure != null) {
 			this.dateHeure = new Date(dateHeure.getTime());
 		}
-	}
-
-	public void setFoyersInvites(final Collection<Foyer> foyersInvites) {
-		this.foyersInvites = new ArrayList<>(foyersInvites);
 	}
 
 	public void setFoyersPresents(final Collection<Invite> invitesPresents) {

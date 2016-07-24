@@ -7,37 +7,37 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Embeddable
-public class FoyerEtapeInvitationId implements Serializable {
+public class FoyerCourrierInvitationId implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne
-	@JoinColumn(name = "ETAPE_ID")
-	private Etape etape;
+	@JoinColumn(name = "COURRIER_ID")
+	private Courrier courrier;
 
 	@ManyToOne
 	@JoinColumn(name = "FOYER_ID")
 	private Foyer foyer;
 
-	protected FoyerEtapeInvitationId() {
+	protected FoyerCourrierInvitationId() {
 		super();
 	}
 
-	public FoyerEtapeInvitationId(final Etape etape, final Foyer foyer) {
+	public FoyerCourrierInvitationId(final Courrier courrier, final Foyer foyer) {
 		super();
-		this.setEtape(etape);
+		this.setCourrier(courrier);
 		this.setFoyer(foyer);
 	}
 
-	public Etape getEtape() {
-		return this.etape;
+	public Courrier getCourrier() {
+		return this.courrier;
 	}
 
 	public Foyer getFoyer() {
 		return this.foyer;
 	}
 
-	public void setEtape(final Etape etape) {
-		this.etape = etape;
+	public void setCourrier(final Courrier courrier) {
+		this.courrier = courrier;
 	}
 
 	public void setFoyer(final Foyer foyer) {

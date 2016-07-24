@@ -31,7 +31,9 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 			+ " where m.id = :idMariage")
 	StatistiquesInvitesMariage calculStatistiquesInvites(@Param("idMariage") Long idMariage);
 
-	@Query("select e.nom, size(e.foyersInvites) from Mariage m join m.etapes e where m.id = :idMariage group by e.nom")
+	@Query("select e.nom, count(f)"//
+			+ " from Mariage m join m.foyers f join f.courriersInvitation c join c.etapes e"//
+			+ " where m.id = :idMariage group by e.nom")
 	List<Object[]> compteNombreFoyerParEtape(@Param("idMariage") Long idMariage);
 
 	@Query("select i.age, count(i)"//
@@ -40,7 +42,7 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 	List<Object[]> compteNombreInviteParAge(@Param("idMariage") Long idMariage);
 
 	@Query("select e.nom, count(i)"//
-			+ " from Mariage m join m.etapes e join e.foyersInvites f join f.invites i"//
+			+ " from Mariage m join m.foyers f join f.courriersInvitation c join c.etapes e join f.invites i"//
 			+ " where m.id = :idMariage group by e.nom")
 	List<Object[]> compteNombreInviteParEtape(@Param("idMariage") Long idMariage);
 

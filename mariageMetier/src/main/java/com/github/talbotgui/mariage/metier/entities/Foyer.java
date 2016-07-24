@@ -21,14 +21,14 @@ public class Foyer implements Serializable {
 
 	private String adresse;
 
-	private String email;
-
 	@ManyToMany
-	@JoinTable(name = "FOYER_ETAPE_INVITATION", //
+	@JoinTable(name = "FOYER_COURRIER_INVITATION", //
 			joinColumns = { @JoinColumn(name = "FOYER_ID", insertable = false, updatable = false) }, //
-			inverseJoinColumns = { @JoinColumn(name = "ETAPE_ID", insertable = false, updatable = false) }//
+			inverseJoinColumns = { @JoinColumn(name = "COURRIER_ID", insertable = false, updatable = false) }//
 	)
-	private Collection<Etape> etapesInvitation = new ArrayList<>();
+	private Collection<Courrier> courriersInvitation = new ArrayList<>();
+
+	private String email;
 
 	private String groupe;
 
@@ -95,8 +95,8 @@ public class Foyer implements Serializable {
 		return this.email;
 	}
 
-	public Collection<Etape> getEtapesInvitation() {
-		return new ArrayList<>(this.etapesInvitation);
+	public Collection<Courrier> getCourriersInvitation() {
+		return new ArrayList<>(this.courriersInvitation);
 	}
 
 	public String getGroupe() {
@@ -131,8 +131,8 @@ public class Foyer implements Serializable {
 		this.email = email;
 	}
 
-	public void setEtapesInvitation(final Collection<Etape> etapesInvitation) {
-		this.etapesInvitation = new ArrayList<Etape>(etapesInvitation);
+	public void setCourriersInvitation(final Collection<Courrier> courriersInvitation) {
+		this.courriersInvitation = new ArrayList<>(courriersInvitation);
 	}
 
 	public void setGroupe(final String groupe) {

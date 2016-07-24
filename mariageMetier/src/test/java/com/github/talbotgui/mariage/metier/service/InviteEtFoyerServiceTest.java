@@ -31,7 +31,7 @@ import com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesRepartitionsInvitesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
-import com.github.talbotgui.mariage.metier.entities.Etape;
+import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
@@ -229,16 +229,16 @@ public class InviteEtFoyerServiceTest {
 		final Mariage original = ObjectMother.creeMariageSimple();
 		final Long idMariage = this.instance.sauvegardeGrappe(original);
 
-		final String sql = "select count(*) from FOYER_ETAPE_INVITATION";
+		final String sql = "select count(*) from FOYER_COURRIER_INVITATION";
 		final Long nbPresenceTrueAvant = jdbc.queryForObject(sql, Long.class);
 
 		final Collection<Invite> invites = this.instance.listeInvitesParIdMariage(idMariage);
 		final Invite invite = invites.iterator().next();
-		final Collection<Etape> etapes = this.instance.listeEtapesParIdMariage(idMariage);
-		final Etape etape = etapes.iterator().next();
+		final Collection<Courrier> courriers = this.instance.listeCourriersParIdMariage(idMariage);
+		final Courrier courrier = courriers.iterator().next();
 
 		// ACT
-		this.instance.modifieFoyerEtapeInvitation(idMariage, etape.getId(), invite.getFoyer().getId(), true);
+		this.instance.lieUnFoyerEtUnCourrier(idMariage, courrier.getId(), invite.getFoyer().getId(), true);
 
 		// ASSERT
 		final Long nbPresenceTrueApres = jdbc.queryForObject(sql, Long.class);
@@ -253,18 +253,18 @@ public class InviteEtFoyerServiceTest {
 		final Mariage original = ObjectMother.creeMariageSimple();
 		final Long idMariage = this.instance.sauvegardeGrappe(original);
 
-		final String sql = "select count(*) from FOYER_ETAPE_INVITATION";
+		final String sql = "select count(*) from FOYER_COURRIER_INVITATION";
 		final Long nbPresenceTrueAvant = jdbc.queryForObject(sql, Long.class);
 
 		final Collection<Invite> invites = this.instance.listeInvitesParIdMariage(idMariage);
 		final Invite invite = invites.iterator().next();
-		final Collection<Etape> etapes = this.instance.listeEtapesParIdMariage(idMariage);
-		final Etape etape = etapes.iterator().next();
+		final Collection<Courrier> courriers = this.instance.listeCourriersParIdMariage(idMariage);
+		final Courrier courrier = courriers.iterator().next();
 
-		this.instance.modifieFoyerEtapeInvitation(idMariage, etape.getId(), invite.getFoyer().getId(), true);
+		this.instance.lieUnFoyerEtUnCourrier(idMariage, courrier.getId(), invite.getFoyer().getId(), true);
 
 		// ACT
-		this.instance.modifieFoyerEtapeInvitation(idMariage, etape.getId(), invite.getFoyer().getId(), false);
+		this.instance.lieUnFoyerEtUnCourrier(idMariage, courrier.getId(), invite.getFoyer().getId(), false);
 
 		// ASSERT
 		final Long nbPresenceTrueApres = jdbc.queryForObject(sql, Long.class);
@@ -335,10 +335,10 @@ public class InviteEtFoyerServiceTest {
 		Assert.assertEquals("invites par foyer nb", 3, repartitions.getNbParFoyer().size());
 		Assert.assertEquals("invites par foyer value", (Integer) 4, repartitions.getNbParFoyer().get("FOYER1"));
 
-		Assert.assertEquals("invites par etape nb", 4, repartitions.getNbParEtape().size());
+		Assert.assertEquals("invites par etape nb", 5, repartitions.getNbParEtape().size());
 		Assert.assertEquals("invites par etape value", (Integer) 12, repartitions.getNbParEtape().get("Mairie"));
 
-		Assert.assertEquals("foyers par etape nb", 4, repartitions.getNbFoyersParEtape().size());
+		Assert.assertEquals("foyers par etape nb", 5, repartitions.getNbFoyersParEtape().size());
 		Assert.assertEquals("foyers par etape value", (Integer) 3, repartitions.getNbFoyersParEtape().get("Mairie"));
 	}
 

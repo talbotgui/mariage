@@ -12,12 +12,12 @@ var chargeFoyers = function() {
 	} else {
 		
 		var datafields = [
-			{ name: 'id', type: 'string' },
-			{ name: 'groupe', type: 'string' },
-			{ name: 'nom', type: 'string' },
-			{ name: 'adresse', type: 'string' },
-			{ name: 'telephone', type: 'string' },
-			{ name: 'email', type: 'string' }
+			{ name: 'id', map: 'dto>id', type: 'string' },
+			{ name: 'groupe', map: 'dto>groupe', type: 'string' },
+			{ name: 'nom', map: 'dto>nom', type: 'string' },
+			{ name: 'adresse', map: 'dto>adresse', type: 'string' },
+			{ name: 'telephone', map: 'dto>telephone', type: 'string' },
+			{ name: 'email', map: 'dto>email', type: 'string' }
 		];
 
 		var columns = [
@@ -31,6 +31,7 @@ var chargeFoyers = function() {
 		var dataAdapter = new $.jqx.dataAdapter({
 			datatype: "json",
 			url: REST_PREFIX + "/mariage/" + idMariage + "/foyer",
+			root: 'dtos',
 			datafields: datafields, id: 'id'
 		});
 		$("#foyers").jqxGrid({

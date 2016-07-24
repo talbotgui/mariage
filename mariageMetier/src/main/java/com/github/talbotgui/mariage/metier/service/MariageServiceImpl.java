@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.talbotgui.mariage.metier.dao.CourrierRepository;
 import com.github.talbotgui.mariage.metier.dao.EtapeRepository;
-import com.github.talbotgui.mariage.metier.dao.FoyerEtapeInvitationRepository;
+import com.github.talbotgui.mariage.metier.dao.FoyerCourrierInvitationRepository;
 import com.github.talbotgui.mariage.metier.dao.FoyerRepository;
 import com.github.talbotgui.mariage.metier.dao.InviteRepository;
 import com.github.talbotgui.mariage.metier.dao.MariageRepository;
@@ -26,9 +26,8 @@ import com.github.talbotgui.mariage.metier.dto.StatistiquesRepartitionsInvitesMa
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
-import com.github.talbotgui.mariage.metier.entities.EtapeRepas;
 import com.github.talbotgui.mariage.metier.entities.Foyer;
-import com.github.talbotgui.mariage.metier.entities.FoyerEtapeInvitation;
+import com.github.talbotgui.mariage.metier.entities.FoyerCourrierInvitation;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
@@ -44,7 +43,7 @@ public class MariageServiceImpl implements MariageService {
 	private EtapeRepository etapeRepository;
 
 	@Autowired
-	private FoyerEtapeInvitationRepository foyerEtapeInvitationRepository;
+	private FoyerCourrierInvitationRepository foyerCourrierInvitationRepository;
 
 	@Autowired
 	private FoyerRepository foyerRepository;
@@ -173,15 +172,15 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
-	public void modifieFoyerEtapeInvitation(final Long idMariage, final Long idEtape, final Long idFoyer,
+	public void lieUnFoyerEtUnCourrier(final Long idMariage, final Long idCourrier, final Long idFoyer,
 			final boolean invitation) {
-		final FoyerEtapeInvitation fei = this.foyerEtapeInvitationRepository.findFoyerEtapeInvitation(idMariage,
-				idEtape, idFoyer);
+		final FoyerCourrierInvitation fei = this.foyerCourrierInvitationRepository.findFoyerCourrierInvitation(idMariage,
+				idCourrier, idFoyer);
 		if (fei != null && !invitation) {
-			this.foyerEtapeInvitationRepository.delete(fei);
+			this.foyerCourrierInvitationRepository.delete(fei);
 		} else if (fei == null && invitation) {
-			this.foyerEtapeInvitationRepository
-					.save(new FoyerEtapeInvitation(new EtapeRepas(idEtape), new Foyer(idFoyer)));
+			this.foyerCourrierInvitationRepository
+					.save(new FoyerCourrierInvitation(new Courrier(idCourrier), new Foyer(idFoyer)));
 		}
 	}
 
@@ -300,7 +299,7 @@ public class MariageServiceImpl implements MariageService {
 	@Override
 	public void supprimeMariage(final Long idMariage) {
 		this.courrierRepository.deleteCourriersParIdMariage(idMariage);
-		this.foyerEtapeInvitationRepository.deletePresenceEtapesParIdMariage(idMariage);
+		this.foyerCourrierInvitationRepository.deleteFoyerCourrierInvitationParIdMariage(idMariage);
 		this.etapeRepository.deleteEtapesParIdMariage(idMariage);
 		this.inviteRepository.deleteInvitesParIdMariage(idMariage);
 		this.foyerRepository.deleteFoyersParIdMariage(idMariage);

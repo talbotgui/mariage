@@ -19,7 +19,7 @@ public class PresenceEtapeRestControlerTest extends BaseRestControlerTest {
 		final Boolean estInvite = true;
 
 		// ARRANGE
-		Mockito.doNothing().when(this.mariageService).modifieFoyerEtapeInvitation(Mockito.anyLong(), Mockito.anyLong(),
+		Mockito.doNothing().when(this.mariageService).lieUnFoyerEtUnCourrier(Mockito.anyLong(), Mockito.anyLong(),
 				Mockito.anyLong(), Mockito.anyBoolean());
 
 		// ACT
@@ -31,7 +31,7 @@ public class PresenceEtapeRestControlerTest extends BaseRestControlerTest {
 
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
-		Mockito.verify(this.mariageService).modifieFoyerEtapeInvitation(idMariage, idEtape, idFoyer, estInvite);
+		Mockito.verify(this.mariageService).lieUnFoyerEtUnCourrier(idMariage, idEtape, idFoyer, estInvite);
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 }
