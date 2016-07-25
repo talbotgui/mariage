@@ -32,7 +32,7 @@ var chargeFoyers = function() {
 		var foyers = data.dtos;
 
 		// Calcul des largeurs
-		var largeurChoix = 15;
+		var largeurChoix = 10;
 		var largeur = 10;
 		if (choixPossibles.length > 0) { largeur = (100 - largeurChoix * choixPossibles.length) / 2; }
 		largeur = largeur + "%";
