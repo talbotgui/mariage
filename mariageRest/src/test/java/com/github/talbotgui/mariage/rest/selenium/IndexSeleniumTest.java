@@ -28,7 +28,7 @@ public class IndexSeleniumTest extends SeleniumTest {
 		//
 		driver.assertPageTitle("Mariage");
 		driver.assertElementNotPresent(Menu.LIEN_ACCUEIL);
-		driver.assertElementNotPresent(Menu.LIEN_INVITATION);
+		driver.assertElementNotPresent(Menu.LIEN_INVITES);
 		driver.assertElementPresent(Index.Button.NOUVEAU);
 		driver.assertElementPresent(Index.Input.SELECTION_MARIAGE);
 		driver.assertCookieNotPresentOrValid(Index.Cookie.ID_MARIAGE);

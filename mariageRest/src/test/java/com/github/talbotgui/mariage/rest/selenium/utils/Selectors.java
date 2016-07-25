@@ -62,22 +62,13 @@ public class Selectors {
 	 */
 	public static class Invite {
 		public static class Button {
-			public static final By AFFICHE_POPUP_EN_MASSE = By.id("button_afficher_popup_ajouter_en_masse");
 			public static final By AFFICHE_POPUP_SAISIE = By.id("button_afficher_popup_ajouter");
-			public static final By AJOUT_EN_MASSE = By.id("button_ajouterEnMasse");
 			public static final By AJOUTER = By.id("button_ajouter");
-			public static final By LIGNE1_APPLIQUER_MODEL = By.xpath("//a[@id='btnApplyModel1']/span");
 		}
 
 		public static class Input {
-			public static final By APPLIQUER_AU_FOYER = By.id("appliquerAuFoyer");
 			public static final By FOYER = By.id("foyer");
 			public static final By GROUPE = By.id("groupe");
-			public static final By INVITE_EN_MASSE = By.xpath("//textarea[@id='invites']");
-			public static final By LIGNE1_PRESENCES[] = { By.xpath("//div[@id='row0invites']/div[6]/div/input"),
-					By.xpath("//div[@id='row0invites']/div[7]/div/input") };
-			public static final By MODELE_ETAPES[] = { By.xpath("//div[@id='modele']/div/table/tbody/tr/td[1]/input"),
-					By.xpath("//div[@id='modele']/div/table/tbody/tr/td[2]/input") };
 			public static final By NOM = By.id("nom");
 			public static final By PRENOM = By.id("prenom");
 		}
@@ -95,7 +86,7 @@ public class Selectors {
 	public static class Menu {
 		public static final By LIEN_ACCUEIL = By.linkText("Accueil");
 		public static final By LIEN_ADMINISTRATION = By.linkText("Administration");
-		public static final By LIEN_INVITATION = By.linkText("Invitation");
+		public static final By LIEN_INVITES = By.linkText("Liste des invités");
 		public static final By LIEN_PARAMETAPES = By.linkText("Paramètres - étapes");
 	}
 

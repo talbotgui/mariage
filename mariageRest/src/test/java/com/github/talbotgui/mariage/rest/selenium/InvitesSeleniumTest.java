@@ -27,7 +27,7 @@ public class InvitesSeleniumTest extends SeleniumTest {
 
 		//
 		this.driver.select(Index.Input.SELECTION_MARIAGE, "M & G", 100);
-		this.driver.click(Menu.LIEN_INVITATION, 500);
+		this.driver.click(Menu.LIEN_INVITES, 500);
 
 		//
 		this.driver.assertPageTitle("Mariage");
@@ -81,71 +81,11 @@ public class InvitesSeleniumTest extends SeleniumTest {
 		this.driver.executeScript("$('#invites').jqxGrid('begincelledit', 0, 'nom');", 200);
 		this.driver.type(By.id("textboxeditorinvitesnom"), "nom1_modif", 100);
 		this.driver.executeScript("$('#invites').jqxGrid('endcelledit', 0, 'nom');", 500);
-		this.driver.click(Menu.LIEN_INVITATION, 500);
+		this.driver.click(Menu.LIEN_INVITES, 500);
 
 		//
 		this.driver.assertTextEquals(Invite.CASES[0][0], "groupe1_modif");
 		this.driver.assertTextEquals(Invite.CASES[0][2], "nom1_modif");
-		this.driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[0], false);
-	}
-
-	@Test
-	public void test05modifPresenceOn() {
-		//
-		this.driver.click(Menu.LIEN_INVITATION, 500);
-
-		//
-		this.driver.click(Invite.Input.LIGNE1_PRESENCES[0], 200);
-
-		//
-		this.driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[0], true);
-	}
-
-	@Test
-	public void test06modifPresenceOff() {
-		//
-		this.driver.click(Menu.LIEN_INVITATION, 500);
-
-		//
-		this.driver.click(Invite.Input.LIGNE1_PRESENCES[0], 200);
-
-		//
-		this.driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[0], false);
-	}
-
-	@Test
-	public void test07modifPresenceAvecModele() {
-		//
-
-		//
-		this.driver.click(Invite.Input.APPLIQUER_AU_FOYER, 200);
-		this.driver.click(Invite.Input.MODELE_ETAPES[0], 200);
-		this.driver.click(Invite.Input.MODELE_ETAPES[1], 200);
-
-		this.driver.click(Invite.Button.LIGNE1_APPLIQUER_MODEL, 200);
-
-		this.driver.click(Menu.LIEN_INVITATION, 500);
-
-		//
-		this.driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[0], true);
-		this.driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[1], true);
-	}
-
-	@Test
-	public void test07modifPresenceAvecModele2() {
-		//
-
-		//
-		this.driver.click(Invite.Input.APPLIQUER_AU_FOYER, 200);
-		this.driver.click(Invite.Input.MODELE_ETAPES[0], 200);
-
-		this.driver.click(Invite.Button.LIGNE1_APPLIQUER_MODEL, 200);
-
-		this.driver.click(Menu.LIEN_INVITATION, 500);
-
-		//
-		this.driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[0], true);
-		this.driver.assertChecked(Invite.Input.LIGNE1_PRESENCES[1], false);
 	}
 
 }
