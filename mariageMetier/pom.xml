@@ -15,7 +15,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<version.catchException>1.4.4</version.catchException>
-		<version.hsqldb>2.3.4</version.hsqldb>
+		<!-- version.hsqldb-2.3.4 : bug avec flyway : http://stackoverflow.com/questions/38279412/flyway-hsql-db-create-tables-sql-migrate-hangs -->
+		<version.hsqldb>2.3.3</version.hsqldb>
+		<version.flyway>4.0.3</version.flyway>
 	</properties>
 
 	<build>
@@ -85,6 +87,13 @@
 			<artifactId>catch-exception</artifactId>
 			<version>${version.catchException}</version>
 			<scope>test</scope>
+		</dependency>
+		
+		<!-- Utilitaire pour la mise à jour du modèle de base de données -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>${version.flyway}</version>
 		</dependency>
 
 	</dependencies>
