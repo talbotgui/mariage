@@ -30,10 +30,6 @@ timeout(time:1, unit:'DAYS') {
 	input message:'Go to production?'
 }
 
-if (currentBuild.result == null) {
-	currentBuild.result = 'SUCCESS'
-}
-
 node {
     stage 'Production'
     sh "/var/lib/mariage/stopMariage.sh"
