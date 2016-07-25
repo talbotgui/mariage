@@ -8,6 +8,8 @@
 	</Appenders>
 
 	<Loggers>
+		<Logger name="org.flywaydb" level="warn"><AppenderRef ref="Console" /></Logger>
+		<Logger name="org.flywaydb.core.internal.command.DbMigrate" level="info"><AppenderRef ref="Console" /></Logger>
 		<Logger name="org.springframework" level="warn"><AppenderRef ref="Console" /></Logger>
 		<Logger name="org.hibernate" level="warn"><AppenderRef ref="Console" /></Logger>
 		<Logger name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper" level="error"><AppenderRef ref="Console" /></Logger>
