@@ -1,5 +1,6 @@
 package com.github.talbotgui.mariage.rest.selenium.utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -11,6 +12,9 @@ import javax.sql.DataSource;
 
 import org.junit.Assert;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,9 @@ public abstract class SeleniumTest extends AbstractTestNGSpringContextTests {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SeleniumTest.class);
 
+	/** Chemin vers le binaire de PhantomJS sur un poste Windows. */
+	private static final String PHANTOMJS_BINARY_PATH_FOR_WINDOWS = "D:\\Outils\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe";
+
 	/** ContextRoot de l'application. */
 	@Value("${server.context-path}")
 	protected String contextPath;
@@ -42,14 +49,14 @@ public abstract class SeleniumTest extends AbstractTestNGSpringContextTests {
 
 	@AfterClass
 	public void afterClass() throws Exception {
-		driver.quit();
+		this.driver.quit();
 	}
 
 	@BeforeClass
 	public void beforeClass() {
 
 		//
-		final String[] jdds = getJeuDeDonnees();
+		final String[] jdds = this.getJeuDeDonnees();
 		for (final String jdd : jdds) {
 			try {
 				final URI uri = ClassLoader.getSystemResource(jdd).toURI();
@@ -64,10 +71,20 @@ public abstract class SeleniumTest extends AbstractTestNGSpringContextTests {
 			}
 		}
 
-		//
-		driver = new MyDriver(new HtmlUnitDriver(BrowserVersion.FIREFOX_45, true));
-		driver.deleteAllCookies();
-		driver.get("http://localhost:" + port + contextPath + "/");
+		// Création du driver avec PhantomJS en priorité
+		if ((new File(PHANTOMJS_BINARY_PATH_FOR_WINDOWS)).exists()) {
+			final DesiredCapabilities caps = new DesiredCapabilities();
+			caps.setJavascriptEnabled(true);
+			caps.setCapability("takesScreenshot", true);
+			caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
+					PHANTOMJS_BINARY_PATH_FOR_WINDOWS);
+			this.driver = new MyDriver(new PhantomJSDriver(caps));
+		} else {
+			this.driver = new MyDriver(new HtmlUnitDriver(BrowserVersion.FIREFOX_45, true));
+		}
+
+		this.driver.deleteAllCookies();
+		this.driver.get("http://localhost:" + this.port + this.contextPath + "/");
 
 	}
 
