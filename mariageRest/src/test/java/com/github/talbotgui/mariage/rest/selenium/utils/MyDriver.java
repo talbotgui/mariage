@@ -75,7 +75,7 @@ public class MyDriver {
 			assertEquals(checked, this.driver.findElement(by).isSelected());
 			return null;
 		};
-		this.retry(assertion);
+		this.verifie(assertion);
 	}
 
 	public void assertCookieNotPresentOrValid(final String cookieName) {
@@ -84,7 +84,7 @@ public class MyDriver {
 			Assert.assertTrue(cookie == null || cookie.getExpiry().before(new Date()));
 			return null;
 		};
-		this.retry(assertion);
+		this.verifie(assertion);
 	}
 
 	public void assertCookiePresentAndValid(final String cookieName) {
@@ -93,7 +93,7 @@ public class MyDriver {
 			Assert.assertTrue(cookie != null && cookie.getExpiry().after(new Date()));
 			return null;
 		};
-		this.retry(assertion);
+		this.verifie(assertion);
 	}
 
 	public void assertElementNotPresent(final By by) {
@@ -112,7 +112,7 @@ public class MyDriver {
 			assertNotNull(MyDriver.this.driver.findElement(by));
 			return null;
 		};
-		this.retry(assertion);
+		this.verifie(assertion);
 	}
 
 	public void assertPageTitle(final String title) {
@@ -120,7 +120,7 @@ public class MyDriver {
 			assertEquals(title, this.driver.getTitle());
 			return null;
 		};
-		this.retry(assertion);
+		this.verifie(assertion);
 	}
 
 	public void assertTextEquals(final By by, final String text) {
@@ -128,7 +128,7 @@ public class MyDriver {
 			assertEquals(text, this.driver.findElement(by).getText());
 			return null;
 		};
-		this.retry(assertion);
+		this.verifie(assertion);
 	}
 
 	public void assertValueEquals(final By by, final String value) {
@@ -136,7 +136,7 @@ public class MyDriver {
 			assertEquals(value, this.driver.findElement(by).getAttribute("value"));
 			return null;
 		};
-		this.retry(assertion);
+		this.verifie(assertion);
 	}
 
 	public void click(final By by, final int timeToWait) {
@@ -179,24 +179,6 @@ public class MyDriver {
 		this.driver.quit();
 	}
 
-	private void retry(final Callable<Void> assertion) {
-		try {
-			this.retryer.call(assertion);
-		} catch (final RetryException e) {
-			if (e.getCause() != null && e.getCause() instanceof RuntimeException) {
-				throw (RuntimeException) e.getCause();
-			} else if (e.getCause() != null && e.getCause() instanceof Error) {
-				throw (Error) e.getCause();
-			} else if (e.getCause() != null) {
-				throw new RuntimeException(e.getCause());
-			} else {
-				throw new RuntimeException(e);
-			}
-		} catch (final ExecutionException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	public void select(final By by, final String visibleText, final int timeToWait) {
 		new Select(this.driver.findElement(by)).selectByVisibleText(visibleText);
 		this.sleepSilencieux(timeToWait);
@@ -217,6 +199,24 @@ public class MyDriver {
 		e.clear();
 		e.sendKeys(value);
 		this.sleepSilencieux(timeToWait);
+	}
+
+	private void verifie(final Callable<Void> assertion) {
+		try {
+			this.retryer.call(assertion);
+		} catch (final RetryException e) {
+			if (e.getCause() != null && e.getCause() instanceof RuntimeException) {
+				throw (RuntimeException) e.getCause();
+			} else if (e.getCause() != null && e.getCause() instanceof Error) {
+				throw (Error) e.getCause();
+			} else if (e.getCause() != null) {
+				throw new RuntimeException(e.getCause());
+			} else {
+				throw new RuntimeException(e);
+			}
+		} catch (final ExecutionException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
