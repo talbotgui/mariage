@@ -18,8 +18,7 @@ import cucumber.api.java.en.When;
 
 @WebIntegrationTest(randomPort = true)
 // @SpringApplicationConfiguration(classes = SeleniumTestApplication.class)
-
-// Le deux lignes ci-dessous sont ici à cause d'un bug :
+// Le deux lignes ci-dessous sont ici à cause d'un bug avec Spring boot :
 // https://github.com/cucumber/cucumber-jvm/issues/783
 @ContextConfiguration(classes = SeleniumTestApplication.class, loader = SpringApplicationContextLoader.class)
 @RunWith(SpringJUnit4ClassRunner.class)
