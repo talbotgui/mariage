@@ -33,7 +33,7 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 public class MyDriver {
 
 	private static final long DEFAULT_TIMEOUT = 10;
-	
+
 	private static final int NB_MS_ATTENTE_SI_ASSERTION_ERROR = 5000;
 
 	/** Chemin vers le binaire de PhantomJS sur un poste Windows. */
@@ -92,11 +92,21 @@ public class MyDriver {
 	}
 
 	public void assertTextEquals(final By by, final String text) {
-		assertEquals(text, this.driver.findElement(by).getText());
+		try {
+			assertEquals(text, this.driver.findElement(by).getText());
+		} catch (final AssertionError e) {
+			this.sleepSilencieux(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
+			assertEquals(text, this.driver.findElement(by).getText());
+		}
 	}
 
 	public void assertValueEquals(final By by, final String value) {
-		assertEquals(value, this.driver.findElement(by).getAttribute("value"));
+		try {
+			assertEquals(value, this.driver.findElement(by).getAttribute("value"));
+		} catch (final AssertionError e) {
+			this.sleepSilencieux(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
+			assertEquals(value, this.driver.findElement(by).getAttribute("value"));
+		}
 	}
 
 	public void click(final By by, final int timeToWait) {
@@ -105,7 +115,12 @@ public class MyDriver {
 	}
 
 	public void count(final By by, final int count) {
-		assertEquals(this.driver.findElements(by).size(), count);
+		try {
+			assertEquals(this.driver.findElements(by).size(), count);
+		} catch (final AssertionError e) {
+			this.sleepSilencieux(NB_MS_ATTENTE_SI_ASSERTION_ERROR);
+			assertEquals(this.driver.findElements(by).size(), count);
+		}
 	}
 
 	public void createSnapshot(final String filename) {
