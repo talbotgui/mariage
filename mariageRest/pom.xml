@@ -158,14 +158,6 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- Utilitaire pour traiter les ré-essais -->
-		<dependency>
-			<groupId>com.github.rholder</groupId>
-			<artifactId>guava-retrying</artifactId>
-			<version>2.0.0</version>
-			<scope>test</scope>
-		</dependency>
-		
 		<!-- Pour les tests IHM -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>

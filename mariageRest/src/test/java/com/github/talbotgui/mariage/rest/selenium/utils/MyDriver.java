@@ -6,8 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
@@ -28,11 +26,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.github.rholder.retry.RetryException;
-import com.github.rholder.retry.Retryer;
-import com.github.rholder.retry.RetryerBuilder;
-import com.github.rholder.retry.StopStrategies;
-import com.github.rholder.retry.WaitStrategies;
 
 /**
  * Driver personnalisé pour simplifier l'écriture des tests Selenium
@@ -40,6 +33,7 @@ import com.github.rholder.retry.WaitStrategies;
 public class MyDriver {
 
 	private static final long DEFAULT_TIMEOUT = 10;
+	
 	private static final int NB_MS_ATTENTE_SI_ASSERTION_ERROR = 5000;
 
 	/** Chemin vers le binaire de PhantomJS sur un poste Windows. */
@@ -51,9 +45,6 @@ public class MyDriver {
 	private WebDriver driver;
 
 	protected int port;
-
-	/** Utilitaire pour traiter les ré-essais. */
-	private Retryer<Void> retryer;
 
 	/**
 	 * Constructeur
@@ -68,29 +59,17 @@ public class MyDriver {
 	}
 
 	public void assertChecked(final By by, final boolean checked) {
-		final Callable<Void> assertion = () -> {
-			assertEquals(checked, this.driver.findElement(by).isSelected());
-			return null;
-		};
-		this.verifie(assertion);
+		assertEquals(checked, this.driver.findElement(by).isSelected());
 	}
 
 	public void assertCookieNotPresentOrValid(final String cookieName) {
-		final Callable<Void> assertion = () -> {
-			final Cookie cookie = this.driver.manage().getCookieNamed(cookieName);
-			Assert.assertTrue(cookie == null || cookie.getExpiry().before(new Date()));
-			return null;
-		};
-		this.verifie(assertion);
+		final Cookie cookie = this.driver.manage().getCookieNamed(cookieName);
+		Assert.assertTrue(cookie == null || cookie.getExpiry().before(new Date()));
 	}
 
 	public void assertCookiePresentAndValid(final String cookieName) {
-		final Callable<Void> assertion = () -> {
-			final Cookie cookie = this.driver.manage().getCookieNamed(cookieName);
-			Assert.assertTrue(cookie != null && cookie.getExpiry().after(new Date()));
-			return null;
-		};
-		this.verifie(assertion);
+		final Cookie cookie = this.driver.manage().getCookieNamed(cookieName);
+		Assert.assertTrue(cookie != null && cookie.getExpiry().after(new Date()));
 	}
 
 	public void assertElementNotPresent(final By by) {
@@ -105,35 +84,19 @@ public class MyDriver {
 	}
 
 	public void assertElementPresent(final By by) {
-		final Callable<Void> assertion = () -> {
-			assertNotNull(MyDriver.this.driver.findElement(by));
-			return null;
-		};
-		this.verifie(assertion);
+		assertNotNull(MyDriver.this.driver.findElement(by));
 	}
 
 	public void assertPageTitle(final String title) {
-		final Callable<Void> assertion = () -> {
-			assertEquals(title, this.driver.getTitle());
-			return null;
-		};
-		this.verifie(assertion);
+		assertEquals(title, this.driver.getTitle());
 	}
 
 	public void assertTextEquals(final By by, final String text) {
-		final Callable<Void> assertion = () -> {
-			assertEquals(text, this.driver.findElement(by).getText());
-			return null;
-		};
-		this.verifie(assertion);
+		assertEquals(text, this.driver.findElement(by).getText());
 	}
 
 	public void assertValueEquals(final By by, final String value) {
-		final Callable<Void> assertion = () -> {
-			assertEquals(value, this.driver.findElement(by).getAttribute("value"));
-			return null;
-		};
-		this.verifie(assertion);
+		assertEquals(value, this.driver.findElement(by).getAttribute("value"));
 	}
 
 	public void click(final By by, final int timeToWait) {
@@ -206,14 +169,6 @@ public class MyDriver {
 		// Initialisation du timeout par défaut
 		this.driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 
-		// Définition de la stratégie de ré-essai
-		final int nbEssais = 6;
-		final int tempsEntreDeuxEssaisEnMs = 500;
-		this.retryer = RetryerBuilder.<Void>newBuilder()//
-				.retryIfExceptionOfType(AssertionError.class).retryIfRuntimeException()//
-				.withStopStrategy(StopStrategies.stopAfterAttempt(nbEssais))//
-				.withWaitStrategy(WaitStrategies.fixedWait(tempsEntreDeuxEssaisEnMs, TimeUnit.MILLISECONDS))//
-				.build();
 	}
 
 	public void quit() {
@@ -240,24 +195,6 @@ public class MyDriver {
 		e.clear();
 		e.sendKeys(value);
 		this.sleepSilencieux(timeToWait);
-	}
-
-	private void verifie(final Callable<Void> assertion) {
-		try {
-			this.retryer.call(assertion);
-		} catch (final RetryException e) {
-			if (e.getCause() != null && e.getCause() instanceof RuntimeException) {
-				throw (RuntimeException) e.getCause();
-			} else if (e.getCause() != null && e.getCause() instanceof Error) {
-				throw (Error) e.getCause();
-			} else if (e.getCause() != null) {
-				throw new RuntimeException(e.getCause());
-			} else {
-				throw new RuntimeException(e);
-			}
-		} catch (final ExecutionException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 }

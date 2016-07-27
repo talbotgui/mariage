@@ -23,8 +23,7 @@ public class DtoAvecChoix {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	public DtoAvecChoix(final Object entite, final Class dtoClass, final Method getterAttributDuChoix,
+	public DtoAvecChoix(final Object entite, final Class<?> dtoClass, final Method getterAttributDuChoix,
 			final Collection<?> choixPossibles) throws ReflectiveOperationException, IllegalArgumentException {
 
 		this.dto = DTOUtils.creerDto(entite, dtoClass);
