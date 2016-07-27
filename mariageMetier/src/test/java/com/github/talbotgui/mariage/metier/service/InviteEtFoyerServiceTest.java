@@ -413,4 +413,25 @@ public class InviteEtFoyerServiceTest {
 		Assert.assertNotNull(foyer);
 		Assert.assertEquals("F1", foyer.getNom());
 	}
+
+	@Test
+	public void test11Publipostage() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageAvecInvitations();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idCourrier1 = this.instance.listeCourriersParIdMariage(idMariage).iterator().next().getId();
+
+		// ACT
+		final String contenuPublipostage = this.instance.generePublipostage(idMariage, idCourrier1);
+		System.err.println(contenuPublipostage);
+		// ASSERT
+		Assert.assertNotNull(contenuPublipostage);
+		final String[] lignes = contenuPublipostage.split("\n");
+		Assert.assertEquals(4, lignes.length);
+		Assert.assertEquals("NOM;RUE;VILLE", lignes[0]);
+		Assert.assertEquals("G A X et G C X et G F X;add1", lignes[1]);
+		Assert.assertEquals("G I X et G J X et T P X;add1", lignes[2]);
+		Assert.assertEquals("T A X et T J X;add1", lignes[3]);
+	}
 }

@@ -22,15 +22,21 @@ public interface MariageService {
 
 	Mariage chargeMariageParId(Long idMariage);
 
+	String generePublipostage(Long idMariage, Long idCourrier);
+
 	Foyer getFoyer(Long idMariage, String nomFoyer);
 
 	void lieUneEtapeEtUnCourrier(Long idMariage, Long idEtape, Long idCourrier, boolean lie);
+
+	void lieUnFoyerEtUnCourrier(final Long idMariage, final Long idEtape, final Long idFoyer, final boolean invitation);
 
 	Collection<String> listeAgePossible();
 
 	Collection<Courrier> listeCourriersParIdMariage(Long idMariage);
 
 	Collection<Etape> listeEtapesParIdMariage(Long idMariage);
+
+	Collection<Foyer> listeFoyersParIdCourrier(Long idMariage, Long idCourrier);
 
 	Collection<Foyer> listeFoyersParIdMariage(Long idMariage);
 
@@ -39,9 +45,6 @@ public interface MariageService {
 	Page<Invite> listeInvitesParIdMariage(Long idMariage, Pageable page);
 
 	Collection<Mariage> listeTousMariages();
-
-	void lieUnFoyerEtUnCourrier(final Long idMariage, final Long idEtape, final Long idFoyer,
-			final boolean invitation);
 
 	Long sauvegarde(Long idMariage, Courrier courrier);
 

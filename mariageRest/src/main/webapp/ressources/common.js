@@ -137,7 +137,7 @@ var ajaxFailFunctionToDisplayWarn = function(appelant) {
  * Alimentation des selectsBox
  */
 var alimentationSelectBox = function() {
-	$("select[source!='']").each(function(i, v) {
+	$("select[data-source!=''][data-source]").each(function(i, v) {
 		var sel = $(v);
 		var source = sel.attr("data-source");
 		var empty = sel.attr("data-empty") === "true";

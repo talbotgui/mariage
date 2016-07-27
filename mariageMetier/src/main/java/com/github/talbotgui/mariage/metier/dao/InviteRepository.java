@@ -31,17 +31,17 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 			+ " where m.id = :idMariage")
 	StatistiquesInvitesMariage calculStatistiquesInvites(@Param("idMariage") Long idMariage);
 
-	@Query("select e.nom, count(f)"//
+	@Query("select e.nom, count(distinct f)"//
 			+ " from Mariage m join m.foyers f join f.courriersInvitation c join c.etapes e"//
 			+ " where m.id = :idMariage group by e.nom")
 	List<Object[]> compteNombreFoyerParEtape(@Param("idMariage") Long idMariage);
 
-	@Query("select i.age, count(i)"//
+	@Query("select i.age, count(distinct i)"//
 			+ " from Mariage m join m.foyers f join f.invites i"//
 			+ " where m.id = :idMariage group by i.age")
 	List<Object[]> compteNombreInviteParAge(@Param("idMariage") Long idMariage);
 
-	@Query("select e.nom, count(i)"//
+	@Query("select e.nom, count(distinct i)"//
 			+ " from Mariage m join m.foyers f join f.courriersInvitation c join c.etapes e join f.invites i"//
 			+ " where m.id = :idMariage group by e.nom")
 	List<Object[]> compteNombreInviteParEtape(@Param("idMariage") Long idMariage);
@@ -49,7 +49,7 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 	@Query("select f.nom, size(f.invites) from Mariage m join m.foyers f where m.id = :idMariage group by f.nom")
 	List<Object[]> compteNombreInviteParFoyer(@Param("idMariage") Long idMariage);
 
-	@Query("select f.groupe, count(i) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage group by f.groupe")
+	@Query("select f.groupe, count(distinct i) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage group by f.groupe")
 	List<Object[]> compteNombreInviteParGroupe(@Param("idMariage") Long idMariage);
 
 	@Query("delete Invite where id in (select i.id from Invite i where i.foyer.mariage.id = :idMariage)")

@@ -101,6 +101,21 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public String generePublipostage(final Long idMariage, final Long idCourrier) {
+		final StringBuilder contenu = new StringBuilder("NOM;RUE;VILLE");
+
+		final Collection<Foyer> foyersInvite = this.courrierRepository
+				.findFoyersInvitesByIdCourrierFetchInvites(idMariage, idCourrier);
+
+		for (final Foyer f : foyersInvite) {
+			contenu.append("\n");
+			contenu.append(f.genereLignePublipostage());
+		}
+
+		return contenu.toString();
+	}
+
+	@Override
 	public Foyer getFoyer(final Long idMariage, final String nomFoyer) {
 		return this.foyerRepository.findOneParNom(idMariage, nomFoyer);
 	}
@@ -160,6 +175,11 @@ public class MariageServiceImpl implements MariageService {
 	@Override
 	public Collection<Etape> listeEtapesParIdMariage(final Long idMariage) {
 		return this.mariageRepository.listeEtapesParIdMariage(idMariage);
+	}
+
+	@Override
+	public Collection<Foyer> listeFoyersParIdCourrier(final Long idMariage, final Long idCourrier) {
+		return this.foyerRepository.listeFoyersParIdCourrier(idMariage, idCourrier);
 	}
 
 	@Override
@@ -235,6 +255,9 @@ public class MariageServiceImpl implements MariageService {
 		for (final Foyer f : m.getFoyers()) {
 			for (final Invite i : f.getInvites()) {
 				this.sauvegardeInviteEtFoyer(id, i);
+			}
+			for (final Courrier c : f.getCourriersInvitation()) {
+				this.lieUnFoyerEtUnCourrier(id, c.getId(), f.getId(), true);
 			}
 		}
 

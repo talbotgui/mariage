@@ -3,6 +3,9 @@ package com.github.talbotgui.mariage.metier.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -83,20 +86,69 @@ public class Foyer implements Serializable {
 		this(null, groupe, nom, adresse, email, telephone);
 	}
 
+	public void addCourrierInvitation(final Courrier c1) {
+		this.courriersInvitation.add(c1);
+	}
+
 	public void addInvite(final Invite i) {
 		this.invites.add(i);
+	}
+
+	/**
+	 * Genere une ligne de texte contenant, séparés par un ';', :
+	 * <ul>
+	 * <li>La concatenation des noms des invites</li>
+	 * <li>Le nom de la rue</li>
+	 * <li>le code postal et la ville</li>
+	 * </ul>
+	 *
+	 * @return
+	 */
+	public String genereLignePublipostage() {
+		final StringBuilder sb = new StringBuilder();
+
+		// Tri des invites par nom puis age
+		final Comparator<Invite> parNom = (i1, i2) -> i1.getNom().compareTo(i2.getNom()) * 10000
+				+ i1.getAge().compareTo(i2.getAge()) * 100 + i1.getPrenom().compareTo(i2.getPrenom());
+		final Set<Invite> invitesTries = new TreeSet<>(parNom);
+		invitesTries.addAll(this.invites);
+
+		// noms
+		String nomPrecedent = null;
+		for (final Invite i : invitesTries) {
+			if (nomPrecedent == null) {
+				sb.append(i.getNom());
+			} else if (!nomPrecedent.equals(i.getNom())) {
+				sb.append(" et ");
+				sb.append(i.getNom());
+			} else {
+				sb.append(",");
+			}
+			sb.append(" ");
+			sb.append(i.getPrenom());
+			nomPrecedent = i.getNom();
+		}
+		sb.append(";");
+
+		// rueEtVille
+		if (this.adresse != null) {
+			sb.append(this.adresse.replaceFirst("[ ]*[\\-_]+[ ]*", ";"));
+		} else {
+			sb.append(";");
+		}
+		return sb.toString();
 	}
 
 	public String getAdresse() {
 		return this.adresse;
 	}
 
-	public String getEmail() {
-		return this.email;
-	}
-
 	public Collection<Courrier> getCourriersInvitation() {
 		return new ArrayList<>(this.courriersInvitation);
+	}
+
+	public String getEmail() {
+		return this.email;
 	}
 
 	public String getGroupe() {
@@ -127,12 +179,12 @@ public class Foyer implements Serializable {
 		this.adresse = adresse;
 	}
 
-	public void setEmail(final String email) {
-		this.email = email;
-	}
-
 	public void setCourriersInvitation(final Collection<Courrier> courriersInvitation) {
 		this.courriersInvitation = new ArrayList<>(courriersInvitation);
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
 	}
 
 	public void setGroupe(final String groupe) {

@@ -4,11 +4,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.talbotgui.mariage.metier.dto.DTOUtils;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
+import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.service.MariageService;
 import com.github.talbotgui.mariage.rest.controleur.dto.CourrierDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.EtapeDTO;
+import com.github.talbotgui.mariage.rest.controleur.dto.FoyerDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.ReponseAvecChoix;
 import com.github.talbotgui.mariage.rest.exception.RestException;
 
@@ -34,6 +39,23 @@ public class CourrierRestControler {
 
 	@Autowired
 	private MariageService mariageService;
+
+	@RequestMapping(value = "/mariage/{idMariage}/courrier/{idCourrier}/publipostage", method = GET)
+	public void generePubliPostage(//
+			@PathVariable(value = "idMariage") final Long idMariage, //
+			@PathVariable(value = "idCourrier") final Long idCourrier, //
+			final HttpServletResponse response) {
+		final String contenu = this.mariageService.generePublipostage(idMariage, idCourrier);
+
+		try {
+			response.getOutputStream().write(contenu.getBytes("UTF8"));
+			response.setContentType("text/csv");
+			response.setHeader("Content-Disposition", "attachment; filename=publipostage.csv");
+			response.flushBuffer();
+		} catch (final IOException e) {
+			throw new RestException(RestException.ERREUR_IO, e);
+		}
+	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/courrier/{idCourrier}", method = POST)
 	public void lieCourrierEtEtape(//
@@ -53,6 +75,14 @@ public class CourrierRestControler {
 		final Method method = Courrier.class.getMethod("getEtapes");
 
 		return new ReponseAvecChoix(etapes, EtapeDTO.class, courriers, CourrierDTO.class, method);
+	}
+
+	@RequestMapping(value = "/mariage/{idMariage}/courrier/{idCourrier}/foyers", method = GET)
+	public Collection<FoyerDTO> listeFoyersParCourrier(//
+			@PathVariable(value = "idMariage") final Long idMariage, //
+			@PathVariable(value = "idCourrier") final Long idCourrier) {
+		final Collection<Foyer> foyers = this.mariageService.listeFoyersParIdCourrier(idMariage, idCourrier);
+		return DTOUtils.creerDtos(foyers, FoyerDTO.class);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/courrier", method = POST)

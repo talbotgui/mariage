@@ -32,39 +32,28 @@ X Ajouter un email dans les courriers
 X menu collapsible 
 X css event/odd dans les tableaux !
 X Gérer les problèmes de cache des javascript !
-  Refactoring profond pour ajouter l'entité Foyer
+X Refactoring profond pour ajouter l'entité Foyer
+X Ajout des étapes dans le tableau des courriers
+X Ajouter le publipostage
+
+  Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
+
+  Bug quand on coche une case sur une page, qu'on change de page et qu'on revient
+
+  conserver les tris et filtres de page en page
+
+  tenter de remplacer les retry dans MyDriver par "(new WebDriverWait(this.driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(by));"
   
-  Ajouter des tests Selenium pour :
-X	@RequestMapping(value = "/monitoring", method = GET)
-	@RequestMapping(value = "/mariage/{idMariage}/etape/{idEtape}", method = DELETE)
-	@RequestMapping(value = "/mariage/{idMariage}/statistiques", method = GET)
-	@RequestMapping(value = "/mariage/{idMariage}/invite/{idInvite}", method = DELETE)
-	@RequestMapping(value = "/mariage/{idMariage}/courrier/{idCourrier}", method = POST)
-	@RequestMapping(value = "/mariage/{idMariage}/courrier", method = GET)
-	@RequestMapping(value = "/mariage/{idMariage}/courrier", method = POST)
-	@RequestMapping(value = "/mariage/{idMariage}/courrier/{idCourrier}", method = DELETE)
-X   @RequestMapping(value = "/utilisateur/{login}", method = DELETE)
-	@RequestMapping(value = SecurityFilter.LOGIN_REST, method = POST)
-	@RequestMapping(value = SecurityFilter.LOGOUT_REST, method = GET)
+  Améliorer la couverture des tests Selenium
 
   div attente tableau et bloquante !!
   
-  dupliquer les boutons "ajouter" et "ajouter en masse" en haut
+  dupliquer les boutons "ajouter" en haut
   
   ajouter un bouton raffraichir avec conservation du nombre d'item de pagination
   
-  Ajout les étapes dans le tableau des courriers
-  
-  Dans la page "gestion des invitations", ajouter l'autocomplétion dans le champ "groupe" et "foyer"
-
-  Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
-  
   Ajouter une page "gestion des réponses" dans laquelle on peut cocher qui vient à quelles étapes
 
-  Ajouter une fonction d'import/export dans la gestion des adresses
-
-  Gérer les transports long et locaux
-  
   Gérér les hébergements
   
   Changer le "no data to display"

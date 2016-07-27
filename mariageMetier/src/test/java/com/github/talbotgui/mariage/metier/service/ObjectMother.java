@@ -2,6 +2,7 @@ package com.github.talbotgui.mariage.metier.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
@@ -13,6 +14,23 @@ import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 
 public class ObjectMother {
+
+	public static Mariage creeMariageAvecInvitations() throws ParseException {
+		final Mariage mariage = creeMariageSimple();
+
+		final Courrier c1 = ((List<Courrier>) mariage.getCourriers()).get(0);
+		final Courrier c2 = ((List<Courrier>) mariage.getCourriers()).get(1);
+		int i = 0;
+		for (final Foyer f : mariage.getFoyers()) {
+			f.addCourrierInvitation(c1);
+			if (i % 2 == 0) {
+				f.addCourrierInvitation(c2);
+			}
+			i++;
+		}
+
+		return mariage;
+	}
 
 	public static Mariage creeMariageSeul() throws ParseException {
 		final SimpleDateFormat da = new SimpleDateFormat("dd/MM/yyyy");
