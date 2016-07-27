@@ -9,7 +9,6 @@ import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Commun;
 import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Index;
 import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Menu;
 import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.ParametresEtape;
-import com.github.talbotgui.mariage.rest.selenium.utils.SeleniumTest;
 
 @WebIntegrationTest(randomPort = true)
 @SpringApplicationConfiguration(classes = SeleniumTestApplication.class)

@@ -55,6 +55,8 @@ public class Selectors {
 			public static final By MARIE2 = By.id("marie2");
 			public static final By SELECTION_MARIAGE = By.id("selectionMariage");
 		}
+
+		public static final String NOM_PAGE = "index.html";
 	}
 
 	/**

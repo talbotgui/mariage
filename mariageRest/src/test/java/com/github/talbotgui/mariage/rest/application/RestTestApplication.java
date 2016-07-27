@@ -9,7 +9,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
- * Une configuration Spring-boot pour l'application. Cette classe remplace le traditionnel fichier XML.
+ * Une configuration Spring-boot pour l'application. Cette classe remplace le
+ * traditionnel fichier XML.
  */
 @SpringBootApplication
 @EntityScan({ RestApplication.ENTITY_SCAN })
