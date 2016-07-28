@@ -25,7 +25,7 @@ public class Foyer implements Serializable {
 	private String adresse;
 
 	@ManyToMany
-	@JoinTable(name = "FOYER_COURRIER_INVITATION", //
+	@JoinTable(name = "INVITATION", //
 			joinColumns = { @JoinColumn(name = "FOYER_ID", insertable = false, updatable = false) }, //
 			inverseJoinColumns = { @JoinColumn(name = "COURRIER_ID", insertable = false, updatable = false) }//
 	)

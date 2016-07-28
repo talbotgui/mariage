@@ -7,7 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Embeddable
-public class FoyerCourrierInvitationId implements Serializable {
+public class InvitationId implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne
@@ -18,11 +18,11 @@ public class FoyerCourrierInvitationId implements Serializable {
 	@JoinColumn(name = "FOYER_ID")
 	private Foyer foyer;
 
-	protected FoyerCourrierInvitationId() {
+	protected InvitationId() {
 		super();
 	}
 
-	public FoyerCourrierInvitationId(final Courrier courrier, final Foyer foyer) {
+	public InvitationId(final Courrier courrier, final Foyer foyer) {
 		super();
 		this.setCourrier(courrier);
 		this.setFoyer(foyer);

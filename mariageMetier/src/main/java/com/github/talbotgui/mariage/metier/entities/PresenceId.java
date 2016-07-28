@@ -7,7 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Embeddable
-public class InviteEtapePresenceId implements Serializable {
+public class PresenceId implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne
@@ -18,11 +18,11 @@ public class InviteEtapePresenceId implements Serializable {
 	@JoinColumn(name = "INVITE_ID")
 	private Invite invite;
 
-	protected InviteEtapePresenceId() {
+	protected PresenceId() {
 		super();
 	}
 
-	public InviteEtapePresenceId(final Etape etape, final Invite invite) {
+	public PresenceId(final Etape etape, final Invite invite) {
 		super();
 		this.setEtape(etape);
 		this.setInvite(invite);

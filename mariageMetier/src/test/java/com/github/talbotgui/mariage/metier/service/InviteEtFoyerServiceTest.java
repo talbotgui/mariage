@@ -229,7 +229,7 @@ public class InviteEtFoyerServiceTest {
 		final Mariage original = ObjectMother.creeMariageSimple();
 		final Long idMariage = this.instance.sauvegardeGrappe(original);
 
-		final String sql = "select count(*) from FOYER_COURRIER_INVITATION";
+		final String sql = "select count(*) from INVITATION";
 		final Long nbPresenceTrueAvant = jdbc.queryForObject(sql, Long.class);
 
 		final Collection<Invite> invites = this.instance.listeInvitesParIdMariage(idMariage);
@@ -253,7 +253,7 @@ public class InviteEtFoyerServiceTest {
 		final Mariage original = ObjectMother.creeMariageSimple();
 		final Long idMariage = this.instance.sauvegardeGrappe(original);
 
-		final String sql = "select count(*) from FOYER_COURRIER_INVITATION";
+		final String sql = "select count(*) from INVITATION";
 		final Long nbPresenceTrueAvant = jdbc.queryForObject(sql, Long.class);
 
 		final Collection<Invite> invites = this.instance.listeInvitesParIdMariage(idMariage);
@@ -337,9 +337,11 @@ public class InviteEtFoyerServiceTest {
 
 		Assert.assertEquals("invites par etape nb", 5, repartitions.getNbParEtape().size());
 		Assert.assertEquals("invites par etape value", (Integer) 12, repartitions.getNbParEtape().get("Mairie"));
+		Assert.assertEquals("invites par etape value", (Integer) 4, repartitions.getNbParEtape().get("Repas"));
 
 		Assert.assertEquals("foyers par etape nb", 5, repartitions.getNbFoyersParEtape().size());
 		Assert.assertEquals("foyers par etape value", (Integer) 3, repartitions.getNbFoyersParEtape().get("Mairie"));
+		Assert.assertEquals("foyers par etape value", (Integer) 1, repartitions.getNbFoyersParEtape().get("Repas"));
 	}
 
 	@Test

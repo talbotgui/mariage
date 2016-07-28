@@ -1,6 +1,6 @@
 delete from COURRIER_ETAPES
-delete from INVITE_ETAPE_PRESENCE
-delete from FOYER_COURRIER_INVITATION
+delete from PRESENCE
+delete from INVITATION
 delete from COURRIER
 delete from ETAPE
 delete from INVITE

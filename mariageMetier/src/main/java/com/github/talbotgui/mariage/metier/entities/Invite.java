@@ -20,7 +20,7 @@ public class Invite implements Serializable {
 	private Age age;
 
 	@ManyToMany
-	@JoinTable(name = "INVITE_ETAPE_PRESENCE", //
+	@JoinTable(name = "PRESENCE", //
 			joinColumns = { @JoinColumn(name = "INVITE_ID", insertable = false, updatable = false) }, //
 			inverseJoinColumns = { @JoinColumn(name = "ETAPE_ID", insertable = false, updatable = false) }//
 	)
