@@ -50,6 +50,7 @@ var telechargeFichierPublipostage = function() {
 	var idCourrier = $("#courrier").val();
 	if (idCourrier != "") {
 		window.open(REST_PREFIX + "/mariage/" + getIdMariage() + "/courrier/" + idCourrier+ "/publipostage");
+		window.open(REST_PREFIX + "/modelePublipostage.docx");
 	}
 };
 
