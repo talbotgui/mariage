@@ -426,7 +426,7 @@ public class InviteEtFoyerServiceTest {
 
 		// ACT
 		final String contenuPublipostage = this.instance.generePublipostage(idMariage, idCourrier1);
-		System.err.println(contenuPublipostage);
+
 		// ASSERT
 		Assert.assertNotNull(contenuPublipostage);
 		final String[] lignes = contenuPublipostage.split("\n");
