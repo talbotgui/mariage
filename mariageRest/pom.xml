@@ -21,6 +21,7 @@
 		<version.hsqldb>2.3.3</version.hsqldb>
 		<version.selenium>2.53.1</version.selenium>
 		<version.cucumber>1.2.4</version.cucumber>
+		<version.springfox>2.5.0</version.springfox>
 		
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 		<buildTimestamp>${maven.build.timestamp}</buildTimestamp>
@@ -205,6 +206,18 @@
 			<artifactId>cucumber-spring</artifactId>
 			<version>${version.cucumber}</version>
 			<scope>test</scope>
+		</dependency>
+		
+		<!-- Pour documenter l'API REST -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${version.springfox}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${version.springfox}</version>
 		</dependency>
 		
 	</dependencies>

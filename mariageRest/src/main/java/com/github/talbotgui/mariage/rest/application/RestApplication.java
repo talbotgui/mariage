@@ -1,5 +1,7 @@
 package com.github.talbotgui.mariage.rest.application;
 
+import java.time.LocalDate;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
@@ -12,13 +14,23 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.github.talbotgui.mariage.metier.service.SecuriteService;
 
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.Tag;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 /**
- * Une configuration Spring-boot pour l'application. Cette classe remplace le traditionnel fichier XML.
+ * Une configuration Spring-boot pour l'application. Cette classe remplace le
+ * traditionnel fichier XML.
  */
 @SpringBootApplication
+@EnableSwagger2
 @EntityScan({ RestApplication.ENTITY_SCAN })
 @ComponentScan({ RestApplication.COMPONENT_SCAN_WEB, RestApplication.COMPONENT_SCAN_SECU,
 		RestApplication.COMPONENT_SCAN_SRV })
@@ -73,6 +85,21 @@ public class RestApplication {
 			final MimeMappings mappings = new MimeMappings(MimeMappings.DEFAULT);
 			container.setMimeMappings(mappings);
 		});
+	}
+
+	/**
+	 * @See http://springfox.github.io/springfox/docs/current/#springfox-samples
+	 * @return SpringFox configuration
+	 */
+	@Bean
+	public Docket getRestApiDescriptionWithSwagger() {
+		return new Docket(DocumentationType.SWAGGER_2)//
+				.select().apis(RequestHandlerSelectors.any())//
+				.paths(PathSelectors.any()).build().pathMapping("/")//
+				.directModelSubstitute(LocalDate.class, String.class)//
+				.genericModelSubstitutes(ResponseEntity.class)//
+				.enableUrlTemplating(true)//
+				.tags(new Tag("API MonMariage", "Description de l'API de l'application MonMariage"));
 	}
 
 }
