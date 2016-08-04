@@ -6,6 +6,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 @Embeddable
 public class PresenceId implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -28,12 +30,31 @@ public class PresenceId implements Serializable {
 		this.setInvite(invite);
 	}
 
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		} else if (obj == null || this.getClass() != obj.getClass()) {
+			return false;
+		}
+
+		return this.hashCode() == obj.hashCode();
+	}
+
 	public Etape getEtape() {
 		return this.etape;
 	}
 
 	public Invite getInvite() {
 		return this.invite;
+	}
+
+	@Override
+	public int hashCode() {
+		final HashCodeBuilder hcb = new HashCodeBuilder();
+		hcb.append(this.etape.getId());
+		hcb.append(this.invite.getId());
+		return hcb.toHashCode();
 	}
 
 	public void setEtape(final Etape etape) {
