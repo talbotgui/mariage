@@ -88,7 +88,8 @@ public class RestApplication {
 	}
 
 	/**
-	 * @See http://springfox.github.io/springfox/docs/current/#springfox-samples
+	 * @see http://springfox.github.io/springfox/docs/current/#springfox-samples
+	 *
 	 * @return SpringFox configuration
 	 */
 	@Bean
