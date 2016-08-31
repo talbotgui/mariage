@@ -10,12 +10,12 @@ node {
     sh "cp mariageRest/target/mariageRest-*.war ./mariageRest.war"
 
     stage 'Unit test'
-    sh "${mvnHome}/bin/mvn clean test-compile surefire:test"
-    step([$class: 'JUnitResultArchiver', testResults: '**/TEST-*Test.xml'])
+    sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore clean test-compile surefire:test"
+    junit '**/TEST-*Test.xml'
 
     stage 'Integration test'
-    sh "${mvnHome}/bin/mvn clean test-compile failsafe:integration-test"
-    step([$class: 'JUnitResultArchiver', testResults: '**/failsafe-reports/TEST-*.xml'])
+    sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore clean test-compile failsafe:integration-test"
+    junit '**/failsafe-reports/TEST-*.xml'
     
     stage 'Quality'
     sh "${mvnHome}/bin/mvn site -Dmaven.test.skip=true"
@@ -23,6 +23,9 @@ node {
     step([$class: 'CheckStylePublisher'])
     step([$class: 'AnalysisPublisher'])
     step([$class: 'JavadocArchiver', javadocDir: 'mariageRest/target/site/apidocs', keepAll: false])
+	
+	stage 'Archive'
+	archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
 }
 
 stage 'Approve'
