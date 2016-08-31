@@ -25,7 +25,7 @@ node {
     step([$class: 'JavadocArchiver', javadocDir: 'mariageRest/target/site/apidocs', keepAll: false])
 	
 	stage 'Archive'
-	archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
+	archiveArtifacts artifacts: 'mariageRest.war', fingerprint: true
 }
 
 stage 'Approve'
