@@ -40,8 +40,8 @@ public class SecurityFilter implements Filter {
 			response.addHeader("Content-Security-Policy", "child-src 'none'; object-src 'none'");
 		} else {
 			response.addHeader("Content-Security-Policy", "default-src https:; child-src 'none'; object-src 'none'");
+			response.addHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
 		}
-		response.addHeader("Strict-Transport-Security", "max-age=31536000");
 	}
 
 	private void checkUserIsLoggedIn(final FilterChain chain, final HttpServletRequest request,
