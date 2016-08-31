@@ -27,11 +27,20 @@ public class SecurityFilter implements Filter {
 	public static final String LOGOUT_REST = "/dologout";
 	protected static final String SESSION_KEY_USER_LOGIN = "USER_LOGIN";
 
-	private void addResponseHeaders(final HttpServletResponse response) {
+	private void addResponseHeaders(final HttpServletRequest request, final HttpServletResponse response) {
+		// N'impose pas le HTTPs en local
+		final boolean httpOnly = request.getHeader("X-FORWARDED-FOR") == null
+				&& request.getRemoteAddr().equals("127.0.0.1")
+				&& request.getRequestURL().toString().contains("://localhost:9090");
+
 		response.addHeader("X-XSS-Protection", "1; mode=block;");
 		response.addHeader("X-Frame-Options", "DENY");
 		response.addHeader("X-Content-Type-Options", "nosniff");
-		response.addHeader("Content-Security-Policy", "child-src 'none'; object-src 'none'");
+		if (httpOnly) {
+			response.addHeader("Content-Security-Policy", "child-src 'none'; object-src 'none'");
+		} else {
+			response.addHeader("Content-Security-Policy", "default-src https:; child-src 'none'; object-src 'none'");
+		}
 		response.addHeader("Strict-Transport-Security", "max-age=31536000");
 	}
 
@@ -67,7 +76,7 @@ public class SecurityFilter implements Filter {
 		final HttpServletRequest request = (HttpServletRequest) req;
 		final HttpServletResponse response = (HttpServletResponse) res;
 
-		this.addResponseHeaders(response);
+		this.addResponseHeaders(request, response);
 		this.checkUserIsLoggedIn(chain, request, response);
 
 	}
