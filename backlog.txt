@@ -36,6 +36,8 @@ X Refactoring profond pour ajouter l'entité Foyer
 X Ajout des étapes dans le tableau des courriers
 X Ajouter le publipostage
 
+  Regarder à Selenium 3 (encore en beta ??)
+
   Ajouter une colonne pour cocher qui a bien reçu le courrier par foyer
 
   Mettre des milestones dans le pipeline (https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Milestone+Step+Plugin)
