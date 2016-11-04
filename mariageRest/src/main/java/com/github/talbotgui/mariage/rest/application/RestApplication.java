@@ -16,6 +16,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur;
 import com.github.talbotgui.mariage.metier.service.SecuriteService;
 
 import springfox.documentation.builders.PathSelectors;
@@ -61,7 +62,7 @@ public class RestApplication {
 		// Si aucun utilisateur au base, on en crée un par défaut
 		final SecuriteService securiteService = ac.getBean(SecuriteService.class);
 		if (securiteService.listeUtilisateurs().isEmpty()) {
-			securiteService.creeUtilisateur("adminAsupprimer", "adminAsupprimer");
+			securiteService.sauvegardeUtilisateur("adminAsupprimer", "adminAsupprimer", Utilisateur.Role.ADMIN);
 		}
 	}
 

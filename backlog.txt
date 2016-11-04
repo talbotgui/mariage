@@ -36,10 +36,8 @@ X Refactoring profond pour ajouter l'entité Foyer
 X Ajout des étapes dans le tableau des courriers
 X Ajouter le publipostage
 x Gerer les erreurs de connexion répétées
-
-  ajouter la notion de rôle (un champ avec un enum) pour limiter la vision des menus et les accès aux URL REST
-
-  limiter la visibilité des utilisateurs à l'administrateur
+x ajouter la notion de rôle (un champ avec un enum) pour limiter la vision des menus et les accès aux URL REST
+x limiter la visibilité des utilisateurs à l'administrateur
 
   Regarder à Selenium 3 (encore en beta ??)
 

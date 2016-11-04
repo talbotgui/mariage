@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.sql.DataSource;
@@ -23,6 +24,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur;
+import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur.Role;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
 import com.googlecode.catchexception.CatchException;
 
@@ -63,7 +65,7 @@ public class SecuriteServiceTest {
 		final String mdp = "unBonMdp";
 
 		//
-		this.instance.creeUtilisateur(login, mdp);
+		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where login=?",
@@ -79,7 +81,7 @@ public class SecuriteServiceTest {
 		final String mdp = "unBonMdp";
 
 		//
-		CatchException.catchException(this.instance).creeUtilisateur(login, mdp);
+		CatchException.catchException(this.instance).sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
 		Assert.assertNotNull(CatchException.caughtException());
@@ -94,7 +96,7 @@ public class SecuriteServiceTest {
 		final String mdp = "un";
 
 		//
-		CatchException.catchException(this.instance).creeUtilisateur(login, mdp);
+		CatchException.catchException(this.instance).sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
 		Assert.assertNotNull(CatchException.caughtException());
@@ -108,7 +110,7 @@ public class SecuriteServiceTest {
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
-		this.instance.creeUtilisateur(login, mdp);
+		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 		final Long idMariage = this.mariageService.sauvegarde(ObjectMother.creeMariageSeul());
 
 		//
@@ -126,7 +128,7 @@ public class SecuriteServiceTest {
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
-		this.instance.creeUtilisateur(login, mdp);
+		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 		final Long idMariage = this.mariageService.sauvegarde(ObjectMother.creeMariageSeul());
 		this.instance.ajouteAutorisation(login, idMariage);
 
@@ -145,7 +147,7 @@ public class SecuriteServiceTest {
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
-		this.instance.creeUtilisateur(login, mdp);
+		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 		final Long idMariage = this.mariageService.sauvegarde(ObjectMother.creeMariageSeul());
 		this.instance.ajouteAutorisation(login, idMariage);
 
@@ -167,7 +169,7 @@ public class SecuriteServiceTest {
 		//
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
-		this.instance.creeUtilisateur(login, mdp);
+		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
 		this.instance.verifieUtilisateur(login, mdp);
@@ -181,7 +183,7 @@ public class SecuriteServiceTest {
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
 		final String mauvaisMdp = "pasBonMdp";
-		this.instance.creeUtilisateur(login, mdp);
+		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
 		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
@@ -197,7 +199,7 @@ public class SecuriteServiceTest {
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
 		final String mauvaisLogin = "pasMonLogin";
-		this.instance.creeUtilisateur(login, mdp);
+		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
 		CatchException.catchException(this.instance).verifieUtilisateur(mauvaisLogin, mdp);
@@ -210,10 +212,10 @@ public class SecuriteServiceTest {
 	@Test
 	public void test06ListeUtilisateurs() {
 		//
-		this.instance.creeUtilisateur("monLogin1", "monMdp");
-		this.instance.creeUtilisateur("monLogin2", "monMdp");
-		this.instance.creeUtilisateur("monLogin3", "monMdp");
-		this.instance.creeUtilisateur("monLogin4", "monMdp");
+		this.instance.sauvegardeUtilisateur("monLogin1", "monMdp", Utilisateur.Role.ADMIN);
+		this.instance.sauvegardeUtilisateur("monLogin2", "monMdp", Utilisateur.Role.ADMIN);
+		this.instance.sauvegardeUtilisateur("monLogin3", "monMdp", Utilisateur.Role.ADMIN);
+		this.instance.sauvegardeUtilisateur("monLogin4", "monMdp", Utilisateur.Role.ADMIN);
 
 		//
 		final Collection<Utilisateur> liste = this.instance.listeUtilisateurs();
@@ -228,7 +230,7 @@ public class SecuriteServiceTest {
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
 		final String mauvaisMdp = "pasBonMdp";
-		this.instance.creeUtilisateur(login, mdp);
+		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
 		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
@@ -253,7 +255,7 @@ public class SecuriteServiceTest {
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
 		final String mauvaisMdp = "pasBonMdp";
-		this.instance.creeUtilisateur(login, mdp);
+		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
 		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
 		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
@@ -263,6 +265,19 @@ public class SecuriteServiceTest {
 
 		//
 		this.instance.verifieUtilisateur(login, mdp);
+	}
+
+	@Test
+	public void test09ListeRoles() {
+		//
+
+		//
+		final Collection<String> roles = this.instance.listeRolePossible();
+
+		//
+		Assert.assertNotNull(roles);
+		Assert.assertEquals(Arrays.asList(Role.values()).toString(), roles.toString());
+
 	}
 
 }

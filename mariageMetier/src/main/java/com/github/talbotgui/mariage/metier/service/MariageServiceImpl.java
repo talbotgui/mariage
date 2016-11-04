@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.talbotgui.mariage.metier.dao.CourrierRepository;
 import com.github.talbotgui.mariage.metier.dao.EtapeRepository;
-import com.github.talbotgui.mariage.metier.dao.InvitationRepository;
 import com.github.talbotgui.mariage.metier.dao.FoyerRepository;
+import com.github.talbotgui.mariage.metier.dao.InvitationRepository;
 import com.github.talbotgui.mariage.metier.dao.InviteRepository;
 import com.github.talbotgui.mariage.metier.dao.MariageRepository;
 import com.github.talbotgui.mariage.metier.dto.DTOUtils;
@@ -43,10 +43,10 @@ public class MariageServiceImpl implements MariageService {
 	private EtapeRepository etapeRepository;
 
 	@Autowired
-	private InvitationRepository invitationRepository;
+	private FoyerRepository foyerRepository;
 
 	@Autowired
-	private FoyerRepository foyerRepository;
+	private InvitationRepository invitationRepository;
 
 	@Autowired
 	private InviteRepository inviteRepository;
@@ -148,13 +148,11 @@ public class MariageServiceImpl implements MariageService {
 	@Override
 	public void lieUnFoyerEtUnCourrier(final Long idMariage, final Long idCourrier, final Long idFoyer,
 			final boolean invitation) {
-		final Invitation fei = this.invitationRepository
-				.findInvitation(idMariage, idCourrier, idFoyer);
+		final Invitation fei = this.invitationRepository.findInvitation(idMariage, idCourrier, idFoyer);
 		if (fei != null && !invitation) {
 			this.invitationRepository.delete(fei);
 		} else if (fei == null && invitation) {
-			this.invitationRepository
-					.save(new Invitation(new Courrier(idCourrier), new Foyer(idFoyer)));
+			this.invitationRepository.save(new Invitation(new Courrier(idCourrier), new Foyer(idFoyer)));
 		}
 	}
 

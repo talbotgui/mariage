@@ -21,6 +21,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur;
+import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur.Role;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
 import com.github.talbotgui.mariage.rest.controleur.dto.UtilisateurDTO;
 import com.googlecode.catchexception.CatchException;
@@ -53,19 +54,21 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 	public void test02SauvegardeUtilisateur() {
 		final String login = "monLogin";
 		final String mdp = "monMdp";
+		final Utilisateur.Role role = Utilisateur.Role.UTILISATEUR;
 
 		// ARRANGE
-		Mockito.doNothing().when(this.securiteService).creeUtilisateur(Mockito.anyString(), Mockito.anyString());
+		Mockito.doNothing().when(this.securiteService).sauvegardeUtilisateur(Mockito.anyString(), Mockito.anyString(),
+				Mockito.anyObject());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp",
-				mdp);
+				mdp, "role", role.toString());
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
 		this.getREST().postForObject(this.getURL() + "/utilisateur", requestParam, Void.class, uriVars);
 
 		// ASSERT
-		Mockito.verify(this.securiteService).creeUtilisateur(login, mdp);
+		Mockito.verify(this.securiteService).sauvegardeUtilisateur(login, mdp, role);
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 
 	}
@@ -155,10 +158,11 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 	public void test06SauvegardeUtilisateurKo() {
 		final String login = "mon.Login";
 		final String mdp = "monMdp";
+		final Role role = Role.ADMIN;
 
 		// ARRANGE
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp",
-				mdp);
+				mdp, "role", role);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT

@@ -8,6 +8,8 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -16,6 +18,11 @@ import org.slf4j.LoggerFactory;
 
 @Entity
 public class Utilisateur implements Serializable {
+
+	public enum Role {
+		ADMIN, MARIE, UTILISATEUR
+	}
+
 	private static final Logger LOG = LoggerFactory.getLogger(Utilisateur.class);
 
 	/**
@@ -35,7 +42,12 @@ public class Utilisateur implements Serializable {
 	private String mdp;
 
 	private Date premierEchec;
+
+	@Enumerated(EnumType.STRING)
+	private Role role = Role.UTILISATEUR;
+
 	private Date secondEchec;
+
 	private Date troisiemeEchec;
 
 	public Utilisateur() {
@@ -46,6 +58,13 @@ public class Utilisateur implements Serializable {
 		super();
 		this.setLogin(login);
 		this.setMdp(mdp);
+	}
+
+	public Utilisateur(final String login, final String mdp, final Role role) {
+		super();
+		this.setLogin(login);
+		this.setMdp(mdp);
+		this.setRole(role);
 	}
 
 	public void declarerEchecDeConnexion() {
@@ -82,6 +101,10 @@ public class Utilisateur implements Serializable {
 
 	public Date getPremierEchec() {
 		return this.premierEchec;
+	}
+
+	public Role getRole() {
+		return this.role;
 	}
 
 	public Date getSecondEchec() {
@@ -125,6 +148,12 @@ public class Utilisateur implements Serializable {
 
 	public void setPremierEchec(final Date premierEchec) {
 		this.premierEchec = premierEchec;
+	}
+
+	public void setRole(final Role role) {
+		if (role != null) {
+			this.role = role;
+		}
 	}
 
 	public void setSecondEchec(final Date secondEchec) {

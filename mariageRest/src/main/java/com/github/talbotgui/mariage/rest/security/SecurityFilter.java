@@ -14,7 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+
+import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur.Role;
 
 @Component
 @WebFilter(urlPatterns = "/*")
@@ -25,7 +28,8 @@ public class SecurityFilter implements Filter {
 	protected static final String LOGIN_PAGE = "/login.html";
 	public static final String LOGIN_REST = "/dologin";
 	public static final String LOGOUT_REST = "/dologout";
-	protected static final String SESSION_KEY_USER_LOGIN = "USER_LOGIN";
+	public static final String SESSION_KEY_USER_LOGIN = "USER_LOGIN";
+	public static final String SESSION_KEY_USER_ROLE = "USER_ROLE";
 
 	private void addResponseHeaders(final HttpServletRequest request, final HttpServletResponse response) {
 		// N'impose pas le HTTPs en local
@@ -78,8 +82,58 @@ public class SecurityFilter implements Filter {
 		final HttpServletResponse response = (HttpServletResponse) res;
 
 		this.addResponseHeaders(request, response);
-		this.checkUserIsLoggedIn(chain, request, response);
 
+		boolean reponseTraite = this.filterRestByUserRole(request, response);
+
+		if (!reponseTraite) {
+			reponseTraite = this.filterMenuItemsByUserRole(request, response);
+		}
+		if (!reponseTraite) {
+			this.checkUserIsLoggedIn(chain, request, response);
+		}
+	}
+
+	/**
+	 * Renvoi la page part_menu_{LE_ROLE_UTILISATEUR}.html
+	 *
+	 * @param request
+	 *            Requete HTTP
+	 * @param response
+	 *            Response HTTP
+	 * @return TRUE si la response est traité et que rien ne doit plus être fait
+	 * @throws IOException
+	 */
+	private boolean filterMenuItemsByUserRole(final HttpServletRequest request, final HttpServletResponse response)
+			throws IOException {
+		if (!request.getRequestURI().contains("part_menu.html")) {
+			return false;
+		}
+		final String role = (String) request.getSession().getAttribute(SESSION_KEY_USER_ROLE);
+		response.sendRedirect(request.getContextPath() + "/part_menu_" + role + ".html");
+		return true;
+	}
+
+	/**
+	 * Renvoi un code 404 pour les appels REST "/utilisateur" pour les
+	 * utilisateurs du role non ADMIN
+	 *
+	 * @param request
+	 *            Requete HTTP
+	 * @param response
+	 *            Response HTTP
+	 * @return TRUE si la response est traité et que rien ne doit plus être fait
+	 */
+	private boolean filterRestByUserRole(final HttpServletRequest request, final HttpServletResponse response) {
+		final String role = (String) request.getSession().getAttribute(SESSION_KEY_USER_ROLE);
+
+		if (!Role.ADMIN.toString().equals(role)
+				&& request.getRequestURI().contains(request.getContextPath() + "/utilisateur")) {
+			response.resetBuffer();
+			response.setStatus(HttpStatus.NOT_FOUND.value());
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override

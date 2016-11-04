@@ -9,6 +9,8 @@ public class UtilisateurDTO implements Serializable {
 
 	private String login;
 
+	private String role;
+
 	private Boolean verrouille;
 
 	public UtilisateurDTO() {
@@ -22,6 +24,9 @@ public class UtilisateurDTO implements Serializable {
 	public UtilisateurDTO(final Utilisateur u) {
 		this.login = u.getLogin();
 		this.verrouille = u.isVerrouille();
+		if (u.getRole() != null) {
+			this.role = u.getRole().toString();
+		}
 	}
 
 	public String getId() {
@@ -32,12 +37,20 @@ public class UtilisateurDTO implements Serializable {
 		return this.login;
 	}
 
+	public String getRole() {
+		return this.role;
+	}
+
 	public Boolean getVerrouille() {
 		return this.verrouille;
 	}
 
 	public void setLogin(final String login) {
 		this.login = login;
+	}
+
+	public void setRole(final String role) {
+		this.role = role;
 	}
 
 	public void setVerrouille(final Boolean verrouille) {

@@ -3,6 +3,7 @@ package com.github.talbotgui.mariage.metier.service;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,11 @@ import com.github.talbotgui.mariage.metier.dao.securite.UtilisateurRepository;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 import com.github.talbotgui.mariage.metier.entities.securite.Autorisation;
 import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur;
+import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur.Role;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
 
 @Service
 public class SecuriteServiceImpl implements SecuriteService {
-
 	/** Longueur minimale des logins et mots de passe. */
 	private static final Long LOGIN_MDP_MIN = 6L;
 
@@ -39,13 +40,6 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public void creeUtilisateur(final String login, final String mdp) {
-		if (login == null || login.length() < LOGIN_MDP_MIN || mdp == null || mdp.length() < LOGIN_MDP_MIN) {
-			throw new BusinessException(BusinessException.ERREUR_LOGIN_MDP, new Object[] { LOGIN_MDP_MIN });
-		}
-		this.utilisateurRepo.save(new Utilisateur(login, this.encrypt(mdp)));
-	}
-
 	public void deverrouilleUtilisateur(final String login) {
 		final Utilisateur u = this.utilisateurRepo.findOne(login);
 		u.deverrouilleUtilisateur();
@@ -63,8 +57,44 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
+	public Collection<String> listeRolePossible() {
+		final Collection<String> liste = new ArrayList<>();
+		for (final Role r : Role.values()) {
+			liste.add(r.name());
+		}
+		return liste;
+	}
+
+	@Override
 	public Collection<Utilisateur> listeUtilisateurs() {
 		return this.utilisateurRepo.listeUtilisateur();
+	}
+
+	@Override
+	public void sauvegardeUtilisateur(final String login, final String mdp, final Utilisateur.Role role) {
+
+		// Validation login
+		if (login == null || login.length() < LOGIN_MDP_MIN) {
+			throw new BusinessException(BusinessException.ERREUR_LOGIN_MDP, new Object[] { LOGIN_MDP_MIN });
+		}
+
+		// Recherche
+		final Utilisateur u = this.utilisateurRepo.findOne(login);
+
+		// Creation
+		if (u == null) {
+			// Validation mdp
+			if (mdp == null || mdp.length() < LOGIN_MDP_MIN) {
+				throw new BusinessException(BusinessException.ERREUR_LOGIN_MDP, new Object[] { LOGIN_MDP_MIN });
+			}
+			this.utilisateurRepo.save(new Utilisateur(login, this.encrypt(mdp), role));
+		}
+
+		// MaJ
+		else {
+			u.setRole(role);
+			this.utilisateurRepo.save(u);
+		}
 	}
 
 	@Override
@@ -78,7 +108,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public void verifieUtilisateur(final String login, final String mdp) {
+	public Role verifieUtilisateur(final String login, final String mdp) {
 
 		final Utilisateur u = this.utilisateurRepo.findOne(login);
 
@@ -101,6 +131,8 @@ public class SecuriteServiceImpl implements SecuriteService {
 				throw new BusinessException(BusinessException.ERREUR_LOGIN);
 			}
 		}
+
+		return u.getRole();
 	}
 
 }
