@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -20,6 +21,10 @@ public class Courrier implements Serializable {
 	private Date datePrevisionEnvoi;
 
 	@ManyToMany
+	@JoinTable(name = "COURRIER_ETAPES", //
+			joinColumns = { @JoinColumn(name = "COURRIER", insertable = false, updatable = false) }, //
+			inverseJoinColumns = { @JoinColumn(name = "ETAPES", insertable = false, updatable = false) }//
+	)
 	private Collection<Etape> etapes = new ArrayList<>();
 
 	@ManyToMany(mappedBy = "courriersInvitation")

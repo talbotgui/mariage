@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,7 @@ public class Mariage implements Serializable {
 	@OrderBy("datePrevisionEnvoi")
 	private Collection<Courrier> courriers = new ArrayList<>();
 
+	@Column(name = "DATE_CELEBRATION")
 	private Date dateCelebration;
 
 	@OneToMany(mappedBy = "mariage")

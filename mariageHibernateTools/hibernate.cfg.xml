@@ -4,9 +4,9 @@
 <hibernate-configuration>
 	<session-factory name="sessionFactory">
 		<property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
-		<property name="hibernate.connection.password">pass</property>
 		<property name="hibernate.connection.url">jdbc:hsqldb:file:D:/Projets/Perso/marie/mariage/mariageRest/database/mariage;readonly=true;files_readonly=true;hsqldb.lock_file=false</property>
 		<property name="hibernate.connection.username">username</property>
+		<property name="hibernate.connection.password">pass</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
 		<mapping class="com.github.talbotgui.mariage.metier.entities.Age" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.Courrier" />
@@ -17,9 +17,9 @@
 		<mapping class="com.github.talbotgui.mariage.metier.entities.Invitation" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.InvitationId" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.Invite" />
+		<mapping class="com.github.talbotgui.mariage.metier.entities.Mariage" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.Presence" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.PresenceId" />
-		<mapping class="com.github.talbotgui.mariage.metier.entities.Mariage" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.securite.Autorisation" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.securite.Utilisateur" />
 	</session-factory>
