@@ -36,14 +36,19 @@ public class UtilisateurRestControler {
 			final HttpServletResponse response) {
 		this.securiteService.verifieUtilisateur(login, mdp);
 		request.getSession().setAttribute("USER_LOGIN", login);
-		resetCookieIdMariage(request, response);
+		this.resetCookieIdMariage(request, response);
 	}
 
 	@RequestMapping(value = SecurityFilter.LOGOUT_REST, method = GET)
 	public void deconnexion(final HttpServletRequest request, final HttpServletResponse response) {
 		request.getSession().removeAttribute("USER_LOGIN");
 		request.getSession().invalidate();
-		resetCookieIdMariage(request, response);
+		this.resetCookieIdMariage(request, response);
+	}
+
+	@RequestMapping(value = "/utilisateur/{login}/deverrouille", method = GET)
+	public void deverrouilleUtilisateur(@PathVariable(value = "login") final String login) {
+		this.securiteService.deverrouilleUtilisateur(login);
 	}
 
 	@RequestMapping(value = "/utilisateur", method = GET)

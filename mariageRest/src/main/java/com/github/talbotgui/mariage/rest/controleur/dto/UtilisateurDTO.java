@@ -9,6 +9,8 @@ public class UtilisateurDTO implements Serializable {
 
 	private String login;
 
+	private Boolean verrouille;
+
 	public UtilisateurDTO() {
 		super();
 	}
@@ -19,6 +21,7 @@ public class UtilisateurDTO implements Serializable {
 
 	public UtilisateurDTO(final Utilisateur u) {
 		this.login = u.getLogin();
+		this.verrouille = u.isVerrouille();
 	}
 
 	public String getId() {
@@ -29,8 +32,16 @@ public class UtilisateurDTO implements Serializable {
 		return this.login;
 	}
 
+	public Boolean getVerrouille() {
+		return this.verrouille;
+	}
+
 	public void setLogin(final String login) {
 		this.login = login;
+	}
+
+	public void setVerrouille(final Boolean verrouille) {
+		this.verrouille = verrouille;
 	}
 
 }

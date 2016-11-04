@@ -10,6 +10,8 @@ public interface SecuriteService {
 
 	void creeUtilisateur(String login, String mdp);
 
+	void deverrouilleUtilisateur(final String login);
+
 	Collection<Utilisateur> listeUtilisateurs();
 
 	void supprimeAutorisation(String login, Long idMariage);

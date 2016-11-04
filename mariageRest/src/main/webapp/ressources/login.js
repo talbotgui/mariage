@@ -4,7 +4,7 @@ var login = function(e) {
 	valideForm("form", function(data) {
 		var req = $.post( REST_PREFIX + "/dologin", data);
 		req.success(function(dataString) { window.location.href = REST_PREFIX + "/" });
-		req.fail(function(jqXHR, textStatus, errorThrown) { $("#loginError").show(); });
+		req.fail(function(jqXHR, textStatus, errorThrown) { $("#loginError").html(jqXHR.responseText).show(); });
 	});
 };
 

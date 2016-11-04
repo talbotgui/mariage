@@ -222,4 +222,47 @@ public class SecuriteServiceTest {
 		Assert.assertEquals(4, liste.size());
 	}
 
+	@Test
+	public void test07VerifieVerrouillageUtilisateur() {
+		//
+		final String login = "monLogin";
+		final String mdp = "unBonMdp";
+		final String mauvaisMdp = "pasBonMdp";
+		this.instance.creeUtilisateur(login, mdp);
+
+		//
+		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
+		final Exception e1 = CatchException.caughtException();
+		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
+		final Exception e2 = CatchException.caughtException();
+		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
+		final Exception e3 = CatchException.caughtException();
+
+		//
+		Assert.assertNotNull(e1);
+		Assert.assertTrue(BusinessException.equals(e1, BusinessException.ERREUR_LOGIN));
+		Assert.assertNotNull(e2);
+		Assert.assertTrue(BusinessException.equals(e2, BusinessException.ERREUR_LOGIN));
+		Assert.assertNotNull(e3);
+		Assert.assertTrue(BusinessException.equals(e3, BusinessException.ERREUR_LOGIN_VEROUILLE));
+	}
+
+	@Test
+	public void test08DeverifieVerrouillageUtilisateur() {
+		//
+		final String login = "monLogin";
+		final String mdp = "unBonMdp";
+		final String mauvaisMdp = "pasBonMdp";
+		this.instance.creeUtilisateur(login, mdp);
+		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
+		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
+		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
+
+		//
+		this.instance.deverrouilleUtilisateur(login);
+
+		//
+		this.instance.verifieUtilisateur(login, mdp);
+	}
+
 }

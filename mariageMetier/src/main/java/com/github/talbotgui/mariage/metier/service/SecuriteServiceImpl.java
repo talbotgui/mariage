@@ -43,7 +43,13 @@ public class SecuriteServiceImpl implements SecuriteService {
 		if (login == null || login.length() < LOGIN_MDP_MIN || mdp == null || mdp.length() < LOGIN_MDP_MIN) {
 			throw new BusinessException(BusinessException.ERREUR_LOGIN_MDP, new Object[] { LOGIN_MDP_MIN });
 		}
-		this.utilisateurRepo.save(new Utilisateur(login, encrypt(mdp)));
+		this.utilisateurRepo.save(new Utilisateur(login, this.encrypt(mdp)));
+	}
+
+	public void deverrouilleUtilisateur(final String login) {
+		final Utilisateur u = this.utilisateurRepo.findOne(login);
+		u.deverrouilleUtilisateur();
+		this.utilisateurRepo.save(u);
 	}
 
 	private String encrypt(final String mdp) {
@@ -73,9 +79,27 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 	@Override
 	public void verifieUtilisateur(final String login, final String mdp) {
+
 		final Utilisateur u = this.utilisateurRepo.findOne(login);
-		if (u == null || !u.getMdp().equals(encrypt(mdp))) {
+
+		// Si pas d'utilisateur correspondant
+		if (u == null) {
 			throw new BusinessException(BusinessException.ERREUR_LOGIN);
+		}
+
+		// Si erreur dans le mot de passe
+		else if (!u.getMdp().equals(this.encrypt(mdp))) {
+
+			// Init des dates d'echec et sauvegarde des modifications
+			u.declarerEchecDeConnexion();
+			this.utilisateurRepo.save(u);
+
+			// renvoi de la bonne erreur
+			if (u.isVerrouille()) {
+				throw new BusinessException(BusinessException.ERREUR_LOGIN_VEROUILLE);
+			} else {
+				throw new BusinessException(BusinessException.ERREUR_LOGIN);
+			}
 		}
 	}
 

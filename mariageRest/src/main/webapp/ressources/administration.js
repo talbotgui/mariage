@@ -23,6 +23,12 @@ var supprimeUtilisateur = function(id) {
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("supprimeUtilisateur");});
 };
 
+var deverouilleUtilisateur = function(id) {
+	var req = $.ajax({ type: "GET", url: REST_PREFIX + "/utilisateur/" + id + "/deverrouille"});
+	req.success(function(dataString) { chargeUtilisateurs(); });
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("deverouilleUtilisateur");});
+};
+
 // Chargement des utilisateurs
 var chargeUtilisateurs = function() {
 	if (donneesDejaChargees) {
@@ -31,14 +37,24 @@ var chargeUtilisateurs = function() {
 		var dataAdapter = new $.jqx.dataAdapter({
 			datatype: "json",
 			url: REST_PREFIX + "/utilisateur",
-			datafields: [{ name: 'login', type: 'string' },{ name: 'id', type: 'string' }],
+			datafields: [{ name: 'login', type: 'string' },{ name: 'id', type: 'string' },{ name: 'verrouille', type: 'boolean' }],
 			id: 'login'
 		});
-		var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties) { return "<a href='javascript:supprimeUtilisateur(\"" + value + "\")' id='btn" + value + "'><span class='ui-icon ui-icon-trash'></span></a>" };
+		var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties, objet) {
+			var contenuCase = "<a href='javascript:supprimeUtilisateur(\"" + value + "\")' id='btn" + value + "sup'><span class='ui-icon ui-icon-trash'></span></a>";
+			if (objet.verrouille) {
+				contenuCase += "<a href='javascript:deverouilleUtilisateur(\"" + value + "\")' id='btn" + value + "dev'><span class='ui-icon ui-icon-power'></span></a>";
+			}
+			return contenuCase; 
+		};
+		var rendererColonneStatut = function (rowIndex, columnfield, value, defaulthtml, columnproperties) { 
+			if (value) { return "Compte verrouillé"; } else { return ""; }
+		};
 		$("#utilisateurs").jqxGrid({
 			source: dataAdapter,
 			columns: [
-				{ text: 'Login', datafield: 'login', width: "80%" },
+				{ text: 'Login', datafield: 'login', width: "60%" },
+				{ text: 'Statut', datafield: 'verrouille', width: "20%", cellsrenderer: rendererColonneStatut },
 				{ text: 'Actions', datafield: 'id', width: "20%", editable: false, sortable: false, menu: false, cellsrenderer: rendererColonneBouton }
 			],
 			sortable: true, filterable: true, autoheight: true, altrows: true,

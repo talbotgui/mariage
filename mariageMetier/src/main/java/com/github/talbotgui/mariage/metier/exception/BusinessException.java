@@ -16,6 +16,9 @@ public class BusinessException extends BaseException {
 	public static final ExceptionId ERREUR_LOGIN_MDP = new ExceptionId("ERREUR_LOGIN_MDP",
 			"Identifiant et/ou mot de passe trop court ({0} caractères minimum)", ExceptionLevel.ERROR, 400);
 
+	public static final ExceptionId ERREUR_LOGIN_VEROUILLE = new ExceptionId("ERREUR_LOGIN_VEROUILLE",
+			"Erreur de connexion - le compte est verrouillé", ExceptionLevel.ERROR, 403);
+
 	public static final ExceptionId ERREUR_SHA = new ExceptionId("ERREUR_SHA", "Erreur de cryptage",
 			ExceptionLevel.ERROR, 500);
 

@@ -38,8 +38,8 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		// ACT
 		final ParameterizedTypeReference<Collection<UtilisateurDTO>> typeRetour = new ParameterizedTypeReference<Collection<UtilisateurDTO>>() {
 		};
-		final ResponseEntity<Collection<UtilisateurDTO>> utilisateurs = getREST().exchange(getURL() + "/utilisateur",
-				HttpMethod.GET, null, typeRetour);
+		final ResponseEntity<Collection<UtilisateurDTO>> utilisateurs = this.getREST()
+				.exchange(this.getURL() + "/utilisateur", HttpMethod.GET, null, typeRetour);
 
 		// ASSERT
 		Assert.assertNotNull(utilisateurs.getBody());
@@ -62,7 +62,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		getREST().postForObject(getURL() + "/utilisateur", requestParam, Void.class, uriVars);
+		this.getREST().postForObject(this.getURL() + "/utilisateur", requestParam, Void.class, uriVars);
 
 		// ASSERT
 		Mockito.verify(this.securiteService).creeUtilisateur(login, mdp);
@@ -79,8 +79,8 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		Mockito.doNothing().when(this.securiteService).supprimeUtilisateur(argumentCaptor.capture());
 
 		// ACT
-		final ResponseEntity<Void> response = getREST().exchange(getURL() + "/utilisateur/" + login, HttpMethod.DELETE,
-				null, Void.class);
+		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/utilisateur/" + login,
+				HttpMethod.DELETE, null, Void.class);
 
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
@@ -103,8 +103,8 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		final HttpHeaders headers = new HttpHeaders();
 		headers.add("Cookie", "idMariage=4");
 		final HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(requestParam, headers);
-		final ResponseEntity<Void> response = getREST().exchange(getURL() + "/dologin", HttpMethod.POST, request,
-				Void.class);
+		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/dologin", HttpMethod.POST,
+				request, Void.class);
 
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
@@ -127,8 +127,8 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		CatchException.catchException(getREST()).postForObject(getURL() + "/dologin", requestParam, Void.class,
-				uriVars);
+		CatchException.catchException(this.getREST()).postForObject(this.getURL() + "/dologin", requestParam,
+				Void.class, uriVars);
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
@@ -145,7 +145,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		// ARRANGE
 
 		// ACT
-		getREST().getForObject(getURL() + "/dologout", Void.class);
+		this.getREST().getForObject(this.getURL() + "/dologout", Void.class);
 
 		// ASSERT
 		// Nothing to do
@@ -162,14 +162,30 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		CatchException.catchException(getREST()).postForObject(getURL() + "/utilisateur", requestParam, Void.class,
-				uriVars);
+		CatchException.catchException(this.getREST()).postForObject(this.getURL() + "/utilisateur", requestParam,
+				Void.class, uriVars);
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
 		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
 		Assert.assertTrue(((HttpStatusCodeException) CatchException.caughtException()).getResponseBodyAsString()
 				.contains("login"));
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+
+	}
+
+	@Test
+	public void test07DeverrouilleUtilisateur() {
+		final String login = "mon.Login";
+
+		// ARRANGE
+		Mockito.doNothing().when(this.securiteService).deverrouilleUtilisateur(Mockito.anyString());
+
+		// ACT
+		this.getREST().getForObject(this.getURL() + "/utilisateur/" + login + "/deverrouille", Void.class);
+
+		// ASSERT
+		Mockito.verify(this.securiteService).deverrouilleUtilisateur(login);
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 
 	}
@@ -184,8 +200,8 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		Mockito.doNothing().when(this.securiteService).supprimeUtilisateur(argumentCaptor.capture());
 
 		// ACT
-		final ResponseEntity<Void> response = getREST().exchange(getURL() + "/utilisateur/" + login, HttpMethod.DELETE,
-				null, Void.class);
+		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/utilisateur/" + login,
+				HttpMethod.DELETE, null, Void.class);
 
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);

@@ -22,7 +22,6 @@ public class ErrorHandler {
 	@ExceptionHandler({ BusinessException.class, RestException.class })
 	public ResponseEntity<Object> defaultErrorHandler(final HttpServletRequest req, final BusinessException e) {
 		LOG.error("Erreur traitée sur la requête " + req.getRequestURI(), e);
-		return new ResponseEntity<Object>(e.getExceptionId().getId() + "-" + e.getMessage(),
-				HttpStatus.valueOf(e.getExceptionId().getHttpStatusCode()));
+		return new ResponseEntity<Object>(e.getMessage(), HttpStatus.valueOf(e.getExceptionId().getHttpStatusCode()));
 	}
 }
