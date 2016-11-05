@@ -46,6 +46,8 @@ pipelineAvecMailSiUnstable('talbotgui@gmail.com') {
 				sh "rm /var/lib/mariage/*.war || true"
 				sh "cp ./mariageRest.war /var/lib/mariage/"
 				sh "/var/lib/mariage/startMariage.sh"
+				sleep time: 15, unit: 'SECONDS'
+				build 'Surveillant'
 			}
 		}
 	}
