@@ -98,7 +98,8 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		final String mdp = "monMdp";
 
 		// ARRANGE
-		Mockito.doNothing().when(this.securiteService).verifieUtilisateur(Mockito.anyString(), Mockito.anyString());
+		Mockito.doReturn(Role.ADMIN).when(this.securiteService).verifieUtilisateur(Mockito.anyString(),
+				Mockito.anyString());
 
 		// ACT
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp",
