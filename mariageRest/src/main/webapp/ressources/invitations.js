@@ -13,10 +13,10 @@ var changeLien = function(idFoyer, idCourrier, checkbox) {
 
 };
 
-// Chargement des invites
+// Chargement des foyers
 var choixPossibles = [];
 var chargeFoyers = function() {
-	// Chargement des courriers
+
 	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/foyer");
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargeFoyers");});
 	req.success(function(dataString) {
