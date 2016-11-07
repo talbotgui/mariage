@@ -250,7 +250,7 @@ public class SecuriteServiceTest {
 	}
 
 	@Test
-	public void test08DeverifieVerrouillageUtilisateur() {
+	public void test08VerifieDeverrouillageUtilisateur() {
 		//
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
