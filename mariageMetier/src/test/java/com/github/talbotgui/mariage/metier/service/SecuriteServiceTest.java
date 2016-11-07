@@ -105,6 +105,27 @@ public class SecuriteServiceTest {
 	}
 
 	@Test
+	public void test01CreeUtilisateur04ModifOk() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String login = "monLogin";
+		final String mdp = "unBonMdp";
+		final Role role = Utilisateur.Role.UTILISATEUR;
+		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+
+		//
+		this.instance.sauvegardeUtilisateur(login, mdp, role);
+
+		//
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where login=?",
+				new Object[] { login }, Long.class));
+		Assert.assertNotEquals(mdp,
+				jdbc.queryForObject("select mdp from UTILISATEUR where login=?", new Object[] { login }, String.class));
+		Assert.assertEquals(role.toString(), jdbc.queryForObject("select role from UTILISATEUR where login=?",
+				new Object[] { login }, String.class));
+	}
+
+	@Test
 	public void test02AjouteAutorisation() throws ParseException {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
