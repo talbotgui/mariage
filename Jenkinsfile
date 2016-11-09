@@ -60,6 +60,7 @@ def pipelineAvecMailSiUnstable(String destinataireEmail, Closure pipeline) { try
 
 // Extraction du numero de version depuis le pom.xml present a la racine de la branche
 def version() { def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'; matcher ? matcher[0][1] : null; };
+// avec le plugin 'pipeline utility steps' => def version() { def pom = readMavenPom; pom.version; };
 
 // Gestion de la promotion manuelle
 def promotionManuelle(messagePromotion, bloc) { Boolean promotion = false; stage ('promotionManuelle') { try { timeout(time:1, unit:'DAYS') { input message: messagePromotion; }; promotion = true; } catch(err) {} }; if (promotion) { bloc(); } }
