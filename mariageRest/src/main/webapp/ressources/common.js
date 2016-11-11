@@ -254,4 +254,7 @@ $(document).ready(function() {
 	// Préparation des popup
 	var popups = $(".popup");
 	if (popups.length > 0) { popups.jqxWindow({ width: 450, autoOpen: false }); }
+	
+	// Ajout de la deconnexion
+	$("#logout").on("click", logout);
 });
