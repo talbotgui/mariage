@@ -108,7 +108,7 @@ public class SecurityFilter implements Filter {
 			return false;
 		}
 		final String role = (String) request.getSession().getAttribute(SESSION_KEY_USER_ROLE);
-		response.sendRedirect(request.getContextPath() + "/part_menu_" + role + ".html");
+		response.sendRedirect(request.getRequestURL().toString().replaceAll("/part_menu", "/part_menu_" + role));
 		return true;
 	}
 
