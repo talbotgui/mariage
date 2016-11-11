@@ -81,14 +81,13 @@ public class SecurityFilter implements Filter {
 		final HttpServletRequest request = (HttpServletRequest) req;
 		final HttpServletResponse response = (HttpServletResponse) res;
 
-		this.addResponseHeaders(request, response);
-
 		boolean reponseTraite = this.filterRestByUserRole(request, response);
 
 		if (!reponseTraite) {
 			reponseTraite = this.filterMenuItemsByUserRole(request, response);
 		}
 		if (!reponseTraite) {
+			this.addResponseHeaders(request, response);
 			this.checkUserIsLoggedIn(chain, request, response);
 		}
 	}
