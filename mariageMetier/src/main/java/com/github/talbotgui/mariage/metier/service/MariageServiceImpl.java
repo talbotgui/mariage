@@ -2,9 +2,12 @@ package com.github.talbotgui.mariage.metier.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +22,7 @@ import com.github.talbotgui.mariage.metier.dao.FoyerRepository;
 import com.github.talbotgui.mariage.metier.dao.InvitationRepository;
 import com.github.talbotgui.mariage.metier.dao.InviteRepository;
 import com.github.talbotgui.mariage.metier.dao.MariageRepository;
+import com.github.talbotgui.mariage.metier.dao.PresenceRepository;
 import com.github.talbotgui.mariage.metier.dto.DTOUtils;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
@@ -30,6 +34,7 @@ import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.entities.Invitation;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
+import com.github.talbotgui.mariage.metier.entities.Presence;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
 
 @Service
@@ -53,6 +58,9 @@ public class MariageServiceImpl implements MariageService {
 
 	@Autowired
 	private MariageRepository mariageRepository;
+
+	@Autowired
+	private PresenceRepository presenceRepository;
 
 	private Map<String, Integer> arrayToMap(final List<Object[]> liste) {
 		final Map<String, Integer> result = new HashMap<>();
@@ -98,6 +106,11 @@ public class MariageServiceImpl implements MariageService {
 	@Override
 	public Mariage chargeMariageParId(final Long idMariage) {
 		return this.mariageRepository.findOne(idMariage);
+	}
+
+	@Override
+	public Presence chargePresenceParEtapeEtInvite(final Long idMariage, final Long idEtape, final Long idInvite) {
+		return this.presenceRepository.chargePresenceParEtapeEtInvite(idMariage, idEtape, idInvite);
 	}
 
 	@Override
@@ -196,6 +209,21 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public Collection<Presence> listePresencesParIdMariage(final Long idMariage) {
+		final Set<Presence> presenceFiltrees = new HashSet<>();
+
+		// Ajout des presences existantes
+		presenceFiltrees.addAll(this.presenceRepository.listePresencesParIdMariage(idMariage));
+
+		// Ajout de toutes les autres presences possibles avec le produit
+		// cartesien (celles déjà présentes restent et pas de doublon avec
+		// Presence.hashcode)
+		presenceFiltrees.addAll(this.presenceRepository.listeProduitCartesienInviteEtEtapeParIdMariage(idMariage));
+
+		return presenceFiltrees;
+	}
+
+	@Override
 	public Collection<Mariage> listeTousMariages() {
 		final Collection<Mariage> liste = new ArrayList<>();
 		liste.addAll((Collection<Mariage>) this.mariageRepository.findAll());
@@ -222,6 +250,12 @@ public class MariageServiceImpl implements MariageService {
 		foyer.setMariage(this.mariageRepository.findOne(idMariage));
 		return this.foyerRepository.save(foyer).getId();
 
+	}
+
+	@Override
+	public void sauvegarde(final Long idMariage, final Presence presence) {
+		presence.setDateMaj(new Date());
+		this.presenceRepository.save(presence);
 	}
 
 	@Override

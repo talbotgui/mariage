@@ -175,7 +175,7 @@ var alimentationSelectBox = function() {
  * @see http://www.jqwidgets.com/jquery-widgets-documentation/
  */
 var majAttribute = function (url, event, success) {
-	if (event.args.value === event.args.oldvalue) { return; }
+	if(typeof event == "undefined" || typeof event.args == "undefined" || event.args.value === event.args.oldvalue) { return; }
 
 	var data = event.args.row;
 	delete data.boundindex;

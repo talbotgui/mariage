@@ -21,9 +21,13 @@ import com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesRepartitionsInvitesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
+import com.github.talbotgui.mariage.metier.entities.Etape;
+import com.github.talbotgui.mariage.metier.entities.EtapeRepas;
 import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.entities.Invite;
+import com.github.talbotgui.mariage.metier.entities.Presence;
 import com.github.talbotgui.mariage.rest.controleur.dto.InviteDTO;
+import com.github.talbotgui.mariage.rest.controleur.dto.PresenceDTO;
 import com.googlecode.catchexception.CatchException;
 
 public class InviteRestControlerTest extends BaseRestControlerTest {
@@ -353,6 +357,112 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
 		Mockito.verify(this.mariageService).chargeInviteParId(idInvite);
 		Mockito.verify(this.mariageService).sauvegardeInviteEtFoyer(Mockito.eq(idMariage), Mockito.any(Invite.class));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test07ListePresenceParIdMariage() {
+		final Long idMariage = 10L;
+		final Etape etape1 = new EtapeRepas(1L);
+		final Etape etape2 = new EtapeRepas(2L);
+		final Invite invite1 = new Invite(1L);
+		final Invite invite2 = new Invite(2L);
+		final Invite invite3 = new Invite(3L);
+		final List<Presence> toReturn = Arrays.asList(new Presence(etape1, invite1), new Presence(etape2, invite1),
+				new Presence(etape1, invite2), new Presence(etape2, invite2), new Presence(etape1, invite3),
+				new Presence(etape2, invite3));
+
+		// ARRANGE
+		Mockito.doReturn(toReturn).when(this.mariageService).listePresencesParIdMariage(Mockito.anyLong());
+
+		// ACT
+		final ParameterizedTypeReference<Collection<PresenceDTO>> typeRetour = new ParameterizedTypeReference<Collection<PresenceDTO>>() {
+		};
+		final ResponseEntity<Collection<PresenceDTO>> invites = this.getREST()
+				.exchange(this.getURL() + "/mariage/" + idMariage + "/presence", HttpMethod.GET, null, typeRetour);
+
+		// ASSERT
+		Assert.assertEquals(invites.getBody().size(), 6);
+		Mockito.verify(this.mariageService).listePresencesParIdMariage(idMariage);
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test08ModificationPresence01Existant() {
+		final Long idMariage = 10L;
+		final Long idEtape = 1L;
+		final Long idInvite = 1L;
+		final String commentaire = "commentaire";
+		final Boolean confirmee = true;
+		final Boolean present = true;
+
+		// ARRANGE
+		final Presence presence = new Presence(new EtapeRepas(idEtape), new Invite(idInvite));
+		Mockito.doReturn(presence).when(this.mariageService).chargePresenceParEtapeEtInvite(Mockito.anyLong(),
+				Mockito.anyLong(), Mockito.anyLong());
+
+		final ArgumentCaptor<Presence> argumentCaptorPresence = ArgumentCaptor.forClass(Presence.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage2 = ArgumentCaptor.forClass(Long.class);
+		Mockito.doNothing().when(this.mariageService).sauvegarde(argumentCaptorIdMariage2.capture(),
+				argumentCaptorPresence.capture());
+
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("idEtape", idEtape,
+				"idInvite", idInvite, "commentaire", commentaire, "confirmee", confirmee, "present", present);
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		this.getREST().postForObject(this.getURL() + "/mariage/" + idMariage + "/presence", requestParam, Void.class,
+				uriVars);
+
+		// ASSERT
+		Assert.assertEquals(argumentCaptorIdMariage2.getValue(), idMariage);
+		Assert.assertEquals(argumentCaptorPresence.getValue().getCommentaire(), commentaire);
+		Assert.assertEquals(argumentCaptorPresence.getValue().getConfirmee(), confirmee);
+		Assert.assertEquals(argumentCaptorPresence.getValue().getPresent(), present);
+		Assert.assertEquals(argumentCaptorPresence.getValue().getId().getEtape().getId(), idEtape);
+		Assert.assertEquals(argumentCaptorPresence.getValue().getId().getInvite().getId(), idInvite);
+
+		Mockito.verify(this.mariageService).chargePresenceParEtapeEtInvite(idMariage, idEtape, idInvite);
+		Mockito.verify(this.mariageService).sauvegarde(Mockito.eq(idMariage), Mockito.any(Presence.class));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test08ModificationPresence02NonExistant() {
+		final Long idMariage = 10L;
+		final Long idEtape = 1L;
+		final Long idInvite = 1L;
+		final String commentaire = "commentaire";
+		final Boolean confirmee = true;
+		final Boolean present = true;
+
+		// ARRANGE
+		Mockito.doReturn(null).when(this.mariageService).chargePresenceParEtapeEtInvite(Mockito.anyLong(),
+				Mockito.anyLong(), Mockito.anyLong());
+
+		final ArgumentCaptor<Presence> argumentCaptorPresence = ArgumentCaptor.forClass(Presence.class);
+		final ArgumentCaptor<Long> argumentCaptorIdMariage2 = ArgumentCaptor.forClass(Long.class);
+		Mockito.doNothing().when(this.mariageService).sauvegarde(argumentCaptorIdMariage2.capture(),
+				argumentCaptorPresence.capture());
+
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("idEtape", idEtape,
+				"idInvite", idInvite, "commentaire", commentaire, "confirmee", confirmee, "present", present);
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		this.getREST().postForObject(this.getURL() + "/mariage/" + idMariage + "/presence", requestParam, Void.class,
+				uriVars);
+
+		// ASSERT
+		Assert.assertEquals(argumentCaptorIdMariage2.getValue(), idMariage);
+		Assert.assertEquals(argumentCaptorPresence.getValue().getCommentaire(), commentaire);
+		Assert.assertEquals(argumentCaptorPresence.getValue().getConfirmee(), confirmee);
+		Assert.assertEquals(argumentCaptorPresence.getValue().getPresent(), present);
+		Assert.assertEquals(argumentCaptorPresence.getValue().getId().getEtape().getId(), idEtape);
+		Assert.assertEquals(argumentCaptorPresence.getValue().getId().getInvite().getId(), idInvite);
+
+		Mockito.verify(this.mariageService).chargePresenceParEtapeEtInvite(idMariage, idEtape, idInvite);
+		Mockito.verify(this.mariageService).sauvegarde(Mockito.eq(idMariage), Mockito.any(Presence.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 

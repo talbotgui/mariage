@@ -11,6 +11,7 @@ import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
+import com.github.talbotgui.mariage.metier.entities.Presence;
 
 public interface MariageService {
 
@@ -21,6 +22,8 @@ public interface MariageService {
 	Invite chargeInviteParId(Long id);
 
 	Mariage chargeMariageParId(Long idMariage);
+
+	Presence chargePresenceParEtapeEtInvite(Long idMariage, Long idEtape, Long idInvite);
 
 	String generePublipostage(Long idMariage, Long idCourrier);
 
@@ -44,6 +47,8 @@ public interface MariageService {
 
 	Page<Invite> listeInvitesParIdMariage(Long idMariage, Pageable page);
 
+	Collection<Presence> listePresencesParIdMariage(Long idMariage);
+
 	Collection<Mariage> listeTousMariages();
 
 	Long sauvegarde(Long idMariage, Courrier courrier);
@@ -51,6 +56,8 @@ public interface MariageService {
 	Long sauvegarde(Long idMariage, Etape etape);
 
 	Long sauvegarde(Long idMariage, Foyer foyer);
+
+	void sauvegarde(Long idMariage, Presence presence);
 
 	Long sauvegarde(Mariage mariage);
 

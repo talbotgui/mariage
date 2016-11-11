@@ -25,6 +25,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.github.talbotgui.mariage.metier.entities.Courrier;
+import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 import com.github.talbotgui.mariage.metier.entities.comparator.CourrierComparator;
 import com.github.talbotgui.mariage.metier.exception.BaseException;
@@ -125,6 +126,22 @@ public class CourrierServiceTest {
 		Assert.assertNotNull(CatchException.caughtException());
 		Assert.assertEquals(BusinessException.class, CatchException.caughtException().getClass());
 		Assert.assertTrue(BaseException.equals(CatchException.caughtException(), BusinessException.ERREUR_ID_MARIAGE));
+	}
+
+	@Test
+	public void test04ListeFoyersParIdCourrier() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageAvecInvitations();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idCourrier = original.getCourriers().iterator().next().getId();
+
+		// ACT
+		final Collection<Foyer> foyers = this.instance.listeFoyersParIdCourrier(idMariage, idCourrier);
+
+		// ASSERT
+		Assert.assertNotNull(foyers);
+		Assert.assertEquals(3, foyers.size());
 	}
 
 }

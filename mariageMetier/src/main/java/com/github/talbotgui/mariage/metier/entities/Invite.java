@@ -42,6 +42,10 @@ public class Invite implements Serializable {
 		super();
 	}
 
+	public Invite(final Long idInvite) {
+		this.id = idInvite;
+	}
+
 	public Invite(final Long id, final String nom, final String prenom, final Age age) {
 		super();
 		this.setId(id);

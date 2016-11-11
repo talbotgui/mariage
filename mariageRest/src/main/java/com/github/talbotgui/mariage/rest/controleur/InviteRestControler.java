@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.talbotgui.mariage.metier.dto.DTOUtils;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
+import com.github.talbotgui.mariage.metier.entities.EtapeRepas;
 import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.entities.Invite;
+import com.github.talbotgui.mariage.metier.entities.Presence;
 import com.github.talbotgui.mariage.metier.service.MariageService;
 import com.github.talbotgui.mariage.rest.controleur.dto.InviteDTO;
+import com.github.talbotgui.mariage.rest.controleur.dto.PresenceDTO;
 import com.github.talbotgui.mariage.rest.exception.RestException;
 
 @RestController
@@ -48,6 +51,11 @@ public class InviteRestControler {
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = GET)
 	public Collection<InviteDTO> listeInvitesParIdMariage(@PathVariable("idMariage") final Long idMariage) {
 		return DTOUtils.creerDtos(this.mariageService.listeInvitesParIdMariage(idMariage), InviteDTO.class);
+	}
+
+	@RequestMapping(value = "/mariage/{idMariage}/presence", method = GET)
+	public Collection<PresenceDTO> listePresenceParIdMariage(@PathVariable("idMariage") final Long idMariage) {
+		return DTOUtils.creerDtos(this.mariageService.listePresencesParIdMariage(idMariage), PresenceDTO.class);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = POST)
@@ -90,6 +98,27 @@ public class InviteRestControler {
 			}
 		}
 		return this.mariageService.sauvegardeInviteEtFoyer(idMariage, invite);
+	}
+
+	@RequestMapping(value = "/mariage/{idMariage}/presence", method = POST)
+	public void sauvegardePresence(//
+			@RequestParam(required = true, value = "idEtape") final Long idEtape, //
+			@RequestParam(required = true, value = "idInvite") final Long idInvite, //
+			@RequestParam(required = false, value = "commentaire") final String commentaire, //
+			@RequestParam(required = false, value = "confirmee") final Boolean confirmee, //
+			@RequestParam(required = false, value = "present") final Boolean present, //
+			@PathVariable(value = "idMariage") final Long idMariage) {
+
+		Presence presence = this.mariageService.chargePresenceParEtapeEtInvite(idMariage, idEtape, idInvite);
+		if (presence == null) {
+			presence = new Presence(new EtapeRepas(idEtape), new Invite(idInvite));
+		}
+
+		presence.setCommentaire(commentaire);
+		presence.setPresent(present);
+		presence.setConfirmee(confirmee);
+
+		this.mariageService.sauvegarde(idMariage, presence);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite/{idInvite}", method = DELETE)

@@ -38,7 +38,10 @@ X Ajouter le publipostage
 x Gerer les erreurs de connexion répétées
 x ajouter la notion de rôle (un champ avec un enum) pour limiter la vision des menus et les accès aux URL REST
 x limiter la visibilité des utilisateurs à l'administrateur
+x Ajouter une page "gestion des réponses" dans laquelle on peut cocher qui vient à quelles étapes
 
+  Ajouter un tableau dans les statistiques avec les présents/absents confirmés/ouPas sous un selectBox contenant les étapes
+  
   Regarder à Selenium 3 (encore en beta ??)
 
   Ajouter une colonne pour cocher qui a bien reçu le courrier par foyer
@@ -61,8 +64,6 @@ x limiter la visibilité des utilisateurs à l'administrateur
   
   ajouter un bouton raffraichir avec conservation du nombre d'item de pagination
   
-  Ajouter une page "gestion des réponses" dans laquelle on peut cocher qui vient à quelles étapes
-
   Gérér les hébergements
   
   Changer le "no data to display"
