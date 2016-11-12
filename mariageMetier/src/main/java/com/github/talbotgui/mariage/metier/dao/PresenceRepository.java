@@ -29,8 +29,8 @@ public interface PresenceRepository extends CrudRepository<Presence, Long> {
 	Collection<Presence> listePresencesParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("select new Presence(e, i) "//
-			+ " from Invite i, Etape e"//
-			+ " where i.foyer.mariage.id=:idMariage"//
+			+ " from Invite i join i.foyer f join f.courriersInvitation c join c.etapes e"//
+			+ " where f.mariage.id=:idMariage"//
 			+ " and e.mariage.id=:idMariage" //
 			+ " order by i.nom, i.prenom, e.nom")
 	Collection<Presence> listeProduitCartesienInviteEtEtapeParIdMariage(@Param("idMariage") Long idMariage);
