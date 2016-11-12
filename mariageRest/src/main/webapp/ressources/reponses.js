@@ -24,7 +24,7 @@ var modifieConfirme = function(checkbox) {
 	e = {args: {
 		row: rowData,
 		datafield: "confirmee",
-		value: checkbox.value,
+		value: checkbox.checked,
 		oldvalue: ""
 	}};
 
@@ -61,13 +61,13 @@ var chargePresences = function() {
 		var datafields = [ { name: 'idEtape', type: 'number' }, { name: 'idInvite', type: 'number' }, { name: 'id', type: 'string' },
 		                   { name: 'nomEtape', type: 'string' }, { name: 'nomInvite', type: 'string' }, { name: 'prenomInvite', type: 'string' },
 		                   { name: 'dateMaj', type: 'date' }, { name: 'commentaire', type: 'string' }, { name: 'confirmee', type: 'boolean' }, { name: 'present', type: 'boolean' } ];
-		var columns = [ { text: 'Prénom', datafield: 'prenomInvite', editable: false, width: '10%' }, 
-		                { text: 'Nom', datafield: 'nomInvite', editable: false, width: '10%' },
-						{ text: 'Etape', datafield: 'nomEtape', editable: false, width: '10%' },
+		var columns = [ { text: 'Nom', datafield: 'nomInvite', editable: false, width: '10%' },
+						{ text: 'Prénom', datafield: 'prenomInvite', editable: false, width: '10%' }, 
+		                { text: 'Etape', datafield: 'nomEtape', editable: false, width: '10%' },
 						{ text: 'Mise à jour', datafield: 'dateMaj', editable: false, width: '12%', cellsformat: 'dd/MM/yy HH:mm' },
 						{ text: 'Présence', datafield: 'present', editable: false, width: '10%', cellsrenderer: rendererColonnePresence },
 						{ text: 'Confirmation', datafield: 'confirmee', editable: false, width: '10%', cellsrenderer: rendererColonneConfirme },
-						{ text: 'Commentaire', datafield: 'commentaire', editable: true, width: '35%' }
+						{ text: 'Commentaire', datafield: 'commentaire', editable: true, width: '38%' }
 		];
 
 		var dataAdapter = new $.jqx.dataAdapter({
@@ -81,13 +81,13 @@ var chargePresences = function() {
 			source: dataAdapter,
 			columns: columns,
 			pageable: true, pagesizeoptions: ['20', '50', '100'],
-			editable: true, sortable: true, filterable: true, autoheight: true, altrows: true,
+			editable: true, sortable: false, filterable: true, autoheight: true, altrows: true,
 			width: 950,
 			ready:  function() { afficheContent(); }
 		});
 		$("#reponses").on('cellendedit', modifieReponse);
-		$("#reponses").on("pagechanged", function (event) { $("#reponses").jqxGrid('updatebounddata'); });
-		$("#reponses").on("sort", function (event) { $("#reponses").jqxGrid('updatebounddata'); });
+		$("#reponses").on("pagechanged", function (event) { $("#reponses").jqxGrid('updatebounddata', 'data'); $("#reponses").jqxGrid('gotopage', event.args.pagenum); });
+		$("#reponses").on("pagesizechanged", function (event) { $("#reponses").jqxGrid('updatebounddata', 'data'); });
 		donneesDejaChargees = true;
 	}
 };

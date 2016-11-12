@@ -2,6 +2,8 @@ package com.github.talbotgui.mariage.metier.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -210,6 +212,8 @@ public class MariageServiceImpl implements MariageService {
 
 	@Override
 	public Collection<Presence> listePresencesParIdMariage(final Long idMariage) {
+
+		// Collection supprimant les doublons
 		final Set<Presence> presenceFiltrees = new HashSet<>();
 
 		// Ajout des presences existantes
@@ -220,7 +224,16 @@ public class MariageServiceImpl implements MariageService {
 		// Presence.hashcode)
 		presenceFiltrees.addAll(this.presenceRepository.listeProduitCartesienInviteEtEtapeParIdMariage(idMariage));
 
-		return presenceFiltrees;
+		// Tri
+		final Comparator<Presence> comparator = (final Presence p1,
+				final Presence p2) -> (p1.getId().getInvite().getNom() + p1.getId().getInvite().getPrenom()
+						+ p1.getId().getEtape().getNumOrdre())
+								.compareTo(p2.getId().getInvite().getNom() + p2.getId().getInvite().getPrenom()
+										+ p2.getId().getEtape().getNumOrdre());
+		final List<Presence> l = new ArrayList<>(presenceFiltrees);
+		Collections.sort(l, comparator);
+
+		return l;
 	}
 
 	@Override
