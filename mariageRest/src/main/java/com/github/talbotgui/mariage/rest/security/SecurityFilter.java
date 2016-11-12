@@ -81,35 +81,12 @@ public class SecurityFilter implements Filter {
 		final HttpServletRequest request = (HttpServletRequest) req;
 		final HttpServletResponse response = (HttpServletResponse) res;
 
-		boolean reponseTraite = this.filterRestByUserRole(request, response);
+		final boolean reponseTraite = this.filterRestByUserRole(request, response);
 
-		if (!reponseTraite) {
-			reponseTraite = this.filterMenuItemsByUserRole(request, response);
-		}
 		if (!reponseTraite) {
 			this.addResponseHeaders(request, response);
 			this.checkUserIsLoggedIn(chain, request, response);
 		}
-	}
-
-	/**
-	 * Renvoi la page part_menu_{LE_ROLE_UTILISATEUR}.html
-	 *
-	 * @param request
-	 *            Requete HTTP
-	 * @param response
-	 *            Response HTTP
-	 * @return TRUE si la response est traité et que rien ne doit plus être fait
-	 * @throws IOException
-	 */
-	private boolean filterMenuItemsByUserRole(final HttpServletRequest request, final HttpServletResponse response)
-			throws IOException {
-		if (!request.getRequestURI().contains("part_menu.html")) {
-			return false;
-		}
-		final String role = (String) request.getSession().getAttribute(SESSION_KEY_USER_ROLE);
-		response.sendRedirect(request.getRequestURL().toString().replaceAll("/part_menu", "/part_menu_" + role));
-		return true;
 	}
 
 	/**
