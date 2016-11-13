@@ -8,6 +8,7 @@ import java.util.Scanner;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,10 +23,19 @@ public class MenuControler {
 		final String nomPageMenu = "part_menu_" + roleUtilisateur + ".html";
 
 		// L'accès par Files/Paths ne fonctionne pas quand le fichier est dans
-		// un WAR
+		// un WAR. Donc getResourceAsStream et scanner
 		final InputStream in = this.getClass().getClassLoader().getResourceAsStream(nomPageMenu);
+
+		// Si pas de fichier ou role invalide, return 404
+		if (in == null) {
+			response.setStatus(HttpStatus.NOT_FOUND.value());
+			return null;
+		}
+
+		// Lecture du fichier et renvoi (sans fuite mémoire avec le try)
 		try (Scanner scanner = new Scanner(in, "UTF-8")) {
 			return scanner.useDelimiter("\\A").next();
 		}
+
 	}
 }

@@ -3,6 +3,7 @@ package com.github.talbotgui.mariage.rest.controleur;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,8 @@ import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.EtapeCeremonie;
 import com.github.talbotgui.mariage.metier.entities.EtapeRepas;
+import com.github.talbotgui.mariage.metier.entities.Foyer;
+import com.github.talbotgui.mariage.rest.controleur.dto.FoyerDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.ReponseAvecChoix;
 import com.googlecode.catchexception.CatchException;
 
@@ -205,6 +208,35 @@ public class CourrierRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(argumentCaptorLie.getValue(), lie);
 		Mockito.verify(this.mariageService).lieUneEtapeEtUnCourrier(Mockito.anyLong(), Mockito.anyLong(),
 				Mockito.anyLong(), Mockito.anyBoolean());
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test05ListeFoyersParCourrier() {
+		final Long idMariage = 10L;
+		final Long idCourrier = 100L;
+		final Long idEtape = 110L;
+		final Boolean lie = true;
+
+		// ARRANGE
+		final Collection<Foyer> foyers = Arrays.asList(new Foyer("foyer1"), new Foyer("foyer2"), new Foyer("foyer3"));
+		Mockito.doReturn(foyers).when(this.mariageService).listeFoyersParIdCourrier(Mockito.anyLong(),
+				Mockito.anyLong());
+
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("idEtape", idEtape, "lie",
+				lie);
+
+		// ACT
+		final ParameterizedTypeReference<Collection<FoyerDTO>> typeRetour = new ParameterizedTypeReference<Collection<FoyerDTO>>() {
+		};
+		final ResponseEntity<Collection<FoyerDTO>> response = this.getREST().exchange(
+				this.getURL() + "/mariage/" + idMariage + "/courrier/" + idCourrier + "/foyers", HttpMethod.GET,
+				new HttpEntity<>(requestParam), typeRetour);
+
+		// ASSERT
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		Assert.assertEquals(response.getBody().size(), foyers.size());
+		Mockito.verify(this.mariageService).listeFoyersParIdCourrier(idMariage, idCourrier);
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 

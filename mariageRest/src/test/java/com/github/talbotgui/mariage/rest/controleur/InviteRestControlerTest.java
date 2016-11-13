@@ -391,7 +391,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 	public void test08ModificationPresence01Existant() {
 		final Long idMariage = 10L;
 		final Long idEtape = 1L;
-		final Long idInvite = 1L;
+		final Long idInvite = 2L;
 		final String commentaire = "commentaire";
 		final Boolean confirmee = true;
 		final Boolean present = true;
@@ -431,7 +431,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 	public void test08ModificationPresence02NonExistant() {
 		final Long idMariage = 10L;
 		final Long idEtape = 1L;
-		final Long idInvite = 1L;
+		final Long idInvite = 2L;
 		final String commentaire = "commentaire";
 		final Boolean confirmee = true;
 		final Boolean present = true;
@@ -463,6 +463,27 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 
 		Mockito.verify(this.mariageService).chargePresenceParEtapeEtInvite(idMariage, idEtape, idInvite);
 		Mockito.verify(this.mariageService).sauvegarde(Mockito.eq(idMariage), Mockito.any(Presence.class));
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test09SupprimePresence() {
+		final Long idMariage = 10L;
+		final Long idEtape = 1L;
+		final Long idInvite = 2L;
+
+		// ARRANGE
+		Mockito.doNothing().when(this.mariageService).supprimePresence(Mockito.anyLong(), Mockito.anyLong(),
+				Mockito.anyLong());
+
+		// ACT
+		final ResponseEntity<Void> response = this.getREST().exchange(
+				this.getURL() + "/mariage/" + idMariage + "/presence?idEtape=" + idEtape + "&idInvite=" + idInvite,
+				HttpMethod.DELETE, null, Void.class);
+
+		// ASSERT
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		Mockito.verify(this.mariageService).supprimePresence(idMariage, idInvite, idEtape);
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
