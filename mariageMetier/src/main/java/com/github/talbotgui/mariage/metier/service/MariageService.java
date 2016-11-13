@@ -74,4 +74,6 @@ public interface MariageService {
 	void supprimeInvite(Long idMariage, Long idInvite);
 
 	void supprimeMariage(Long idMariage);
+
+	void supprimePresence(Long idMariage, Long idInvite, Long idEtape);
 }

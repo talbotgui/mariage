@@ -1,6 +1,17 @@
-var modifiePresence = function(radio) {
+var supprimePresence = function (rowIndex) {
 	// get données
-	var rowIndex = radio.name.substring("present".length);
+	var rowData = $("#reponses").jqxGrid('getrowdata', rowIndex);
+	var idEtape = rowData.idEtape;
+	var idInvite = rowData.idInvite;
+	
+	// Suppression presence
+	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + idMariage + "/presence?idEtape=" + idEtape + "&idInvite=" + idInvite});
+	req.success(function(dataString) { $("#reponses").jqxGrid('updatebounddata', 'data'); });
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("supprimePresence");});
+}
+
+var modifiePresence = function(radio, rowIndex) {
+	// get données
 	var rowData = $("#reponses").jqxGrid('getrowdata', rowIndex);
 
 	// creation données
@@ -15,9 +26,8 @@ var modifiePresence = function(radio) {
 	modifieReponse(e);
 }
 
-var modifieConfirme = function(checkbox) {
+var modifieConfirme = function(checkbox, rowIndex) {
 	// get données
-	var rowIndex = checkbox.name.substring("confirme".length);
 	var rowData = $("#reponses").jqxGrid('getrowdata', rowIndex);
 
 	// creation données
@@ -46,15 +56,26 @@ var chargePresences = function() {
 	} else {
 		
 		var rendererColonnePresence = function (rowIndex, columnfield, value, defaulthtml, columnproperties, objet) {
-			var name = "present" + rowIndex; var checkedOui = ""; var checkedNon = "";
+			var checkedOui = "";
+			var checkedNon = "";
 			if (value === true) { checkedOui = "checked='checked'";
 			} else if (value === false) { checkedNon = "checked='checked'"; }
-			return "<input name='" + name +"' value='true' type='radio' onchange='modifiePresence(this)' " + checkedOui + ">oui</input>&nbsp;<input name='" + name +"' value='false' type='radio' onchange='modifiePresence(this)' " + checkedNon + ">non</input>"; 
+			return "<input name=present'" + rowIndex +"' value='true' type='radio' onchange='modifiePresence(this, " + rowIndex + ")' " + checkedOui + ">oui</input>" +
+					"&nbsp;<input name='present" + rowIndex +"' value='false' type='radio' onchange='modifiePresence(this, " + rowIndex + ")' " + checkedNon + ">non</input>"; 
 		};
 		var rendererColonneConfirme = function (rowIndex, columnfield, value, defaulthtml, columnproperties, objet) {
-			var name = "confirme" + rowIndex; var checked = "";
+			var checked = "";
 			if (value === true) { checked = "checked='checked'"; }
-			return "<div style='text-align:center'><input name='" + name +"' type='checkbox' onchange='modifieConfirme(this)' " + checked + "></input></div>"; 
+			var contenuCase = "<div style='text-align:center'>";
+			contenuCase += "<input name='confirme" + rowIndex +"' type='checkbox' onchange='modifieConfirme(this," + rowIndex + ")' " + checked + "></input>";
+			contenuCase += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			if (objet.dateMaj) {
+				contenuCase += "<a href='javascript:supprimePresence(\"" + rowIndex + "\")' id='supp" + rowIndex + "'><span class='ui-icon ui-icon-cancel'></span></a>";
+			} else {
+				contenuCase += "<a><span class='ui-icon ui-icon-blank'></span></a>";
+			}
+			contenuCase += "</div>";
+			return contenuCase;
 		};
 
 		// Initialisation des fields et column fixes

@@ -372,4 +372,10 @@ public class MariageServiceImpl implements MariageService {
 		this.mariageRepository.delete(idMariage);
 	}
 
+	@Override
+	public void supprimePresence(final Long idMariage, final Long idInvite, final Long idEtape) {
+		final Presence presence = this.presenceRepository.chargePresenceParEtapeEtInvite(idMariage, idEtape, idInvite);
+		this.presenceRepository.delete(presence);
+	}
+
 }

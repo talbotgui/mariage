@@ -127,4 +127,12 @@ public class InviteRestControler {
 			@PathVariable(value = "idMariage") final Long idMariage) {
 		this.mariageService.supprimeInvite(idMariage, idInvite);
 	}
+
+	@RequestMapping(value = "/mariage/{idMariage}/presence", method = DELETE)
+	public void supprimePresence(//
+			@RequestParam(value = "idEtape") final Long idEtape, //
+			@RequestParam(value = "idInvite") final Long idInvite, //
+			@PathVariable(value = "idMariage") final Long idMariage) {
+		this.mariageService.supprimePresence(idMariage, idInvite, idEtape);
+	}
 }
