@@ -23,7 +23,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.github.talbotgui.mariage.metier.entities.Etape;
-import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 import com.github.talbotgui.mariage.metier.entities.Presence;
@@ -90,17 +89,12 @@ public class PresenceServiceTest {
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageAvecInvitations();
 		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		int nbInvite = 0;
-		for (final Foyer f : original.getFoyers()) {
-			nbInvite += f.getInvites().size();
-		}
-		final int nbPresencesAttendu = original.getEtapes().size() * nbInvite;
 
 		// ACT
 		final Collection<Presence> presences = this.instance.listePresencesParIdMariage(idMariage);
 
 		// ASSERT
-		Assert.assertEquals(nbPresencesAttendu, presences.size());
+		Assert.assertEquals(48, presences.size());
 		for (final Presence presence : presences) {
 			Assert.assertNull(presence.getCommentaire());
 			Assert.assertNull(presence.getConfirmee());
