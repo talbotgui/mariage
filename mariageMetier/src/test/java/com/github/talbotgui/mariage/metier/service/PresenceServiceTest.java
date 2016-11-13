@@ -168,4 +168,33 @@ public class PresenceServiceTest {
 
 	}
 
+	@Test
+	public void test04SupprimePresence() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageAvecInvitations();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+
+		Collection<Presence> presencesDepuisProduitCartesien = this.instance.listePresencesParIdMariage(idMariage);
+
+		Presence presence = presencesDepuisProduitCartesien.iterator().next();
+		presence.setCommentaire("coucou");
+		presence.setConfirmee(true);
+		presence.setPresent(true);
+		this.instance.sauvegarde(idMariage, presence);
+
+		// ACT
+		this.instance.supprimePresence(idMariage, presence.getId().getInvite().getId(),
+				presence.getId().getEtape().getId());
+
+		// ASSERT
+		presencesDepuisProduitCartesien = this.instance.listePresencesParIdMariage(idMariage);
+		presence = presencesDepuisProduitCartesien.iterator().next();
+		Assert.assertNull(presence.getCommentaire());
+		Assert.assertNull(presence.getConfirmee());
+		Assert.assertNull(presence.getDateMaj());
+		Assert.assertNull(presence.getPresent());
+
+	}
+
 }
