@@ -29,6 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
+import com.github.talbotgui.mariage.metier.dto.StatistiquesPresenceMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesRepartitionsInvitesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
@@ -435,5 +436,65 @@ public class InviteEtFoyerServiceTest {
 		Assert.assertEquals("G A X et G C X et G F X;add1", lignes[1]);
 		Assert.assertEquals("G I X et G J X et T P X;add1", lignes[2]);
 		Assert.assertEquals("T A X et T J X;add1", lignes[3]);
+	}
+
+	@Test
+	public void test12StatistiquesPresence() throws ParseException, IOException, URISyntaxException {
+
+		// ARRANGE
+		final Collection<String> strings = Files
+				.readAllLines(Paths.get(ClassLoader.getSystemResource("sql/dataSet_2.sql").toURI()));
+		final String[] requetes = strings.toArray(new String[strings.size()]);
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		jdbc.batchUpdate(requetes);
+
+		final Long idMariage = jdbc.queryForObject("select id from mariage", Long.class);
+
+		// ACT
+		final Collection<StatistiquesPresenceMariage> dtos = this.instance.calculStatistiquesPresence(idMariage);
+
+		// ASSERT
+		Assert.assertEquals(5, dtos.size());
+		final Iterator<StatistiquesPresenceMariage> iter = dtos.iterator();
+
+		StatistiquesPresenceMariage stat = iter.next();
+		Assert.assertEquals(new Long(1), stat.getIdEtape());
+		Assert.assertEquals(2, stat.getNbAbsence());
+		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
+		Assert.assertEquals(8, stat.getNbPresence());
+		Assert.assertEquals(4, stat.getNbPresenceConfirme());
+		Assert.assertEquals(2, stat.getNbInconnu());
+
+		stat = iter.next();
+		Assert.assertEquals(new Long(2), stat.getIdEtape());
+		Assert.assertEquals(0, stat.getNbAbsence());
+		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
+		Assert.assertEquals(10, stat.getNbPresence());
+		Assert.assertEquals(4, stat.getNbPresenceConfirme());
+		Assert.assertEquals(2, stat.getNbInconnu());
+
+		stat = iter.next();
+		Assert.assertEquals(new Long(3), stat.getIdEtape());
+		Assert.assertEquals(1, stat.getNbAbsence());
+		Assert.assertEquals(1, stat.getNbAbsenceConfirme());
+		Assert.assertEquals(9, stat.getNbPresence());
+		Assert.assertEquals(3, stat.getNbPresenceConfirme());
+		Assert.assertEquals(2, stat.getNbInconnu());
+
+		stat = iter.next();
+		Assert.assertEquals(new Long(4), stat.getIdEtape());
+		Assert.assertEquals(0, stat.getNbAbsence());
+		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
+		Assert.assertEquals(0, stat.getNbPresence());
+		Assert.assertEquals(0, stat.getNbPresenceConfirme());
+		Assert.assertEquals(4, stat.getNbInconnu());
+
+		stat = iter.next();
+		Assert.assertEquals(new Long(5), stat.getIdEtape());
+		Assert.assertEquals(0, stat.getNbAbsence());
+		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
+		Assert.assertEquals(0, stat.getNbPresence());
+		Assert.assertEquals(0, stat.getNbPresenceConfirme());
+		Assert.assertEquals(4, stat.getNbInconnu());
 	}
 }

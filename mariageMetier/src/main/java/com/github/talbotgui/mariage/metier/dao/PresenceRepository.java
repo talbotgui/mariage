@@ -8,10 +8,23 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.github.talbotgui.mariage.metier.dto.StatistiquesPresenceMariage;
 import com.github.talbotgui.mariage.metier.entities.Presence;
 
 @Transactional
 public interface PresenceRepository extends CrudRepository<Presence, Long> {
+	@Query("select new com.github.talbotgui.mariage.metier.dto.StatistiquesPresenceMariage("//
+			+ "e.id, e.nom,"//
+			+ " (select count(p) from Presence p where p.id.etape.id=e.id and p.present=false),"//
+			+ " (select count(p) from Presence p where p.id.etape.id=e.id and p.present=false and p.confirmee = true),"//
+			+ " (select count(p) from Presence p where p.id.etape.id=e.id and p.present=true),"//
+			+ " (select count(p) from Presence p where p.id.etape.id=e.id and p.present=true and p.confirmee = true),"//
+			+ " (select count(i) from Courrier c join c.etapes eta join c.foyersInvites f join f.invites i where eta.id=e.id))"//
+			+ " from Etape e"//
+			+ " where e.mariage.id=:idMariage" //
+			+ " order by e.numOrdre")
+	Collection<StatistiquesPresenceMariage> calculStatistiquesPresence(@Param("idMariage") Long idMariage);
+
 	@Query("select p "//
 			+ " from Presence p"//
 			+ " where p.id.invite.id = :idInvite"//

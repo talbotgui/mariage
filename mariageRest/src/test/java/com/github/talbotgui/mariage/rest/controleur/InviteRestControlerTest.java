@@ -19,6 +19,7 @@ import org.testng.annotations.Test;
 
 import com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
+import com.github.talbotgui.mariage.metier.dto.StatistiquesPresenceMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesRepartitionsInvitesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Etape;
@@ -484,6 +485,29 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		Mockito.verify(this.mariageService).supprimePresence(idMariage, idInvite, idEtape);
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test10CalculStatistiquesPresence() {
+		final Long idMariage = 10L;
+
+		// ARRANGE
+		final Collection<StatistiquesPresenceMariage> dtos = Arrays.asList(
+				new StatistiquesPresenceMariage(1L, "etape1", 1L, 1L, 1L, 1L, 1L),
+				new StatistiquesPresenceMariage(2L, "etape2", 1L, 0L, 1L, 0L, 1L));
+		Mockito.doReturn(dtos).when(this.mariageService).calculStatistiquesPresence(Mockito.anyLong());
+
+		// ACT
+		final ParameterizedTypeReference<Collection<StatistiquesPresenceMariage>> typeRetour = new ParameterizedTypeReference<Collection<StatistiquesPresenceMariage>>() {
+		};
+		final ResponseEntity<Collection<StatistiquesPresenceMariage>> resultats = this.getREST().exchange(
+				this.getURL() + "/mariage/" + idMariage + "/statistiquesPresence", HttpMethod.GET, null, typeRetour);
+
+		// ASSERT
+		Assert.assertNotNull(resultats);
+		Assert.assertEquals(resultats.getBody().size(), 2);
+		Mockito.verify(this.mariageService).calculStatistiquesPresence(idMariage);
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 

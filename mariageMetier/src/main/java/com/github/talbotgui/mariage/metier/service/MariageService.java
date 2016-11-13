@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
+import com.github.talbotgui.mariage.metier.dto.StatistiquesPresenceMariage;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.Foyer;
@@ -16,6 +17,8 @@ import com.github.talbotgui.mariage.metier.entities.Presence;
 public interface MariageService {
 
 	StatistiquesMariage calculStatistiques(Long idMariage);
+
+	Collection<StatistiquesPresenceMariage> calculStatistiquesPresence(Long idMariage);
 
 	Foyer chargeFoyerParId(Long id);
 

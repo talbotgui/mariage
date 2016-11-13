@@ -28,6 +28,7 @@ import com.github.talbotgui.mariage.metier.dao.PresenceRepository;
 import com.github.talbotgui.mariage.metier.dto.DTOUtils;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
+import com.github.talbotgui.mariage.metier.dto.StatistiquesPresenceMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesRepartitionsInvitesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
@@ -93,6 +94,11 @@ public class MariageServiceImpl implements MariageService {
 		final StatistiquesRepartitionsInvitesMariage repartition = new StatistiquesRepartitionsInvitesMariage(
 				nbInvitesParAge, nbInvitesParFoyer, nbInvitesParGroupe, nbInvitesParEtape, nbFoyersParEtape);
 		return new StatistiquesMariage(repartition, invites);
+	}
+
+	@Override
+	public Collection<StatistiquesPresenceMariage> calculStatistiquesPresence(final Long idMariage) {
+		return this.presenceRepository.calculStatistiquesPresence(idMariage);
 	}
 
 	@Override

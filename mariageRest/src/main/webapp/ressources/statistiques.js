@@ -1,4 +1,33 @@
 
+var chargeStatistiquesPresence = function() {
+	var datafields = [ { name: 'idEtape', type: 'number' }, { name: 'nomEtape', type: 'string' },
+	                   { name: 'nbPresence', type: 'int' },{ name: 'nbPresenceConfirme', type: 'int' },
+	                   { name: 'nbAbsence', type: 'int' },{ name: 'nbAbsenceConfirme', type: 'int' },
+	                   { name: 'nbInconnu', type: 'int' }];
+	var columns = [ { text: 'Etape', datafield: 'nomEtape', width: '25%' },
+	                { text: 'Absence', datafield: 'nbAbsence', width: '15%' },
+	                { text: 'dont confirmée', datafield: 'nbAbsenceConfirme', width: '15%' },
+	                { text: 'Presence', datafield: 'nbPresence', width: '15%' },
+	                { text: 'dont confirmée', datafield: 'nbPresenceConfirme', width: '15%' },
+	                { text: 'Inconnu', datafield: 'nbInconnu', width: '15%' }
+	];
+
+	var dataAdapter = new $.jqx.dataAdapter({
+		datatype: "json",
+		url: REST_PREFIX + "/mariage/" + getIdMariage() + "/statistiquesPresence",
+		datafields: datafields,
+		id: 'id'
+	});
+
+	$("#presences").jqxGrid({
+		source: dataAdapter,
+		columns: columns,
+		editable: false, sortable: false, filterable: true, autoheight: true, altrows: true,
+		width: 950,
+		ready:  function() { afficheContent(); }
+	});
+}
+
 // Chargement des stats
 var chargeStatistiques= function() {
 	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/statistiques");
@@ -68,11 +97,11 @@ var chargeStatistiques= function() {
 		});
 	});
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargeStatistiques");});
-
 };
 
 $(document).ready(function() {
 
 	// Init
 	chargeStatistiques();
+	chargeStatistiquesPresence();
 });

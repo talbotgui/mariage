@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.talbotgui.mariage.metier.dto.DTOUtils;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
+import com.github.talbotgui.mariage.metier.dto.StatistiquesPresenceMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.EtapeRepas;
 import com.github.talbotgui.mariage.metier.entities.Foyer;
@@ -33,6 +34,12 @@ public class InviteRestControler {
 	@RequestMapping(value = "/mariage/{idMariage}/statistiques", method = GET)
 	public StatistiquesMariage calculStatistiques(@PathVariable("idMariage") final Long idMariage) {
 		return this.mariageService.calculStatistiques(idMariage);
+	}
+
+	@RequestMapping(value = "/mariage/{idMariage}/statistiquesPresence", method = GET)
+	public Collection<StatistiquesPresenceMariage> calculStatistiquesPresence(
+			@PathVariable("idMariage") final Long idMariage) {
+		return this.mariageService.calculStatistiquesPresence(idMariage);
 	}
 
 	private Age getAgeFromString(final String age) {
