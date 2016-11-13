@@ -250,6 +250,59 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public Collection<String> rechercheErreurs(final Long idMariage) {
+		final Collection<String> erreurs = new ArrayList<>();
+
+		// Recherche de personnes invités à plusieurs étapes.
+		erreurs.addAll(this.rechercheErreursPourInviteSurPlusieursEtapes(idMariage));
+
+		return erreurs;
+	}
+
+	/**
+	 * Recherche de personnes invités à plusieurs étapes.
+	 *
+	 * @param idMariage
+	 *            Identifiant du mariage
+	 * @return
+	 */
+	private Collection<String> rechercheErreursPourInviteSurPlusieursEtapes(final Long idMariage) {
+		final Collection<String> erreurs = new ArrayList<>();
+
+		// invites sur plusieurs étapes
+		String messageErreur = "";
+		Long idInvitePrecedent = null;
+		for (final Object[] objets : this.inviteRepository.rechercheInviteSurPlusieursEtapes(idMariage)) {
+			final Long idInvite = (Long) objets[0];
+			final String nomInvite = (String) objets[1];
+			final String prenomInvite = (String) objets[2];
+			final String nomEtape = (String) objets[3];
+
+			// Si on change d'invite, on sauvegarde le precedent et on reinit
+			if (!idInvite.equals(idInvitePrecedent)) {
+				if (messageErreur.length() > 0) {
+					erreurs.add(messageErreur);
+				}
+				messageErreur = prenomInvite + " " + nomInvite + " est invité(e) plusieurs fois à une même étape : "
+						+ nomEtape;
+			}
+			// Pour le même invite,on ajoute le nom de l'étape
+			else {
+				messageErreur += ", " + nomEtape;
+			}
+
+			idInvitePrecedent = idInvite;
+		}
+
+		// Sauvegarde du message d'erreur (si présent)
+		if (messageErreur.length() > 0) {
+			erreurs.add(messageErreur);
+		}
+
+		return erreurs;
+	}
+
+	@Override
 	public Long sauvegarde(final Long idMariage, final Courrier courrier) {
 		courrier.setMariage(this.mariageRepository.findOne(idMariage));
 		return this.courrierRepository.save(courrier).getId();

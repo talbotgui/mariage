@@ -497,4 +497,33 @@ public class InviteEtFoyerServiceTest {
 		Assert.assertEquals(0, stat.getNbPresenceConfirme());
 		Assert.assertEquals(4, stat.getNbInconnu());
 	}
+
+	@Test
+	public void test13RechercheDerreurs() throws ParseException, IOException, URISyntaxException {
+
+		// ARRANGE
+		final Collection<String> strings = Files
+				.readAllLines(Paths.get(ClassLoader.getSystemResource("sql/dataSet_3.sql").toURI()));
+		final String[] requetes = strings.toArray(new String[strings.size()]);
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		jdbc.batchUpdate(requetes);
+
+		final Long idMariage = jdbc.queryForObject("select id from mariage", Long.class);
+
+		// ACT
+		final Collection<String> erreurs = this.instance.rechercheErreurs(idMariage);
+
+		// ASSERT
+		Assert.assertNotNull(erreurs);
+		Assert.assertEquals(4, erreurs.size());
+		final Iterator<String> iter = erreurs.iterator();
+		Assert.assertEquals("PRENOM1 NOM1 est invité(e) plusieurs fois à une même étape : Mairie, Eglise, VdH",
+				iter.next());
+		Assert.assertEquals("PRENOM2 NOM1 est invité(e) plusieurs fois à une même étape : Mairie, Eglise, VdH",
+				iter.next());
+		Assert.assertEquals("PRENOM3 null est invité(e) plusieurs fois à une même étape : Mairie, Eglise, VdH",
+				iter.next());
+		Assert.assertEquals("PRENOM4 NOM1 est invité(e) plusieurs fois à une même étape : Mairie, Eglise, VdH",
+				iter.next());
+	}
 }

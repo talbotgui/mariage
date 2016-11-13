@@ -54,6 +54,8 @@ public interface MariageService {
 
 	Collection<Mariage> listeTousMariages();
 
+	Collection<String> rechercheErreurs(Long idMariage);
+
 	Long sauvegarde(Long idMariage, Courrier courrier);
 
 	Long sauvegarde(Long idMariage, Etape etape);

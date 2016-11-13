@@ -1,3 +1,4 @@
+
 var changeLien = function(idFoyer, idCourrier, checkbox) {
 	afficheDivAttente('#foyers');
 	
@@ -76,4 +77,5 @@ var chargeFoyers = function() {
 $(document).ready(function() {
 	// Init
 	chargeFoyers();
+	chargeErreurs("#erreurs");
 });

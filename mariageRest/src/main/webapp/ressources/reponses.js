@@ -116,4 +116,5 @@ var chargePresences = function() {
 $(document).ready(function() {
 	// Init
 	chargePresences();
+	chargeErreurs("#erreurs");
 });

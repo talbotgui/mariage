@@ -511,4 +511,23 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
+	@Test
+	public void test11rechercheErreurs() {
+		final Long idMariage = 10L;
+		final List<String> toReturn = Arrays.asList("erreur1", "erreur2", "erreur3");
+
+		// ARRANGE
+		Mockito.doReturn(toReturn).when(this.mariageService).rechercheErreurs(Mockito.anyLong());
+
+		// ACT
+		final ParameterizedTypeReference<Collection<String>> typeRetour = new ParameterizedTypeReference<Collection<String>>() {
+		};
+		final ResponseEntity<Collection<String>> invites = this.getREST()
+				.exchange(this.getURL() + "/mariage/" + idMariage + "/erreurs", HttpMethod.GET, null, typeRetour);
+
+		// ASSERT
+		Assert.assertEquals(invites.getBody().size(), 3);
+		Mockito.verify(this.mariageService).rechercheErreurs(idMariage);
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
 }

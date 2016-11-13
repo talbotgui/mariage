@@ -11,6 +11,41 @@ var afficheContent = function() {
 };
 
 /**
+ * Chargement des erreurs et affichage dans une div
+ * @param divSelector selecteur JQuery pour la div d'erreur
+ */
+var chargeErreurs = function(divSelector) {
+
+	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/erreurs");
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargeErreurs");});
+	req.success(function(dataString) {
+
+		// Avec les donnees
+		var data = dataString;
+		if (typeof dataString === "string") {
+			data = JSON.parse(dataString);
+		}
+
+		var erreursUl = "";
+		if (data.length > 0) {
+			erreursUl += "<ul>";
+			data.forEach(function(e, i, array) {
+				erreursUl += "<li>" + e + "</li>";
+			});
+			erreursUl += "</ul>";
+		}
+		
+		var erreursDiv = $(divSelector);
+		erreursDiv.html(erreursUl);
+		if (data.length > 0) {
+			erreursDiv.show();
+		} else {
+			erreursDiv.hide();
+		}
+	});
+}
+
+/**
  * Sauvegarde de l'identifiant du mariage.
  * Cookie de 8 heures
  */

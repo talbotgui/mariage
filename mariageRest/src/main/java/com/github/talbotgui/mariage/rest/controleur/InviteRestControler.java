@@ -65,6 +65,12 @@ public class InviteRestControler {
 		return DTOUtils.creerDtos(this.mariageService.listePresencesParIdMariage(idMariage), PresenceDTO.class);
 	}
 
+	@RequestMapping(value = "/mariage/{idMariage}/erreurs", method = GET)
+	public Collection<String> rechercheErreursPourInviteSurPlusieursEtapes(
+			@PathVariable(value = "idMariage") final Long idMariage) {
+		return this.mariageService.rechercheErreurs(idMariage);
+	}
+
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = POST)
 	public Long sauvegardeInvite(//
 			@RequestParam(required = false, value = "age") final String age, //
