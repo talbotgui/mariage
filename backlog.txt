@@ -1,3 +1,31 @@
+  Ajouter un tableau dans les statistiques avec les présents/absents confirmés/ouPas sous un selectBox contenant les étapes
+  
+  Regarder à Selenium 3 (encore en beta ??)
+
+  Ajouter une colonne pour cocher qui a bien reçu le courrier par foyer
+
+  Mettre des milestones dans le pipeline (https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Milestone+Step+Plugin)
+
+  Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
+
+  Bug quand on coche une case sur une page, qu'on change de page et qu'on revient
+
+  conserver les tris et filtres de page en page
+
+  tenter de remplacer les retry dans MyDriver par "(new WebDriverWait(this.driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(by));"
+  
+  Améliorer la couverture des tests Selenium
+
+  div attente tableau et bloquante !!
+  
+  dupliquer les boutons "ajouter" en haut
+  
+  ajouter un bouton raffraichir avec conservation du nombre d'item de pagination
+  
+  Gérér les hébergements
+  
+  Changer le "no data to display"
+
 X Créer les pages "Adresse et téléphone", "Paramètres", "Courrier", "Réponses"
 X Ajouter les attributs prenom et age (ainé, adulte, jeune, enfant, bébé) dans Invite
 X Traiter les messages d'erreur pourri (cf cas de test avec age invalide)
@@ -39,31 +67,3 @@ x Gerer les erreurs de connexion répétées
 x ajouter la notion de rôle (un champ avec un enum) pour limiter la vision des menus et les accès aux URL REST
 x limiter la visibilité des utilisateurs à l'administrateur
 x Ajouter une page "gestion des réponses" dans laquelle on peut cocher qui vient à quelles étapes
-
-  Ajouter un tableau dans les statistiques avec les présents/absents confirmés/ouPas sous un selectBox contenant les étapes
-  
-  Regarder à Selenium 3 (encore en beta ??)
-
-  Ajouter une colonne pour cocher qui a bien reçu le courrier par foyer
-
-  Mettre des milestones dans le pipeline (https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Milestone+Step+Plugin)
-
-  Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
-
-  Bug quand on coche une case sur une page, qu'on change de page et qu'on revient
-
-  conserver les tris et filtres de page en page
-
-  tenter de remplacer les retry dans MyDriver par "(new WebDriverWait(this.driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(by));"
-  
-  Améliorer la couverture des tests Selenium
-
-  div attente tableau et bloquante !!
-  
-  dupliquer les boutons "ajouter" en haut
-  
-  ajouter un bouton raffraichir avec conservation du nombre d'item de pagination
-  
-  Gérér les hébergements
-  
-  Changer le "no data to display"
