@@ -264,7 +264,7 @@ public class MariageServiceImpl implements MariageService {
 	 *
 	 * @param idMariage
 	 *            Identifiant du mariage
-	 * @return
+	 * @return une liste d'erreur en francais (pas d'i18n)
 	 */
 	private Collection<String> rechercheErreursPourInviteSurPlusieursEtapes(final Long idMariage) {
 		final Collection<String> erreurs = new ArrayList<>();

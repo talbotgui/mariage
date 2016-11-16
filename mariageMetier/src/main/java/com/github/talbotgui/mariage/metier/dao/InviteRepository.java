@@ -19,13 +19,23 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 
 	@Query("select new com.github.talbotgui.mariage.metier.dto.StatistiquesInvitesMariage("//
 			//
-			+ " (select count(distinct i.foyer.nom) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage)"
-			+ ", (select count(distinct i.foyer.groupe) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage)"
-			+ ", (select size(i) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage)"
-			+ ", (select size(i) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage and"
-			+ " (i.nom is null or i.prenom is null or i.foyer.groupe is null or i.foyer.nom is null))"
-			+ ", (select size(i) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage and i.foyer.adresse is null)"
-			+ ", (select size(i) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage and i.age is null)"//
+			+ " (select count(distinct i.foyer.nom) from Mariage m"//
+			+ "            join m.foyers f join f.invites i"//
+			+ "            where m.id = :idMariage)"//
+			+ ", (select count(distinct i.foyer.groupe) from Mariage m"//
+			+ "            join m.foyers f join f.invites i"//
+			+ "            where m.id = :idMariage)"//
+			+ ", (select size(i) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage)"//
+			+ ", (select size(i) from Mariage m"//
+			+ "            join m.foyers f join f.invites i"//
+			+ "            where m.id = :idMariage and ("//
+			+ "               i.nom is null or i.prenom is null or i.foyer.groupe is null or i.foyer.nom is null))"//
+			+ ", (select size(i) from Mariage m"//
+			+ "            join m.foyers f join f.invites i"//
+			+ "            where m.id = :idMariage and i.foyer.adresse is null)"//
+			+ ", (select size(i) from Mariage m"//
+			+ "            join m.foyers f join f.invites i"//
+			+ "            where m.id = :idMariage and i.age is null)"//
 			+ ")"//
 			+ " from Mariage m"//
 			+ " where m.id = :idMariage")
@@ -50,7 +60,9 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 	@Query("select f.nom, size(f.invites) from Mariage m join m.foyers f where m.id = :idMariage group by f.nom")
 	List<Object[]> compteNombreInviteParFoyer(@Param("idMariage") Long idMariage);
 
-	@Query("select f.groupe, count(distinct i) from Mariage m join m.foyers f join f.invites i where m.id = :idMariage group by f.groupe")
+	@Query("select f.groupe, count(distinct i)"//
+			+ " from Mariage m join m.foyers f join f.invites i"//
+			+ " where m.id = :idMariage group by f.groupe")
 	List<Object[]> compteNombreInviteParGroupe(@Param("idMariage") Long idMariage);
 
 	@Query("delete Invite where id in (select i.id from Invite i where i.foyer.mariage.id = :idMariage)")

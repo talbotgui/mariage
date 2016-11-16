@@ -19,7 +19,9 @@ public interface PresenceRepository extends CrudRepository<Presence, Long> {
 			+ " (select count(p) from Presence p where p.id.etape.id=e.id and p.present=false and p.confirmee = true),"//
 			+ " (select count(p) from Presence p where p.id.etape.id=e.id and p.present=true),"//
 			+ " (select count(p) from Presence p where p.id.etape.id=e.id and p.present=true and p.confirmee = true),"//
-			+ " (select count(i) from Courrier c join c.etapes eta join c.foyersInvites f join f.invites i where eta.id=e.id))"//
+			+ " (select count(i) from Courrier c" + "     join c.etapes eta join c.foyersInvites f join f.invites i"
+			+ "     where eta.id=e.id)"//
+			+ " )"//
 			+ " from Etape e"//
 			+ " where e.mariage.id=:idMariage" //
 			+ " order by e.numOrdre")

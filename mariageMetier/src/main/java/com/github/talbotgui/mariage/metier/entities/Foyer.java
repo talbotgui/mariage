@@ -95,14 +95,14 @@ public class Foyer implements Serializable {
 	}
 
 	/**
-	 * Genere une ligne de texte contenant, séparés par un ';', :
+	 * Genere une ligne de texte contenant, séparés par un ';'.
 	 * <ul>
 	 * <li>La concatenation des noms des invites</li>
 	 * <li>Le nom de la rue</li>
 	 * <li>le code postal et la ville</li>
 	 * </ul>
 	 *
-	 * @return
+	 * @return le cntenu du fichier de publipostage
 	 */
 	public String genereLignePublipostage() {
 		final StringBuilder sb = new StringBuilder();
