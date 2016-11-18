@@ -12,9 +12,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 @SpringBootApplication
 @EntityScan({ RestApplication.ENTITY_SCAN })
-@ComponentScan({ RestApplication.COMPONENT_SCAN_WEB, RestApplication.COMPONENT_SCAN_SRV })
+@ComponentScan({ RestApplication.COMPONENT_SCAN_WEB, RestApplication.COMPONENT_SCAN_SECU,
+		RestApplication.COMPONENT_SCAN_SRV })
 @EnableJpaRepositories(RestApplication.JPA_REPOSITORIES)
 @PropertySource("classpath:db-config-test.properties")
 public class SeleniumTestApplication {
-
 }

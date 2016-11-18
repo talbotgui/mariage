@@ -17,6 +17,12 @@ public class MonitoringSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
+	@Override
+	public void test00login() {
+		super.test00login();
+	}
+
+	@Test
 	public void test01accesPage() {
 		//
 
@@ -27,4 +33,5 @@ public class MonitoringSeleniumTest extends SeleniumTest {
 		this.driver.assertTextEquals(Monitoring.ENTETES[0], "Instance");
 		this.driver.assertTextEquals(Monitoring.ENTETES[1], "Label");
 	}
+
 }

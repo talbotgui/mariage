@@ -11,8 +11,9 @@ public class Selectors {
 		public static class Button {
 			public static final By AFFICHE_POPUP = By.id("button_afficher_popup_ajouter_utilisateur");
 			public static final By AJOUT = By.id("button_ajouter_utilisateur");
-			public static final By[] SUPPRIMER = { By.xpath("//div[@id='row0utilisateurs']/div[2]/a/span"),
-					By.xpath("//div[@id='row1utilisateurs']/div[2]/a/span") };
+			public static final By[] SUPPRIMER = { By.xpath("//div[@id='row0utilisateurs']/div[4]/a/span"),
+					By.xpath("//div[@id='row1utilisateurs']/div[4]/a/span"),
+					By.xpath("//div[@id='row2utilisateurs']/div[4]/a/span") };
 		}
 
 		public static class Input {
@@ -21,7 +22,8 @@ public class Selectors {
 		}
 
 		public static final By CASES[][] = { { By.xpath("//div[@id='row0utilisateurs']/div[1]/div") },
-				{ By.xpath("//div[@id='row1utilisateurs']/div[1]/div") } };
+				{ By.xpath("//div[@id='row1utilisateurs']/div[1]/div") },
+				{ By.xpath("//div[@id='row2utilisateurs']/div[1]/div") } };
 	}
 
 	/**
@@ -82,12 +84,35 @@ public class Selectors {
 		public static final By DIV_POPUP = By.xpath("//div[@id='popupAjoutInvite']");
 	}
 
+	public static class Login {
+		public static class Button {
+			public static final By LOGIN = By.id("button_login");
+		}
+
+		public static class Cookie {
+			public static final String JSESSIONID = "JSESSIONID";
+		}
+
+		public static class Div {
+			public static final By DIV_ERROR = By.id("loginError");
+			public static final By DIV_LOGIN = By.id("login");
+		}
+
+		public static class Input {
+			public static final By LOGIN = By.id("login");
+			public static final By MDP = By.id("mdp");
+		}
+
+		public static final String TITRE_PAGE = "Mariage";
+	}
+
 	/**
 	 *
 	 */
 	public static class Menu {
 		public static final By LIEN_ACCUEIL = By.linkText("Accueil");
 		public static final By LIEN_ADMINISTRATION = By.linkText("Administration");
+		public static final By LIEN_DECONNEXION = By.id("logout");
 		public static final By LIEN_INVITES = By.linkText("Liste des invités");
 		public static final By LIEN_PARAMETAPES = By.linkText("Paramètres - étapes");
 	}

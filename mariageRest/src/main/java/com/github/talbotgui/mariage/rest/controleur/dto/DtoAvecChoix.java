@@ -30,11 +30,11 @@ public class DtoAvecChoix {
 
 		if (choixPossibles != null) {
 			final Collection<?> objetsLies = (Collection<?>) getterAttributDuChoix.invoke(entite);
-			int i = 0;
+			int cpt = 0;
 			for (final Object o : choixPossibles) {
 				final boolean valeur = objetsLies.contains(o);
-				this.setChoix(i, valeur);
-				i++;
+				this.setChoix(cpt, valeur);
+				cpt++;
 			}
 		}
 	}

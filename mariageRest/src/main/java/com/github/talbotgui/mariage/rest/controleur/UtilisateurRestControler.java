@@ -90,7 +90,7 @@ public class UtilisateurRestControler {
 	public void sauvegardeUtilisateur(//
 			@RequestParam(value = "login") final String login, //
 			@RequestParam(value = "mdp", required = false) final String mdp, //
-			@RequestParam(value = "role") final String role) {
+			@RequestParam(value = "role", required = false) final String role) {
 		// Validation coté WEB car elle est nécessaire à cause d'un problème WEB
 		// (au delete avec un . dans le parametre)
 		if (login.contains(".")) {

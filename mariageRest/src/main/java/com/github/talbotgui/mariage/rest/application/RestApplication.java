@@ -46,6 +46,7 @@ public class RestApplication {
 	public static final String COMPONENT_SCAN_WEB = "com.github.talbotgui.mariage.rest.controleur";
 	public static final String ENTITY_SCAN = "com.github.talbotgui.mariage.metier.entities";
 	public static final String JPA_REPOSITORIES = "com.github.talbotgui.mariage.metier.dao";
+	public static final String LOGIN_MDP_ADMIN_PAR_DEFAUT = "adminAsupprimer";
 	public static final String PROPERTY_SOURCE = "classpath:db-config-prod.properties";
 
 	public static ApplicationContext getApplicationContext() {
@@ -62,7 +63,8 @@ public class RestApplication {
 		// Si aucun utilisateur au base, on en crée un par défaut
 		final SecuriteService securiteService = ac.getBean(SecuriteService.class);
 		if (securiteService.listeUtilisateurs().isEmpty()) {
-			securiteService.sauvegardeUtilisateur("adminAsupprimer", "adminAsupprimer", Utilisateur.Role.ADMIN);
+			securiteService.sauvegardeUtilisateur(LOGIN_MDP_ADMIN_PAR_DEFAUT, LOGIN_MDP_ADMIN_PAR_DEFAUT,
+					Utilisateur.Role.ADMIN);
 		}
 	}
 
@@ -89,7 +91,7 @@ public class RestApplication {
 	}
 
 	/**
-	 * Bean fo SpringFox
+	 * Bean fo SpringFox.
 	 *
 	 * @return SpringFox configuration
 	 */

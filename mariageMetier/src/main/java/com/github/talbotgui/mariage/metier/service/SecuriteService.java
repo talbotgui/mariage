@@ -15,6 +15,17 @@ public interface SecuriteService {
 
 	Collection<Utilisateur> listeUtilisateurs();
 
+	/**
+	 * A la creation d'un utilisateur, si aucun role fournit, le nouvel
+	 * utilisateur sera un UTILISATEUR
+	 * 
+	 * @param login
+	 *            Identifiant unique
+	 * @param mdp
+	 *            Mot de passe
+	 * @param role
+	 *            Role dans l'application
+	 */
 	void sauvegardeUtilisateur(String login, String mdp, Utilisateur.Role role);
 
 	void supprimeAutorisation(String login, Long idMariage);

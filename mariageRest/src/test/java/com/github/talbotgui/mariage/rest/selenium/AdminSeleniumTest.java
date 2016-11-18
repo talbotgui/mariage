@@ -4,6 +4,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.testng.annotations.Test;
 
+import com.github.talbotgui.mariage.rest.application.RestApplication;
 import com.github.talbotgui.mariage.rest.application.SeleniumTestApplication;
 import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Admin;
 import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Commun;
@@ -20,6 +21,12 @@ public class AdminSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
+	@Override
+	public void test00login() {
+		super.test00login();
+	}
+
+	@Test
 	public void test01accesPage() {
 		//
 
@@ -31,7 +38,7 @@ public class AdminSeleniumTest extends SeleniumTest {
 		this.driver.assertPageTitle("Mariage");
 		this.driver.assertTextEquals(Commun.DIV_MARIES, "Mariage de M & G");
 		this.driver.assertTextEquals(Commun.DIV_DATE_MARIAGE, "01/01/2017");
-		this.driver.assertTextEquals(Commun.TABLEAU_MESSAGE_VIDE, "No data to display");
+		this.driver.assertTextEquals(Admin.CASES[0][0], RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT);
 		this.driver.assertElementPresent(Admin.Button.AFFICHE_POPUP);
 	}
 
@@ -47,7 +54,7 @@ public class AdminSeleniumTest extends SeleniumTest {
 		this.driver.click(Admin.Button.AJOUT, 500);
 
 		//
-		this.driver.count(Commun.DIV_ERREUR, 2);
+		this.driver.assertNumberOfElements(Commun.DIV_ERREUR, 2);
 	}
 
 	@Test
@@ -60,7 +67,9 @@ public class AdminSeleniumTest extends SeleniumTest {
 		this.driver.click(Admin.Button.AJOUT, 500);
 
 		//
-		this.driver.assertTextEquals(Admin.CASES[0][0], "monLogin");
+		this.driver.assertNumberOfElements(Commun.DIV_ERREUR, 0);
+		this.driver.assertTextEquals(Admin.CASES[0][0], RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT);
+		this.driver.assertTextEquals(Admin.CASES[1][0], "monLogin");
 	}
 
 	@Test
@@ -70,14 +79,19 @@ public class AdminSeleniumTest extends SeleniumTest {
 		this.driver.type(Admin.Input.LOGIN, "vaEtreSupprimer", 200);
 		this.driver.type(Admin.Input.MDP, "vaEtreSupprimer", 200);
 		this.driver.click(Admin.Button.AJOUT, 500);
-		this.driver.assertTextEquals(Admin.CASES[1][0], "vaEtreSupprimer");
+		this.driver.assertTextEquals(Admin.CASES[2][0], "vaEtreSupprimer");
 
 		//
-		this.driver.click(Admin.Button.SUPPRIMER[1], 500);
+		this.driver.click(Admin.Button.SUPPRIMER[2], 500);
 
 		//
-		this.driver.assertTextEquals(Admin.CASES[0][0], "monLogin");
-		this.driver.assertElementNotPresent(Admin.CASES[1][0]);
+		this.driver.assertTextEquals(Admin.CASES[1][0], "monLogin");
+		this.driver.assertElementNotPresent(Admin.CASES[2][0]);
 	}
 
+	@Test
+	@Override
+	public void test99logout() {
+		super.test99logout();
+	}
 }

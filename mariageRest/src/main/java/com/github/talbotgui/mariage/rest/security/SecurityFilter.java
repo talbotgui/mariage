@@ -43,8 +43,7 @@ public class SecurityFilter implements Filter {
 		if (httpOnly) {
 			response.addHeader("Content-Security-Policy", "child-src 'none'; object-src 'none'");
 		} else {
-			response.addHeader("Content-Security-Policy", "child-src 'none'; object-src 'none'");// default-src
-																									// https:;
+			response.addHeader("Content-Security-Policy", "child-src 'none'; object-src 'none'");
 			response.addHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
 		}
 	}
@@ -91,7 +90,7 @@ public class SecurityFilter implements Filter {
 
 	/**
 	 * Renvoi un code 404 pour les appels REST "/utilisateur" pour les
-	 * utilisateurs du role non ADMIN
+	 * utilisateurs du role non ADMIN.
 	 *
 	 * @param request
 	 *            Requete HTTP

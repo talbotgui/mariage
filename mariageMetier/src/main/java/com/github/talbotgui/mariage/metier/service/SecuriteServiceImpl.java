@@ -71,7 +71,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public void sauvegardeUtilisateur(final String login, final String mdp, final Utilisateur.Role role) {
+	public void sauvegardeUtilisateur(final String login, final String mdp, Utilisateur.Role role) {
 
 		// Validation login
 		if (login == null || login.length() < LOGIN_MDP_MIN) {
@@ -86,6 +86,9 @@ public class SecuriteServiceImpl implements SecuriteService {
 			// Validation mdp
 			if (mdp == null || mdp.length() < LOGIN_MDP_MIN) {
 				throw new BusinessException(BusinessException.ERREUR_LOGIN_MDP, new Object[] { LOGIN_MDP_MIN });
+			}
+			if (role == null) {
+				role = Utilisateur.Role.UTILISATEUR;
 			}
 			this.utilisateurRepo.save(new Utilisateur(login, this.encrypt(mdp), role));
 		}

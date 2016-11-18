@@ -1,5 +1,7 @@
-  Ajouter un tableau dans les statistiques avec les présents/absents confirmés/ouPas sous un selectBox contenant les étapes
-  
+  supprimer la classe RestApplicationSelenium et utiliser la fonction de changement de fichier de configuration de spring en fonction d'un profile
+
+  supprimer le stage dans l'équipe de promotion
+
   Regarder à Selenium 3 (encore en beta ??)
 
   Ajouter une colonne pour cocher qui a bien reçu le courrier par foyer
@@ -67,3 +69,4 @@ x Gerer les erreurs de connexion répétées
 x ajouter la notion de rôle (un champ avec un enum) pour limiter la vision des menus et les accès aux URL REST
 x limiter la visibilité des utilisateurs à l'administrateur
 x Ajouter une page "gestion des réponses" dans laquelle on peut cocher qui vient à quelles étapes
+x Ajouter un tableau dans les statistiques avec les présents/absents confirmés/ouPas sous un selectBox contenant les étapes

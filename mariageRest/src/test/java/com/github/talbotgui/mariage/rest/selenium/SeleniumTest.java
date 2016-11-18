@@ -20,7 +20,12 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
+import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur;
+import com.github.talbotgui.mariage.metier.service.SecuriteService;
+import com.github.talbotgui.mariage.rest.application.RestApplication;
 import com.github.talbotgui.mariage.rest.selenium.utils.MyDriver;
+import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Login;
+import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Menu;
 
 public abstract class SeleniumTest extends AbstractTestNGSpringContextTests {
 	private static final Logger LOG = LoggerFactory.getLogger(SeleniumTest.class);
@@ -37,6 +42,9 @@ public abstract class SeleniumTest extends AbstractTestNGSpringContextTests {
 	/** Port de l'application web aléatoire injecté par Spring. */
 	@Value("${local.server.port}")
 	private int port;
+
+	@Autowired
+	private SecuriteService securiteService;
 
 	@AfterClass
 	public void afterClass() throws Exception {
@@ -66,8 +74,40 @@ public abstract class SeleniumTest extends AbstractTestNGSpringContextTests {
 
 		// creation du driver
 		this.driver = new MyDriver(this.port, this.contextPath);
+
+		// creation d'un user si aucun en base dans le jeu de donnees
+		if (this.securiteService.listeUtilisateurs().isEmpty()) {
+			this.securiteService.sauvegardeUtilisateur(RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT,
+					RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT, Utilisateur.Role.ADMIN);
+		}
 	}
 
 	public abstract String[] getJeuDeDonnees();
+
+	public void test00login() {
+
+		// Arrange
+		this.driver.assertPageTitle(Login.TITRE_PAGE);
+
+		// Act
+		this.driver.type(Login.Input.LOGIN, RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT, 200);
+		this.driver.type(Login.Input.MDP, RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT, 200);
+		this.driver.click(Login.Button.LOGIN, 800);
+
+		// Assert
+		this.driver.assertCookiePresentAndValid(Login.Cookie.JSESSIONID);
+		this.driver.assertPageTitle("Mariage");
+	}
+
+	public void test99logout() {
+
+		// Arrange
+
+		// Act
+		this.driver.click(Menu.LIEN_DECONNEXION, 800);
+
+		// Assert
+		this.driver.assertPageTitle(Login.TITRE_PAGE);
+	}
 
 }

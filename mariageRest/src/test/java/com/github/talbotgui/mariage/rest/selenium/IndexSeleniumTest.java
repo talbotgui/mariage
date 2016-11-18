@@ -19,58 +19,64 @@ public class IndexSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
+	@Override
+	public void test00login() {
+		super.test00login();
+	}
+
+	@Test
 	public void test01accesPage() {
 		//
 
 		//
 
 		//
-		driver.assertPageTitle("Mariage");
-		driver.assertElementNotPresent(Menu.LIEN_ACCUEIL);
-		driver.assertElementNotPresent(Menu.LIEN_INVITES);
-		driver.assertElementPresent(Index.Button.NOUVEAU);
-		driver.assertElementPresent(Index.Input.SELECTION_MARIAGE);
-		driver.assertCookieNotPresentOrValid(Index.Cookie.ID_MARIAGE);
+		this.driver.assertPageTitle("Mariage");
+		this.driver.assertElementNotPresent(Menu.LIEN_ACCUEIL);
+		this.driver.assertElementNotPresent(Menu.LIEN_INVITES);
+		this.driver.assertElementPresent(Index.Button.NOUVEAU);
+		this.driver.assertElementPresent(Index.Input.SELECTION_MARIAGE);
+		this.driver.assertCookieNotPresentOrValid(Index.Cookie.ID_MARIAGE);
 	}
 
 	@Test
 	public void test02nouveauMariageOk() {
 		//
-		driver.click(Index.Button.NOUVEAU, 500);
-		driver.assertElementPresent(Index.Button.SAUVEGARDER);
+		this.driver.click(Index.Button.NOUVEAU, 500);
+		this.driver.assertElementPresent(Index.Button.SAUVEGARDER);
 
 		//
-		driver.type(Index.Input.DATE_CELEBRATION, "01/01/2017", 100);
-		driver.click(Index.Input.MARIE1, 0);// Pour fermer le timepicker
-		driver.type(Index.Input.MARIE1, "M", 100);
-		driver.type(Index.Input.MARIE2, "G", 100);
-		driver.click(Index.Button.SAUVEGARDER, 500);
-		driver.assertCookiePresentAndValid(Index.Cookie.ID_MARIAGE);
+		this.driver.type(Index.Input.DATE_CELEBRATION, "01/01/2017", 100);
+		this.driver.click(Index.Input.MARIE1, 0);// Pour fermer le timepicker
+		this.driver.type(Index.Input.MARIE1, "M", 100);
+		this.driver.type(Index.Input.MARIE2, "G", 100);
+		this.driver.click(Index.Button.SAUVEGARDER, 500);
+		this.driver.assertCookiePresentAndValid(Index.Cookie.ID_MARIAGE);
 
 		//
-		driver.assertElementPresent(Index.Button.MODIFIER);
-		driver.assertTextEquals(Commun.DIV_MARIES, "Mariage de M  &  G");
-		driver.assertTextEquals(Commun.DIV_DATE_MARIAGE, "01/01/2017");
-		driver.assertElementPresent(Index.Button.MODIFIER);
-		driver.assertElementPresent(Menu.LIEN_ACCUEIL);
+		this.driver.assertElementPresent(Index.Button.MODIFIER);
+		this.driver.assertTextEquals(Commun.DIV_MARIES, "Mariage de M  &  G");
+		this.driver.assertTextEquals(Commun.DIV_DATE_MARIAGE, "01/01/2017");
+		this.driver.assertElementPresent(Index.Button.MODIFIER);
+		this.driver.assertElementPresent(Menu.LIEN_ACCUEIL);
 	}
 
 	@Test
 	public void test03modifierMariage() {
 		//
-		driver.click(Index.Button.MODIFIER, 200);
-		driver.assertElementNotPresent(Index.Button.MODIFIER);
-		driver.assertValueEquals(Index.Input.MARIE1, "M");
-		driver.assertValueEquals(Index.Input.MARIE2, "G");
-		driver.assertValueEquals(Index.Input.DATE_CELEBRATION, "01/01/2017");
+		this.driver.click(Index.Button.MODIFIER, 200);
+		this.driver.assertElementNotPresent(Index.Button.MODIFIER);
+		this.driver.assertValueEquals(Index.Input.MARIE1, "M");
+		this.driver.assertValueEquals(Index.Input.MARIE2, "G");
+		this.driver.assertValueEquals(Index.Input.DATE_CELEBRATION, "01/01/2017");
 
 		//
-		driver.click(Index.Button.SAUVEGARDER, 500);
+		this.driver.click(Index.Button.SAUVEGARDER, 500);
 
 		//
-		driver.assertElementPresent(Index.Button.MODIFIER);
-		driver.assertTextEquals(Commun.DIV_MARIES, "Mariage de M  &  G");
-		driver.assertTextEquals(Commun.DIV_DATE_MARIAGE, "01/01/2017");
+		this.driver.assertElementPresent(Index.Button.MODIFIER);
+		this.driver.assertTextEquals(Commun.DIV_MARIES, "Mariage de M  &  G");
+		this.driver.assertTextEquals(Commun.DIV_DATE_MARIAGE, "01/01/2017");
 	}
 
 	@Test
@@ -78,15 +84,21 @@ public class IndexSeleniumTest extends SeleniumTest {
 		//
 
 		//
-		driver.click(Index.Button.SUPPRIMER, 200);
+		this.driver.click(Index.Button.SUPPRIMER, 200);
 
 		//
-		driver.getRealDriver().get(driver.getRealDriver().getCurrentUrl());
-		driver.assertCookieNotPresentOrValid(Index.Cookie.ID_MARIAGE);
-		driver.assertElementNotPresent(Index.Button.MODIFIER);
-		driver.assertElementNotPresent(Index.Button.SAUVEGARDER);
-		driver.assertElementNotPresent(Index.Button.SUPPRIMER);
-		driver.assertElementPresent(Index.Input.SELECTION_MARIAGE);
+		this.driver.getRealDriver().get(this.driver.getRealDriver().getCurrentUrl());
+		this.driver.assertCookieNotPresentOrValid(Index.Cookie.ID_MARIAGE);
+		this.driver.assertElementNotPresent(Index.Button.MODIFIER);
+		this.driver.assertElementNotPresent(Index.Button.SAUVEGARDER);
+		this.driver.assertElementNotPresent(Index.Button.SUPPRIMER);
+		this.driver.assertElementPresent(Index.Input.SELECTION_MARIAGE);
+	}
+
+	@Test
+	@Override
+	public void test99logout() {
+		super.test99logout();
 	}
 
 }

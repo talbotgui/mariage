@@ -21,6 +21,12 @@ public class InvitesSeleniumTest extends SeleniumTest {
 	}
 
 	@Test
+	@Override
+	public void test00login() {
+		super.test00login();
+	}
+
+	@Test
 	public void test01accesPage() {
 		//
 
@@ -48,7 +54,7 @@ public class InvitesSeleniumTest extends SeleniumTest {
 		this.driver.click(Invite.Button.AJOUTER, 500);
 
 		//
-		this.driver.count(Commun.DIV_ERREUR, 4);
+		this.driver.assertNumberOfElements(Commun.DIV_ERREUR, 4);
 	}
 
 	@Test
@@ -85,6 +91,12 @@ public class InvitesSeleniumTest extends SeleniumTest {
 		//
 		this.driver.assertTextEquals(Invite.CASES[0][0], "groupe1_modif");
 		this.driver.assertTextEquals(Invite.CASES[0][2], "nom1_modif");
+	}
+
+	@Test
+	@Override
+	public void test99logout() {
+		super.test99logout();
 	}
 
 }
