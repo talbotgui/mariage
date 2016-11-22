@@ -17,7 +17,7 @@ public interface SecuriteService {
 
 	/**
 	 * A la creation d'un utilisateur, si aucun role fournit, le nouvel
-	 * utilisateur sera un UTILISATEUR
+	 * utilisateur sera un UTILISATEUR.
 	 * 
 	 * @param login
 	 *            Identifiant unique

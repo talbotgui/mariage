@@ -85,10 +85,12 @@ pipeline {
         success {
 			archiveArtifacts artifacts: 'mariageRest.war', fingerprint: true
         }
+        unstable {
+			archiveArtifacts artifacts: 'mariageRest.war', fingerprint: true
+		}
         failure {
             emailext subject: "${env.JOB_NAME}#${env.BUILD_NUMBER} - Error during the build !", to: "talbotgui@gmail.com", body: "failure : ${e}";
         }
-        //unstable {}
         //changed {}
     }
 }
