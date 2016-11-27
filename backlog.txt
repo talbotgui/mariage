@@ -1,3 +1,14 @@
+  dans les stats, remplacer le premier tableau par les catégories d'age avec une selectBox des étapes au dessus
+
+  à la suppression d'un invité ou d'une invitation, supprimer la réponse !!!!
+  avec cette évolution, prévoir un script de nettoyage des réponses pour éviter les -4 du VDHB en prod
+  
+  bug dans la saisie des réponses quand une réponse est déjà saisie (oui quand déjà non et vice versa)
+
+  modifier le JenkinsFile pour ne pas déclencher le stage Production si ce n'est pas la branche MASTER
+  
+  repasser sur la configuration des pull request de GitHub (https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin)
+
   supprimer la classe RestApplicationSelenium et utiliser la fonction de changement de fichier de configuration de spring en fonction d'un profile
 
   supprimer le stage dans l'équipe de promotion
