@@ -1,10 +1,40 @@
 
-var chargeStatistiquesPresence = function() {
-	var datafields = [ { name: 'idEtape', type: 'number' }, { name: 'nomEtape', type: 'string' },
+/**
+ * Initialisation de la liste des étapes
+ */
+var chargeListeEtapes = function() {
+	var req = $.ajax({ type: "GET", url: REST_PREFIX + "/mariage/" + idMariage + "/etape"});
+	req.success(function(dataString) {
+		var data = dataString;
+		if (typeof dataString === "string") {
+			data = JSON.parse(dataString);
+		}
+		
+		var sel = $("#selectionEtape");
+		sel.off("change").on("change", chargeStatistiquesPresence);
+
+		sel.append($('<option>', {value:"", text:""}));
+		data.forEach(function(e, i, array) {
+			sel.append($('<option>', {value:e.id, text:e.nom}));
+		});
+	});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargeListeEtapes");});	
+}
+
+/**
+ * Initialisation de la liste des étapes
+ * @param e Event
+ */
+var chargeStatistiquesPresence = function(e) {
+
+	// Extraction de l'identifiant de l'étape de la liste déroulante
+	var idEtape = $(e.target).val();
+	
+	var datafields = [ { name: 'idEtape', type: 'number' }, { name: 'nomAge', type: 'string' },
 	                   { name: 'nbPresence', type: 'int' },{ name: 'nbPresenceConfirme', type: 'int' },
 	                   { name: 'nbAbsence', type: 'int' },{ name: 'nbAbsenceConfirme', type: 'int' },
 	                   { name: 'nbInconnu', type: 'int' }];
-	var columns = [ { text: 'Etape', datafield: 'nomEtape', width: '25%' },
+	var columns = [ { text: 'Age', datafield: 'nomAge', width: '25%' },
 	                { text: 'Absence', datafield: 'nbAbsence', width: '15%' },
 	                { text: 'dont confirmée', datafield: 'nbAbsenceConfirme', width: '15%' },
 	                { text: 'Presence', datafield: 'nbPresence', width: '15%' },
@@ -14,7 +44,7 @@ var chargeStatistiquesPresence = function() {
 
 	var dataAdapter = new $.jqx.dataAdapter({
 		datatype: "json",
-		url: REST_PREFIX + "/mariage/" + getIdMariage() + "/statistiquesPresence",
+		url: REST_PREFIX + "/mariage/" + getIdMariage() + "/etape/" + idEtape + "/statistiquesPresence",
 		datafields: datafields,
 		id: 'id'
 	});
@@ -102,7 +132,7 @@ var chargeStatistiques= function() {
 $(document).ready(function() {
 
 	// Init
+	chargeListeEtapes();
 	chargeStatistiques();
-	chargeStatistiquesPresence();
 	chargeErreurs("#erreurs");
 });

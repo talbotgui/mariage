@@ -24,6 +24,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -200,16 +203,16 @@ public class MyDriver {
 	private void initialize() {
 
 		// Initialisation du vrai driver
-		// if ((new File(PHANTOMJS_BINARY_PATH_FOR_WINDOWS)).exists()) {
-		// final DesiredCapabilities caps = new DesiredCapabilities();
-		// caps.setJavascriptEnabled(true);
-		// caps.setCapability("takesScreenshot", true);
-		// caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
-		// PHANTOMJS_BINARY_PATH_FOR_WINDOWS);
-		// this.driver = new PhantomJSDriver(caps);
-		// } else {
-		this.driver = new HtmlUnitDriver(BrowserVersion.FIREFOX_45, true);
-		// }
+		if ((new File(PHANTOMJS_BINARY_PATH_FOR_WINDOWS)).exists()) {
+			final DesiredCapabilities caps = new DesiredCapabilities();
+			caps.setJavascriptEnabled(true);
+			caps.setCapability("takesScreenshot", true);
+			caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
+					PHANTOMJS_BINARY_PATH_FOR_WINDOWS);
+			this.driver = new PhantomJSDriver(caps);
+		} else {
+			this.driver = new HtmlUnitDriver(BrowserVersion.FIREFOX_45, true);
+		}
 
 		// Accès a la page sans cookie
 		this.deleteAllCookies();

@@ -36,10 +36,10 @@ public class InviteRestControler {
 		return this.mariageService.calculStatistiques(idMariage);
 	}
 
-	@RequestMapping(value = "/mariage/{idMariage}/statistiquesPresence", method = GET)
+	@RequestMapping(value = "/mariage/{idMariage}/etape/{idEtape}/statistiquesPresence", method = GET)
 	public Collection<StatistiquesPresenceMariage> calculStatistiquesPresence(
-			@PathVariable("idMariage") final Long idMariage) {
-		return this.mariageService.calculStatistiquesPresence(idMariage);
+			@PathVariable("idMariage") final Long idMariage, @PathVariable("idEtape") final Long idEtape) {
+		return this.mariageService.calculStatistiquesPresence(idMariage, idEtape);
 	}
 
 	private Age getAgeFromString(final String age) {

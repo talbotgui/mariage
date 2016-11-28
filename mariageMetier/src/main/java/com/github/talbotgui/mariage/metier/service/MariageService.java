@@ -18,7 +18,7 @@ public interface MariageService {
 
 	StatistiquesMariage calculStatistiques(Long idMariage);
 
-	Collection<StatistiquesPresenceMariage> calculStatistiquesPresence(Long idMariage);
+	Collection<StatistiquesPresenceMariage> calculStatistiquesPresence(Long idMariage, Long idEtape);
 
 	Foyer chargeFoyerParId(Long id);
 

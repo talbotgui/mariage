@@ -1,5 +1,7 @@
 package com.github.talbotgui.mariage.metier.dto;
 
+import com.github.talbotgui.mariage.metier.entities.Age;
+
 public class StatistiquesPresenceMariage {
 
 	private Long idEtape;
@@ -8,22 +10,25 @@ public class StatistiquesPresenceMariage {
 	private long nbInconnu;
 	private long nbPresence;
 	private long nbPresenceConfirme;
-	private String nomEtape;
+	private String nomAge;
 
 	public StatistiquesPresenceMariage() {
 		super();
 	}
 
-	public StatistiquesPresenceMariage(final Long idEtape, final String nomEtape, final long nbAbsence,
+	public StatistiquesPresenceMariage(final Long idEtape, final Age nomAge, final long nbAbsence,
 			final long nbAbsenceConfirme, final long nbPresence, final long nbPresenceConfirme, final long nbTotal) {
 		super();
 		this.idEtape = idEtape;
-		this.nomEtape = nomEtape;
+		if (nomAge != null) {
+			this.nomAge = nomAge.name();
+		}
 		this.nbAbsence = nbAbsence;
 		this.nbAbsenceConfirme = nbAbsenceConfirme;
 		this.nbPresence = nbPresence;
 		this.nbPresenceConfirme = nbPresenceConfirme;
 		this.nbInconnu = nbTotal - nbAbsence - nbPresence;
+
 	}
 
 	public Long getIdEtape() {
@@ -50,8 +55,8 @@ public class StatistiquesPresenceMariage {
 		return this.nbPresenceConfirme;
 	}
 
-	public String getNomEtape() {
-		return this.nomEtape;
+	public String getNomAge() {
+		return this.nomAge;
 	}
 
 	public void setIdEtape(final Long idEtape) {
@@ -78,8 +83,8 @@ public class StatistiquesPresenceMariage {
 		this.nbPresenceConfirme = nbPresenceConfirme;
 	}
 
-	public void setNomEtape(final String nomEtape) {
-		this.nomEtape = nomEtape;
+	public void setNomAge(final String nomAge) {
+		this.nomAge = nomAge;
 	}
 
 }

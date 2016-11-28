@@ -13,19 +13,24 @@ import com.github.talbotgui.mariage.metier.entities.Presence;
 
 @Transactional
 public interface PresenceRepository extends CrudRepository<Presence, Long> {
-	@Query("select new com.github.talbotgui.mariage.metier.dto.StatistiquesPresenceMariage("//
-			+ "e.id, e.nom,"//
-			+ " (select count(p) from Presence p where p.id.etape.id=e.id and p.present=false),"//
-			+ " (select count(p) from Presence p where p.id.etape.id=e.id and p.present=false and p.confirmee = true),"//
-			+ " (select count(p) from Presence p where p.id.etape.id=e.id and p.present=true),"//
-			+ " (select count(p) from Presence p where p.id.etape.id=e.id and p.present=true and p.confirmee = true),"//
-			+ " (select count(i) from Courrier c" + "     join c.etapes eta join c.foyersInvites f join f.invites i"
-			+ "     where eta.id=e.id)"//
+	@Query("select distinct new com.github.talbotgui.mariage.metier.dto.StatistiquesPresenceMariage("//
+			+ "e.id, i.age,"//
+			+ " (select count(p) from Presence p where p.id.invite.age=i.age and p.id.etape.id=e.id "//
+			+ "     and p.present=false),"//
+			+ " (select count(p) from Presence p where p.id.invite.age=i.age and p.id.etape.id=e.id "//
+			+ "      and p.present=false and p.confirmee=true),"//
+			+ " (select count(p) from Presence p where p.id.invite.age=i.age and p.id.etape.id=e.id "//
+			+ "      and p.present=true),"//
+			+ " (select count(p) from Presence p where p.id.invite.age=i.age and p.id.etape.id=e.id "//
+			+ "      and p.present=true and p.confirmee=true),"//
+			+ " (select count(inv) from Courrier c join c.etapes eta join c.foyersInvites f" //
+			+ "      join f.invites inv where eta.id=e.id and inv.age = i.age)"//
 			+ " )"//
-			+ " from Etape e"//
-			+ " where e.mariage.id=:idMariage" //
-			+ " order by e.numOrdre")
-	Collection<StatistiquesPresenceMariage> calculStatistiquesPresence(@Param("idMariage") Long idMariage);
+			+ " from Etape e, Invite i"//
+			+ " where e.mariage.id = :idMariage" //
+			+ " and e.id = :idEtape")
+	Collection<StatistiquesPresenceMariage> calculStatistiquesPresence(@Param("idMariage") Long idMariage,
+			@Param("idEtape") Long idEtape);
 
 	@Query("select p "//
 			+ " from Presence p"//

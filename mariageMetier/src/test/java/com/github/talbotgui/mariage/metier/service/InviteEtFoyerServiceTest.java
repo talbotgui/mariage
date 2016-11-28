@@ -448,54 +448,70 @@ public class InviteEtFoyerServiceTest {
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		jdbc.batchUpdate(requetes);
 
-		final Long idMariage = jdbc.queryForObject("select id from mariage", Long.class);
+		final Long idMariage = jdbc.queryForObject("select ID from MARIAGE", Long.class);
+		final Long idEtape = jdbc.queryForObject("select ID from ETAPE limit 1", Long.class);
 
 		// ACT
-		final Collection<StatistiquesPresenceMariage> dtos = this.instance.calculStatistiquesPresence(idMariage);
+		final Collection<StatistiquesPresenceMariage> dtos = this.instance.calculStatistiquesPresence(idMariage,
+				idEtape);
 
 		// ASSERT
-		Assert.assertEquals(5, dtos.size());
+		Assert.assertEquals(6, dtos.size());
 		final Iterator<StatistiquesPresenceMariage> iter = dtos.iterator();
 
 		StatistiquesPresenceMariage stat = iter.next();
-		Assert.assertEquals(new Long(1), stat.getIdEtape());
-		Assert.assertEquals(2, stat.getNbAbsence());
-		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
-		Assert.assertEquals(8, stat.getNbPresence());
-		Assert.assertEquals(4, stat.getNbPresenceConfirme());
-		Assert.assertEquals(2, stat.getNbInconnu());
-
-		stat = iter.next();
-		Assert.assertEquals(new Long(2), stat.getIdEtape());
+		Assert.assertEquals(idEtape, stat.getIdEtape());
+		Assert.assertNull(stat.getNomAge());
 		Assert.assertEquals(0, stat.getNbAbsence());
 		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
-		Assert.assertEquals(10, stat.getNbPresence());
-		Assert.assertEquals(4, stat.getNbPresenceConfirme());
-		Assert.assertEquals(2, stat.getNbInconnu());
+		Assert.assertEquals(0, stat.getNbPresence());
+		Assert.assertEquals(0, stat.getNbPresenceConfirme());
+		Assert.assertEquals(0, stat.getNbInconnu());
 
 		stat = iter.next();
-		Assert.assertEquals(new Long(3), stat.getIdEtape());
+		Assert.assertEquals(idEtape, stat.getIdEtape());
+		Assert.assertEquals(Age.adulte.name(), stat.getNomAge());
 		Assert.assertEquals(1, stat.getNbAbsence());
-		Assert.assertEquals(1, stat.getNbAbsenceConfirme());
-		Assert.assertEquals(9, stat.getNbPresence());
-		Assert.assertEquals(3, stat.getNbPresenceConfirme());
-		Assert.assertEquals(2, stat.getNbInconnu());
+		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
+		Assert.assertEquals(0, stat.getNbInconnu());
+		Assert.assertEquals(2, stat.getNbPresence());
+		Assert.assertEquals(1, stat.getNbPresenceConfirme());
 
 		stat = iter.next();
-		Assert.assertEquals(new Long(4), stat.getIdEtape());
+		Assert.assertEquals(idEtape, stat.getIdEtape());
+		Assert.assertEquals(Age.aine.name(), stat.getNomAge());
 		Assert.assertEquals(0, stat.getNbAbsence());
 		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
-		Assert.assertEquals(0, stat.getNbPresence());
-		Assert.assertEquals(0, stat.getNbPresenceConfirme());
-		Assert.assertEquals(4, stat.getNbInconnu());
+		Assert.assertEquals(1, stat.getNbInconnu());
+		Assert.assertEquals(1, stat.getNbPresence());
+		Assert.assertEquals(1, stat.getNbPresenceConfirme());
 
 		stat = iter.next();
-		Assert.assertEquals(new Long(5), stat.getIdEtape());
+		Assert.assertEquals(idEtape, stat.getIdEtape());
+		Assert.assertEquals(Age.bebe.name(), stat.getNomAge());
 		Assert.assertEquals(0, stat.getNbAbsence());
 		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
-		Assert.assertEquals(0, stat.getNbPresence());
+		Assert.assertEquals(0, stat.getNbInconnu());
+		Assert.assertEquals(1, stat.getNbPresence());
+		Assert.assertEquals(1, stat.getNbPresenceConfirme());
+
+		stat = iter.next();
+		Assert.assertEquals(idEtape, stat.getIdEtape());
+		Assert.assertEquals(Age.enfant.name(), stat.getNomAge());
+		Assert.assertEquals(0, stat.getNbAbsence());
+		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
+		Assert.assertEquals(0, stat.getNbInconnu());
+		Assert.assertEquals(1, stat.getNbPresence());
+		Assert.assertEquals(1, stat.getNbPresenceConfirme());
+
+		stat = iter.next();
+		Assert.assertEquals(idEtape, stat.getIdEtape());
+		Assert.assertEquals(Age.jeune.name(), stat.getNomAge());
+		Assert.assertEquals(0, stat.getNbAbsence());
+		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
+		Assert.assertEquals(0, stat.getNbInconnu());
+		Assert.assertEquals(2, stat.getNbPresence());
 		Assert.assertEquals(0, stat.getNbPresenceConfirme());
-		Assert.assertEquals(4, stat.getNbInconnu());
 	}
 
 	@Test

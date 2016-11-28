@@ -97,8 +97,9 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
-	public Collection<StatistiquesPresenceMariage> calculStatistiquesPresence(final Long idMariage) {
-		return this.presenceRepository.calculStatistiquesPresence(idMariage);
+	public Collection<StatistiquesPresenceMariage> calculStatistiquesPresence(final Long idMariage,
+			final Long idEtape) {
+		return this.presenceRepository.calculStatistiquesPresence(idMariage, idEtape);
 	}
 
 	@Override
