@@ -60,7 +60,7 @@ var chargePresences = function() {
 			var checkedNon = "";
 			if (value === true) { checkedOui = "checked='checked'";
 			} else if (value === false) { checkedNon = "checked='checked'"; }
-			return "<input name=present'" + rowIndex +"' value='true' type='radio' onchange='modifiePresence(this, " + rowIndex + ")' " + checkedOui + ">oui</input>" +
+			return "<input name='present" + rowIndex +"' value='true' type='radio' onchange='modifiePresence(this, " + rowIndex + ")' " + checkedOui + ">oui</input>" +
 					"&nbsp;<input name='present" + rowIndex +"' value='false' type='radio' onchange='modifiePresence(this, " + rowIndex + ")' " + checkedNon + ">non</input>"; 
 		};
 		var rendererColonneConfirme = function (rowIndex, columnfield, value, defaulthtml, columnproperties, objet) {
