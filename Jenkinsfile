@@ -83,13 +83,13 @@ pipeline {
 	post {
         //always {}
         success {
-			archiveArtifacts artifacts: 'mariageRest.war', fingerprint: true
+			node ('') { archiveArtifacts artifacts: 'mariageRest.war', fingerprint: true }
         }
         unstable {
-			archiveArtifacts artifacts: 'mariageRest.war', fingerprint: true
+			node ('') { archiveArtifacts artifacts: 'mariageRest.war', fingerprint: true }
 		}
         failure {
-            emailext subject: "${env.JOB_NAME}#${env.BUILD_NUMBER} - Error during the build !", to: "talbotgui@gmail.com", body: "failure : ${e}";
+			node ('') { emailext subject: "${env.JOB_NAME}#${env.BUILD_NUMBER} - Error during the build !", to: "talbotgui@gmail.com", body: "failure : ${e}"; }
         }
         //changed {}
     }
