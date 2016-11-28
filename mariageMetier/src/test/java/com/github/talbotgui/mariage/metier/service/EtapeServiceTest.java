@@ -28,7 +28,9 @@ import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.EtapeCeremonie;
 import com.github.talbotgui.mariage.metier.entities.EtapeRepas;
+import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
+import com.github.talbotgui.mariage.metier.entities.Presence;
 import com.github.talbotgui.mariage.metier.entities.comparator.EtapeComparator;
 import com.github.talbotgui.mariage.metier.exception.BaseException;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
@@ -154,6 +156,28 @@ public class EtapeServiceTest {
 		// ASSERT
 		final Collection<Etape> etapeApres = this.instance.listeEtapesParIdMariage(idMariage);
 		Assert.assertEquals(etapeAvant.size() - 1, etapeApres.size());
+	}
+
+	@Test
+	public void test03SupprimeEtapeAvecPresences() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Etape etape = this.instance.listeEtapesParIdMariage(idMariage).iterator().next();
+		final Invite invite = this.instance.listeInvitesParIdMariage(idMariage).iterator().next();
+		final Courrier courrier = this.instance.listeCourriersParIdMariage(idMariage).iterator().next();
+		this.instance.sauvegarde(idMariage, new Presence(etape, invite, true, true, ""));
+		this.instance.supprimeCourrier(idMariage, courrier.getId());
+
+		// ACT
+		this.instance.supprimeEtape(idMariage, etape.getId());
+
+		// ASSERT
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from PRESENCE", Long.class));
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from ETAPE where id=?",
+				new Object[] { etape.getId() }, Long.class));
 	}
 
 	@Test

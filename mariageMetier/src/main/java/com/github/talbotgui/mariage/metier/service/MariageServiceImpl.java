@@ -257,6 +257,9 @@ public class MariageServiceImpl implements MariageService {
 		// Recherche de personnes invités à plusieurs étapes.
 		erreurs.addAll(this.rechercheErreursPourInviteSurPlusieursEtapes(idMariage));
 
+		// Recherche les presences existantes sans invitations existantes.
+		erreurs.addAll(this.recherchePresencesSansInvitations(idMariage));
+
 		return erreurs;
 	}
 
@@ -286,6 +289,49 @@ public class MariageServiceImpl implements MariageService {
 				}
 				messageErreur = prenomInvite + " " + nomInvite + " est invité(e) plusieurs fois à une même étape : "
 						+ nomEtape;
+			}
+			// Pour le même invite,on ajoute le nom de l'étape
+			else {
+				messageErreur += ", " + nomEtape;
+			}
+
+			idInvitePrecedent = idInvite;
+		}
+
+		// Sauvegarde du message d'erreur (si présent)
+		if (messageErreur.length() > 0) {
+			erreurs.add(messageErreur);
+		}
+
+		return erreurs;
+	}
+
+	/**
+	 * Recherche de présences sans invitations existantes.
+	 *
+	 * @param idMariage
+	 *            Identifiant du mariage
+	 * @return une liste d'erreur en francais (pas d'i18n)
+	 */
+	private Collection<String> recherchePresencesSansInvitations(final Long idMariage) {
+		final Collection<String> erreurs = new ArrayList<>();
+
+		// invites sur plusieurs étapes
+		String messageErreur = "";
+		Long idInvitePrecedent = null;
+		for (final Object[] objets : this.presenceRepository.recherchePresencesSansInvitations(idMariage)) {
+			final Long idInvite = (Long) objets[0];
+			final String nomInvite = (String) objets[1];
+			final String prenomInvite = (String) objets[2];
+			final String nomEtape = (String) objets[3];
+
+			// Si on change d'invite, on sauvegarde le precedent et on reinit
+			if (!idInvite.equals(idInvitePrecedent)) {
+				if (messageErreur.length() > 0) {
+					erreurs.add(messageErreur);
+				}
+				messageErreur = prenomInvite + " " + nomInvite + " est marqué(e) présent/absent à l'étape '" + nomEtape
+						+ "' sans plus y être invité(e)";
 			}
 			// Pour le même invite,on ajoute le nom de l'étape
 			else {
@@ -387,6 +433,9 @@ public class MariageServiceImpl implements MariageService {
 		if (idMariage == null || !idMariage.equals(this.courrierRepository.getIdMariageByCourrierId(idCourrier))) {
 			throw new BusinessException(BusinessException.ERREUR_ID_MARIAGE, new Object[] { idMariage });
 		}
+
+		this.invitationRepository.supprimeInvitationsParIdCourrier(idCourrier);
+
 		this.courrierRepository.delete(idCourrier);
 	}
 
@@ -398,7 +447,21 @@ public class MariageServiceImpl implements MariageService {
 		if (this.etapeRepository.countCourriersInvitant(idEtape) > 0) {
 			throw new BusinessException(BusinessException.ERREUR_COURRIER_LIE_A_ETAPE, new Object[] {});
 		}
+
+		// Suppression des presences lies
+		this.presenceRepository.supprimePresencesParIdEtape(idEtape);
+
 		this.etapeRepository.delete(idEtape);
+	}
+
+	private void supprimefoyer(final Long idFoyer) {
+
+		// Supprime les invitations
+		this.invitationRepository.supprimeInvitationsParIdFoyer(idFoyer);
+
+		// Supprime le foyer
+		final Foyer f = this.foyerRepository.findOne(idFoyer);
+		this.foyerRepository.delete(f);
 	}
 
 	@Override
@@ -418,12 +481,13 @@ public class MariageServiceImpl implements MariageService {
 
 		// Supprime eventuellement le foyer
 		if (supprimeFoyer) {
-			this.foyerRepository.delete(f);
+			this.supprimefoyer(f.getId());
 		}
 	}
 
 	@Override
 	public void supprimeMariage(final Long idMariage) {
+		this.presenceRepository.deletePresencesParIdMariage(idMariage);
 		this.courrierRepository.deleteCourriersParIdMariage(idMariage);
 		this.invitationRepository.deleteInvitationParIdMariage(idMariage);
 		this.etapeRepository.deleteEtapesParIdMariage(idMariage);

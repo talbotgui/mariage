@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -40,6 +41,10 @@ public interface PresenceRepository extends CrudRepository<Presence, Long> {
 	Presence chargePresenceParEtapeEtInvite(@Param("idMariage") Long idMariage, @Param("idEtape") Long idEtape,
 			@Param("idInvite") Long idInvite);
 
+	@Query("delete Presence where id in (select p.id from Presence p where p.id.etape.mariage.id = :idMariage)")
+	@Modifying
+	void deletePresencesParIdMariage(@Param("idMariage") Long idMariage);
+
 	@Query("select p "//
 			+ " from Presence p"//
 			+ " join fetch p.id.etape e"//
@@ -54,4 +59,17 @@ public interface PresenceRepository extends CrudRepository<Presence, Long> {
 			+ " and e.mariage.id=:idMariage" //
 			+ " order by i.nom, i.prenom, e.nom")
 	Collection<Presence> listeProduitCartesienInviteEtEtapeParIdMariage(@Param("idMariage") Long idMariage);
+
+	@Query("select p.id.invite.id, p.id.invite.nom, p.id.invite.prenom, p.id.etape.nom from Presence p"//
+			+ " where p.id.etape.mariage.id = :idMariage"//
+			+ " and concat(str(p.id.invite.foyer.id), '-', str(p.id.etape.id)) not in ("//
+			+ " select concat(str(i.id.foyer.id), '-', str(e.id)) "//
+			+ " from Invitation i join i.id.courrier c join c.etapes e"//
+			+ " where e.mariage.id = :idMariage"//
+			+ ")")
+	Collection<Object[]> recherchePresencesSansInvitations(@Param("idMariage") Long idMariage);
+
+	@Query("delete Presence where id in (select p.id from Presence p where p.id.etape.id = :idEtape)")
+	@Modifying
+	void supprimePresencesParIdEtape(@Param("idEtape") Long idEtape);
 }

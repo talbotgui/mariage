@@ -115,6 +115,27 @@ public class CourrierServiceTest {
 	}
 
 	@Test
+	public void test03SupprimeCourrierAvecInvitation() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Collection<Courrier> courrierAvant = this.instance.listeCourriersParIdMariage(idMariage);
+		final Foyer foyer = this.instance.listeFoyersParIdMariage(idMariage).iterator().next();
+		final Courrier courrier = this.instance.listeCourriersParIdMariage(idMariage).iterator().next();
+		this.instance.lieUnFoyerEtUnCourrier(idMariage, courrier.getId(), foyer.getId(), true);
+
+		// ACT
+		this.instance.supprimeCourrier(idMariage, courrierAvant.iterator().next().getId());
+
+		// ASSERT
+		final Collection<Courrier> courrierApres = this.instance.listeCourriersParIdMariage(idMariage);
+		Assert.assertEquals(courrierAvant.size() - 1, courrierApres.size());
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from INVITATION", Long.class));
+	}
+
+	@Test
 	public void test03SupprimeCourrierKo() throws ParseException {
 
 		// ARRANGE

@@ -1,8 +1,3 @@
-  dans les stats, remplacer le premier tableau par les catégories d'age avec une selectBox des étapes au dessus
-
-  à la suppression d'un invité ou d'une invitation, supprimer la réponse !!!!
-  avec cette évolution, prévoir un script de nettoyage des réponses pour éviter les -4 du VDHB en prod
-  
   modifier le JenkinsFile pour ne pas déclencher le stage Production si ce n'est pas la branche MASTER
   
   repasser sur la configuration des pull request de GitHub (https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin)
@@ -37,6 +32,9 @@
   
   Changer le "no data to display"
 
+x à la suppression d'un invité ou d'une invitation, supprimer la réponse !!!!
+x avec cette évolution, prévoir un script de nettoyage des réponses pour éviter les -4 du VDHB en prod => ajout de messages d'erreurs
+X dans les stats, remplacer le premier tableau par les catégories d'age avec une selectBox des étapes au dessus
 X bug dans la saisie des réponses quand une réponse est déjà saisie (oui quand déjà non et vice versa)
 X Créer les pages "Adresse et téléphone", "Paramètres", "Courrier", "Réponses"
 X Ajouter les attributs prenom et age (ainé, adulte, jeune, enfant, bébé) dans Invite

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +20,7 @@ public class Invite implements Serializable {
 
 	private Age age;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.REMOVE)
 	@JoinTable(name = "PRESENCE", //
 			joinColumns = { @JoinColumn(name = "INVITE_ID", insertable = false, updatable = false) }, //
 			inverseJoinColumns = { @JoinColumn(name = "ETAPE_ID", insertable = false, updatable = false) }//

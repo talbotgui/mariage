@@ -32,6 +32,15 @@ public class Presence implements Serializable {
 		this.setId(new PresenceId(etape, invite));
 	}
 
+	public Presence(final Etape etape, final Invite invite, final Boolean present, final Boolean confirmee,
+			final String commentaire) {
+		super();
+		this.setId(new PresenceId(etape, invite));
+		this.commentaire = commentaire;
+		this.confirmee = confirmee;
+		this.present = present;
+	}
+
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {

@@ -22,7 +22,10 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.github.talbotgui.mariage.metier.entities.Etape;
+import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
+import com.github.talbotgui.mariage.metier.entities.Presence;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
@@ -117,6 +120,24 @@ public class MariageServiceTest {
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
 		final Long idMariage = this.instance.sauvegardeGrappe(original);
+
+		// ACT
+		this.instance.supprimeMariage(idMariage);
+
+		// ASSERT
+		Assert.assertNull(this.instance.chargeMariageParId(idMariage));
+	}
+
+	@Test
+	public void test04SupprimeMariage03Riche() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Etape etape = this.instance.listeEtapesParIdMariage(idMariage).iterator().next();
+		;
+		final Invite invite = this.instance.listeInvitesParIdMariage(idMariage).iterator().next();
+		this.instance.sauvegarde(idMariage, new Presence(etape, invite, true, true, ""));
 
 		// ACT
 		this.instance.supprimeMariage(idMariage);

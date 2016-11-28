@@ -33,9 +33,11 @@ import com.github.talbotgui.mariage.metier.dto.StatistiquesPresenceMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesRepartitionsInvitesMariage;
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
+import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
+import com.github.talbotgui.mariage.metier.entities.Presence;
 import com.github.talbotgui.mariage.metier.entities.comparator.InviteComparator;
 import com.github.talbotgui.mariage.metier.exception.BaseException;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
@@ -193,6 +195,25 @@ public class InviteEtFoyerServiceTest {
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final Long nbFoyer = jdbc.queryForObject("select count(*) from Foyer", Long.class);
 		Assert.assertEquals((Long) 2L, nbFoyer);
+	}
+
+	@Test
+	public void test03SupprimeInviteAvecPresence() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Invite invite = this.instance.listeInvitesParIdMariage(idMariage).iterator().next();
+		final Etape etape = this.instance.listeEtapesParIdMariage(idMariage).iterator().next();
+		this.instance.sauvegarde(idMariage, new Presence(etape, invite, true, true, ""));
+
+		// ACT
+		this.instance.supprimeInvite(idMariage, invite.getId());
+
+		// ASSERT
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final Long nbPresence = jdbc.queryForObject("select count(*) from PRESENCE", Long.class);
+		Assert.assertEquals((Long) 0L, nbPresence);
 	}
 
 	@Test
@@ -531,7 +552,7 @@ public class InviteEtFoyerServiceTest {
 
 		// ASSERT
 		Assert.assertNotNull(erreurs);
-		Assert.assertEquals(4, erreurs.size());
+		Assert.assertEquals(5, erreurs.size());
 		final Iterator<String> iter = erreurs.iterator();
 		Assert.assertEquals("PRENOM1 NOM1 est invité(e) plusieurs fois à une même étape : Mairie, Eglise, VdH",
 				iter.next());
@@ -540,6 +561,8 @@ public class InviteEtFoyerServiceTest {
 		Assert.assertEquals("PRENOM3 null est invité(e) plusieurs fois à une même étape : Mairie, Eglise, VdH",
 				iter.next());
 		Assert.assertEquals("PRENOM4 NOM1 est invité(e) plusieurs fois à une même étape : Mairie, Eglise, VdH",
+				iter.next());
+		Assert.assertEquals("PRENOM1 NOM4 est marqué(e) présent/absent à l'étape 'En plus' sans plus y être invité(e)",
 				iter.next());
 	}
 }

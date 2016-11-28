@@ -20,4 +20,14 @@ public interface InvitationRepository extends CrudRepository<Invitation, Long> {
 			+ " and fei.id.courrier.id = :idCourrier")
 	Invitation findInvitation(@Param("idMariage") Long idMariage, @Param("idCourrier") Long ididCourrier,
 			@Param("idFoyer") Long idFoyer);
+
+	@Query("delete Invitation where id in"//
+			+ " (select fei.id from Invitation fei where fei.id.courrier.id = :idCourrier)")
+	@Modifying
+	void supprimeInvitationsParIdCourrier(@Param("idCourrier") Long idCourrier);
+
+	@Query("delete Invitation where id in"//
+			+ " (select fei.id from Invitation fei where fei.id.foyer.id = :idFoyer)")
+	@Modifying
+	void supprimeInvitationsParIdFoyer(@Param("idFoyer") Long idFoyer);
 }

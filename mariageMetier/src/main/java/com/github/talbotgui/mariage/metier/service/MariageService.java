@@ -34,7 +34,8 @@ public interface MariageService {
 
 	void lieUneEtapeEtUnCourrier(Long idMariage, Long idEtape, Long idCourrier, boolean lie);
 
-	void lieUnFoyerEtUnCourrier(final Long idMariage, final Long idEtape, final Long idFoyer, final boolean invitation);
+	void lieUnFoyerEtUnCourrier(final Long idMariage, final Long idCourrier, final Long idFoyer,
+			final boolean invitation);
 
 	Collection<String> listeAgePossible();
 
