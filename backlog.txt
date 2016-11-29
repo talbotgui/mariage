@@ -1,79 +1,29 @@
-  repasser sur la configuration des pull request de GitHub (https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin)
+supprimer la classe RestApplicationSelenium et utiliser la fonction de changement de fichier de configuration de spring en fonction d'un profile
 
-  supprimer la classe RestApplicationSelenium et utiliser la fonction de changement de fichier de configuration de spring en fonction d'un profile
+supprimer le stage dans l'équipe de promotion
 
-  supprimer le stage dans l'équipe de promotion
+Regarder à Selenium 3 (encore en beta ??)
 
-  Regarder à Selenium 3 (encore en beta ??)
+Ajouter une colonne pour cocher qui a bien reçu le courrier par foyer
 
-  Ajouter une colonne pour cocher qui a bien reçu le courrier par foyer
+Mettre des milestones dans le pipeline (https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Milestone+Step+Plugin)
 
-  Mettre des milestones dans le pipeline (https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Milestone+Step+Plugin)
+Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
 
-  Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
+Bug quand on coche une case sur une page, qu'on change de page et qu'on revient
 
-  Bug quand on coche une case sur une page, qu'on change de page et qu'on revient
+conserver les tris et filtres de page en page
 
-  conserver les tris et filtres de page en page
+tenter de remplacer les retry dans MyDriver par "(new WebDriverWait(this.driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(by));"
 
-  tenter de remplacer les retry dans MyDriver par "(new WebDriverWait(this.driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(by));"
-  
-  Améliorer la couverture des tests Selenium
+Améliorer la couverture des tests Selenium
 
-  div attente tableau et bloquante !!
-  
-  dupliquer les boutons "ajouter" en haut
-  
-  ajouter un bouton raffraichir avec conservation du nombre d'item de pagination
-  
-  Gérér les hébergements
-  
-  Changer le "no data to display"
+div attente tableau et bloquante !!
 
-X modifier le JenkinsFile pour ne pas déclencher le stage Production si ce n'est pas la branche MASTER
-X à la suppression d'un invité ou d'une invitation, supprimer la réponse !!!!
-X avec cette évolution, prévoir un script de nettoyage des réponses pour éviter les -4 du VDHB en prod => ajout de messages d'erreurs
-X dans les stats, remplacer le premier tableau par les catégories d'age avec une selectBox des étapes au dessus
-X bug dans la saisie des réponses quand une réponse est déjà saisie (oui quand déjà non et vice versa)
-X Créer les pages "Adresse et téléphone", "Paramètres", "Courrier", "Réponses"
-X Ajouter les attributs prenom et age (ainé, adulte, jeune, enfant, bébé) dans Invite
-X Traiter les messages d'erreur pourri (cf cas de test avec age invalide)
-X Traiter pb config des tests REST qui démarre une BDD File
-X Ajouter la gestion des étapes dans la page "Parametres"
-X Ajouter un attribut dateEtHeure dans Etape
-X Corriger les pb de CSS entre les tableaux et les popup
-X Ajouter des titres aux popups
-X Améliorer la tête des popups
-X Ajouter un numéro d'ordre dans Etape
-X Ajouter la génération du site de qualimétrie
-X Ajouter des tests selenium
-X Automatiser les tests selenium
-X Ajouter la couverture de code aux tests selenium (fait sur le poste WINDOWS)
-X Ajouter une page "gestion des utilisateurs" pour l'admin (Utilisateur={nom, prenom, login, mdpSHA})
-X Ajouter une page de login
-X Ajouter un bouton de déconnexion
-X Trouver une solution de mutualisation d'une part des pages (menu, imports JS et CSS, ...) => <link type="import" n'est pas encore supporté par les navigateurs (pas par défaut)
-X Ajouter une page "Gestion des contacts" pour la saisie d'une adresse par personne (une String) et un numéro de téléphone (une String)
-X Renommer la page "invites" en "gestion des invitations"
-X Dans la page "gestion des invitations", ajouter une checkbox pour définir les étapes auxquelles sont liées chaque invité
-X Modifier les constructeurs pour utiliser les setter
-X Refactoring des ControlerTest pour mutualiser la construction des MAP de paramètres et simplifier le code (des constantes et une méthode commune de création de la map)
-X Faire de dateHeure un date & time picker pour les étapes
-X Compléter les tests Selenium
-X Dans la page "paramètres", ajouter la liste des Courier (nom, dateEnvoiPrevu)
-X Ajouter une page de Statistiques (répartition par age, par groupe, par foyer)
-X Refactoring pour sortir les selecteur Selenium du Test unitaire
-X Découper le test Selenium en plusieurs test (chacun utilisant un mariage différent)
-X Supprimer les InteruptedException
-X Ajouter un email dans les courriers
-X menu collapsible 
-X css event/odd dans les tableaux !
-X Gérer les problèmes de cache des javascript !
-X Refactoring profond pour ajouter l'entité Foyer
-X Ajout des étapes dans le tableau des courriers
-X Ajouter le publipostage
-x Gerer les erreurs de connexion répétées
-x ajouter la notion de rôle (un champ avec un enum) pour limiter la vision des menus et les accès aux URL REST
-x limiter la visibilité des utilisateurs à l'administrateur
-x Ajouter une page "gestion des réponses" dans laquelle on peut cocher qui vient à quelles étapes
-x Ajouter un tableau dans les statistiques avec les présents/absents confirmés/ouPas sous un selectBox contenant les étapes
+dupliquer les boutons "ajouter" en haut
+
+ajouter un bouton raffraichir avec conservation du nombre d'item de pagination
+
+Gérér les hébergements
+
+Changer le "no data to display"
