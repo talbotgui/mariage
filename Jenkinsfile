@@ -68,7 +68,7 @@ pipeline {
 
 							if (userInput) {
 								node {
-									currentBuild.description = "Deployer to production"
+									currentBuild.description = "Deploy to production"
 									sh "/var/lib/mariage/stopMariage.sh"
 									sh "rm /var/lib/mariage/*.war || true"
 									sh "cp ./mariageRest.war /var/lib/mariage/"
