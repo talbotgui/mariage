@@ -61,18 +61,23 @@ pipeline {
 			
 			steps {
 				timeout(time:1, unit:'DAYS') {
-					script{
-						def userInput = input message: 'Production ?', parameters: [booleanParam(defaultValue: false, description: '', name: 'miseEnProduction')]
+					script {
+						def deployable_branches = ["master"]
+						if (deployable_branches.contains(env.BRANCH_NAME)) {
+							def userInput = input message: 'Production ?', parameters: [booleanParam(defaultValue: false, description: '', name: 'miseEnProduction')]
 
-						if (userInput) {
-							node {
-								currentBuild.description = "DEPLOYED TO PRODUCTION"
-								sh "/var/lib/mariage/stopMariage.sh"
-								sh "rm /var/lib/mariage/*.war || true"
-								sh "cp ./mariageRest.war /var/lib/mariage/"
-								sh "/var/lib/mariage/startMariage.sh"
-								build 'Surveillant'
+							if (userInput) {
+								node {
+									currentBuild.description = "Deployer to production"
+									sh "/var/lib/mariage/stopMariage.sh"
+									sh "rm /var/lib/mariage/*.war || true"
+									sh "cp ./mariageRest.war /var/lib/mariage/"
+									sh "/var/lib/mariage/startMariage.sh"
+									build 'Surveillant'
+								}
 							}
+						} else {
+						    currentBuild.description = "not master - no production"
 						}
 					}
 				}
