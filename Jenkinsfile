@@ -68,7 +68,7 @@ pipeline {
 
 							if (userInput) {
 								node {
-									currentBuild.description = "Deploy to production"
+									currentBuild.displayName = currentBuild.displayName + " - deployed to production"
 									sh "/var/lib/mariage/stopMariage.sh"
 									sh "rm /var/lib/mariage/*.war || true"
 									sh "cp ./mariageRest.war /var/lib/mariage/"
@@ -77,7 +77,7 @@ pipeline {
 								}
 							}
 						} else {
-						    currentBuild.description = "not master - no production"
+						    currentBuild.displayName = currentBuild.displayName + " - not master - no production"
 						}
 					}
 				}
