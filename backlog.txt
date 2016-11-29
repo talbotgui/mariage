@@ -4,8 +4,6 @@ Regarder à Selenium 3 (encore en beta ??)
 
 Ajouter une colonne pour cocher qui a bien reçu le courrier par foyer
 
-Mettre des milestones dans le pipeline (https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Milestone+Step+Plugin)
-
 Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
 
 conserver les tris et filtres de page en page

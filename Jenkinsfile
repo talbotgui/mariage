@@ -1,5 +1,8 @@
 #!groovy
 
+// Define job properties
+properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '15')), pipelineTriggers([])])
+
 pipeline {
     tools {
         maven "M3"
@@ -119,3 +122,6 @@ def version() { def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'; 
 // avec le plugin 'pipeline utility steps' => def version() { def pom = readMavenPom; pom.version; };
 
 /* Variables disponibles : env.PATH, env.BUILD_TAG, env.BRANCH_NAME, currentBuild.result, currentBuild.displayName, currentBuild.description */
+
+// Exemple de definition de parametres dans le job : https://issues.jenkins-ci.org/browse/JENKINS-32780
+
