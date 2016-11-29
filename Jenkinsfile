@@ -60,12 +60,21 @@ pipeline {
 			agent none
 			
 			steps {
+				
+				// Pour ne pas laisser trainer l'attente d'une saisie durant plus de 1 jour
 				timeout(time:1, unit:'DAYS') {
 					script {
+					
+						// Pour inhiber le contenu du stage 'production' si la branche n'est pas le master
 						def deployable_branches = ["master"]
 						if (deployable_branches.contains(env.BRANCH_NAME)) {
-							def userInput = input message: 'Production ?', parameters: [booleanParam(defaultValue: false, description: '', name: 'miseEnProduction')]
 
+							// Demande de saisie avec milestone pour arrêter les builds précédents en attente au moment où un utilisateur répond à un build plus récent
+							milestone(1)
+							def userInput = input message: 'Production ?', parameters: [booleanParam(defaultValue: false, description: '', name: 'miseEnProduction')]
+							milestone(2)
+
+							// Installation en production et changement du nom indiquant le statut
 							if (userInput) {
 								node {
 									currentBuild.displayName = currentBuild.displayName + " - deployed to production"
@@ -86,7 +95,9 @@ pipeline {
 	}
 	
 	post {
-        //always {}
+        always {
+			node ('') { step([$class: 'WsCleanup', notFailBuild: true]) }
+		}
         success {
 			node ('') { archiveArtifacts artifacts: 'mariageRest.war', fingerprint: true }
         }
