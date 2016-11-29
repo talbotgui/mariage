@@ -52,8 +52,8 @@ pipeline {
 			agent label:''
 			steps {
 				sh "mvn site -Dmaven.test.skip=true"
-				step([$class: 'FindBugsPublisher'])
-				step([$class: 'CheckStylePublisher'])
+				//step([$class: 'FindBugsPublisher'])
+				//step([$class: 'CheckStylePublisher'])
 				step([$class: 'AnalysisPublisher'])
 				step([$class: 'JavadocArchiver', javadocDir: 'mariageRest/target/site/apidocs', keepAll: false])
 			}
