@@ -95,18 +95,19 @@ pipeline {
 	}
 	
 	post {
-        always {
-			node ('') { step([$class: 'WsCleanup', notFailBuild: true]) }
-		}
         success {
 			node ('') { archiveArtifacts artifacts: 'mariageRest.war', fingerprint: true }
+			node ('') { step([$class: 'WsCleanup', notFailBuild: true]) }
         }
         unstable {
 			node ('') { archiveArtifacts artifacts: 'mariageRest.war', fingerprint: true }
+			node ('') { step([$class: 'WsCleanup', notFailBuild: true]) }
 		}
         failure {
 			node ('') { emailext subject: "${env.JOB_NAME}#${env.BUILD_NUMBER} - Error during the build !", to: "talbotgui@gmail.com", body: "failure : ${e}"; }
+			node ('') { step([$class: 'WsCleanup', notFailBuild: true]) }
         }
+        //always {}
         //changed {}
     }
 }
