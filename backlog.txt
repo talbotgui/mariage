@@ -1,7 +1,5 @@
 supprimer la classe RestApplicationSelenium et utiliser la fonction de changement de fichier de configuration de spring en fonction d'un profile
 
-supprimer le stage dans l'équipe de promotion
-
 Regarder à Selenium 3 (encore en beta ??)
 
 Ajouter une colonne pour cocher qui a bien reçu le courrier par foyer
@@ -10,11 +8,7 @@ Mettre des milestones dans le pipeline (https://wiki.jenkins-ci.org/display/JENK
 
 Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
 
-Bug quand on coche une case sur une page, qu'on change de page et qu'on revient
-
 conserver les tris et filtres de page en page
-
-tenter de remplacer les retry dans MyDriver par "(new WebDriverWait(this.driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(by));"
 
 Améliorer la couverture des tests Selenium
 
@@ -23,7 +17,5 @@ div attente tableau et bloquante !!
 dupliquer les boutons "ajouter" en haut
 
 ajouter un bouton raffraichir avec conservation du nombre d'item de pagination
-
-Gérér les hébergements
 
 Changer le "no data to display"
