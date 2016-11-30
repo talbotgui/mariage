@@ -75,6 +75,25 @@ public class SecuriteServiceTest {
 	}
 
 	@Test
+	public void test01CreeUtilisateur01OkSansRole() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String login = "monLogin";
+		final String mdp = "unBonMdp";
+
+		//
+		this.instance.sauvegardeUtilisateur(login, mdp, null);
+
+		//
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where login=?",
+				new Object[] { login }, Long.class));
+		Assert.assertNotEquals(mdp,
+				jdbc.queryForObject("select mdp from UTILISATEUR where login=?", new Object[] { login }, String.class));
+		Assert.assertEquals(Role.UTILISATEUR.name(), jdbc.queryForObject("select role from UTILISATEUR where login=?",
+				new Object[] { login }, String.class));
+	}
+
+	@Test
 	public void test01CreeUtilisateur02KoLogin() {
 		//
 		final String login = "";

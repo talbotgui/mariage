@@ -330,12 +330,12 @@ public class MariageServiceImpl implements MariageService {
 				if (messageErreur.length() > 0) {
 					erreurs.add(messageErreur);
 				}
-				messageErreur = prenomInvite + " " + nomInvite + " est marqué(e) présent/absent à l'étape '" + nomEtape
-						+ "' sans plus y être invité(e)";
+				messageErreur = prenomInvite + " " + nomInvite
+						+ " est marqué(e) présent/absent, sans plus y être invité(e), à l'étape '" + nomEtape + "'";
 			}
 			// Pour le même invite,on ajoute le nom de l'étape
 			else {
-				messageErreur += ", " + nomEtape;
+				messageErreur += ", '" + nomEtape + "'";
 			}
 
 			idInvitePrecedent = idInvite;

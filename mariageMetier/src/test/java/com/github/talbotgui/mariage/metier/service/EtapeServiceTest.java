@@ -140,6 +140,37 @@ public class EtapeServiceTest {
 	}
 
 	@Test
+	public void test02SauvegarderEtapeRepasSansNumOrdre() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
+
+		// ACT
+		final String lieu = "G1";
+		final String nom = "N1";
+		final Date date = new Date();
+		final Integer numOrdreFourni = null;
+		final Integer numOrdreAttendu = original.getEtapes().size() + 1;
+		final Long id = this.instance.sauvegarde(idMariage, new EtapeRepas(numOrdreFourni, nom, date, lieu));
+
+		// ASSERT
+		Assert.assertNotNull(id);
+		final Collection<Etape> etapeApres = this.instance.listeEtapesParIdMariage(idMariage);
+		Assert.assertEquals(etapeAvant.size() + 1, etapeApres.size());
+		final Collection<Etape> diff = new TreeSet<>(new EtapeComparator());
+		diff.addAll(etapeApres);
+		diff.removeAll(etapeAvant);
+		Assert.assertEquals(1, diff.size());
+		Assert.assertEquals(nom, diff.iterator().next().getNom());
+		Assert.assertEquals(numOrdreAttendu, diff.iterator().next().getNumOrdre());
+		Assert.assertEquals(lieu, diff.iterator().next().getLieu());
+		Assert.assertEquals(date, diff.iterator().next().getDateHeure());
+		Assert.assertEquals(EtapeRepas.class, diff.iterator().next().getClass());
+	}
+
+	@Test
 	public void test03SupprimeEtape() throws ParseException {
 
 		// ARRANGE

@@ -552,7 +552,7 @@ public class InviteEtFoyerServiceTest {
 
 		// ASSERT
 		Assert.assertNotNull(erreurs);
-		Assert.assertEquals(5, erreurs.size());
+		Assert.assertEquals(6, erreurs.size());
 		final Iterator<String> iter = erreurs.iterator();
 		Assert.assertEquals("PRENOM1 NOM1 est invité(e) plusieurs fois à une même étape : Mairie, Eglise, VdH",
 				iter.next());
@@ -562,7 +562,11 @@ public class InviteEtFoyerServiceTest {
 				iter.next());
 		Assert.assertEquals("PRENOM4 NOM1 est invité(e) plusieurs fois à une même étape : Mairie, Eglise, VdH",
 				iter.next());
-		Assert.assertEquals("PRENOM1 NOM4 est marqué(e) présent/absent à l'étape 'En plus' sans plus y être invité(e)",
+		Assert.assertEquals(
+				"PRENOM1 NOM4 est marqué(e) présent/absent, sans plus y être invité(e), à l'étape 'Repas', 'En plus'",
+				iter.next());
+		Assert.assertEquals(
+				"PRENOM2 NOM4 est marqué(e) présent/absent, sans plus y être invité(e), à l'étape 'En plus'",
 				iter.next());
 	}
 }
