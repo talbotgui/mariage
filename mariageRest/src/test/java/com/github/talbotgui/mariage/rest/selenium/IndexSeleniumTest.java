@@ -51,9 +51,9 @@ public class IndexSeleniumTest extends SeleniumTest {
 		this.driver.type(Index.Input.MARIE1, "M", 100);
 		this.driver.type(Index.Input.MARIE2, "G", 100);
 		this.driver.click(Index.Button.SAUVEGARDER, 500);
-		this.driver.assertCookiePresentAndValid(Index.Cookie.ID_MARIAGE);
 
 		//
+		this.driver.assertCookiePresentAndValid(Index.Cookie.ID_MARIAGE);
 		this.driver.assertElementPresent(Index.Button.MODIFIER);
 		this.driver.assertTextEquals(Commun.DIV_MARIES, "Mariage de M  &  G");
 		this.driver.assertTextEquals(Commun.DIV_DATE_MARIAGE, "01/01/2017");
@@ -85,6 +85,7 @@ public class IndexSeleniumTest extends SeleniumTest {
 
 		//
 		this.driver.click(Index.Button.SUPPRIMER, 200);
+		this.driver.click(Index.Button.CONFIRMER_SUPPRESSION, 200);
 
 		//
 		this.driver.getRealDriver().get(this.driver.getRealDriver().getCurrentUrl());

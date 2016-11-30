@@ -41,6 +41,8 @@ public class Selectors {
 	 */
 	public static class Index {
 		public static class Button {
+			public static final By CONFIRMER_SUPPRESSION = By
+					.cssSelector("div.ui-dialog-buttonset > button[type='button']");
 			public static final By MODIFIER = By.linkText("Modifier");
 			public static final By NOUVEAU = By.linkText("Nouveau");
 			public static final By SAUVEGARDER = By.linkText("Sauvegarder");
