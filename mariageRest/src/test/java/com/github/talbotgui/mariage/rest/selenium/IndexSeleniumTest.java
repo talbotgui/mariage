@@ -32,7 +32,7 @@ public class IndexSeleniumTest extends SeleniumTest {
 
 		//
 		this.driver.assertPageTitle("Mariage");
-		this.driver.assertElementNotPresent(Menu.LIEN_ACCUEIL);
+		this.driver.assertElementPresent(Menu.LIEN_ACCUEIL);
 		this.driver.assertElementNotPresent(Menu.LIEN_INVITES);
 		this.driver.assertElementPresent(Index.Button.NOUVEAU);
 		this.driver.assertElementPresent(Index.Input.SELECTION_MARIAGE);

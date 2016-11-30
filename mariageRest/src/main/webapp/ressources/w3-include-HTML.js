@@ -1,5 +1,3 @@
-(function () {
-
 myHTMLInclude();
 
 function myHTMLInclude() {
@@ -24,5 +22,3 @@ function myHTMLInclude() {
     }
   }
 }
-
-})();

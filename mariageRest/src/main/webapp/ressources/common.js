@@ -15,6 +15,9 @@ var afficheContent = function() {
  * @param divSelector selecteur JQuery pour la div d'erreur
  */
 var chargeErreurs = function(divSelector) {
+	if (getIdMariage() === "") {
+		return;
+	}
 
 	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/erreurs");
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargeErreurs");});
@@ -59,23 +62,17 @@ var setIdMariage = function(idMariage) {
 		var expires = "expires=" + d.toUTCString();
 		document.cookie = cookieName + "=" + idMariage + "; " + expires;
 	}
-	afficheMenu();
 };
 
 /**
- * Affiche le menu et sélectionne le bon élément
+ * Sélectionne le bon élément
  */
 var afficheMenu = function() {
 	// Mise en place du timeout pour attendre le chargement de la div par le script de google
 	setTimeout(function(){
-			if (getIdMariage() === "") {
-				$("div[role=navigation]").hide();
-			} else {
-				var nomPage = window.location.pathname.substring(1);
-				if (nomPage === "") { nomPage = "index.html"; }
-				$(".nav a[href$='" + nomPage + "']").parent().addClass("active");
-				$("div[role=navigation]").show();
-			}
+			var nomPage = window.location.pathname.substring(1);
+			if (nomPage === "") { nomPage = "index.html"; }
+			$(".nav a[href$='" + nomPage + "']").parent().addClass("active");
  	}, 500);
 };
 
@@ -239,7 +236,8 @@ var logout = function() {
 var chargementDonneesDivMaries = function() {
 	
 	var maj = function() { 
-		if (document.getElementById("maries") != null) {
+		var idMariage = getIdMariage();
+		if (document.getElementById("maries") != null && idMariage !== "") {
 			var req = $.get(REST_PREFIX + "/mariage/" + idMariage);
 			req.success(function(dataString) {
 				var data = dataString;
@@ -249,6 +247,7 @@ var chargementDonneesDivMaries = function() {
 				$("#maries span:first").html(data.marie1);
 				$("#maries span:last").html(data.marie2);
 				$("#date span").html(data.dateCelebration);
+				$("#infoMariage").removeClass("invisible");
 			});
 			req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargementDonneesDivMaries");});
 		}
@@ -270,12 +269,10 @@ var chargementDonneesDivMaries = function() {
  */
 $(document).ready(function() {
 
-	// Redirection si pas de mariage sélectionné
+	// Chargement et affichage du menu
 	idMariage = getIdMariage();
-	if (idMariage === "" && window.location.href !== REST_PREFIX + "/" && window.location.href !== REST_PREFIX + "/login.html") {
-		window.location.href = REST_PREFIX + "/";
-	}
-
+	afficheMenu();
+	
 	// Chargement des données du mariage
 	chargementDonneesDivMaries();
 	

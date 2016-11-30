@@ -1,4 +1,3 @@
-
 var afficheInfoMariage = function(data) {
 	// Affichage / masquage de divs
 	$("#accueil").hide();
@@ -11,6 +10,7 @@ var afficheInfoMariage = function(data) {
 	$("#maries input:first").val(data.marie1);
 	$("#maries input:last").val(data.marie2);
 	$("#date input").val(data.dateCelebration);
+	$("#infoMariage input[type=hidden]").val(data.id);
 	
 	// Affichage du countDown
 	if (data.dateCelebration) {
@@ -31,9 +31,11 @@ var afficheInfoMariage = function(data) {
 };
 
 var afficheInfoMariageDepuisId = function() {
-	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage());
-	req.success(function(dataString) { afficheInfoMariage(dataString); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("afficheInfoMariageDepuisId");});
+	if (getIdMariage() !== "") {
+		var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage());
+		req.success(function(dataString) { afficheInfoMariage(dataString); });
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("afficheInfoMariageDepuisId");});
+	}
 };
 
 var afficheInfoMariageDepuisSelect = function(e) {
@@ -41,6 +43,11 @@ var afficheInfoMariageDepuisSelect = function(e) {
 
 	idMariage = e.target.value;
 	setIdMariage(idMariage);
+
+	// refresh du menu
+	$(".header > div").attr("data-w3-include-html", "./part_menu.html");
+	myHTMLInclude();
+	afficheMenu();
 };
 
 var afficheInfoMariagePourNouveau = function(e) {

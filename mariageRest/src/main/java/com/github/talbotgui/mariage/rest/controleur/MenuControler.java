@@ -5,6 +5,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import java.io.InputStream;
 import java.util.Scanner;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,7 +21,8 @@ public class MenuControler {
 	@RequestMapping(value = "/part_menu.html", method = GET, produces = "text/html;charset=UTF-8")
 	public String getMenu(final HttpServletRequest request, final HttpServletResponse response) {
 		final String roleUtilisateur = (String) request.getSession().getAttribute(SecurityFilter.SESSION_KEY_USER_ROLE);
-		final String nomPageMenu = "part_menu_" + roleUtilisateur + ".html";
+		final String mariageSelectionne = this.isCookieIdMariagePresent(request) ? "mariageSelectionne" : "sansMariage";
+		final String nomPageMenu = "part_menu_" + roleUtilisateur + "-" + mariageSelectionne + ".html";
 
 		// L'accès par Files/Paths ne fonctionne pas quand le fichier est dans
 		// un WAR. Donc getResourceAsStream et scanner
@@ -37,5 +39,16 @@ public class MenuControler {
 			return scanner.useDelimiter("\\A").next();
 		}
 
+	}
+
+	private boolean isCookieIdMariagePresent(final HttpServletRequest request) {
+		if (request.getCookies() != null) {
+			for (final Cookie c : request.getCookies()) {
+				if ("idMariage".equals(c.getName())) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

@@ -41,8 +41,8 @@ public class MenuControlerTest extends BaseRestControlerTest {
 		final Collection<String> liensAdmin = new ArrayList<>(liensMaries);
 		liensAdmin.add("administration.html");
 
-		return new Object[][] { { Role.ADMIN, liensAdmin }, { Role.MARIE, liensMaries },
-				{ Role.UTILISATEUR, liensCommun } };
+		return new Object[][] { { Role.ADMIN, Boolean.TRUE, liensAdmin }, { Role.MARIE, Boolean.TRUE, liensMaries },
+				{ Role.UTILISATEUR, Boolean.TRUE, liensCommun } };
 	}
 
 	@Test
@@ -63,7 +63,8 @@ public class MenuControlerTest extends BaseRestControlerTest {
 	}
 
 	@Test(dataProvider = "getTestParameters")
-	public void test02AccesMenuAvecAdminConnecte(final Role role, final Collection<String> liens) {
+	public void test02AccesMenuAvecAdminConnecte(final Role role, final Boolean avecMariageSelectionne,
+			final Collection<String> liens) {
 
 		// ARRANGE
 		final String login = "monLogin";
@@ -80,6 +81,10 @@ public class MenuControlerTest extends BaseRestControlerTest {
 		String cookie = response.getHeaders().get("Set-Cookie").get(0);
 		cookie = cookie.substring(0, cookie.indexOf(";"));
 
+		if (avecMariageSelectionne) {
+			cookie += ";idMariage=4";
+		}
+
 		// ACT
 		final HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.add("Cookie", cookie);
@@ -91,7 +96,7 @@ public class MenuControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(reponseMenu.getStatusCode(), HttpStatus.OK);
 		final String body = reponseMenu.getBody();
 		for (final String lien : liens) {
-			Assert.assertTrue(body.contains(lien));
+			Assert.assertTrue(body.contains(lien), "Présence du lien '" + lien + "'");
 		}
 	}
 
