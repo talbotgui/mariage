@@ -1,3 +1,5 @@
+bonne gestion des messages d'erreur
+
 supprimer la classe RestApplicationSelenium et utiliser la fonction de changement de fichier de configuration de spring en fonction d'un profile
 
 Regarder à Selenium 3 (encore en beta ??)
