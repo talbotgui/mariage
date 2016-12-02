@@ -18,20 +18,20 @@ var ajouteUtilisateur = function(e) {
 			$("#popupAjoutUtilisateur").jqxWindow("close");
 			chargeUtilisateurs();
 		});
-		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "ajouteUtilisateur");});
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "l'ajout de l'utilisateur");});
 	});
 };
 
 var supprimeUtilisateur = function(id) {
 	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/utilisateur/" + id});
 	req.success(function(dataString) { chargeUtilisateurs(); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "supprimeUtilisateur");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la suppression de l'utilisateur");});
 };
 
 var deverouilleUtilisateur = function(id) {
 	var req = $.ajax({ type: "GET", url: REST_PREFIX + "/utilisateur/" + id + "/deverrouille"});
 	req.success(function(dataString) { chargeUtilisateurs(); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "deverouilleUtilisateur");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le déverouillage de l'utilisateur");});
 };
 
 // Chargement des utilisateurs

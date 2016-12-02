@@ -1,6 +1,6 @@
 Configurer FindBugs-Security
 
-bonne gestion des messages d'erreur
+modification du GET /utilisateur/?/deverouille en PUT !
 
 Regarder à Selenium 3 (encore en beta ??)
 

@@ -34,7 +34,7 @@ var afficheInfoMariageDepuisId = function() {
 	if (getIdMariage() !== "") {
 		var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage());
 		req.success(function(dataString) { afficheInfoMariage(dataString); });
-		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "afficheInfoMariageDepuisId");});
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le chargement des données du mariage");});
 	}
 };
 
@@ -68,7 +68,7 @@ var supprimeMariage = function(e) {
 			"Supprimer le mariage": function() {
 				var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + getIdMariage()});
 				req.success(function(dataString) { setIdMariage(""); location.reload(); });
-				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "supprimeMariage");});
+				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la suppression du mariage");});
 				$(this).dialog( "close" );
 			},
 			Cancel: function() {
@@ -90,7 +90,7 @@ var sauvegardeInfoMariage = function(e) {
 			divParente.find(".form-control").hide();
 			divParente.find("a").toggle();
 		});
-		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "afficheInfoMariageDepuisId");});
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la modification des données du mariage");});
 	});
 };
 

@@ -18,7 +18,7 @@ var chargeListeEtapes = function() {
 			sel.append($('<option>', {value:e.id, text:e.nom}));
 		});
 	});
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "chargeListeEtapes");});	
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le chargement de la liste des étapes");});	
 }
 
 /**
@@ -126,7 +126,7 @@ var chargeStatistiques= function() {
 			ready: afficheContent
 		});
 	});
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "chargeStatistiques");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le chargement des statistiques");});
 };
 
 $(document).ready(function() {

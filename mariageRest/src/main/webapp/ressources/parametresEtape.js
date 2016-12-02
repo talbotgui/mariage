@@ -19,7 +19,7 @@ var ajouteEtape = function(e, idPopup) {
 			$("#" + idPopup).jqxWindow("close");
 			chargeEtapes();
 		});
-		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "ajouteEtape");});
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "l'ajoute d'une étape");});
 	});
 };
 var ajouteEtapeCeremonie = function(e) { ajouteEtape(e, "popupAjoutEtapeCeremonie") };
@@ -29,7 +29,7 @@ var ajouteEtapeRepas = function(e) { ajouteEtape(e, "popupAjoutEtapeRepas") };
 var supprimeEtape = function(idEtape) {
 	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/etape/" + idEtape});
 	req.success(function(dataString) { chargeEtapes(); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "supprimeEtape");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la suppression d'une étape");});
 };
 
 // Chargement des etapes

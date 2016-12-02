@@ -20,7 +20,7 @@ var chargeErreurs = function(divSelector) {
 	}
 
 	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/erreurs");
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "chargeErreurs");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la recherche des incohérences dans les données du mariage");});
 	req.success(function(dataString) {
 
 		// Avec les donnees
@@ -204,7 +204,7 @@ var alimentationSelectBox = function() {
 				sel.append($('<option>', {value:id, text:txt, "data-object":JSON.stringify(data)}));
 			});
 		});
-		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "alimentationSelectBox");});
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le chargement de la liste");});
 	});
 };
 
@@ -223,7 +223,7 @@ var majAttribute = function (url, event, success) {
 
 	var req = $.ajax({ type: "POST", url: url, data: data});
 		req.success(function(dataString) { success(); });
-		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "majAttribute");});
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la mise à jour des données");});
 }
 
 /**
@@ -235,7 +235,7 @@ var logout = function() {
 		document.cookie = 'idMariage=; expires=Thu, 01-Jan-1970 00:00:01 GMT;';
 		window.location.reload();
 	});
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "logout");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la déconnexion");});
 }
 
 /** Chargement des données du mariage */
@@ -255,7 +255,7 @@ var chargementDonneesDivMaries = function() {
 				$("#date span").html(data.dateCelebration);
 				$("#infoMariage").removeClass("invisible");
 			});
-			req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "chargementDonneesDivMaries");});
+			req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le chargement des données du mariage");});
 		}
 	};
 	

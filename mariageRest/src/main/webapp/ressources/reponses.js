@@ -7,7 +7,7 @@ var supprimePresence = function (rowIndex) {
 	// Suppression presence
 	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/presence?idEtape=" + idEtape + "&idInvite=" + idInvite});
 	req.success(function(dataString) { $("#reponses").jqxGrid('updatebounddata', 'data'); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "supprimePresence");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la suppression d'une présence");});
 }
 
 var modifiePresence = function(radio, rowIndex) {

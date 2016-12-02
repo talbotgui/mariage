@@ -21,14 +21,14 @@ var ajouteInvite = function(e) {
 			$("#popupAjoutInvite").jqxWindow("close");
 			chargeInvites();
 		});
-		req.fail(function(jqXHR, textStatus, errorThrown) { ajaxFailFunctionToDisplayWarn(jqXHR, "ajouteInvite"); });
+		req.fail(function(jqXHR, textStatus, errorThrown) { ajaxFailFunctionToDisplayWarn(jqXHR, "la modification d'un invite"); });
 	});
 };
 
 var supprimeInvite = function(idInvite) {
 	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/invite/" + idInvite});
 	req.success(function(dataString) { chargeInvites(); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "ajouteInvite");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la suppression d'un invité");});
 };
 
 // Chargement des invites
@@ -83,7 +83,7 @@ var chargeInvites = function() {
 			$("#invites").on('cellendedit', modifieInvite);
 			donneesDejaChargees = true;
 		});
-		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "alimentationSelectBox");});
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le chargement de la liste des ages");});
 	}
 };
 

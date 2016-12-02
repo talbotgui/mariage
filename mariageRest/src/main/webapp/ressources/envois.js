@@ -16,7 +16,7 @@ var chargeSelectBox = function () {
 		
 		afficheContent();
 	});
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "ajouteCourrier");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le chargement des courriers");});
 };
 
 var chargeTableauDuCourrier = function () {

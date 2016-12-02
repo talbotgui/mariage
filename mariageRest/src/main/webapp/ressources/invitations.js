@@ -10,7 +10,7 @@ var changeLien = function(idFoyer, idCourrier, checkbox) {
 	var data = { idCourrier: idCourrier, estInvite: valeur};
 	var req = $.post( REST_PREFIX + "/mariage/" + getIdMariage() + "/foyer/" + idFoyer, data);
 	req.success(function(dataString) { checkbox.checked = valeur; masqueDivAttente('#foyers'); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "changeLien"); masqueDivAttente('#foyers'); });
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la modification du lien foyer-courrier"); masqueDivAttente('#foyers'); });
 
 };
 
@@ -19,7 +19,7 @@ var choixPossibles = [];
 var chargeFoyers = function() {
 
 	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/foyer");
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "chargeFoyers");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le chargement des foyers");});
 	req.success(function(dataString) {
 		
 		// Avec les donnees
