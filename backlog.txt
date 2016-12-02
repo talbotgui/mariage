@@ -1,7 +1,3 @@
-Configurer FindBugs-Security
-
-Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
-
 Regarder à Selenium 3 (encore en beta ??)
 
 Ajouter une colonne pour cocher qui a bien reçu le courrier par foyer
