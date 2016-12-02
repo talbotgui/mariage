@@ -56,8 +56,14 @@ public class InviteRestControler {
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = GET)
-	public Collection<InviteDTO> listeInvitesParIdMariage(@PathVariable("idMariage") final Long idMariage) {
-		return DTOUtils.creerDtos(this.mariageService.listeInvitesParIdMariage(idMariage), InviteDTO.class);
+	public Collection<InviteDTO> listeInvitesParIdMariage(@PathVariable("idMariage") final Long idMariage,
+			@RequestParam(required = false, value = "present") final Boolean present) {
+		if (present == null || !present) {
+			return DTOUtils.creerDtos(this.mariageService.listeInvitesParIdMariage(idMariage), InviteDTO.class);
+		} else {
+			return DTOUtils.creerDtos(this.mariageService.listeInvitesPresentsParIdMariage(idMariage),
+					InviteDTO.class);
+		}
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/presence", method = GET)

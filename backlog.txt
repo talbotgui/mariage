@@ -1,6 +1,8 @@
-[en cours] Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
+revoir le tri dans les query des Invite pour traiter le prenom en plus
 
 Configurer FindBugs-Security
+
+Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
 
 Regarder à Selenium 3 (encore en beta ??)
 

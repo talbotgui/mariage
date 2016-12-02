@@ -597,4 +597,28 @@ public class InviteEtFoyerServiceTest {
 		Assert.assertEquals(participantAuxAnimations, inviteApres.getParticipantAuxAnimations());
 		Assert.assertEquals(particularite, inviteApres.getParticularite());
 	}
+
+	@Test
+	public void test15ListeInvitesPresent() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageAvecInvitations();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+
+		final Collection<Presence> presencesDepuisProduitCartesien = this.instance
+				.listePresencesParIdMariage(idMariage);
+
+		final Presence presence = presencesDepuisProduitCartesien.iterator().next();
+		presence.setCommentaire("coucou");
+		presence.setConfirmee(true);
+		presence.setPresent(true);
+		this.instance.sauvegarde(idMariage, presence);
+
+		// ACT
+		final Collection<Invite> invitesPresents = this.instance.listeInvitesPresentsParIdMariage(idMariage);
+
+		// ASSERT
+		Assert.assertEquals(1, invitesPresents.size());
+		Assert.assertEquals(presence.getId().getInvite().getId(), invitesPresents.iterator().next().getId());
+	}
 }

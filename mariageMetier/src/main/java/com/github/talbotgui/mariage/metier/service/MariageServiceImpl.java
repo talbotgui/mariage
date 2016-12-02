@@ -306,6 +306,11 @@ public class MariageServiceImpl implements MariageService {
 		return erreurs;
 	}
 
+	@Override
+	public Collection<Invite> listeInvitesPresentsParIdMariage(final Long idMariage) {
+		return this.inviteRepository.listeInvitesPresentsParIdMariage(idMariage);
+	}
+
 	/**
 	 * Recherche de présences sans invitations existantes.
 	 *
