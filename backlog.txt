@@ -2,8 +2,6 @@ Configurer FindBugs-Security
 
 bonne gestion des messages d'erreur
 
-supprimer la classe RestApplicationSelenium et utiliser la fonction de changement de fichier de configuration de spring en fonction d'un profile
-
 Regarder à Selenium 3 (encore en beta ??)
 
 Ajouter une colonne pour cocher qui a bien reçu le courrier par foyer

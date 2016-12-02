@@ -1,9 +1,7 @@
 package com.github.talbotgui.mariage.rest.application;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.orm.jpa.EntityScan;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -11,6 +9,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 /**
  * Une configuration Spring-boot pour l'application. Cette classe remplace le
  * traditionnel fichier XML.
+ *
+ * Cette configuration est différente de RestApplication sur :
+ * <ul>
+ * <li>Pas de Swagger actif</li>
+ * <li>Pas de filtre de sécurité actif</li>
+ * <li>Le propertySource pointe sur un fichier de configuration dédié aux
+ * tests</li>
+ * </ul>
  */
 @SpringBootApplication
 @EntityScan({ RestApplication.ENTITY_SCAN })
@@ -19,22 +25,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @PropertySource(RestTestApplication.PROPERTY_SOURCE)
 public class RestTestApplication {
 
-	private static ApplicationContext ac;
-
 	public static final String PROPERTY_SOURCE = "classpath:db-config-test.properties";
-
-	public static void main(final String[] args) {
-		start();
-	}
-
-	public static void start() {
-		ac = SpringApplication.run(RestTestApplication.class);
-	}
-
-	public static void stop() {
-		if (ac != null) {
-			SpringApplication.exit(ac);
-		}
-	}
 
 }
