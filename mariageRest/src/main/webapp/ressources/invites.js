@@ -8,6 +8,8 @@ var affichePopupInvite = function() {
 
 // Fonction JqxGrid
 var modifieInvite = function(e) {
+	if (getIdMariage() === "") { return; }
+
 	majAttribute(REST_PREFIX + "/mariage/" + getIdMariage() + "/invite", e, chargeInvites);
 }
 
@@ -26,6 +28,8 @@ var ajouteInvite = function(e) {
 };
 
 var supprimeInvite = function(idInvite) {
+	if (getIdMariage() === "") { return; }
+
 	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/invite/" + idInvite});
 	req.success(function(dataString) { chargeInvites(); });
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la suppression d'un invité");});
@@ -33,6 +37,8 @@ var supprimeInvite = function(idInvite) {
 
 // Chargement des invites
 var chargeInvites = function() {
+	if (getIdMariage() === "") { return; }
+
 	if (donneesDejaChargees) {
 		$("#invites").jqxGrid('updatebounddata', 'cells');
 	} else {

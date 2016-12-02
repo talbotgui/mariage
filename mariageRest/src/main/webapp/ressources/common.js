@@ -15,9 +15,7 @@ var afficheContent = function() {
  * @param divSelector selecteur JQuery pour la div d'erreur
  */
 var chargeErreurs = function(divSelector) {
-	if (getIdMariage() === "") {
-		return;
-	}
+	if (getIdMariage() === "") { return; }
 
 	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/erreurs");
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la recherche des incohérences dans les données du mariage");});

@@ -3,6 +3,8 @@
  * Initialisation de la liste des étapes
  */
 var chargeListeEtapes = function() {
+	if (getIdMariage() === "") { return; }
+
 	var req = $.ajax({ type: "GET", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/etape"});
 	req.success(function(dataString) {
 		var data = dataString;
@@ -60,6 +62,8 @@ var chargeStatistiquesPresence = function(e) {
 
 // Chargement des stats
 var chargeStatistiques= function() {
+	if (getIdMariage() === "") { return; }
+
 	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/statistiques");
 	req.success(function(dataString) {
 		var data = dataString;

@@ -1,5 +1,7 @@
 
 var chargeSelectBox = function () {
+	if (getIdMariage() === "") { return; }
+
 	var req = $.get(REST_PREFIX + "/mariage/" + getIdMariage() + "/courrier");
 	req.success(function(dataString) {
 		var sel = $("#courrier");
@@ -20,6 +22,8 @@ var chargeSelectBox = function () {
 };
 
 var chargeTableauDuCourrier = function () {
+	if (getIdMariage() === "") { return; }
+
 	var idCourrier = $("#courrier").val();
 	
 	if (idCourrier == "") {

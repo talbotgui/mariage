@@ -1,4 +1,6 @@
 var supprimePresence = function (rowIndex) {
+	if (getIdMariage() === "") { return; }
+
 	// get données
 	var rowData = $("#reponses").jqxGrid('getrowdata', rowIndex);
 	var idEtape = rowData.idEtape;
@@ -49,6 +51,8 @@ var modifieReponse = function(e) {
 // Chargement des présences
 var donneesDejaChargees = false;
 var chargePresences = function() {
+	if (getIdMariage() === "") { return; }
+
 	
 	if (donneesDejaChargees) {
 		//$("#reponses").jqxGrid('updatebounddata', 'cells');

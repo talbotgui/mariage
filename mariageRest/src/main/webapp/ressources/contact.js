@@ -2,11 +2,15 @@ var donneesDejaChargees = false;
 
 // Fonction JqxGrid
 var modifieFoyer = function(e) {
+	if (getIdMariage() === "") { return; }
+
 	majAttribute(REST_PREFIX + "/mariage/" + getIdMariage() + "/foyer", e, chargeFoyers);
 }
 
 // Chargement des invites
 var chargeFoyers = function() {
+	if (getIdMariage() === "") { return; }
+
 	if (donneesDejaChargees) {
 		$("#foyers").jqxGrid('updatebounddata', 'cells');
 	} else {

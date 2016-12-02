@@ -4,6 +4,8 @@ var affichePopupCourrier = function() { $("#popupAjoutCourrier").jqxWindow('open
 
 // Fonction JqxGrid
 var modifieCourrier = function(e) {
+	if (getIdMariage() === "") { return; }
+
 	majAttribute(REST_PREFIX + "/mariage/" + getIdMariage() + "/courrier", e, chargeCourriers);
 }
 
@@ -37,6 +39,8 @@ var changeLien = function(idCourrier, idEtape, checkbox) {
 };
 
 var supprimeCourrier = function(idCourrier) {
+	if (getIdMariage() === "") { return; }
+
 	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/courrier/" + idCourrier});
 	req.success(function(dataString) { chargeCourriers(); });
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la suppresssion d'un courrier");});
@@ -45,6 +49,8 @@ var supprimeCourrier = function(idCourrier) {
 // Chargement des courriers
 var etapes = [];
 var chargeCourriers = function() {
+	if (getIdMariage() === "") { return; }
+
 	// Chargement des courriers
 	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/courrier");
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le chargement des courriers");});

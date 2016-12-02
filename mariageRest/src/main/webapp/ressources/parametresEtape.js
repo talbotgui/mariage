@@ -27,6 +27,8 @@ var ajouteEtapeRepas = function(e) { ajouteEtape(e, "popupAjoutEtapeRepas") };
 
 
 var supprimeEtape = function(idEtape) {
+	if (getIdMariage() === "") { return; }
+
 	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/etape/" + idEtape});
 	req.success(function(dataString) { chargeEtapes(); });
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la suppression d'une étape");});
@@ -34,6 +36,8 @@ var supprimeEtape = function(idEtape) {
 
 // Chargement des etapes
 var chargeEtapes = function() {
+	if (getIdMariage() === "") { return; }
+
 	if (donneesDejaChargees) {
 		$("#etapes").jqxGrid('updatebounddata', 'cells');
 	} else {

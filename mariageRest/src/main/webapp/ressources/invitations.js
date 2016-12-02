@@ -1,5 +1,7 @@
 
 var changeLien = function(idFoyer, idCourrier, checkbox) {
+	if (getIdMariage() === "") { return; }
+
 	afficheDivAttente('#foyers');
 	
 	// Sauvegarde et annulation
@@ -17,6 +19,7 @@ var changeLien = function(idFoyer, idCourrier, checkbox) {
 // Chargement des foyers
 var choixPossibles = [];
 var chargeFoyers = function() {
+	if (getIdMariage() === "") { return; }
 
 	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/foyer");
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le chargement des foyers");});
