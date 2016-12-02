@@ -4,7 +4,7 @@ var affichePopupCourrier = function() { $("#popupAjoutCourrier").jqxWindow('open
 
 // Fonction JqxGrid
 var modifieCourrier = function(e) {
-	majAttribute(REST_PREFIX + "/mariage/" + idMariage + "/courrier", e, chargeCourriers);
+	majAttribute(REST_PREFIX + "/mariage/" + getIdMariage() + "/courrier", e, chargeCourriers);
 }
 
 // Sauvegarde courrier par un POST
@@ -12,12 +12,12 @@ var ajouteCourrier = function(e) {
 	e.preventDefault();
 	
 	valideForm("#popupAjoutCourrier form", function(data) {
-		var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + idMariage + "/courrier", data: data});
+		var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/courrier", data: data});
 		req.success(function(dataString) {
 			$("#popupAjoutCourrier").jqxWindow("close");
 			chargeCourriers();
 		});
-		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("ajouteCourrier");});
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "ajouteCourrier");});
 	});
 };
 
@@ -31,15 +31,15 @@ var changeLien = function(idCourrier, idEtape, checkbox) {
 	
 	// Requete
 	var data = { idEtape: idEtape, lie: valeur};
-	var req = $.post( REST_PREFIX + "/mariage/" + idMariage + "/courrier/" + idCourrier, data);
+	var req = $.post( REST_PREFIX + "/mariage/" + getIdMariage() + "/courrier/" + idCourrier, data);
 	req.success(function(dataString) { checkbox.checked = valeur; masqueDivAttente('#courriers'); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("changeLien"); masqueDivAttente('#courriers'); });
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "changeLien"); masqueDivAttente('#courriers'); });
 };
 
 var supprimeCourrier = function(idCourrier) {
-	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + idMariage + "/courrier/" + idCourrier});
+	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/courrier/" + idCourrier});
 	req.success(function(dataString) { chargeCourriers(); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("supprimeCourrier");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "supprimeCourrier");});
 };
 
 // Chargement des courriers
@@ -47,7 +47,7 @@ var etapes = [];
 var chargeCourriers = function() {
 	// Chargement des courriers
 	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/courrier");
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargeCourriers");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "chargeCourriers");});
 	req.success(function(dataString) {
 
 		// Avec les donnees

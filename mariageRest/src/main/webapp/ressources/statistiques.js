@@ -3,7 +3,7 @@
  * Initialisation de la liste des étapes
  */
 var chargeListeEtapes = function() {
-	var req = $.ajax({ type: "GET", url: REST_PREFIX + "/mariage/" + idMariage + "/etape"});
+	var req = $.ajax({ type: "GET", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/etape"});
 	req.success(function(dataString) {
 		var data = dataString;
 		if (typeof dataString === "string") {
@@ -18,7 +18,7 @@ var chargeListeEtapes = function() {
 			sel.append($('<option>', {value:e.id, text:e.nom}));
 		});
 	});
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargeListeEtapes");});	
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "chargeListeEtapes");});	
 }
 
 /**
@@ -126,7 +126,7 @@ var chargeStatistiques= function() {
 			ready: afficheContent
 		});
 	});
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargeStatistiques");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "chargeStatistiques");});
 };
 
 $(document).ready(function() {

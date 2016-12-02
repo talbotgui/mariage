@@ -34,15 +34,14 @@ var afficheInfoMariageDepuisId = function() {
 	if (getIdMariage() !== "") {
 		var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage());
 		req.success(function(dataString) { afficheInfoMariage(dataString); });
-		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("afficheInfoMariageDepuisId");});
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "afficheInfoMariageDepuisId");});
 	}
 };
 
 var afficheInfoMariageDepuisSelect = function(e) {
 	afficheInfoMariage(JSON.parse($(e.target).find("option:selected").attr("data-object"))[0]);
 
-	idMariage = e.target.value;
-	setIdMariage(idMariage);
+	setIdMariage(e.target.value);
 
 	// refresh du menu
 	$(".header > div").attr("data-w3-include-html", "./part_menu.html");
@@ -69,7 +68,7 @@ var supprimeMariage = function(e) {
 			"Supprimer le mariage": function() {
 				var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + getIdMariage()});
 				req.success(function(dataString) { setIdMariage(""); location.reload(); });
-				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("supprimeMariage");});
+				req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "supprimeMariage");});
 				$(this).dialog( "close" );
 			},
 			Cancel: function() {
@@ -83,8 +82,7 @@ var sauvegardeInfoMariage = function(e) {
 	valideForm("#infoMariage form", function(data) {
 		var req = $.post( REST_PREFIX + "/mariage/", data);
 		req.success(function(dataString) { 
-			idMariage = dataString; 
-			setIdMariage(idMariage); 
+			setIdMariage(dataString); 
 			afficheInfoMariageDepuisId();
 			
 			var divParente = $("#infoMariage");
@@ -92,7 +90,7 @@ var sauvegardeInfoMariage = function(e) {
 			divParente.find(".form-control").hide();
 			divParente.find("a").toggle();
 		});
-		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("afficheInfoMariageDepuisId");});
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "afficheInfoMariageDepuisId");});
 	});
 };
 
@@ -104,8 +102,7 @@ $(document).ready(function() {
 	$(".btn-modifier").on("click", clicBoutonModifier);
 	
 	// Affichage / masquage des divs
-	idMariage = getIdMariage();
-	if (idMariage === "") {
+	if (getIdMariage() === "") {
 		$("#selectionMariage").on("change", afficheInfoMariageDepuisSelect);
 	} else {
 		afficheInfoMariageDepuisId();

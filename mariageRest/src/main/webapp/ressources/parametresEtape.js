@@ -6,7 +6,7 @@ var affichePopupEtapeCeremonie = function() { $("#popupAjoutEtapeCeremonie").jqx
 
 // Fonction JqxGrid
 var modifieEtape = function(e) {
-	majAttribute(REST_PREFIX + "/mariage/" + idMariage + "/etape", e, chargeEtapes);
+	majAttribute(REST_PREFIX + "/mariage/" + getIdMariage() + "/etape", e, chargeEtapes);
 }
 
 // Sauvegarde etape par un POST
@@ -14,12 +14,12 @@ var ajouteEtape = function(e, idPopup) {
 	e.preventDefault();
 	
 	valideForm("#" + idPopup + " form", function(data) {
-		var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + idMariage + "/etape", data: data});
+		var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/etape", data: data});
 		req.success(function(dataString) {
 			$("#" + idPopup).jqxWindow("close");
 			chargeEtapes();
 		});
-		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("ajouteEtape");});
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "ajouteEtape");});
 	});
 };
 var ajouteEtapeCeremonie = function(e) { ajouteEtape(e, "popupAjoutEtapeCeremonie") };
@@ -27,9 +27,9 @@ var ajouteEtapeRepas = function(e) { ajouteEtape(e, "popupAjoutEtapeRepas") };
 
 
 var supprimeEtape = function(idEtape) {
-	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + idMariage + "/etape/" + idEtape});
+	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/etape/" + idEtape});
 	req.success(function(dataString) { chargeEtapes(); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("supprimeEtape");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "supprimeEtape");});
 };
 
 // Chargement des etapes
@@ -39,7 +39,7 @@ var chargeEtapes = function() {
 	} else {
 		var dataAdapter = new $.jqx.dataAdapter({
 			datatype: "json",
-			url: REST_PREFIX + "/mariage/" + idMariage + "/etape",
+			url: REST_PREFIX + "/mariage/" + getIdMariage() + "/etape",
 			datafields: [{ name: 'id', type: 'string' },{ name: 'lieu', type: 'string' },{ name: 'nom', type: 'string' },{ name: 'type', type: 'string' },{ name: 'dateHeure', type: 'string' },{ name: 'numOrdre', type: 'string' }],
 			id: 'id'
 		});

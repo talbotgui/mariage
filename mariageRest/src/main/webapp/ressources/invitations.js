@@ -8,9 +8,9 @@ var changeLien = function(idFoyer, idCourrier, checkbox) {
 	
 	// Requete
 	var data = { idCourrier: idCourrier, estInvite: valeur};
-	var req = $.post( REST_PREFIX + "/mariage/" + idMariage + "/foyer/" + idFoyer, data);
+	var req = $.post( REST_PREFIX + "/mariage/" + getIdMariage() + "/foyer/" + idFoyer, data);
 	req.success(function(dataString) { checkbox.checked = valeur; masqueDivAttente('#foyers'); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("changeLien"); masqueDivAttente('#foyers'); });
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "changeLien"); masqueDivAttente('#foyers'); });
 
 };
 
@@ -19,7 +19,7 @@ var choixPossibles = [];
 var chargeFoyers = function() {
 
 	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/foyer");
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargeFoyers");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "chargeFoyers");});
 	req.success(function(dataString) {
 		
 		// Avec les donnees

@@ -5,9 +5,9 @@ var supprimePresence = function (rowIndex) {
 	var idInvite = rowData.idInvite;
 	
 	// Suppression presence
-	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + idMariage + "/presence?idEtape=" + idEtape + "&idInvite=" + idInvite});
+	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/presence?idEtape=" + idEtape + "&idInvite=" + idInvite});
 	req.success(function(dataString) { $("#reponses").jqxGrid('updatebounddata', 'data'); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("supprimePresence");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "supprimePresence");});
 }
 
 var modifiePresence = function(radio, rowIndex) {
@@ -43,7 +43,7 @@ var modifieConfirme = function(checkbox, rowIndex) {
 }
 
 var modifieReponse = function(e) {
-	majAttribute(REST_PREFIX + "/mariage/" + idMariage + "/presence", e, chargePresences);
+	majAttribute(REST_PREFIX + "/mariage/" + getIdMariage() + "/presence", e, chargePresences);
 }
 
 // Chargement des présences

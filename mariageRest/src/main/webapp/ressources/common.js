@@ -20,7 +20,7 @@ var chargeErreurs = function(divSelector) {
 	}
 
 	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/erreurs");
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargeErreurs");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "chargeErreurs");});
 	req.success(function(dataString) {
 
 		// Avec les donnees
@@ -161,8 +161,14 @@ var valideForm = function(formSelector, callback) {
 /**
  * En cas d'erreur AJAX.
  */
-var ajaxFailFunctionToDisplayWarn = function(appelant) {
-	alert("Une erreur est arrivée dans la methode '" + appelant + "'");
+var ajaxFailFunctionToDisplayWarn = function(jqXHR, descriptionFonctionEnErreur) {
+	var message = "Erreur durant " + descriptionFonctionEnErreur;
+	if (jqXHR.status === 404) {
+		message += ", la ressource demandée n'existe pas/plus";
+	} else if (jqXHR.status > 500) {
+		message += ", le serveur a retourné une erreur non prévue";
+	}
+	alert(message);
 };
 
 /**
@@ -198,7 +204,7 @@ var alimentationSelectBox = function() {
 				sel.append($('<option>', {value:id, text:txt, "data-object":JSON.stringify(data)}));
 			});
 		});
-		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("alimentationSelectBox");});
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "alimentationSelectBox");});
 	});
 };
 
@@ -217,7 +223,7 @@ var majAttribute = function (url, event, success) {
 
 	var req = $.ajax({ type: "POST", url: url, data: data});
 		req.success(function(dataString) { success(); });
-		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("majAttribute");});
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "majAttribute");});
 }
 
 /**
@@ -229,7 +235,7 @@ var logout = function() {
 		document.cookie = 'idMariage=; expires=Thu, 01-Jan-1970 00:00:01 GMT;';
 		window.location.reload();
 	});
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("logout");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "logout");});
 }
 
 /** Chargement des données du mariage */
@@ -249,7 +255,7 @@ var chargementDonneesDivMaries = function() {
 				$("#date span").html(data.dateCelebration);
 				$("#infoMariage").removeClass("invisible");
 			});
-			req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("chargementDonneesDivMaries");});
+			req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "chargementDonneesDivMaries");});
 		}
 	};
 	
@@ -270,7 +276,7 @@ var chargementDonneesDivMaries = function() {
 $(document).ready(function() {
 
 	// Chargement et affichage du menu
-	idMariage = getIdMariage();
+	var idMariage = getIdMariage();
 	afficheMenu();
 	
 	// Chargement des données du mariage

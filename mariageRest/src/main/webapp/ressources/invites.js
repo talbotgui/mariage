@@ -8,7 +8,7 @@ var affichePopupInvite = function() {
 
 // Fonction JqxGrid
 var modifieInvite = function(e) {
-	majAttribute(REST_PREFIX + "/mariage/" + idMariage + "/invite", e, chargeInvites);
+	majAttribute(REST_PREFIX + "/mariage/" + getIdMariage() + "/invite", e, chargeInvites);
 }
 
 // Sauvegarde invité par un POST
@@ -16,19 +16,19 @@ var ajouteInvite = function(e) {
 	e.preventDefault();
 	
 	valideForm("#popupAjoutInvite form", function(data) {
-		var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + idMariage + "/invite", data: data});
+		var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/invite", data: data});
 		req.success(function(dataString) {
 			$("#popupAjoutInvite").jqxWindow("close");
 			chargeInvites();
 		});
-		req.fail(function(jqXHR, textStatus, errorThrown) { ajaxFailFunctionToDisplayWarn("ajouteInvite"); });
+		req.fail(function(jqXHR, textStatus, errorThrown) { ajaxFailFunctionToDisplayWarn(jqXHR, "ajouteInvite"); });
 	});
 };
 
 var supprimeInvite = function(idInvite) {
-	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + idMariage + "/invite/" + idInvite});
+	var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/invite/" + idInvite});
 	req.success(function(dataString) { chargeInvites(); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("ajouteInvite");});
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "ajouteInvite");});
 };
 
 // Chargement des invites
@@ -73,7 +73,7 @@ var chargeInvites = function() {
 			];
 				
 			// Appel JqGrid
-			var dataAdapter = new $.jqx.dataAdapter({ datatype: "json", url: REST_PREFIX + "/mariage/" + idMariage + "/invite", datafields: datafields, id: 'id' });
+			var dataAdapter = new $.jqx.dataAdapter({ datatype: "json", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/invite", datafields: datafields, id: 'id' });
 			$("#invites").jqxGrid({ 
 				source: dataAdapter, columns: columns, 
 				pageable: true, editable: true, sortable: true, filterable: true, autoheight: true, altrows: true, 
@@ -83,7 +83,7 @@ var chargeInvites = function() {
 			$("#invites").on('cellendedit', modifieInvite);
 			donneesDejaChargees = true;
 		});
-		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn("alimentationSelectBox");});
+		req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "alimentationSelectBox");});
 	}
 };
 

@@ -2,7 +2,7 @@ var donneesDejaChargees = false;
 
 // Fonction JqxGrid
 var modifieFoyer = function(e) {
-	majAttribute(REST_PREFIX + "/mariage/" + idMariage + "/foyer", e, chargeFoyers);
+	majAttribute(REST_PREFIX + "/mariage/" + getIdMariage() + "/foyer", e, chargeFoyers);
 }
 
 // Chargement des invites
@@ -30,7 +30,7 @@ var chargeFoyers = function() {
 
 		var dataAdapter = new $.jqx.dataAdapter({
 			datatype: "json",
-			url: REST_PREFIX + "/mariage/" + idMariage + "/foyer",
+			url: REST_PREFIX + "/mariage/" + getIdMariage() + "/foyer",
 			root: 'dtos',
 			datafields: datafields, id: 'id'
 		});
