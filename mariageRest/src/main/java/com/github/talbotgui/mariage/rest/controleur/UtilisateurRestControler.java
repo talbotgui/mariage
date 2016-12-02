@@ -3,6 +3,7 @@ package com.github.talbotgui.mariage.rest.controleur;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import java.util.Collection;
 
@@ -49,7 +50,7 @@ public class UtilisateurRestControler {
 		this.resetCookieIdMariage(request, response);
 	}
 
-	@RequestMapping(value = "/utilisateur/{login}/deverrouille", method = GET)
+	@RequestMapping(value = "/utilisateur/{login}/deverrouille", method = PUT)
 	public void deverrouilleUtilisateur(@PathVariable(value = "login") final String login) {
 		this.securiteService.deverrouilleUtilisateur(login);
 	}

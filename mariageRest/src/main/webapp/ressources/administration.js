@@ -29,7 +29,7 @@ var supprimeUtilisateur = function(id) {
 };
 
 var deverouilleUtilisateur = function(id) {
-	var req = $.ajax({ type: "GET", url: REST_PREFIX + "/utilisateur/" + id + "/deverrouille"});
+	var req = $.ajax({ type: "PUT", url: REST_PREFIX + "/utilisateur/" + id + "/deverrouille"});
 	req.success(function(dataString) { chargeUtilisateurs(); });
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le déverouillage de l'utilisateur");});
 };

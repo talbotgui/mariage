@@ -187,7 +187,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		Mockito.doNothing().when(this.securiteService).deverrouilleUtilisateur(Mockito.anyString());
 
 		// ACT
-		this.getREST().getForObject(this.getURL() + "/utilisateur/" + login + "/deverrouille", Void.class);
+		this.getREST().put(this.getURL() + "/utilisateur/" + login + "/deverrouille", null);
 
 		// ASSERT
 		Mockito.verify(this.securiteService).deverrouilleUtilisateur(login);
