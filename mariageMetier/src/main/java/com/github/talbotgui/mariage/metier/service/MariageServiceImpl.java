@@ -287,8 +287,8 @@ public class MariageServiceImpl implements MariageService {
 				if (messageErreur.length() > 0) {
 					erreurs.add(messageErreur);
 				}
-				messageErreur = prenomInvite + " " + nomInvite + " est invité(e) plusieurs fois à une même étape : "
-						+ nomEtape;
+				messageErreur = String.format("%s %s est invité(e) plusieurs fois à une même étape : %s", //
+						prenomInvite, nomInvite, nomEtape);
 			}
 			// Pour le même invite,on ajoute le nom de l'étape
 			else {
@@ -330,8 +330,9 @@ public class MariageServiceImpl implements MariageService {
 				if (messageErreur.length() > 0) {
 					erreurs.add(messageErreur);
 				}
-				messageErreur = prenomInvite + " " + nomInvite
-						+ " est marqué(e) présent/absent, sans plus y être invité(e), à l'étape '" + nomEtape + "'";
+				messageErreur = String.format(
+						"%s %s est marqué(e) présent/absent, sans plus y être invité(e), à l'étape '%s'", //
+						prenomInvite, nomInvite, nomEtape);
 			}
 			// Pour le même invite,on ajoute le nom de l'étape
 			else {

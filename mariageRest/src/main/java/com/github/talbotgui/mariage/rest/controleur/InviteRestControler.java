@@ -83,7 +83,7 @@ public class InviteRestControler {
 
 		Invite invite;
 		if (id == null) {
-			invite = new Invite(id, nom, prenom, this.getAgeFromString(age));
+			invite = new Invite(null, nom, prenom, this.getAgeFromString(age));
 			Foyer foyer = this.mariageService.getFoyer(idMariage, nomFoyer);
 			if (foyer == null) {
 				foyer = new Foyer(groupe, nomFoyer);
