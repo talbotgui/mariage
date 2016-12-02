@@ -65,7 +65,10 @@ public class Courrier implements Serializable {
 	}
 
 	public Date getDatePrevisionEnvoi() {
-		return this.datePrevisionEnvoi;
+		if (this.datePrevisionEnvoi != null) {
+			return new Date(this.datePrevisionEnvoi.getTime());
+		}
+		return null;
 	}
 
 	public Collection<Etape> getEtapes() {
@@ -93,7 +96,9 @@ public class Courrier implements Serializable {
 	}
 
 	public void setDatePrevisionEnvoi(final Date datePrevisionEnvoi) {
-		this.datePrevisionEnvoi = datePrevisionEnvoi;
+		if (datePrevisionEnvoi != null) {
+			this.datePrevisionEnvoi = new Date(datePrevisionEnvoi.getTime());
+		}
 	}
 
 	public void setEtapes(final Collection<Etape> etapes) {

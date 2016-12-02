@@ -100,7 +100,10 @@ public class Utilisateur implements Serializable {
 	}
 
 	public Date getPremierEchec() {
-		return this.premierEchec;
+		if (this.premierEchec != null) {
+			return new Date(this.premierEchec.getTime());
+		}
+		return null;
 	}
 
 	public Role getRole() {
@@ -108,11 +111,17 @@ public class Utilisateur implements Serializable {
 	}
 
 	public Date getSecondEchec() {
-		return this.secondEchec;
+		if (this.secondEchec != null) {
+			return new Date(this.secondEchec.getTime());
+		}
+		return null;
 	}
 
 	public Date getTroisiemeEchec() {
-		return this.troisiemeEchec;
+		if (this.troisiemeEchec != null) {
+			return new Date(this.troisiemeEchec.getTime());
+		}
+		return null;
 	}
 
 	public boolean isVerrouille() {
@@ -147,7 +156,9 @@ public class Utilisateur implements Serializable {
 	}
 
 	public void setPremierEchec(final Date premierEchec) {
-		this.premierEchec = premierEchec;
+		if (premierEchec != null) {
+			this.premierEchec = new Date(premierEchec.getTime());
+		}
 	}
 
 	public void setRole(final Role role) {
@@ -157,11 +168,15 @@ public class Utilisateur implements Serializable {
 	}
 
 	public void setSecondEchec(final Date secondEchec) {
-		this.secondEchec = secondEchec;
+		if (secondEchec != null) {
+			this.secondEchec = new Date(secondEchec.getTime());
+		}
 	}
 
 	public void setTroisiemeEchec(final Date troisiemeEchec) {
-		this.troisiemeEchec = troisiemeEchec;
+		if (troisiemeEchec != null) {
+			this.troisiemeEchec = new Date(troisiemeEchec.getTime());
+		}
 	}
 
 	@Override

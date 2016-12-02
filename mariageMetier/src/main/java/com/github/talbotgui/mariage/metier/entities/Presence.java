@@ -65,7 +65,10 @@ public class Presence implements Serializable {
 	}
 
 	public Date getDateMaj() {
-		return this.dateMaj;
+		if (this.dateMaj != null) {
+			return new Date(this.dateMaj.getTime());
+		}
+		return null;
 	}
 
 	public PresenceId getId() {
@@ -90,7 +93,9 @@ public class Presence implements Serializable {
 	}
 
 	public void setDateMaj(final Date dateMaj) {
-		this.dateMaj = dateMaj;
+		if (dateMaj != null) {
+			this.dateMaj = new Date(dateMaj.getTime());
+		}
 	}
 
 	public void setId(final PresenceId id) {
