@@ -20,6 +20,8 @@ public class Invite implements Serializable {
 
 	private Age age;
 
+	private String commentaire;
+
 	@ManyToMany(cascade = CascadeType.REMOVE)
 	@JoinTable(name = "PRESENCE", //
 			joinColumns = { @JoinColumn(name = "INVITE_ID", insertable = false, updatable = false) }, //
@@ -36,6 +38,10 @@ public class Invite implements Serializable {
 	private Long id;
 
 	private String nom;
+
+	private Boolean participantAuxAnimations;
+
+	private Boolean particularite;
 
 	private String prenom;
 
@@ -68,6 +74,10 @@ public class Invite implements Serializable {
 		return this.age;
 	}
 
+	public String getCommentaire() {
+		return this.commentaire;
+	}
+
 	public Collection<Etape> getEtapesPresence() {
 		return new ArrayList<>(this.etapesPresence);
 	}
@@ -84,12 +94,24 @@ public class Invite implements Serializable {
 		return this.nom;
 	}
 
+	public Boolean getParticipantAuxAnimations() {
+		return this.participantAuxAnimations;
+	}
+
+	public Boolean getParticularite() {
+		return this.particularite;
+	}
+
 	public String getPrenom() {
 		return this.prenom;
 	}
 
 	public void setAge(final Age age) {
 		this.age = age;
+	}
+
+	public void setCommentaire(final String commentaire) {
+		this.commentaire = commentaire;
 	}
 
 	public void setEtapesPresence(final Collection<Etape> etapesPresence) {
@@ -106,6 +128,14 @@ public class Invite implements Serializable {
 
 	public void setNom(final String nom) {
 		this.nom = nom;
+	}
+
+	public void setParticipantAuxAnimations(final Boolean participantAuxAnimations) {
+		this.participantAuxAnimations = participantAuxAnimations;
+	}
+
+	public void setParticularite(final Boolean particularite) {
+		this.particularite = particularite;
 	}
 
 	public void setPrenom(final String prenom) {

@@ -79,6 +79,9 @@ public class InviteRestControler {
 			@RequestParam(required = false, value = "id") final Long id, //
 			@RequestParam(required = false, value = "nom") final String nom, //
 			@RequestParam(required = false, value = "prenom") final String prenom, //
+			@RequestParam(required = false, value = "commentaire") final String commentaire, //
+			@RequestParam(required = false, value = "participantAuxAnimations") final Boolean participantAuxAnimations, //
+			@RequestParam(required = false, value = "particularite") final Boolean particularite, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
 
 		Invite invite;
@@ -91,7 +94,6 @@ public class InviteRestControler {
 				foyer.setGroupe(groupe);
 			}
 			invite.setFoyer(foyer);
-			;
 		} else {
 			invite = this.mariageService.chargeInviteParId(id);
 			if (nom != null) {
@@ -110,6 +112,9 @@ public class InviteRestControler {
 				invite.getFoyer().setGroupe(groupe);
 			}
 		}
+		invite.setCommentaire(commentaire);
+		invite.setParticipantAuxAnimations(participantAuxAnimations);
+		invite.setParticularite(particularite);
 		return this.mariageService.sauvegardeInviteEtFoyer(idMariage, invite);
 	}
 

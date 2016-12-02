@@ -569,4 +569,32 @@ public class InviteEtFoyerServiceTest {
 				"PRENOM2 NOM4 est marqué(e) présent/absent, sans plus y être invité(e), à l'étape 'En plus'",
 				iter.next());
 	}
+
+	@Test
+	public void test14ModificationInviteAvecInformationSoiree() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Collection<Invite> invitesAvant = this.instance.listeInvitesParIdMariage(idMariage);
+		final Invite invite = invitesAvant.iterator().next();
+
+		// ACT
+		final String commentaire = "MonCommentaire";
+		final Boolean participantAuxAnimations = true;
+		final Boolean particularite = false;
+		invite.setCommentaire(commentaire);
+		invite.setParticipantAuxAnimations(participantAuxAnimations);
+		invite.setParticularite(particularite);
+		final Long id = this.instance.sauvegardeInviteEtFoyer(idMariage, invite);
+
+		// ASSERT
+		Assert.assertNotNull(id);
+		final Collection<Invite> invitesApres = this.instance.listeInvitesParIdMariage(idMariage);
+		Assert.assertEquals(invitesAvant.size(), invitesApres.size());
+		final Invite inviteApres = invitesApres.iterator().next();
+		Assert.assertEquals(commentaire, inviteApres.getCommentaire());
+		Assert.assertEquals(participantAuxAnimations, inviteApres.getParticipantAuxAnimations());
+		Assert.assertEquals(particularite, inviteApres.getParticularite());
+	}
 }

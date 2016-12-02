@@ -1,12 +1,10 @@
-Configurer FindBugs-Security
+[en cours] Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
 
-modification du GET /utilisateur/?/deverouille en PUT !
+Configurer FindBugs-Security
 
 Regarder à Selenium 3 (encore en beta ??)
 
 Ajouter une colonne pour cocher qui a bien reçu le courrier par foyer
-
-Ajouter une page "gestion des courriers" dans laquelle on peut cocher les courriers envoyés par invité
 
 conserver les tris et filtres de page en page
 
