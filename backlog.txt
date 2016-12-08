@@ -6,18 +6,12 @@ Regarder de près la configuration FindBugs et FindBugs-security
 
 Regarder à Selenium 3 (encore en beta ??)
 
-[revalider le besoin] 
-Ajouter une colonne pour cocher qui a bien reçu le courrier par foyer
-
 conserver les tris et filtres de page en page
 
 Améliorer la couverture des tests Selenium
 
 [revalider le besoin] 
 div attente tableau et bloquante !!
-
-[revalider le besoin] 
-dupliquer les boutons "ajouter" en haut
 
 Changer le "no data to display"
 
