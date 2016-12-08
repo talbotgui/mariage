@@ -31,20 +31,37 @@ public class SecurityFilter implements Filter {
 	public static final String SESSION_KEY_USER_LOGIN = "USER_LOGIN";
 	public static final String SESSION_KEY_USER_ROLE = "USER_ROLE";
 
+	/**
+	 * Pour ne pas ajouter deux fois le même header (pb dans les navigateurs)
+	 * 
+	 * @param response
+	 *            La réponse HTTP
+	 * @param name
+	 *            Nom de l'entete à initialiser si ce n'est pas déjà fait
+	 * @param value
+	 *            Valeur à utiliser
+	 */
+	private void addResponseHeader(final HttpServletResponse response, final String name, final String value) {
+		if (response.getHeader(name) == null) {
+			response.addHeader(name, value);
+		}
+	}
+
 	private void addResponseHeaders(final HttpServletRequest request, final HttpServletResponse response) {
 		// N'impose pas le HTTPs en local
 		final boolean httpOnly = request.getHeader("X-FORWARDED-FOR") == null
 				&& request.getRemoteAddr().equals("127.0.0.1")
 				&& request.getRequestURL().toString().contains("://localhost:9090");
 
-		response.addHeader("X-XSS-Protection", "1; mode=block;");
-		response.addHeader("X-Frame-Options", "DENY");
-		response.addHeader("X-Content-Type-Options", "nosniff");
+		this.addResponseHeader(response, "X-XSS-Protection", "1; mode=block;");
+		this.addResponseHeader(response, "X-Frame-Options", "DENY");
+		this.addResponseHeader(response, "X-Content-Type-Options", "nosniff");
 		if (httpOnly) {
-			response.addHeader("Content-Security-Policy", "child-src 'none'; object-src 'none'");
+			this.addResponseHeader(response, "Content-Security-Policy", "child-src 'none'; object-src 'none'");
 		} else {
-			response.addHeader("Content-Security-Policy", "child-src 'none'; object-src 'none'");
-			response.addHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+			this.addResponseHeader(response, "Content-Security-Policy", "child-src 'none'; object-src 'none'");
+			this.addResponseHeader(response, "Strict-Transport-Security",
+					"max-age=31536000; includeSubDomains; preload");
 		}
 	}
 
