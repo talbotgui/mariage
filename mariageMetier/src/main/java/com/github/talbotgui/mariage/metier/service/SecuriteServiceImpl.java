@@ -33,19 +33,19 @@ public class SecuriteServiceImpl implements SecuriteService {
 	private UtilisateurRepository utilisateurRepo;
 
 	@Override
-	public void ajouteAutorisation(final String login, final Long idMariage) {
+	public void ajouterAutorisation(final String login, final Long idMariage) {
 		final Mariage m = this.mariageRepo.findOne(idMariage);
 		final Utilisateur u = this.utilisateurRepo.findOne(login);
 		this.autorisationRepo.save(new Autorisation(m, u));
 	}
 
 	@Override
-	public Utilisateur chargeUtilisateur(final String login) {
+	public Utilisateur chargerUtilisateur(final String login) {
 		return this.utilisateurRepo.findOne(login);
 	}
 
 	@Override
-	public void deverrouilleUtilisateur(final String login) {
+	public void deverrouillerUtilisateur(final String login) {
 		final Utilisateur u = this.utilisateurRepo.findOne(login);
 		u.deverrouilleUtilisateur();
 		this.utilisateurRepo.save(u);
@@ -62,7 +62,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public Collection<String> listeRolePossible() {
+	public Collection<String> listerRolePossible() {
 		final Collection<String> liste = new ArrayList<>();
 		for (final Role r : Role.values()) {
 			liste.add(r.name());
@@ -71,12 +71,12 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public Collection<Utilisateur> listeUtilisateurs() {
-		return this.utilisateurRepo.listeUtilisateur();
+	public Collection<Utilisateur> listerUtilisateurs() {
+		return this.utilisateurRepo.listerUtilisateur();
 	}
 
 	@Override
-	public void sauvegardeUtilisateur(final String login, final String mdp, Utilisateur.Role role) {
+	public void sauvegarderUtilisateur(final String login, final String mdp, Utilisateur.Role role) {
 
 		this.valideLoginOuMotDePasse(login);
 
@@ -108,12 +108,12 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public void supprimeAutorisation(final String login, final Long idMariage) {
+	public void supprimerAutorisation(final String login, final Long idMariage) {
 		this.utilisateurRepo.delete(login);
 	}
 
 	@Override
-	public void supprimeUtilisateur(final String login) {
+	public void supprimerUtilisateur(final String login) {
 		this.utilisateurRepo.delete(login);
 	}
 
@@ -124,7 +124,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public Role verifieUtilisateur(final String login, final String mdp) {
+	public Role verifierUtilisateur(final String login, final String mdp) {
 
 		final Utilisateur u = this.utilisateurRepo.findOne(login);
 

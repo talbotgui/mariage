@@ -17,16 +17,16 @@ public interface CourrierRepository extends CrudRepository<Courrier, Long> {
 
 	@Query("delete Courrier where id in (select c.id from Courrier c where c.mariage.id = :idMariage)")
 	@Modifying
-	void deleteCourriersParIdMariage(@Param("idMariage") Long idMariage);
+	void supprimerCourriersParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("select distinct f from Courrier c"//
 			+ " join c.foyersInvites f"//
 			+ " left join fetch f.invites"//
 			+ " where c.id=:idCourrier and c.mariage.id=:idMariage")
-	Collection<Foyer> findFoyersInvitesByIdCourrierFetchInvites(@Param("idMariage") Long idMariage,
+	Collection<Foyer> rechercherFoyersInvitesByIdCourrierFetchInvites(@Param("idMariage") Long idMariage,
 			@Param("idCourrier") Long idCourrier);
 
 	@Query("select c.mariage.id from Courrier c where c.id=:idCourrier")
-	Long getIdMariageByCourrierId(@Param("idCourrier") Long idCourrier);
+	Long rechercherIdMariageByCourrierId(@Param("idCourrier") Long idCourrier);
 
 }

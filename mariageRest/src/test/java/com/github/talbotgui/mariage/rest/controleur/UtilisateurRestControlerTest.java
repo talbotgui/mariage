@@ -34,7 +34,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 				new Utilisateur("l3", "m3"));
 
 		// ARRANGE
-		Mockito.doReturn(toReturn).when(this.securiteService).listeUtilisateurs();
+		Mockito.doReturn(toReturn).when(this.securiteService).listerUtilisateurs();
 
 		// ACT
 		final ParameterizedTypeReference<Collection<UtilisateurDTO>> typeRetour = new ParameterizedTypeReference<Collection<UtilisateurDTO>>() {
@@ -46,7 +46,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		Assert.assertNotNull(utilisateurs.getBody());
 		Assert.assertEquals(utilisateurs.getBody().size(), toReturn.size());
 		Assert.assertEquals(utilisateurs.getBody().iterator().next().getLogin(), toReturn.iterator().next().getLogin());
-		Mockito.verify(this.securiteService).listeUtilisateurs();
+		Mockito.verify(this.securiteService).listerUtilisateurs();
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 
@@ -57,7 +57,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		final Utilisateur.Role role = Utilisateur.Role.UTILISATEUR;
 
 		// ARRANGE
-		Mockito.doNothing().when(this.securiteService).sauvegardeUtilisateur(Mockito.anyString(), Mockito.anyString(),
+		Mockito.doNothing().when(this.securiteService).sauvegarderUtilisateur(Mockito.anyString(), Mockito.anyString(),
 				Mockito.anyObject());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp",
@@ -68,7 +68,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		this.getREST().postForObject(this.getURL() + "/utilisateur", requestParam, Void.class, uriVars);
 
 		// ASSERT
-		Mockito.verify(this.securiteService).sauvegardeUtilisateur(login, mdp, role);
+		Mockito.verify(this.securiteService).sauvegarderUtilisateur(login, mdp, role);
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 
 	}
@@ -79,7 +79,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 
 		// ARRANGE
 		final ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
-		Mockito.doNothing().when(this.securiteService).supprimeUtilisateur(argumentCaptor.capture());
+		Mockito.doNothing().when(this.securiteService).supprimerUtilisateur(argumentCaptor.capture());
 
 		// ACT
 		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/utilisateur/" + login,
@@ -88,7 +88,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		Assert.assertEquals(argumentCaptor.getValue(), login);
-		Mockito.verify(this.securiteService).supprimeUtilisateur(Mockito.anyString());
+		Mockito.verify(this.securiteService).supprimerUtilisateur(Mockito.anyString());
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 
@@ -98,7 +98,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		final String mdp = "monMdp";
 
 		// ARRANGE
-		Mockito.doReturn(Role.ADMIN).when(this.securiteService).verifieUtilisateur(Mockito.anyString(),
+		Mockito.doReturn(Role.ADMIN).when(this.securiteService).verifierUtilisateur(Mockito.anyString(),
 				Mockito.anyString());
 
 		// ACT
@@ -113,7 +113,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		Assert.assertEquals(response.getHeaders().get("Cookie"), null);
-		Mockito.verify(this.securiteService).verifieUtilisateur(login, mdp);
+		Mockito.verify(this.securiteService).verifierUtilisateur(login, mdp);
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 
@@ -124,7 +124,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 
 		// ARRANGE
 		Mockito.doThrow(new BusinessException(BusinessException.ERREUR_LOGIN)).when(this.securiteService)
-				.verifieUtilisateur(Mockito.anyString(), Mockito.anyString());
+				.verifierUtilisateur(Mockito.anyString(), Mockito.anyString());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp",
 				mdp);
@@ -139,7 +139,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(CatchException.caughtException().getClass(), HttpClientErrorException.class);
 		Assert.assertEquals(HttpStatus.FORBIDDEN,
 				((HttpClientErrorException) CatchException.caughtException()).getStatusCode());
-		Mockito.verify(this.securiteService).verifieUtilisateur(login, mdp);
+		Mockito.verify(this.securiteService).verifierUtilisateur(login, mdp);
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 
@@ -184,13 +184,13 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		final String login = "mon.Login";
 
 		// ARRANGE
-		Mockito.doNothing().when(this.securiteService).deverrouilleUtilisateur(Mockito.anyString());
+		Mockito.doNothing().when(this.securiteService).deverrouillerUtilisateur(Mockito.anyString());
 
 		// ACT
 		this.getREST().put(this.getURL() + "/utilisateur/" + login + "/deverrouille", null);
 
 		// ASSERT
-		Mockito.verify(this.securiteService).deverrouilleUtilisateur(login);
+		Mockito.verify(this.securiteService).deverrouillerUtilisateur(login);
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 
 	}
@@ -200,7 +200,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		final Utilisateur u = new Utilisateur("monLogin", "mdp");
 
 		// ARRANGE
-		Mockito.doReturn(u).when(this.securiteService).chargeUtilisateur(null);
+		Mockito.doReturn(u).when(this.securiteService).chargerUtilisateur(null);
 
 		// ACT
 		final UtilisateurDTO uDto = this.getREST().getForObject(this.getURL() + "/utilisateur/moi",
@@ -209,7 +209,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertEquals(uDto.getLogin(), u.getLogin());
 		Assert.assertEquals(uDto.getRole(), u.getRole().name());
-		Mockito.verify(this.securiteService).chargeUtilisateur(null);
+		Mockito.verify(this.securiteService).chargerUtilisateur(null);
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 
 	}
@@ -221,7 +221,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 
 		// ARRANGE
 		final ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
-		Mockito.doNothing().when(this.securiteService).supprimeUtilisateur(argumentCaptor.capture());
+		Mockito.doNothing().when(this.securiteService).supprimerUtilisateur(argumentCaptor.capture());
 
 		// ACT
 		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/utilisateur/" + login,
@@ -230,7 +230,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		Assert.assertEquals(argumentCaptor.getValue(), loginObtenu);
-		Mockito.verify(this.securiteService).supprimeUtilisateur(Mockito.anyString());
+		Mockito.verify(this.securiteService).supprimerUtilisateur(Mockito.anyString());
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 }

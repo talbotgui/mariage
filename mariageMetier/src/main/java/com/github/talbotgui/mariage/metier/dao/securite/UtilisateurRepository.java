@@ -10,6 +10,6 @@ import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur;
 public interface UtilisateurRepository extends CrudRepository<Utilisateur, String> {
 
 	@Query("select u from Utilisateur u order by u.login")
-	Collection<Utilisateur> listeUtilisateur();
+	Collection<Utilisateur> listerUtilisateur();
 
 }

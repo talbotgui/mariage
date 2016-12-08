@@ -16,72 +16,72 @@ import com.github.talbotgui.mariage.metier.entities.Presence;
 
 public interface MariageService {
 
-	StatistiquesMariage calculStatistiques(Long idMariage);
+	StatistiquesMariage calculerStatistiques(Long idMariage);
 
-	Collection<StatistiquesPresenceMariage> calculStatistiquesPresence(Long idMariage, Long idEtape);
+	Collection<StatistiquesPresenceMariage> calculerStatistiquesPresence(Long idMariage, Long idEtape);
 
-	Foyer chargeFoyerParId(Long id);
+	Foyer chargerFoyerParId(Long id);
 
-	Invite chargeInviteParId(Long id);
+	Invite chargerInviteParId(Long id);
 
-	Mariage chargeMariageParId(Long idMariage);
+	Mariage chargerMariageParId(Long idMariage);
 
-	Presence chargePresenceParEtapeEtInvite(Long idMariage, Long idEtape, Long idInvite);
+	Presence chargerPresenceParEtapeEtInvite(Long idMariage, Long idEtape, Long idInvite);
 
-	String generePublipostage(Long idMariage, Long idCourrier);
+	String genererPublipostage(Long idMariage, Long idCourrier);
 
 	Foyer getFoyer(Long idMariage, String nomFoyer);
 
-	void lieUneEtapeEtUnCourrier(Long idMariage, Long idEtape, Long idCourrier, boolean lie);
+	void lierUneEtapeEtUnCourrier(Long idMariage, Long idEtape, Long idCourrier, boolean lie);
 
-	void lieUnFoyerEtUnCourrier(final Long idMariage, final Long idCourrier, final Long idFoyer,
+	void lierUnFoyerEtUnCourrier(final Long idMariage, final Long idCourrier, final Long idFoyer,
 			final boolean invitation);
 
-	Collection<String> listeAgePossible();
+	Collection<String> listerAgePossible();
 
-	Collection<Courrier> listeCourriersParIdMariage(Long idMariage);
+	Collection<Courrier> listerCourriersParIdMariage(Long idMariage);
 
-	Collection<Etape> listeEtapesParIdMariage(Long idMariage);
+	Collection<Etape> listerEtapesParIdMariage(Long idMariage);
 
-	Collection<Foyer> listeFoyersParIdCourrier(Long idMariage, Long idCourrier);
+	Collection<Foyer> listerFoyersParIdCourrier(Long idMariage, Long idCourrier);
 
-	Collection<Foyer> listeFoyersParIdMariage(Long idMariage);
+	Collection<Foyer> listerFoyersParIdMariage(Long idMariage);
 
-	Collection<Invite> listeInvitesParIdMariage(Long idMariage);
+	Collection<Invite> listerInvitesParIdMariage(Long idMariage);
 
-	Page<Invite> listeInvitesParIdMariage(Long idMariage, Pageable page);
+	Page<Invite> listerInvitesParIdMariage(Long idMariage, Pageable page);
 
-	Collection<Presence> listePresencesParIdMariage(Long idMariage);
+	Collection<Presence> listerPresencesParIdMariage(Long idMariage);
 
-	Collection<Mariage> listeTousMariages();
+	Collection<Mariage> listerTousMariages();
 
-	Collection<String> rechercheErreurs(Long idMariage);
+	Collection<String> rechercherErreurs(Long idMariage);
 
-	Collection<Invite> listeInvitesPresentsParIdMariage(Long idMariage);
+	Collection<Invite> listerInvitesPresentsParIdMariage(Long idMariage);
 
-	Long sauvegarde(Long idMariage, Courrier courrier);
+	Long sauvegarder(Long idMariage, Courrier courrier);
 
-	Long sauvegarde(Long idMariage, Etape etape);
+	Long sauvegarder(Long idMariage, Etape etape);
 
-	Long sauvegarde(Long idMariage, Foyer foyer);
+	Long sauvegarder(Long idMariage, Foyer foyer);
 
-	void sauvegarde(Long idMariage, Presence presence);
+	void sauvegarder(Long idMariage, Presence presence);
 
-	Long sauvegarde(Mariage mariage);
+	Long sauvegarder(Mariage mariage);
 
 	void sauvegardeEnMasse(Long idMariage, Collection<Invite> invites);
 
-	Long sauvegardeGrappe(Mariage mariage);
+	Long sauvegarderGrappe(Mariage mariage);
 
-	Long sauvegardeInviteEtFoyer(Long idMariage, Invite invite);
+	Long sauvegarderInviteEtFoyer(Long idMariage, Invite invite);
 
-	void supprimeCourrier(Long idMariage, Long idCourrier);
+	void supprimerCourrier(Long idMariage, Long idCourrier);
 
-	void supprimeEtape(Long idMariage, Long idEtape);
+	void supprimerEtape(Long idMariage, Long idEtape);
 
-	void supprimeInvite(Long idMariage, Long idInvite);
+	void supprimerInvite(Long idMariage, Long idInvite);
 
-	void supprimeMariage(Long idMariage);
+	void supprimerMariage(Long idMariage);
 
-	void supprimePresence(Long idMariage, Long idInvite, Long idEtape);
+	void supprimerPresence(Long idMariage, Long idInvite, Long idEtape);
 }

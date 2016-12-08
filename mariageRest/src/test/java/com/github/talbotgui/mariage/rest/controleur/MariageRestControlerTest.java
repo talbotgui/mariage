@@ -30,7 +30,7 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 		final Collection<Mariage> toReturn = Arrays.asList(new Mariage(idMariage, new Date(), "Mme.", "M."));
 
 		// Arrange
-		Mockito.doReturn(toReturn).when(super.mariageService).listeTousMariages();
+		Mockito.doReturn(toReturn).when(super.mariageService).listerTousMariages();
 
 		// ACT
 		final ParameterizedTypeReference<Collection<MariageDTO>> typeRetour = new ParameterizedTypeReference<Collection<MariageDTO>>() {
@@ -41,7 +41,7 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertEquals(mariages.getBody().size(), 1);
 		Assert.assertEquals(mariages.getBody().iterator().next().getId(), idMariage);
-		Mockito.verify(this.mariageService).listeTousMariages();
+		Mockito.verify(this.mariageService).listerTousMariages();
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -51,7 +51,7 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 		final Mariage toReturn = new Mariage(idMariage, new Date(), "Mme.", "M.");
 
 		// ARRANGE
-		Mockito.doReturn(toReturn).when(this.mariageService).chargeMariageParId(Mockito.anyLong());
+		Mockito.doReturn(toReturn).when(this.mariageService).chargerMariageParId(Mockito.anyLong());
 
 		// ACT
 		final ResponseEntity<MariageDTO> mariage = getREST().exchange(getURL() + "/mariage/" + idMariage,
@@ -59,7 +59,7 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 
 		// ASSERT
 		Assert.assertEquals(mariage.getBody().getId(), idMariage);
-		Mockito.verify(this.mariageService).chargeMariageParId(idMariage);
+		Mockito.verify(this.mariageService).chargerMariageParId(idMariage);
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -72,7 +72,7 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 
 		// ARRANGE
 		final ArgumentCaptor<Mariage> argumentCaptor = ArgumentCaptor.forClass(Mariage.class);
-		Mockito.doReturn(idMariage).when(this.mariageService).sauvegarde(argumentCaptor.capture());
+		Mockito.doReturn(idMariage).when(this.mariageService).sauvegarder(argumentCaptor.capture());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("dateCelebration",
 				dateCelebration, "marie1", marie1, "marie2", marie2);
@@ -88,7 +88,7 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 				dateCelebration);
 		Assert.assertEquals(argumentCaptor.getValue().getMarie1(), marie1);
 		Assert.assertEquals(argumentCaptor.getValue().getMarie2(), marie2);
-		Mockito.verify(this.mariageService).sauvegarde(Mockito.anyObject());
+		Mockito.verify(this.mariageService).sauvegarder(Mockito.anyObject());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 
 	}
@@ -123,7 +123,7 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 
 		// ARRANGE
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doNothing().when(this.mariageService).supprimeMariage(argumentCaptorIdMariage.capture());
+		Mockito.doNothing().when(this.mariageService).supprimerMariage(argumentCaptorIdMariage.capture());
 
 		// ACT
 		final ResponseEntity<Void> response = getREST().exchange(getURL() + "/mariage/" + idMariage, HttpMethod.DELETE,
@@ -132,7 +132,7 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.mariageService).supprimeMariage(Mockito.anyLong());
+		Mockito.verify(this.mariageService).supprimerMariage(Mockito.anyLong());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 

@@ -21,12 +21,12 @@ public class ParametreRestControler {
 	private SecuriteService securiteService;
 
 	@RequestMapping(value = "/parametres/age", method = GET)
-	public Collection<String> listeAges() {
-		return this.mariageService.listeAgePossible();
+	public Collection<String> listerAges() {
+		return this.mariageService.listerAgePossible();
 	}
 
 	@RequestMapping(value = "/parametres/role", method = GET)
-	public Collection<String> listeRoles() {
-		return this.securiteService.listeRolePossible();
+	public Collection<String> listerRoles() {
+		return this.securiteService.listerRolePossible();
 	}
 }

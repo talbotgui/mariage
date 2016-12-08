@@ -26,28 +26,28 @@ public class FoyerRestControler {
 	private MariageService mariageService;
 
 	@RequestMapping(value = "/mariage/{idMariage}/foyer/{idFoyer}", method = POST)
-	public void lieUnFoyerEtUnCourrier(//
+	public void lierUnFoyerEtUnCourrier(//
 			@RequestParam(value = "idCourrier") final Long idCourrier, //
 			@RequestParam(value = "estInvite") final Boolean estInvite, //
 			@PathVariable(value = "idFoyer") final Long idFoyer, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
 
-		this.mariageService.lieUnFoyerEtUnCourrier(idMariage, idCourrier, idFoyer, estInvite);
+		this.mariageService.lierUnFoyerEtUnCourrier(idMariage, idCourrier, idFoyer, estInvite);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/foyer", method = GET)
-	public ReponseAvecChoix listeFoyersParIdMariage(@PathVariable("idMariage") final Long idMariage)
+	public ReponseAvecChoix listerFoyersParIdMariage(@PathVariable("idMariage") final Long idMariage)
 			throws NoSuchMethodException, SecurityException, ReflectiveOperationException, IllegalArgumentException {
 
-		final Collection<Courrier> courriers = this.mariageService.listeCourriersParIdMariage(idMariage);
-		final Collection<Foyer> foyers = this.mariageService.listeFoyersParIdMariage(idMariage);
+		final Collection<Courrier> courriers = this.mariageService.listerCourriersParIdMariage(idMariage);
+		final Collection<Foyer> foyers = this.mariageService.listerFoyersParIdMariage(idMariage);
 		final Method method = Foyer.class.getMethod("getCourriersInvitation");
 
 		return new ReponseAvecChoix(courriers, CourrierDTO.class, foyers, FoyerDTO.class, method);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/foyer", method = POST)
-	public Long sauvegardeFoyer(//
+	public Long sauvegarderFoyer(//
 			@RequestParam(required = false, value = "adresse") final String adresse, //
 			@RequestParam(required = false, value = "email") final String email, //
 			@RequestParam(required = false, value = "foyer") final String nomFoyer, //
@@ -60,7 +60,7 @@ public class FoyerRestControler {
 		if (id == null) {
 			foyer = new Foyer(groupe, nomFoyer, adresse, email, telephone);
 		} else {
-			foyer = this.mariageService.chargeFoyerParId(id);
+			foyer = this.mariageService.chargerFoyerParId(id);
 			if (nomFoyer != null) {
 				foyer.setNom(nomFoyer);
 			}
@@ -77,7 +77,7 @@ public class FoyerRestControler {
 				foyer.setTelephone(telephone);
 			}
 		}
-		return this.mariageService.sauvegarde(idMariage, foyer);
+		return this.mariageService.sauvegarder(idMariage, foyer);
 	}
 
 }

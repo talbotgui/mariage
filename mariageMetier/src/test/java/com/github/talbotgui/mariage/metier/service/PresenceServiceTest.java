@@ -58,7 +58,7 @@ public class PresenceServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageAvecInvitations();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 		final String commentaire = "commentaireDeLaPresence";
 		final Etape etape = original.getEtapes().iterator().next();
 		final Invite invite = original.getFoyers().iterator().next().getInvites().iterator().next();
@@ -68,7 +68,7 @@ public class PresenceServiceTest {
 		presence.setPresent(true);
 
 		// ACT
-		this.instance.sauvegarde(idMariage, presence);
+		this.instance.sauvegarder(idMariage, presence);
 
 		// ASSERT
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
@@ -88,10 +88,10 @@ public class PresenceServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageAvecInvitations();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		// ACT
-		final Collection<Presence> presences = this.instance.listePresencesParIdMariage(idMariage);
+		final Collection<Presence> presences = this.instance.listerPresencesParIdMariage(idMariage);
 
 		// ASSERT
 		Assert.assertEquals(48, presences.size());
@@ -108,19 +108,19 @@ public class PresenceServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageAvecInvitations();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		final Collection<Presence> presencesDepuisProduitCartesien = this.instance
-				.listePresencesParIdMariage(idMariage);
+				.listerPresencesParIdMariage(idMariage);
 
 		final Presence presence = presencesDepuisProduitCartesien.iterator().next();
 		presence.setCommentaire("coucou");
 		presence.setConfirmee(true);
 		presence.setPresent(true);
-		this.instance.sauvegarde(idMariage, presence);
+		this.instance.sauvegarder(idMariage, presence);
 
 		// ACT
-		final Collection<Presence> presences = this.instance.listePresencesParIdMariage(idMariage);
+		final Collection<Presence> presences = this.instance.listerPresencesParIdMariage(idMariage);
 
 		// ASSERT
 		Assert.assertEquals(presencesDepuisProduitCartesien.size(), presences.size());
@@ -144,19 +144,19 @@ public class PresenceServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageAvecInvitations();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		final Collection<Presence> presencesDepuisProduitCartesien = this.instance
-				.listePresencesParIdMariage(idMariage);
+				.listerPresencesParIdMariage(idMariage);
 
 		final Presence presence = presencesDepuisProduitCartesien.iterator().next();
 		presence.setCommentaire("coucou");
 		presence.setConfirmee(true);
 		presence.setPresent(true);
-		this.instance.sauvegarde(idMariage, presence);
+		this.instance.sauvegarder(idMariage, presence);
 
 		// ACT
-		final Presence presenceChargee = this.instance.chargePresenceParEtapeEtInvite(idMariage,
+		final Presence presenceChargee = this.instance.chargerPresenceParEtapeEtInvite(idMariage,
 				presence.getId().getEtape().getId(), presence.getId().getInvite().getId());
 
 		// ASSERT
@@ -173,18 +173,18 @@ public class PresenceServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageAvecInvitations();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
-		Collection<Presence> presencesDepuisProduitCartesien = this.instance.listePresencesParIdMariage(idMariage);
+		Collection<Presence> presencesDepuisProduitCartesien = this.instance.listerPresencesParIdMariage(idMariage);
 
 		Presence presence = presencesDepuisProduitCartesien.iterator().next();
 
 		// ACT
-		this.instance.supprimePresence(idMariage, presence.getId().getInvite().getId(),
+		this.instance.supprimerPresence(idMariage, presence.getId().getInvite().getId(),
 				presence.getId().getEtape().getId());
 
 		// ASSERT
-		presencesDepuisProduitCartesien = this.instance.listePresencesParIdMariage(idMariage);
+		presencesDepuisProduitCartesien = this.instance.listerPresencesParIdMariage(idMariage);
 		presence = presencesDepuisProduitCartesien.iterator().next();
 		Assert.assertNull(presence.getCommentaire());
 		Assert.assertNull(presence.getConfirmee());
@@ -198,22 +198,22 @@ public class PresenceServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageAvecInvitations();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
-		Collection<Presence> presencesDepuisProduitCartesien = this.instance.listePresencesParIdMariage(idMariage);
+		Collection<Presence> presencesDepuisProduitCartesien = this.instance.listerPresencesParIdMariage(idMariage);
 
 		Presence presence = presencesDepuisProduitCartesien.iterator().next();
 		presence.setCommentaire("coucou");
 		presence.setConfirmee(true);
 		presence.setPresent(true);
-		this.instance.sauvegarde(idMariage, presence);
+		this.instance.sauvegarder(idMariage, presence);
 
 		// ACT
-		this.instance.supprimePresence(idMariage, presence.getId().getInvite().getId(),
+		this.instance.supprimerPresence(idMariage, presence.getId().getInvite().getId(),
 				presence.getId().getEtape().getId());
 
 		// ASSERT
-		presencesDepuisProduitCartesien = this.instance.listePresencesParIdMariage(idMariage);
+		presencesDepuisProduitCartesien = this.instance.listerPresencesParIdMariage(idMariage);
 		presence = presencesDepuisProduitCartesien.iterator().next();
 		Assert.assertNull(presence.getCommentaire());
 		Assert.assertNull(presence.getConfirmee());

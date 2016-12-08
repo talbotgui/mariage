@@ -13,16 +13,16 @@ import com.github.talbotgui.mariage.metier.entities.Etape;
 public interface EtapeRepository extends CrudRepository<Etape, Long> {
 
 	@Query("select count(c) from Courrier c join c.etapes e where e.id = :idEtape")
-	int countCourriersInvitant(@Param("idEtape") Long idEtape);
+	int compterCourriersInvitant(@Param("idEtape") Long idEtape);
 
 	@Query("delete Etape where id in (select e.id from Etape e where e.mariage.id = :idMariage)")
 	@Modifying
-	void deleteEtapesParIdMariage(@Param("idMariage") Long idMariage);
+	void supprimerEtapesParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("select e.mariage.id from Etape e where e.id=:idEtape")
-	Long getIdMariageByEtapeId(@Param("idEtape") Long idEtape);
+	Long rechercherIdMariageByEtapeId(@Param("idEtape") Long idEtape);
 
 	@Query("select size(m.etapes) from Mariage m where m.id = :idMariage")
-	Integer getNombreEtapeByIdMariage(@Param("idMariage") Long idMariage);
+	Integer compterEtapeByIdMariage(@Param("idMariage") Long idMariage);
 
 }

@@ -43,7 +43,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 				new Invite("I4", "P1", Age.adulte));
 
 		// ARRANGE
-		Mockito.doReturn(toReturn).when(this.mariageService).listeInvitesParIdMariage(Mockito.anyLong());
+		Mockito.doReturn(toReturn).when(this.mariageService).listerInvitesParIdMariage(Mockito.anyLong());
 
 		// ACT
 		final ParameterizedTypeReference<Collection<InviteDTO>> typeRetour = new ParameterizedTypeReference<Collection<InviteDTO>>() {
@@ -53,7 +53,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 
 		// ASSERT
 		Assert.assertEquals(invites.getBody().size(), 8);
-		Mockito.verify(this.mariageService).listeInvitesParIdMariage(idMariage);
+		Mockito.verify(this.mariageService).listerInvitesParIdMariage(idMariage);
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -71,7 +71,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final ArgumentCaptor<Invite> argumentCaptorInvite = ArgumentCaptor.forClass(Invite.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
 		Mockito.doReturn(null).when(this.mariageService).getFoyer(Mockito.anyLong(), Mockito.anyString());
-		Mockito.doReturn(idInvite).when(this.mariageService).sauvegardeInviteEtFoyer(argumentCaptorIdMariage.capture(),
+		Mockito.doReturn(idInvite).when(this.mariageService).sauvegarderInviteEtFoyer(argumentCaptorIdMariage.capture(),
 				argumentCaptorInvite.capture());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("age", age, "foyer",
@@ -95,7 +95,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertNull(argumentCaptorInvite.getValue().getFoyer().getEmail());
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
 		Mockito.verify(this.mariageService).getFoyer(idMariage, foyer);
-		Mockito.verify(this.mariageService).sauvegardeInviteEtFoyer(Mockito.anyLong(), Mockito.any(Invite.class));
+		Mockito.verify(this.mariageService).sauvegarderInviteEtFoyer(Mockito.anyLong(), Mockito.any(Invite.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -122,7 +122,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
 		Mockito.doReturn(new Foyer(idFoyer, groupe1, foyer, adresse, email, telephone)).when(this.mariageService)
 				.getFoyer(Mockito.anyLong(), Mockito.anyString());
-		Mockito.doReturn(idInvite).when(this.mariageService).sauvegardeInviteEtFoyer(argumentCaptorIdMariage.capture(),
+		Mockito.doReturn(idInvite).when(this.mariageService).sauvegarderInviteEtFoyer(argumentCaptorIdMariage.capture(),
 				argumentCaptorInvite.capture());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("age", age, "foyer",
@@ -150,7 +150,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(argumentCaptorInvite.getValue().getParticularite(), particularite);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
 		Mockito.verify(this.mariageService).getFoyer(idMariage, foyer);
-		Mockito.verify(this.mariageService).sauvegardeInviteEtFoyer(Mockito.anyLong(), Mockito.any(Invite.class));
+		Mockito.verify(this.mariageService).sauvegarderInviteEtFoyer(Mockito.anyLong(), Mockito.any(Invite.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -216,7 +216,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ARRANGE
 		final ArgumentCaptor<Long> argumentCaptorIdInvite = ArgumentCaptor.forClass(Long.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doNothing().when(this.mariageService).supprimeInvite(argumentCaptorIdMariage.capture(),
+		Mockito.doNothing().when(this.mariageService).supprimerInvite(argumentCaptorIdMariage.capture(),
 				argumentCaptorIdInvite.capture());
 
 		// ACT
@@ -227,7 +227,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		Assert.assertEquals(argumentCaptorIdInvite.getValue(), idInvite);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.mariageService).supprimeInvite(Mockito.anyLong(), Mockito.anyLong());
+		Mockito.verify(this.mariageService).supprimerInvite(Mockito.anyLong(), Mockito.anyLong());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -240,7 +240,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 				new StatistiquesRepartitionsInvitesMariage(null, null, null, null, null),
 				new StatistiquesInvitesMariage(0L, 0L, 0, 0, 0, 0));
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doReturn(dto).when(this.mariageService).calculStatistiques(argumentCaptorIdMariage.capture());
+		Mockito.doReturn(dto).when(this.mariageService).calculerStatistiques(argumentCaptorIdMariage.capture());
 
 		// ACT
 		final StatistiquesMariage resultats = this.getREST()
@@ -251,7 +251,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertNotNull(resultats.getInvites());
 		Assert.assertNotNull(resultats.getRepartitions());
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.mariageService).calculStatistiques(Mockito.anyLong());
+		Mockito.verify(this.mariageService).calculerStatistiques(Mockito.anyLong());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -280,11 +280,11 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final Invite invite = new Invite(idInvite, nom, prenom, age,
 				new Foyer(groupe, foyer, adresse, email, telephone));
 		final ArgumentCaptor<Long> argumentCaptorIdInvite = ArgumentCaptor.forClass(Long.class);
-		Mockito.doReturn(invite).when(this.mariageService).chargeInviteParId(argumentCaptorIdInvite.capture());
+		Mockito.doReturn(invite).when(this.mariageService).chargerInviteParId(argumentCaptorIdInvite.capture());
 
 		final ArgumentCaptor<Invite> argumentCaptorInvite = ArgumentCaptor.forClass(Invite.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doReturn(idInvite).when(this.mariageService).sauvegardeInviteEtFoyer(argumentCaptorIdMariage.capture(),
+		Mockito.doReturn(idInvite).when(this.mariageService).sauvegarderInviteEtFoyer(argumentCaptorIdMariage.capture(),
 				argumentCaptorInvite.capture());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("id", idInvite, "email",
@@ -311,8 +311,8 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getTelephone(), telephone);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getEmail(), email);
 
-		Mockito.verify(this.mariageService).chargeInviteParId(idInvite);
-		Mockito.verify(this.mariageService).sauvegardeInviteEtFoyer(Mockito.eq(idMariage), Mockito.any(Invite.class));
+		Mockito.verify(this.mariageService).chargerInviteParId(idInvite);
+		Mockito.verify(this.mariageService).sauvegarderInviteEtFoyer(Mockito.eq(idMariage), Mockito.any(Invite.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -334,11 +334,11 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final Invite invite = new Invite(idInvite, nom, prenom, age,
 				new Foyer(groupe, foyer, adresse, email, telephone));
 		final ArgumentCaptor<Long> argumentCaptorIdInvite = ArgumentCaptor.forClass(Long.class);
-		Mockito.doReturn(invite).when(this.mariageService).chargeInviteParId(argumentCaptorIdInvite.capture());
+		Mockito.doReturn(invite).when(this.mariageService).chargerInviteParId(argumentCaptorIdInvite.capture());
 
 		final ArgumentCaptor<Invite> argumentCaptorInvite = ArgumentCaptor.forClass(Invite.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doReturn(idInvite).when(this.mariageService).sauvegardeInviteEtFoyer(argumentCaptorIdMariage.capture(),
+		Mockito.doReturn(idInvite).when(this.mariageService).sauvegarderInviteEtFoyer(argumentCaptorIdMariage.capture(),
 				argumentCaptorInvite.capture());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("id", idInvite, "email",
@@ -363,8 +363,8 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(argumentCaptorInvite.getValue().getFoyer().getEmail(), email);
 
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.mariageService).chargeInviteParId(idInvite);
-		Mockito.verify(this.mariageService).sauvegardeInviteEtFoyer(Mockito.eq(idMariage), Mockito.any(Invite.class));
+		Mockito.verify(this.mariageService).chargerInviteParId(idInvite);
+		Mockito.verify(this.mariageService).sauvegarderInviteEtFoyer(Mockito.eq(idMariage), Mockito.any(Invite.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -381,7 +381,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 				new Presence(etape2, invite3));
 
 		// ARRANGE
-		Mockito.doReturn(toReturn).when(this.mariageService).listePresencesParIdMariage(Mockito.anyLong());
+		Mockito.doReturn(toReturn).when(this.mariageService).listerPresencesParIdMariage(Mockito.anyLong());
 
 		// ACT
 		final ParameterizedTypeReference<Collection<PresenceDTO>> typeRetour = new ParameterizedTypeReference<Collection<PresenceDTO>>() {
@@ -391,7 +391,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 
 		// ASSERT
 		Assert.assertEquals(invites.getBody().size(), 6);
-		Mockito.verify(this.mariageService).listePresencesParIdMariage(idMariage);
+		Mockito.verify(this.mariageService).listerPresencesParIdMariage(idMariage);
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -406,12 +406,12 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 
 		// ARRANGE
 		final Presence presence = new Presence(new EtapeRepas(idEtape), new Invite(idInvite));
-		Mockito.doReturn(presence).when(this.mariageService).chargePresenceParEtapeEtInvite(Mockito.anyLong(),
+		Mockito.doReturn(presence).when(this.mariageService).chargerPresenceParEtapeEtInvite(Mockito.anyLong(),
 				Mockito.anyLong(), Mockito.anyLong());
 
 		final ArgumentCaptor<Presence> argumentCaptorPresence = ArgumentCaptor.forClass(Presence.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage2 = ArgumentCaptor.forClass(Long.class);
-		Mockito.doNothing().when(this.mariageService).sauvegarde(argumentCaptorIdMariage2.capture(),
+		Mockito.doNothing().when(this.mariageService).sauvegarder(argumentCaptorIdMariage2.capture(),
 				argumentCaptorPresence.capture());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("idEtape", idEtape,
@@ -430,8 +430,8 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(argumentCaptorPresence.getValue().getId().getEtape().getId(), idEtape);
 		Assert.assertEquals(argumentCaptorPresence.getValue().getId().getInvite().getId(), idInvite);
 
-		Mockito.verify(this.mariageService).chargePresenceParEtapeEtInvite(idMariage, idEtape, idInvite);
-		Mockito.verify(this.mariageService).sauvegarde(Mockito.eq(idMariage), Mockito.any(Presence.class));
+		Mockito.verify(this.mariageService).chargerPresenceParEtapeEtInvite(idMariage, idEtape, idInvite);
+		Mockito.verify(this.mariageService).sauvegarder(Mockito.eq(idMariage), Mockito.any(Presence.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -445,12 +445,12 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final Boolean present = true;
 
 		// ARRANGE
-		Mockito.doReturn(null).when(this.mariageService).chargePresenceParEtapeEtInvite(Mockito.anyLong(),
+		Mockito.doReturn(null).when(this.mariageService).chargerPresenceParEtapeEtInvite(Mockito.anyLong(),
 				Mockito.anyLong(), Mockito.anyLong());
 
 		final ArgumentCaptor<Presence> argumentCaptorPresence = ArgumentCaptor.forClass(Presence.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage2 = ArgumentCaptor.forClass(Long.class);
-		Mockito.doNothing().when(this.mariageService).sauvegarde(argumentCaptorIdMariage2.capture(),
+		Mockito.doNothing().when(this.mariageService).sauvegarder(argumentCaptorIdMariage2.capture(),
 				argumentCaptorPresence.capture());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("idEtape", idEtape,
@@ -469,8 +469,8 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(argumentCaptorPresence.getValue().getId().getEtape().getId(), idEtape);
 		Assert.assertEquals(argumentCaptorPresence.getValue().getId().getInvite().getId(), idInvite);
 
-		Mockito.verify(this.mariageService).chargePresenceParEtapeEtInvite(idMariage, idEtape, idInvite);
-		Mockito.verify(this.mariageService).sauvegarde(Mockito.eq(idMariage), Mockito.any(Presence.class));
+		Mockito.verify(this.mariageService).chargerPresenceParEtapeEtInvite(idMariage, idEtape, idInvite);
+		Mockito.verify(this.mariageService).sauvegarder(Mockito.eq(idMariage), Mockito.any(Presence.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -481,7 +481,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final Long idInvite = 2L;
 
 		// ARRANGE
-		Mockito.doNothing().when(this.mariageService).supprimePresence(Mockito.anyLong(), Mockito.anyLong(),
+		Mockito.doNothing().when(this.mariageService).supprimerPresence(Mockito.anyLong(), Mockito.anyLong(),
 				Mockito.anyLong());
 
 		// ACT
@@ -491,7 +491,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
-		Mockito.verify(this.mariageService).supprimePresence(idMariage, idInvite, idEtape);
+		Mockito.verify(this.mariageService).supprimerPresence(idMariage, idInvite, idEtape);
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -504,7 +504,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final Collection<StatistiquesPresenceMariage> dtos = Arrays.asList(
 				new StatistiquesPresenceMariage(idEtape, Age.adulte, 1L, 1L, 1L, 1L, 1L),
 				new StatistiquesPresenceMariage(idEtape, Age.enfant, 1L, 0L, 1L, 0L, 1L));
-		Mockito.doReturn(dtos).when(this.mariageService).calculStatistiquesPresence(Mockito.anyLong(),
+		Mockito.doReturn(dtos).when(this.mariageService).calculerStatistiquesPresence(Mockito.anyLong(),
 				Mockito.anyLong());
 
 		// ACT
@@ -517,7 +517,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertNotNull(resultats);
 		Assert.assertEquals(resultats.getBody().size(), 2);
-		Mockito.verify(this.mariageService).calculStatistiquesPresence(idMariage, idEtape);
+		Mockito.verify(this.mariageService).calculerStatistiquesPresence(idMariage, idEtape);
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -527,7 +527,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final List<String> toReturn = Arrays.asList("erreur1", "erreur2", "erreur3");
 
 		// ARRANGE
-		Mockito.doReturn(toReturn).when(this.mariageService).rechercheErreurs(Mockito.anyLong());
+		Mockito.doReturn(toReturn).when(this.mariageService).rechercherErreurs(Mockito.anyLong());
 
 		// ACT
 		final ParameterizedTypeReference<Collection<String>> typeRetour = new ParameterizedTypeReference<Collection<String>>() {
@@ -537,7 +537,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 
 		// ASSERT
 		Assert.assertEquals(invites.getBody().size(), 3);
-		Mockito.verify(this.mariageService).rechercheErreurs(idMariage);
+		Mockito.verify(this.mariageService).rechercherErreurs(idMariage);
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 }

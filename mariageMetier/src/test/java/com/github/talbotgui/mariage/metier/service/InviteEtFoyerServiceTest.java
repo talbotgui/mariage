@@ -75,14 +75,14 @@ public class InviteEtFoyerServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		// ACT
-		final Page<Invite> page1 = this.instance.listeInvitesParIdMariage(idMariage, new PageRequest(0, 2));
-		final Page<Invite> page2 = this.instance.listeInvitesParIdMariage(idMariage, page1.nextPageable());
-		final Page<Invite> page3 = this.instance.listeInvitesParIdMariage(idMariage, page2.nextPageable());
-		final Page<Invite> page4 = this.instance.listeInvitesParIdMariage(idMariage, page3.nextPageable());
-		final Page<Invite> page5 = this.instance.listeInvitesParIdMariage(idMariage, page4.nextPageable());
+		final Page<Invite> page1 = this.instance.listerInvitesParIdMariage(idMariage, new PageRequest(0, 2));
+		final Page<Invite> page2 = this.instance.listerInvitesParIdMariage(idMariage, page1.nextPageable());
+		final Page<Invite> page3 = this.instance.listerInvitesParIdMariage(idMariage, page2.nextPageable());
+		final Page<Invite> page4 = this.instance.listerInvitesParIdMariage(idMariage, page3.nextPageable());
+		final Page<Invite> page5 = this.instance.listerInvitesParIdMariage(idMariage, page4.nextPageable());
 
 		// ASSERT
 		Assert.assertEquals(10, page1.getTotalElements());
@@ -105,8 +105,8 @@ public class InviteEtFoyerServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Collection<Invite> inviteAvant = this.instance.listerInvitesParIdMariage(idMariage);
 
 		// ACT
 		final String nom = "N1";
@@ -115,12 +115,12 @@ public class InviteEtFoyerServiceTest {
 		final String foyer = "foyer";
 		final String groupe = "groupe";
 		final String adresse = "adresse";
-		final Long id = this.instance.sauvegardeInviteEtFoyer(idMariage,
+		final Long id = this.instance.sauvegarderInviteEtFoyer(idMariage,
 				new Invite(null, nom, prenom, age, new Foyer(groupe, foyer, adresse, null, null)));
 
 		// ASSERT
 		Assert.assertNotNull(id);
-		final Collection<Invite> inviteApres = this.instance.listeInvitesParIdMariage(idMariage);
+		final Collection<Invite> inviteApres = this.instance.listerInvitesParIdMariage(idMariage);
 		Assert.assertEquals(inviteAvant.size() + 1, inviteApres.size());
 		final Collection<Invite> diff = new TreeSet<>(new InviteComparator());
 		diff.addAll(inviteApres);
@@ -140,27 +140,27 @@ public class InviteEtFoyerServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 		final String nom = "N1";
 		final String prenom = "P1";
 		final Age age = Age.adulte;
 		final String foyer = "foyer";
 		final String groupe = "groupe";
 		final String adresse = "adresse";
-		final Long idPremierInvite = this.instance.sauvegardeInviteEtFoyer(idMariage,
+		final Long idPremierInvite = this.instance.sauvegarderInviteEtFoyer(idMariage,
 				new Invite(null, nom, prenom, age, new Foyer(groupe, foyer, adresse, null, null)));
-		final Invite premierInvite = this.instance.chargeInviteParId(idPremierInvite);
-		final Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
+		final Invite premierInvite = this.instance.chargerInviteParId(idPremierInvite);
+		final Collection<Invite> inviteAvant = this.instance.listerInvitesParIdMariage(idMariage);
 
 		// ACT
 		final String prenom2 = "P2";
 		final Age age2 = Age.adulte;
-		final Long id = this.instance.sauvegardeInviteEtFoyer(idMariage,
+		final Long id = this.instance.sauvegarderInviteEtFoyer(idMariage,
 				new Invite(null, nom, prenom2, age2, new Foyer(premierInvite.getFoyer().getId())));
 
 		// ASSERT
 		Assert.assertNotNull(id);
-		final Collection<Invite> inviteApres = this.instance.listeInvitesParIdMariage(idMariage);
+		final Collection<Invite> inviteApres = this.instance.listerInvitesParIdMariage(idMariage);
 		Assert.assertEquals(inviteAvant.size() + 1, inviteApres.size());
 		final Collection<Invite> diff = new TreeSet<>(new InviteComparator());
 		diff.addAll(inviteApres);
@@ -180,17 +180,17 @@ public class InviteEtFoyerServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Collection<Invite> inviteAvant = this.instance.listerInvitesParIdMariage(idMariage);
 
 		// ACT
 		final Iterator<Invite> iter = inviteAvant.iterator();
-		this.instance.supprimeInvite(idMariage, iter.next().getId());
-		this.instance.supprimeInvite(idMariage, iter.next().getId());
-		this.instance.supprimeInvite(idMariage, iter.next().getId());
+		this.instance.supprimerInvite(idMariage, iter.next().getId());
+		this.instance.supprimerInvite(idMariage, iter.next().getId());
+		this.instance.supprimerInvite(idMariage, iter.next().getId());
 
 		// ASSERT
-		final Collection<Invite> inviteApres = this.instance.listeInvitesParIdMariage(idMariage);
+		final Collection<Invite> inviteApres = this.instance.listerInvitesParIdMariage(idMariage);
 		Assert.assertEquals(inviteAvant.size() - 3, inviteApres.size());
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final Long nbFoyer = jdbc.queryForObject("select count(*) from Foyer", Long.class);
@@ -202,13 +202,13 @@ public class InviteEtFoyerServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Invite invite = this.instance.listeInvitesParIdMariage(idMariage).iterator().next();
-		final Etape etape = this.instance.listeEtapesParIdMariage(idMariage).iterator().next();
-		this.instance.sauvegarde(idMariage, new Presence(etape, invite, true, true, ""));
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Invite invite = this.instance.listerInvitesParIdMariage(idMariage).iterator().next();
+		final Etape etape = this.instance.listerEtapesParIdMariage(idMariage).iterator().next();
+		this.instance.sauvegarder(idMariage, new Presence(etape, invite, true, true, ""));
 
 		// ACT
-		this.instance.supprimeInvite(idMariage, invite.getId());
+		this.instance.supprimerInvite(idMariage, invite.getId());
 
 		// ASSERT
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
@@ -222,7 +222,7 @@ public class InviteEtFoyerServiceTest {
 		// ARRANGE
 
 		// ACT
-		CatchException.catchException(this.instance).supprimeInvite(-1L, -1L);
+		CatchException.catchException(this.instance).supprimerInvite(-1L, -1L);
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
@@ -235,7 +235,7 @@ public class InviteEtFoyerServiceTest {
 		//
 
 		//
-		final Collection<String> ages = this.instance.listeAgePossible();
+		final Collection<String> ages = this.instance.listerAgePossible();
 
 		//
 		Assert.assertNotNull(ages);
@@ -249,18 +249,18 @@ public class InviteEtFoyerServiceTest {
 		// ARRANGE
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		final String sql = "select count(*) from INVITATION";
 		final Long nbPresenceTrueAvant = jdbc.queryForObject(sql, Long.class);
 
-		final Collection<Invite> invites = this.instance.listeInvitesParIdMariage(idMariage);
+		final Collection<Invite> invites = this.instance.listerInvitesParIdMariage(idMariage);
 		final Invite invite = invites.iterator().next();
-		final Collection<Courrier> courriers = this.instance.listeCourriersParIdMariage(idMariage);
+		final Collection<Courrier> courriers = this.instance.listerCourriersParIdMariage(idMariage);
 		final Courrier courrier = courriers.iterator().next();
 
 		// ACT
-		this.instance.lieUnFoyerEtUnCourrier(idMariage, courrier.getId(), invite.getFoyer().getId(), true);
+		this.instance.lierUnFoyerEtUnCourrier(idMariage, courrier.getId(), invite.getFoyer().getId(), true);
 
 		// ASSERT
 		final Long nbPresenceTrueApres = jdbc.queryForObject(sql, Long.class);
@@ -273,20 +273,20 @@ public class InviteEtFoyerServiceTest {
 		// ARRANGE
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		final String sql = "select count(*) from INVITATION";
 		final Long nbPresenceTrueAvant = jdbc.queryForObject(sql, Long.class);
 
-		final Collection<Invite> invites = this.instance.listeInvitesParIdMariage(idMariage);
+		final Collection<Invite> invites = this.instance.listerInvitesParIdMariage(idMariage);
 		final Invite invite = invites.iterator().next();
-		final Collection<Courrier> courriers = this.instance.listeCourriersParIdMariage(idMariage);
+		final Collection<Courrier> courriers = this.instance.listerCourriersParIdMariage(idMariage);
 		final Courrier courrier = courriers.iterator().next();
 
-		this.instance.lieUnFoyerEtUnCourrier(idMariage, courrier.getId(), invite.getFoyer().getId(), true);
+		this.instance.lierUnFoyerEtUnCourrier(idMariage, courrier.getId(), invite.getFoyer().getId(), true);
 
 		// ACT
-		this.instance.lieUnFoyerEtUnCourrier(idMariage, courrier.getId(), invite.getFoyer().getId(), false);
+		this.instance.lierUnFoyerEtUnCourrier(idMariage, courrier.getId(), invite.getFoyer().getId(), false);
 
 		// ASSERT
 		final Long nbPresenceTrueApres = jdbc.queryForObject(sql, Long.class);
@@ -298,8 +298,8 @@ public class InviteEtFoyerServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Collection<Invite> inviteAvant = this.instance.listeInvitesParIdMariage(idMariage);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Collection<Invite> inviteAvant = this.instance.listerInvitesParIdMariage(idMariage);
 		final Collection<Invite> invitesAinserer = Arrays.asList(
 				new Invite(null, "nom1", "prenom1", Age.adulte, new Foyer("foyer1")),
 				new Invite(null, "nom2", "prenom2", Age.adulte, new Foyer("foyer1")),
@@ -309,7 +309,7 @@ public class InviteEtFoyerServiceTest {
 		this.instance.sauvegardeEnMasse(idMariage, invitesAinserer);
 
 		// ASSERT
-		final Collection<Invite> inviteApres = this.instance.listeInvitesParIdMariage(idMariage);
+		final Collection<Invite> inviteApres = this.instance.listerInvitesParIdMariage(idMariage);
 		Assert.assertEquals(inviteAvant.size() + invitesAinserer.size(), inviteApres.size());
 		final Collection<Invite> diff = new TreeSet<>(new InviteComparator());
 		diff.addAll(inviteApres);
@@ -332,7 +332,7 @@ public class InviteEtFoyerServiceTest {
 		final Long idMariage = jdbc.queryForObject("select id from mariage", Long.class);
 
 		// ACT
-		final StatistiquesMariage dto = this.instance.calculStatistiques(idMariage);
+		final StatistiquesMariage dto = this.instance.calculerStatistiques(idMariage);
 
 		// ASSERT
 		Assert.assertNotNull(dto);
@@ -371,16 +371,16 @@ public class InviteEtFoyerServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 		final String nom = "N1";
 		final String prenom = "P1";
 		final Age age = Age.adulte;
 		final String foyer = "foyer";
-		final Long id = this.instance.sauvegardeInviteEtFoyer(idMariage,
+		final Long id = this.instance.sauvegarderInviteEtFoyer(idMariage,
 				new Invite(null, nom, prenom, age, new Foyer(foyer)));
 
 		// ACT
-		final Invite invite = this.instance.chargeInviteParId(id);
+		final Invite invite = this.instance.chargerInviteParId(id);
 
 		// ASSERT
 		Assert.assertNotNull(invite);
@@ -395,10 +395,10 @@ public class InviteEtFoyerServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		// ACT
-		final Collection<Foyer> foyers = this.instance.listeFoyersParIdMariage(idMariage);
+		final Collection<Foyer> foyers = this.instance.listerFoyersParIdMariage(idMariage);
 
 		// ASSERT
 		Assert.assertNotNull(foyers);
@@ -411,7 +411,7 @@ public class InviteEtFoyerServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 		final String nomFoyer = "F1";
 
 		// ACT
@@ -427,11 +427,11 @@ public class InviteEtFoyerServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Long idFoyer = this.instance.listeFoyersParIdMariage(idMariage).iterator().next().getId();
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Long idFoyer = this.instance.listerFoyersParIdMariage(idMariage).iterator().next().getId();
 
 		// ACT
-		final Foyer foyer = this.instance.chargeFoyerParId(idFoyer);
+		final Foyer foyer = this.instance.chargerFoyerParId(idFoyer);
 
 		// ASSERT
 		Assert.assertNotNull(foyer);
@@ -443,11 +443,11 @@ public class InviteEtFoyerServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageAvecInvitations();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Long idCourrier1 = this.instance.listeCourriersParIdMariage(idMariage).iterator().next().getId();
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Long idCourrier1 = this.instance.listerCourriersParIdMariage(idMariage).iterator().next().getId();
 
 		// ACT
-		final String contenuPublipostage = this.instance.generePublipostage(idMariage, idCourrier1);
+		final String contenuPublipostage = this.instance.genererPublipostage(idMariage, idCourrier1);
 
 		// ASSERT
 		Assert.assertNotNull(contenuPublipostage);
@@ -473,7 +473,7 @@ public class InviteEtFoyerServiceTest {
 		final Long idEtape = jdbc.queryForObject("select ID from ETAPE limit 1", Long.class);
 
 		// ACT
-		final Collection<StatistiquesPresenceMariage> dtos = this.instance.calculStatistiquesPresence(idMariage,
+		final Collection<StatistiquesPresenceMariage> dtos = this.instance.calculerStatistiquesPresence(idMariage,
 				idEtape);
 
 		// ASSERT
@@ -548,7 +548,7 @@ public class InviteEtFoyerServiceTest {
 		final Long idMariage = jdbc.queryForObject("select id from mariage", Long.class);
 
 		// ACT
-		final Collection<String> erreurs = this.instance.rechercheErreurs(idMariage);
+		final Collection<String> erreurs = this.instance.rechercherErreurs(idMariage);
 
 		// ASSERT
 		Assert.assertNotNull(erreurs);
@@ -575,8 +575,8 @@ public class InviteEtFoyerServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Collection<Invite> invitesAvant = this.instance.listeInvitesParIdMariage(idMariage);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Collection<Invite> invitesAvant = this.instance.listerInvitesParIdMariage(idMariage);
 		final Invite invite = invitesAvant.iterator().next();
 
 		// ACT
@@ -586,11 +586,11 @@ public class InviteEtFoyerServiceTest {
 		invite.setCommentaire(commentaire);
 		invite.setParticipantAuxAnimations(participantAuxAnimations);
 		invite.setParticularite(particularite);
-		final Long id = this.instance.sauvegardeInviteEtFoyer(idMariage, invite);
+		final Long id = this.instance.sauvegarderInviteEtFoyer(idMariage, invite);
 
 		// ASSERT
 		Assert.assertNotNull(id);
-		final Collection<Invite> invitesApres = this.instance.listeInvitesParIdMariage(idMariage);
+		final Collection<Invite> invitesApres = this.instance.listerInvitesParIdMariage(idMariage);
 		Assert.assertEquals(invitesAvant.size(), invitesApres.size());
 		final Invite inviteApres = invitesApres.iterator().next();
 		Assert.assertEquals(commentaire, inviteApres.getCommentaire());
@@ -603,19 +603,19 @@ public class InviteEtFoyerServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageAvecInvitations();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		final Collection<Presence> presencesDepuisProduitCartesien = this.instance
-				.listePresencesParIdMariage(idMariage);
+				.listerPresencesParIdMariage(idMariage);
 
 		final Presence presence = presencesDepuisProduitCartesien.iterator().next();
 		presence.setCommentaire("coucou");
 		presence.setConfirmee(true);
 		presence.setPresent(true);
-		this.instance.sauvegarde(idMariage, presence);
+		this.instance.sauvegarder(idMariage, presence);
 
 		// ACT
-		final Collection<Invite> invitesPresents = this.instance.listeInvitesPresentsParIdMariage(idMariage);
+		final Collection<Invite> invitesPresents = this.instance.listerInvitesPresentsParIdMariage(idMariage);
 
 		// ASSERT
 		Assert.assertEquals(1, invitesPresents.size());

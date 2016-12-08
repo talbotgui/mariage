@@ -68,10 +68,10 @@ public class EtapeServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		// ACT
-		final Collection<Etape> etapes = this.instance.listeEtapesParIdMariage(idMariage);
+		final Collection<Etape> etapes = this.instance.listerEtapesParIdMariage(idMariage);
 
 		// ASSERT
 		Assert.assertEquals(6, etapes.size());
@@ -82,8 +82,8 @@ public class EtapeServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Collection<Etape> etapeAvant = this.instance.listerEtapesParIdMariage(idMariage);
 
 		// ACT
 		final String lieu = "G1";
@@ -91,11 +91,11 @@ public class EtapeServiceTest {
 		final Date date = new Date();
 		final String celebrant = "Maire";
 		final Integer numOrdre = 1;
-		final Long id = this.instance.sauvegarde(idMariage, new EtapeCeremonie(numOrdre, nom, date, lieu, celebrant));
+		final Long id = this.instance.sauvegarder(idMariage, new EtapeCeremonie(numOrdre, nom, date, lieu, celebrant));
 
 		// ASSERT
 		Assert.assertNotNull(id);
-		final Collection<Etape> etapeApres = this.instance.listeEtapesParIdMariage(idMariage);
+		final Collection<Etape> etapeApres = this.instance.listerEtapesParIdMariage(idMariage);
 		Assert.assertEquals(etapeAvant.size() + 1, etapeApres.size());
 		final Collection<Etape> diff = new TreeSet<>(new EtapeComparator());
 		diff.addAll(etapeApres);
@@ -114,19 +114,19 @@ public class EtapeServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Collection<Etape> etapeAvant = this.instance.listerEtapesParIdMariage(idMariage);
 
 		// ACT
 		final String lieu = "G1";
 		final String nom = "N1";
 		final Date date = new Date();
 		final Integer numOrdre = 1;
-		final Long id = this.instance.sauvegarde(idMariage, new EtapeRepas(numOrdre, nom, date, lieu));
+		final Long id = this.instance.sauvegarder(idMariage, new EtapeRepas(numOrdre, nom, date, lieu));
 
 		// ASSERT
 		Assert.assertNotNull(id);
-		final Collection<Etape> etapeApres = this.instance.listeEtapesParIdMariage(idMariage);
+		final Collection<Etape> etapeApres = this.instance.listerEtapesParIdMariage(idMariage);
 		Assert.assertEquals(etapeAvant.size() + 1, etapeApres.size());
 		final Collection<Etape> diff = new TreeSet<>(new EtapeComparator());
 		diff.addAll(etapeApres);
@@ -144,8 +144,8 @@ public class EtapeServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Collection<Etape> etapeAvant = this.instance.listerEtapesParIdMariage(idMariage);
 
 		// ACT
 		final String lieu = "G1";
@@ -153,11 +153,11 @@ public class EtapeServiceTest {
 		final Date date = new Date();
 		final Integer numOrdreFourni = null;
 		final Integer numOrdreAttendu = original.getEtapes().size() + 1;
-		final Long id = this.instance.sauvegarde(idMariage, new EtapeRepas(numOrdreFourni, nom, date, lieu));
+		final Long id = this.instance.sauvegarder(idMariage, new EtapeRepas(numOrdreFourni, nom, date, lieu));
 
 		// ASSERT
 		Assert.assertNotNull(id);
-		final Collection<Etape> etapeApres = this.instance.listeEtapesParIdMariage(idMariage);
+		final Collection<Etape> etapeApres = this.instance.listerEtapesParIdMariage(idMariage);
 		Assert.assertEquals(etapeAvant.size() + 1, etapeApres.size());
 		final Collection<Etape> diff = new TreeSet<>(new EtapeComparator());
 		diff.addAll(etapeApres);
@@ -175,17 +175,17 @@ public class EtapeServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Collection<Etape> etapeAvant = this.instance.listerEtapesParIdMariage(idMariage);
 		for (final Courrier c : original.getCourriers()) {
-			this.instance.supprimeCourrier(original.getId(), c.getId());
+			this.instance.supprimerCourrier(original.getId(), c.getId());
 		}
 
 		// ACT
-		this.instance.supprimeEtape(idMariage, etapeAvant.iterator().next().getId());
+		this.instance.supprimerEtape(idMariage, etapeAvant.iterator().next().getId());
 
 		// ASSERT
-		final Collection<Etape> etapeApres = this.instance.listeEtapesParIdMariage(idMariage);
+		final Collection<Etape> etapeApres = this.instance.listerEtapesParIdMariage(idMariage);
 		Assert.assertEquals(etapeAvant.size() - 1, etapeApres.size());
 	}
 
@@ -194,15 +194,15 @@ public class EtapeServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Etape etape = this.instance.listeEtapesParIdMariage(idMariage).iterator().next();
-		final Invite invite = this.instance.listeInvitesParIdMariage(idMariage).iterator().next();
-		final Courrier courrier = this.instance.listeCourriersParIdMariage(idMariage).iterator().next();
-		this.instance.sauvegarde(idMariage, new Presence(etape, invite, true, true, ""));
-		this.instance.supprimeCourrier(idMariage, courrier.getId());
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Etape etape = this.instance.listerEtapesParIdMariage(idMariage).iterator().next();
+		final Invite invite = this.instance.listerInvitesParIdMariage(idMariage).iterator().next();
+		final Courrier courrier = this.instance.listerCourriersParIdMariage(idMariage).iterator().next();
+		this.instance.sauvegarder(idMariage, new Presence(etape, invite, true, true, ""));
+		this.instance.supprimerCourrier(idMariage, courrier.getId());
 
 		// ACT
-		this.instance.supprimeEtape(idMariage, etape.getId());
+		this.instance.supprimerEtape(idMariage, etape.getId());
 
 		// ASSERT
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
@@ -216,11 +216,11 @@ public class EtapeServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Collection<Etape> etapeAvant = this.instance.listeEtapesParIdMariage(idMariage);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Collection<Etape> etapeAvant = this.instance.listerEtapesParIdMariage(idMariage);
 
 		// ACT
-		CatchException.catchException(this.instance).supprimeEtape(idMariage, etapeAvant.iterator().next().getId());
+		CatchException.catchException(this.instance).supprimerEtape(idMariage, etapeAvant.iterator().next().getId());
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
@@ -235,7 +235,7 @@ public class EtapeServiceTest {
 		// ARRANGE
 
 		// ACT
-		CatchException.catchException(this.instance).supprimeEtape(-1L, -1L);
+		CatchException.catchException(this.instance).supprimerEtape(-1L, -1L);
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
@@ -248,14 +248,14 @@ public class EtapeServiceTest {
 
 		// ARRANGE
 		final Mariage original1 = ObjectMother.creeMariageSimple();
-		final Long idMariage1 = this.instance.sauvegardeGrappe(original1);
+		final Long idMariage1 = this.instance.sauvegarderGrappe(original1);
 		final Mariage original2 = ObjectMother.creeMariageSimple();
-		this.instance.sauvegardeGrappe(original2);
+		this.instance.sauvegarderGrappe(original2);
 
 		// ACT
 		final Long idCourrier = original1.getCourriers().iterator().next().getId();
 		final Long idEtape = original2.getEtapes().iterator().next().getId();
-		CatchException.catchException(this.instance).lieUneEtapeEtUnCourrier(idMariage1, idEtape, idCourrier, true);
+		CatchException.catchException(this.instance).lierUneEtapeEtUnCourrier(idMariage1, idEtape, idCourrier, true);
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
@@ -268,16 +268,16 @@ public class EtapeServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		// ACT
 		final Long idCourrier = original.getCourriers().iterator().next().getId();
 		for (final Etape e : original.getEtapes()) {
-			this.instance.lieUneEtapeEtUnCourrier(idMariage, e.getId(), idCourrier, true);
+			this.instance.lierUneEtapeEtUnCourrier(idMariage, e.getId(), idCourrier, true);
 		}
 
 		// ASSERT
-		final Collection<Courrier> courriers = this.instance.listeCourriersParIdMariage(idMariage);
+		final Collection<Courrier> courriers = this.instance.listerCourriersParIdMariage(idMariage);
 		final Courrier c = courriers.iterator().next();
 		Assert.assertEquals(original.getEtapes().size(), c.getEtapes().size());
 	}
@@ -287,16 +287,16 @@ public class EtapeServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		// ACT
 		final Long idCourrier = original.getCourriers().iterator().next().getId();
 		for (final Etape e : original.getEtapes()) {
-			this.instance.lieUneEtapeEtUnCourrier(idMariage, e.getId(), idCourrier, false);
+			this.instance.lierUneEtapeEtUnCourrier(idMariage, e.getId(), idCourrier, false);
 		}
 
 		// ASSERT
-		final Collection<Courrier> courriers = this.instance.listeCourriersParIdMariage(idMariage);
+		final Collection<Courrier> courriers = this.instance.listerCourriersParIdMariage(idMariage);
 		final Courrier c = courriers.iterator().next();
 		Assert.assertEquals(0, c.getEtapes().size());
 	}

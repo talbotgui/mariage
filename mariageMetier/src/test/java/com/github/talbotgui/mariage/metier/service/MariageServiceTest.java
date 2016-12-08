@@ -61,7 +61,7 @@ public class MariageServiceTest {
 		final Mariage mariage = ObjectMother.creeMariageSimple();
 
 		// ACT
-		this.instance.sauvegardeGrappe(mariage);
+		this.instance.sauvegarderGrappe(mariage);
 
 		// ASSERT
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
@@ -75,10 +75,10 @@ public class MariageServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		// ACT
-		final Mariage charge = this.instance.chargeMariageParId(idMariage);
+		final Mariage charge = this.instance.chargerMariageParId(idMariage);
 
 		// ASSERT
 		Assert.assertEquals(original.getMarie1(), charge.getMarie1());
@@ -91,10 +91,10 @@ public class MariageServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		this.instance.sauvegardeGrappe(original);
+		this.instance.sauvegarderGrappe(original);
 
 		// ACT
-		final Collection<Mariage> mariages = this.instance.listeTousMariages();
+		final Collection<Mariage> mariages = this.instance.listerTousMariages();
 
 		// ASSERT
 		Assert.assertEquals(1, mariages.size());
@@ -105,13 +105,13 @@ public class MariageServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSeul();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		// ACT
-		this.instance.supprimeMariage(idMariage);
+		this.instance.supprimerMariage(idMariage);
 
 		// ASSERT
-		Assert.assertNull(this.instance.chargeMariageParId(idMariage));
+		Assert.assertNull(this.instance.chargerMariageParId(idMariage));
 	}
 
 	@Test
@@ -119,13 +119,13 @@ public class MariageServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		// ACT
-		this.instance.supprimeMariage(idMariage);
+		this.instance.supprimerMariage(idMariage);
 
 		// ASSERT
-		Assert.assertNull(this.instance.chargeMariageParId(idMariage));
+		Assert.assertNull(this.instance.chargerMariageParId(idMariage));
 	}
 
 	@Test
@@ -133,16 +133,16 @@ public class MariageServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Etape etape = this.instance.listeEtapesParIdMariage(idMariage).iterator().next();
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Etape etape = this.instance.listerEtapesParIdMariage(idMariage).iterator().next();
 		;
-		final Invite invite = this.instance.listeInvitesParIdMariage(idMariage).iterator().next();
-		this.instance.sauvegarde(idMariage, new Presence(etape, invite, true, true, ""));
+		final Invite invite = this.instance.listerInvitesParIdMariage(idMariage).iterator().next();
+		this.instance.sauvegarder(idMariage, new Presence(etape, invite, true, true, ""));
 
 		// ACT
-		this.instance.supprimeMariage(idMariage);
+		this.instance.supprimerMariage(idMariage);
 
 		// ASSERT
-		Assert.assertNull(this.instance.chargeMariageParId(idMariage));
+		Assert.assertNull(this.instance.chargerMariageParId(idMariage));
 	}
 }

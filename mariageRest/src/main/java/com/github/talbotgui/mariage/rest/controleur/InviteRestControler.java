@@ -32,14 +32,14 @@ public class InviteRestControler {
 	private MariageService mariageService;
 
 	@RequestMapping(value = "/mariage/{idMariage}/statistiques", method = GET)
-	public StatistiquesMariage calculStatistiques(@PathVariable("idMariage") final Long idMariage) {
-		return this.mariageService.calculStatistiques(idMariage);
+	public StatistiquesMariage calculerStatistiques(@PathVariable("idMariage") final Long idMariage) {
+		return this.mariageService.calculerStatistiques(idMariage);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/etape/{idEtape}/statistiquesPresence", method = GET)
-	public Collection<StatistiquesPresenceMariage> calculStatistiquesPresence(
+	public Collection<StatistiquesPresenceMariage> calculerStatistiquesPresence(
 			@PathVariable("idMariage") final Long idMariage, @PathVariable("idEtape") final Long idEtape) {
-		return this.mariageService.calculStatistiquesPresence(idMariage, idEtape);
+		return this.mariageService.calculerStatistiquesPresence(idMariage, idEtape);
 	}
 
 	private Age getAgeFromString(final String age) {
@@ -56,29 +56,28 @@ public class InviteRestControler {
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = GET)
-	public Collection<InviteDTO> listeInvitesParIdMariage(@PathVariable("idMariage") final Long idMariage,
+	public Collection<InviteDTO> listerInvitesParIdMariage(@PathVariable("idMariage") final Long idMariage,
 			@RequestParam(required = false, value = "present") final Boolean present) {
 		if (present == null || !present) {
-			return DTOUtils.creerDtos(this.mariageService.listeInvitesParIdMariage(idMariage), InviteDTO.class);
+			return DTOUtils.creerDtos(this.mariageService.listerInvitesParIdMariage(idMariage), InviteDTO.class);
 		} else {
-			return DTOUtils.creerDtos(this.mariageService.listeInvitesPresentsParIdMariage(idMariage),
-					InviteDTO.class);
+			return DTOUtils.creerDtos(this.mariageService.listerInvitesPresentsParIdMariage(idMariage), InviteDTO.class);
 		}
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/presence", method = GET)
-	public Collection<PresenceDTO> listePresenceParIdMariage(@PathVariable("idMariage") final Long idMariage) {
-		return DTOUtils.creerDtos(this.mariageService.listePresencesParIdMariage(idMariage), PresenceDTO.class);
+	public Collection<PresenceDTO> listerPresenceParIdMariage(@PathVariable("idMariage") final Long idMariage) {
+		return DTOUtils.creerDtos(this.mariageService.listerPresencesParIdMariage(idMariage), PresenceDTO.class);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/erreurs", method = GET)
-	public Collection<String> rechercheErreursPourInviteSurPlusieursEtapes(
+	public Collection<String> rechercherErreursPourInviteSurPlusieursEtapes(
 			@PathVariable(value = "idMariage") final Long idMariage) {
-		return this.mariageService.rechercheErreurs(idMariage);
+		return this.mariageService.rechercherErreurs(idMariage);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = POST)
-	public Long sauvegardeInvite(//
+	public Long sauvegarderInvite(//
 			@RequestParam(required = false, value = "age") final String age, //
 			@RequestParam(required = false, value = "foyer") final String nomFoyer, //
 			@RequestParam(required = false, value = "groupe") final String groupe, //
@@ -101,7 +100,7 @@ public class InviteRestControler {
 			}
 			invite.setFoyer(foyer);
 		} else {
-			invite = this.mariageService.chargeInviteParId(id);
+			invite = this.mariageService.chargerInviteParId(id);
 			if (nom != null) {
 				invite.setNom(nom);
 			}
@@ -121,11 +120,11 @@ public class InviteRestControler {
 		invite.setCommentaire(commentaire);
 		invite.setParticipantAuxAnimations(participantAuxAnimations);
 		invite.setParticularite(particularite);
-		return this.mariageService.sauvegardeInviteEtFoyer(idMariage, invite);
+		return this.mariageService.sauvegarderInviteEtFoyer(idMariage, invite);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/presence", method = POST)
-	public void sauvegardePresence(//
+	public void sauvegarderPresence(//
 			@RequestParam(required = true, value = "idEtape") final Long idEtape, //
 			@RequestParam(required = true, value = "idInvite") final Long idInvite, //
 			@RequestParam(required = false, value = "commentaire") final String commentaire, //
@@ -133,7 +132,7 @@ public class InviteRestControler {
 			@RequestParam(required = false, value = "present") final Boolean present, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
 
-		Presence presence = this.mariageService.chargePresenceParEtapeEtInvite(idMariage, idEtape, idInvite);
+		Presence presence = this.mariageService.chargerPresenceParEtapeEtInvite(idMariage, idEtape, idInvite);
 		if (presence == null) {
 			presence = new Presence(new EtapeRepas(idEtape), new Invite(idInvite));
 		}
@@ -142,21 +141,21 @@ public class InviteRestControler {
 		presence.setPresent(present);
 		presence.setConfirmee(confirmee);
 
-		this.mariageService.sauvegarde(idMariage, presence);
+		this.mariageService.sauvegarder(idMariage, presence);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite/{idInvite}", method = DELETE)
-	public void supprimeInvite(//
+	public void supprimerInvite(//
 			@PathVariable(value = "idInvite") final Long idInvite, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
-		this.mariageService.supprimeInvite(idMariage, idInvite);
+		this.mariageService.supprimerInvite(idMariage, idInvite);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/presence", method = DELETE)
-	public void supprimePresence(//
+	public void supprimerPresence(//
 			@RequestParam(value = "idEtape") final Long idEtape, //
 			@RequestParam(value = "idInvite") final Long idInvite, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
-		this.mariageService.supprimePresence(idMariage, idInvite, idEtape);
+		this.mariageService.supprimerPresence(idMariage, idInvite, idEtape);
 	}
 }

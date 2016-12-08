@@ -62,8 +62,8 @@ public class RestApplication {
 
 		// Si aucun utilisateur au base, on en crée un par défaut
 		final SecuriteService securiteService = ac.getBean(SecuriteService.class);
-		if (securiteService.listeUtilisateurs().isEmpty()) {
-			securiteService.sauvegardeUtilisateur(LOGIN_MDP_ADMIN_PAR_DEFAUT, LOGIN_MDP_ADMIN_PAR_DEFAUT,
+		if (securiteService.listerUtilisateurs().isEmpty()) {
+			securiteService.sauvegarderUtilisateur(LOGIN_MDP_ADMIN_PAR_DEFAUT, LOGIN_MDP_ADMIN_PAR_DEFAUT,
 					Utilisateur.Role.ADMIN);
 		}
 	}

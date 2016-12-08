@@ -31,26 +31,26 @@ public class MariageRestControler {
 	private MariageService mariageService;
 
 	@RequestMapping(value = "/mariage/{idMariage}", method = GET)
-	public MariageDTO chargeMariage(@PathVariable("idMariage") final Long idMariage) {
-		final Mariage mariage = this.mariageService.chargeMariageParId(idMariage);
+	public MariageDTO chargerMariage(@PathVariable("idMariage") final Long idMariage) {
+		final Mariage mariage = this.mariageService.chargerMariageParId(idMariage);
 		return new MariageDTO(mariage);
 	}
 
 	@RequestMapping(value = "/mariage", method = GET)
-	public Collection<MariageDTO> listeTousMariages() {
-		final Collection<Mariage> mariages = this.mariageService.listeTousMariages();
+	public Collection<MariageDTO> listerTousMariages() {
+		final Collection<Mariage> mariages = this.mariageService.listerTousMariages();
 		return DTOUtils.creerDtos(mariages, MariageDTO.class);
 	}
 
 	@RequestMapping(value = "/mariage", method = POST)
-	public Long sauvegardeMariage(//
+	public Long sauvegarderMariage(//
 			@RequestParam(required = false, value = "id") final Long id, //
 			@RequestParam(value = "dateCelebration") final String dateCelebration, //
 			@RequestParam(value = "marie1") final String marie1, //
 			@RequestParam(value = "marie2") final String marie2) {
 		try {
 			final SimpleDateFormat sdf = new SimpleDateFormat(DTOUtils.FORMAT_DATE);
-			return this.mariageService.sauvegarde(new Mariage(id, sdf.parse(dateCelebration), marie1, marie2));
+			return this.mariageService.sauvegarder(new Mariage(id, sdf.parse(dateCelebration), marie1, marie2));
 		} catch (final ParseException e) {
 			LOG.error("Erreur de format des paramètres d'entrée", e);
 			throw new RestException(RestException.ERREUR_FORMAT_DATE, e,
@@ -59,8 +59,8 @@ public class MariageRestControler {
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}", method = DELETE)
-	public void supprimeMariage(@PathVariable("idMariage") final Long idMariage) {
-		this.mariageService.supprimeMariage(idMariage);
+	public void supprimerMariage(@PathVariable("idMariage") final Long idMariage) {
+		this.mariageService.supprimerMariage(idMariage);
 	}
 
 }

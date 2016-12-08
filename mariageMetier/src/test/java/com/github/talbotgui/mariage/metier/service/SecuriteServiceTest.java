@@ -65,7 +65,7 @@ public class SecuriteServiceTest {
 		final String mdp = "unBonMdp";
 
 		//
-		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where login=?",
@@ -82,7 +82,7 @@ public class SecuriteServiceTest {
 		final String mdp = "unBonMdp";
 
 		//
-		this.instance.sauvegardeUtilisateur(login, mdp, null);
+		this.instance.sauvegarderUtilisateur(login, mdp, null);
 
 		//
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where login=?",
@@ -100,7 +100,7 @@ public class SecuriteServiceTest {
 		final String mdp = "unBonMdp";
 
 		//
-		CatchException.catchException(this.instance).sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		CatchException.catchException(this.instance).sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
 		Assert.assertNotNull(CatchException.caughtException());
@@ -115,7 +115,7 @@ public class SecuriteServiceTest {
 		final String mdp = "un";
 
 		//
-		CatchException.catchException(this.instance).sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		CatchException.catchException(this.instance).sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
 		Assert.assertNotNull(CatchException.caughtException());
@@ -130,10 +130,10 @@ public class SecuriteServiceTest {
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
 		final Role role = Utilisateur.Role.UTILISATEUR;
-		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
-		this.instance.sauvegardeUtilisateur(login, mdp, role);
+		this.instance.sauvegarderUtilisateur(login, mdp, role);
 
 		//
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where login=?",
@@ -150,11 +150,11 @@ public class SecuriteServiceTest {
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
-		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
-		final Long idMariage = this.mariageService.sauvegarde(ObjectMother.creeMariageSeul());
+		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		final Long idMariage = this.mariageService.sauvegarder(ObjectMother.creeMariageSeul());
 
 		//
-		this.instance.ajouteAutorisation(login, idMariage);
+		this.instance.ajouterAutorisation(login, idMariage);
 
 		//
 		Assert.assertEquals((Long) 1L,
@@ -168,12 +168,12 @@ public class SecuriteServiceTest {
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
-		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
-		final Long idMariage = this.mariageService.sauvegarde(ObjectMother.creeMariageSeul());
-		this.instance.ajouteAutorisation(login, idMariage);
+		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		final Long idMariage = this.mariageService.sauvegarder(ObjectMother.creeMariageSeul());
+		this.instance.ajouterAutorisation(login, idMariage);
 
 		//
-		this.instance.supprimeAutorisation(login, idMariage);
+		this.instance.supprimerAutorisation(login, idMariage);
 
 		//
 		Assert.assertEquals((Long) 0L,
@@ -187,12 +187,12 @@ public class SecuriteServiceTest {
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
-		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
-		final Long idMariage = this.mariageService.sauvegarde(ObjectMother.creeMariageSeul());
-		this.instance.ajouteAutorisation(login, idMariage);
+		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		final Long idMariage = this.mariageService.sauvegarder(ObjectMother.creeMariageSeul());
+		this.instance.ajouterAutorisation(login, idMariage);
 
 		//
-		this.instance.supprimeUtilisateur(login);
+		this.instance.supprimerUtilisateur(login);
 
 		//
 		Assert.assertEquals((Long) 0L,
@@ -209,10 +209,10 @@ public class SecuriteServiceTest {
 		//
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
-		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
-		this.instance.verifieUtilisateur(login, mdp);
+		this.instance.verifierUtilisateur(login, mdp);
 
 		//
 	}
@@ -223,10 +223,10 @@ public class SecuriteServiceTest {
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
 		final String mauvaisMdp = "pasBonMdp";
-		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
-		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
+		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
 
 		//
 		Assert.assertNotNull(CatchException.caughtException());
@@ -239,10 +239,10 @@ public class SecuriteServiceTest {
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
 		final String mauvaisLogin = "pasMonLogin";
-		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
-		CatchException.catchException(this.instance).verifieUtilisateur(mauvaisLogin, mdp);
+		CatchException.catchException(this.instance).verifierUtilisateur(mauvaisLogin, mdp);
 
 		//
 		Assert.assertNotNull(CatchException.caughtException());
@@ -252,13 +252,13 @@ public class SecuriteServiceTest {
 	@Test
 	public void test06ListeUtilisateurs() {
 		//
-		this.instance.sauvegardeUtilisateur("monLogin1", "monMdp", Utilisateur.Role.ADMIN);
-		this.instance.sauvegardeUtilisateur("monLogin2", "monMdp", Utilisateur.Role.ADMIN);
-		this.instance.sauvegardeUtilisateur("monLogin3", "monMdp", Utilisateur.Role.ADMIN);
-		this.instance.sauvegardeUtilisateur("monLogin4", "monMdp", Utilisateur.Role.ADMIN);
+		this.instance.sauvegarderUtilisateur("monLogin1", "monMdp", Utilisateur.Role.ADMIN);
+		this.instance.sauvegarderUtilisateur("monLogin2", "monMdp", Utilisateur.Role.ADMIN);
+		this.instance.sauvegarderUtilisateur("monLogin3", "monMdp", Utilisateur.Role.ADMIN);
+		this.instance.sauvegarderUtilisateur("monLogin4", "monMdp", Utilisateur.Role.ADMIN);
 
 		//
-		final Collection<Utilisateur> liste = this.instance.listeUtilisateurs();
+		final Collection<Utilisateur> liste = this.instance.listerUtilisateurs();
 
 		//
 		Assert.assertEquals(4, liste.size());
@@ -270,14 +270,14 @@ public class SecuriteServiceTest {
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
 		final String mauvaisMdp = "pasBonMdp";
-		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
-		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
+		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
 		final Exception e1 = CatchException.caughtException();
-		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
+		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
 		final Exception e2 = CatchException.caughtException();
-		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
+		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
 		final Exception e3 = CatchException.caughtException();
 
 		//
@@ -295,16 +295,16 @@ public class SecuriteServiceTest {
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
 		final String mauvaisMdp = "pasBonMdp";
-		this.instance.sauvegardeUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
-		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
-		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
-		CatchException.catchException(this.instance).verifieUtilisateur(login, mauvaisMdp);
+		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
+		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
+		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
 
 		//
-		this.instance.deverrouilleUtilisateur(login);
+		this.instance.deverrouillerUtilisateur(login);
 
 		//
-		this.instance.verifieUtilisateur(login, mdp);
+		this.instance.verifierUtilisateur(login, mdp);
 	}
 
 	@Test
@@ -312,7 +312,7 @@ public class SecuriteServiceTest {
 		//
 
 		//
-		final Collection<String> roles = this.instance.listeRolePossible();
+		final Collection<String> roles = this.instance.listerRolePossible();
 
 		//
 		Assert.assertNotNull(roles);
@@ -326,10 +326,10 @@ public class SecuriteServiceTest {
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
 		final Role role = Utilisateur.Role.ADMIN;
-		this.instance.sauvegardeUtilisateur(login, mdp, role);
+		this.instance.sauvegarderUtilisateur(login, mdp, role);
 
 		//
-		final Utilisateur u = this.instance.chargeUtilisateur(login);
+		final Utilisateur u = this.instance.chargerUtilisateur(login);
 
 		//
 		Assert.assertEquals(login, u.getLogin());

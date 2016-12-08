@@ -7,15 +7,15 @@ import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur.Role;
 
 public interface SecuriteService {
 
-	void ajouteAutorisation(String login, Long idMariage);
+	void ajouterAutorisation(String login, Long idMariage);
 
-	Utilisateur chargeUtilisateur(String login);
+	Utilisateur chargerUtilisateur(String login);
 
-	void deverrouilleUtilisateur(final String login);
+	void deverrouillerUtilisateur(final String login);
 
-	Collection<String> listeRolePossible();
+	Collection<String> listerRolePossible();
 
-	Collection<Utilisateur> listeUtilisateurs();
+	Collection<Utilisateur> listerUtilisateurs();
 
 	/**
 	 * A la creation d'un utilisateur, si aucun role fournit, le nouvel
@@ -28,11 +28,11 @@ public interface SecuriteService {
 	 * @param role
 	 *            Role dans l'application
 	 */
-	void sauvegardeUtilisateur(String login, String mdp, Utilisateur.Role role);
+	void sauvegarderUtilisateur(String login, String mdp, Utilisateur.Role role);
 
-	void supprimeAutorisation(String login, Long idMariage);
+	void supprimerAutorisation(String login, Long idMariage);
 
-	void supprimeUtilisateur(String login);
+	void supprimerUtilisateur(String login);
 
-	Role verifieUtilisateur(String login, String mdp);
+	Role verifierUtilisateur(String login, String mdp);
 }

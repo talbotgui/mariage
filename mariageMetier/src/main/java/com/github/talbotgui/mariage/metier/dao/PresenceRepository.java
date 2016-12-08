@@ -30,7 +30,7 @@ public interface PresenceRepository extends CrudRepository<Presence, Long> {
 			+ " from Etape e, Invite i"//
 			+ " where e.mariage.id = :idMariage" //
 			+ " and e.id = :idEtape")
-	Collection<StatistiquesPresenceMariage> calculStatistiquesPresence(@Param("idMariage") Long idMariage,
+	Collection<StatistiquesPresenceMariage> calculerStatistiquesPresence(@Param("idMariage") Long idMariage,
 			@Param("idEtape") Long idEtape);
 
 	@Query("select p "//
@@ -38,12 +38,12 @@ public interface PresenceRepository extends CrudRepository<Presence, Long> {
 			+ " where p.id.invite.id = :idInvite"//
 			+ " and p.id.etape.id=:idEtape"//
 			+ " and p.id.etape.mariage.id=:idMariage")
-	Presence chargePresenceParEtapeEtInvite(@Param("idMariage") Long idMariage, @Param("idEtape") Long idEtape,
+	Presence chargerPresenceParEtapeEtInvite(@Param("idMariage") Long idMariage, @Param("idEtape") Long idEtape,
 			@Param("idInvite") Long idInvite);
 
 	@Query("delete Presence where id in (select p.id from Presence p where p.id.etape.mariage.id = :idMariage)")
 	@Modifying
-	void deletePresencesParIdMariage(@Param("idMariage") Long idMariage);
+	void supprimerPresencesParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("select p "//
 			+ " from Presence p"//
@@ -51,14 +51,14 @@ public interface PresenceRepository extends CrudRepository<Presence, Long> {
 			+ " join fetch p.id.invite i" //
 			+ " where p.id.etape.mariage.id=:idMariage"//
 			+ " order by p.id.invite.nom, p.id.invite.prenom, p.id.etape.nom")
-	Collection<Presence> listePresencesParIdMariage(@Param("idMariage") Long idMariage);
+	Collection<Presence> listerPresencesParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("select new Presence(e, i) "//
 			+ " from Invite i join i.foyer f join f.courriersInvitation c join c.etapes e"//
 			+ " where f.mariage.id=:idMariage"//
 			+ " and e.mariage.id=:idMariage" //
 			+ " order by i.nom, i.prenom, e.nom")
-	Collection<Presence> listeProduitCartesienInviteEtEtapeParIdMariage(@Param("idMariage") Long idMariage);
+	Collection<Presence> listerProduitCartesienInviteEtEtapeParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("select p.id.invite.id, p.id.invite.nom, p.id.invite.prenom, p.id.etape.nom from Presence p"//
 			+ " where p.id.etape.mariage.id = :idMariage"//
@@ -67,9 +67,9 @@ public interface PresenceRepository extends CrudRepository<Presence, Long> {
 			+ " from Invitation i join i.id.courrier c join c.etapes e"//
 			+ " where e.mariage.id = :idMariage"//
 			+ ")")
-	Collection<Object[]> recherchePresencesSansInvitations(@Param("idMariage") Long idMariage);
+	Collection<Object[]> rechercherPresencesSansInvitations(@Param("idMariage") Long idMariage);
 
 	@Query("delete Presence where id in (select p.id from Presence p where p.id.etape.id = :idEtape)")
 	@Modifying
-	void supprimePresencesParIdEtape(@Param("idEtape") Long idEtape);
+	void supprimerPresencesParIdEtape(@Param("idEtape") Long idEtape);
 }

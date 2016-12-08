@@ -36,12 +36,12 @@ public class EtapeRestControler {
 	private MariageService mariageService;
 
 	@RequestMapping(value = "/mariage/{idMariage}/etape", method = GET)
-	public Collection<EtapeDTO> listeEtapeParIdMariage(@PathVariable("idMariage") final Long idMariage) {
-		return DTOUtils.creerDtos(this.mariageService.listeEtapesParIdMariage(idMariage), EtapeDTO.class);
+	public Collection<EtapeDTO> listerEtapeParIdMariage(@PathVariable("idMariage") final Long idMariage) {
+		return DTOUtils.creerDtos(this.mariageService.listerEtapesParIdMariage(idMariage), EtapeDTO.class);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/etape", method = POST)
-	public Long sauvegardeEtape(//
+	public Long sauvegarderEtape(//
 			@RequestParam(required = false, value = "celebrant") final String celebrant, //
 			@RequestParam(value = "dateHeure") final String dateHeure, //
 			@RequestParam(required = false, value = "id") final Long id, //
@@ -85,13 +85,13 @@ public class EtapeRestControler {
 		}
 
 		// Sauvegarde
-		return this.mariageService.sauvegarde(idMariage, etape);
+		return this.mariageService.sauvegarder(idMariage, etape);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/etape/{idEtape}", method = DELETE)
-	public void supprimeEtape(//
+	public void supprimerEtape(//
 			@PathVariable(value = "idEtape") final Long idEtape, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
-		this.mariageService.supprimeEtape(idMariage, idEtape);
+		this.mariageService.supprimerEtape(idMariage, idEtape);
 	}
 }

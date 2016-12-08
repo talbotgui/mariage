@@ -69,7 +69,7 @@ public class MenuControlerTest extends BaseRestControlerTest {
 		// ARRANGE
 		final String login = "monLogin";
 		final String mdp = "monMdp";
-		Mockito.doReturn(Role.ADMIN).when(this.securiteService).verifieUtilisateur(Mockito.anyString(),
+		Mockito.doReturn(Role.ADMIN).when(this.securiteService).verifierUtilisateur(Mockito.anyString(),
 				Mockito.anyString());
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp",
 				mdp);

@@ -41,11 +41,11 @@ public class CourrierRestControler {
 	private MariageService mariageService;
 
 	@RequestMapping(value = "/mariage/{idMariage}/courrier/{idCourrier}/publipostage", method = GET)
-	public void generePubliPostage(//
+	public void genererPubliPostage(//
 			@PathVariable(value = "idMariage") final Long idMariage, //
 			@PathVariable(value = "idCourrier") final Long idCourrier, //
 			final HttpServletResponse response) {
-		final String contenu = this.mariageService.generePublipostage(idMariage, idCourrier);
+		final String contenu = this.mariageService.genererPublipostage(idMariage, idCourrier);
 
 		try {
 			response.getOutputStream().write(contenu.getBytes("UTF8"));
@@ -58,35 +58,35 @@ public class CourrierRestControler {
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/courrier/{idCourrier}", method = POST)
-	public void lieCourrierEtEtape(//
+	public void lierCourrierEtEtape(//
 			@RequestParam(value = "idEtape") final Long idEtape, //
 			@RequestParam(value = "lie") final Boolean lie, //
 			@PathVariable(value = "idMariage") final Long idMariage, //
 			@PathVariable(value = "idCourrier") final Long idCourrier) {
-		this.mariageService.lieUneEtapeEtUnCourrier(idMariage, idEtape, idCourrier, lie);
+		this.mariageService.lierUneEtapeEtUnCourrier(idMariage, idEtape, idCourrier, lie);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/courrier", method = GET)
-	public ReponseAvecChoix listeCourrierParIdMariage(@PathVariable("idMariage") final Long idMariage)
+	public ReponseAvecChoix listerCourrierParIdMariage(@PathVariable("idMariage") final Long idMariage)
 			throws NoSuchMethodException, SecurityException, ReflectiveOperationException, IllegalArgumentException {
 
-		final Collection<Courrier> courriers = this.mariageService.listeCourriersParIdMariage(idMariage);
-		final Collection<Etape> etapes = this.mariageService.listeEtapesParIdMariage(idMariage);
+		final Collection<Courrier> courriers = this.mariageService.listerCourriersParIdMariage(idMariage);
+		final Collection<Etape> etapes = this.mariageService.listerEtapesParIdMariage(idMariage);
 		final Method method = Courrier.class.getMethod("getEtapes");
 
 		return new ReponseAvecChoix(etapes, EtapeDTO.class, courriers, CourrierDTO.class, method);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/courrier/{idCourrier}/foyers", method = GET)
-	public Collection<FoyerDTO> listeFoyersParCourrier(//
+	public Collection<FoyerDTO> listerFoyersParCourrier(//
 			@PathVariable(value = "idMariage") final Long idMariage, //
 			@PathVariable(value = "idCourrier") final Long idCourrier) {
-		final Collection<Foyer> foyers = this.mariageService.listeFoyersParIdCourrier(idMariage, idCourrier);
+		final Collection<Foyer> foyers = this.mariageService.listerFoyersParIdCourrier(idMariage, idCourrier);
 		return DTOUtils.creerDtos(foyers, FoyerDTO.class);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/courrier", method = POST)
-	public Long sauvegardeCourrier(//
+	public Long sauvegarderCourrier(//
 			@RequestParam(required = false, value = "id") final Long id, //
 			@RequestParam(value = "nom") final String nom, //
 			@RequestParam(value = "datePrevisionEnvoi") final String sdatePrevisionEnvoi, //
@@ -107,13 +107,13 @@ public class CourrierRestControler {
 		final Courrier courrier = new Courrier(id, nom, datePrevisionEnvoi);
 
 		// Sauvegarde
-		return this.mariageService.sauvegarde(idMariage, courrier);
+		return this.mariageService.sauvegarder(idMariage, courrier);
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/courrier/{idCourrier}", method = DELETE)
-	public void supprimeCourrier(//
+	public void supprimerCourrier(//
 			@PathVariable(value = "idCourrier") final Long idCourrier, //
 			@PathVariable(value = "idMariage") final Long idMariage) {
-		this.mariageService.supprimeCourrier(idMariage, idCourrier);
+		this.mariageService.supprimerCourrier(idMariage, idCourrier);
 	}
 }

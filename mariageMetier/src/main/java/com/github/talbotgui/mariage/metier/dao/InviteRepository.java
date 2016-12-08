@@ -39,50 +39,50 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 			+ ")"//
 			+ " from Mariage m"//
 			+ " where m.id = :idMariage")
-	StatistiquesInvitesMariage calculStatistiquesInvites(@Param("idMariage") Long idMariage);
+	StatistiquesInvitesMariage calculerStatistiquesInvites(@Param("idMariage") Long idMariage);
 
 	@Query("select e.nom, count(distinct f)"//
 			+ " from Foyer f join f.courriersInvitation c join c.etapes e"//
 			+ " where f.mariage.id = :idMariage group by e.nom")
-	List<Object[]> compteNombreFoyerParEtape(@Param("idMariage") Long idMariage);
+	List<Object[]> compterNombreFoyerParEtape(@Param("idMariage") Long idMariage);
 
 	@Query("select i.age, count(distinct i)"//
 			+ " from Mariage m join m.foyers f join f.invites i"//
 			+ " where m.id = :idMariage group by i.age")
-	List<Object[]> compteNombreInviteParAge(@Param("idMariage") Long idMariage);
+	List<Object[]> compterNombreInviteParAge(@Param("idMariage") Long idMariage);
 
 	@Query("select e.nom, count(distinct i)"//
 			+ " from Invitation inv join inv.id.courrier c join c.etapes e join c.mariage m"//
 			+ " join inv.id.foyer f join f.invites i"//
 			+ " where m.id = :idMariage group by e.nom")
-	List<Object[]> compteNombreInviteParEtape(@Param("idMariage") Long idMariage);
+	List<Object[]> compterNombreInviteParEtape(@Param("idMariage") Long idMariage);
 
 	@Query("select f.nom, size(f.invites) from Mariage m join m.foyers f where m.id = :idMariage group by f.nom")
-	List<Object[]> compteNombreInviteParFoyer(@Param("idMariage") Long idMariage);
+	List<Object[]> compterNombreInviteParFoyer(@Param("idMariage") Long idMariage);
 
 	@Query("select f.groupe, count(distinct i)"//
 			+ " from Mariage m join m.foyers f join f.invites i"//
 			+ " where m.id = :idMariage group by f.groupe")
-	List<Object[]> compteNombreInviteParGroupe(@Param("idMariage") Long idMariage);
+	List<Object[]> compterNombreInviteParGroupe(@Param("idMariage") Long idMariage);
 
 	@Query("delete Invite where id in (select i.id from Invite i where i.foyer.mariage.id = :idMariage)")
 	@Modifying
-	void deleteInvitesParIdMariage(@Param("idMariage") Long idMariage);
+	void supprimerInvitesParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("select i.foyer.mariage.id from Invite i where i.id=:idInvite")
-	Long getIdMariageByInviteId(@Param("idInvite") Long idInvite);
+	Long rechercherIdMariageByInviteId(@Param("idInvite") Long idInvite);
 
 	@Query("select distinct i" //
 			+ " from Invite i join fetch i.foyer f left join fetch i.etapesPresence"//
 			+ " where i.foyer.mariage.id=:idMariage"//
 			+ " order by f.groupe, f.nom, i.nom, i.prenom")
-	Collection<Invite> listeInvitesParIdMariage(@Param("idMariage") Long idMariage);
+	Collection<Invite> listerInvitesParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("select i "//
 			+ " from Invite i"//
 			+ " where i.foyer.mariage.id=:idMariage"//
 			+ " order by i.foyer.groupe, i.nom, i.prenom")
-	Page<Invite> listeInvitesParIdMariage(@Param("idMariage") Long idMariage, Pageable page);
+	Page<Invite> listerInvitesParIdMariage(@Param("idMariage") Long idMariage, Pageable page);
 
 	@Query("select i "//
 			+ " from Presence p"//
@@ -90,7 +90,7 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 			+ " where i.foyer.mariage.id=:idMariage"//
 			+ " and p.present = true"//
 			+ " order by i.foyer.groupe, i.nom, i.prenom")
-	Collection<Invite> listeInvitesPresentsParIdMariage(@Param("idMariage") Long idMariage);
+	Collection<Invite> listerInvitesPresentsParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("select i.id, i.nom, i.prenom, e.nom, count(i.id)"//
 			+ " from Invitation inv"//
@@ -101,6 +101,6 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 			+ " where i.foyer.mariage.id=:idMariage"//
 			+ " group by i.id, i.nom, i.prenom, e.nom"//
 			+ " having count(i.id) >1")
-	Collection<Object[]> rechercheInviteSurPlusieursEtapes(@Param("idMariage") Long idMariage);
+	Collection<Object[]> rechercherInviteSurPlusieursEtapes(@Param("idMariage") Long idMariage);
 
 }

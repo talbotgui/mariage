@@ -32,27 +32,27 @@ public class UtilisateurRestControler {
 	private SecuriteService securiteService;
 
 	@RequestMapping(value = SecurityFilter.LOGIN_REST, method = POST)
-	public void connexion(//
+	public void connecter(//
 			@RequestParam(value = "login") final String login, //
 			@RequestParam(value = "mdp") final String mdp, //
 			final HttpServletRequest request, //
 			final HttpServletResponse response) {
-		final Role role = this.securiteService.verifieUtilisateur(login, mdp);
+		final Role role = this.securiteService.verifierUtilisateur(login, mdp);
 		request.getSession().setAttribute(SecurityFilter.SESSION_KEY_USER_LOGIN, login);
 		request.getSession().setAttribute(SecurityFilter.SESSION_KEY_USER_ROLE, role.toString());
 		this.resetCookieIdMariage(request, response);
 	}
 
 	@RequestMapping(value = SecurityFilter.LOGOUT_REST, method = GET)
-	public void deconnexion(final HttpServletRequest request, final HttpServletResponse response) {
+	public void deconnecter(final HttpServletRequest request, final HttpServletResponse response) {
 		request.getSession().removeAttribute("USER_LOGIN");
 		request.getSession().invalidate();
 		this.resetCookieIdMariage(request, response);
 	}
 
 	@RequestMapping(value = "/utilisateur/{login}/deverrouille", method = PUT)
-	public void deverrouilleUtilisateur(@PathVariable(value = "login") final String login) {
-		this.securiteService.deverrouilleUtilisateur(login);
+	public void deverrouillerUtilisateur(@PathVariable(value = "login") final String login) {
+		this.securiteService.deverrouillerUtilisateur(login);
 	}
 
 	private Utilisateur.Role getRoleFromString(final String role) {
@@ -71,12 +71,12 @@ public class UtilisateurRestControler {
 	@RequestMapping(value = "/utilisateur/moi", method = GET)
 	public UtilisateurDTO getUtilisateurMoi(final HttpServletRequest request) {
 		final String login = (String) request.getSession().getAttribute(SecurityFilter.SESSION_KEY_USER_LOGIN);
-		return DTOUtils.creerDto(this.securiteService.chargeUtilisateur(login), UtilisateurDTO.class);
+		return DTOUtils.creerDto(this.securiteService.chargerUtilisateur(login), UtilisateurDTO.class);
 	}
 
 	@RequestMapping(value = "/utilisateur", method = GET)
-	public Collection<UtilisateurDTO> listeUtilisateur() {
-		return DTOUtils.creerDtos(this.securiteService.listeUtilisateurs(), UtilisateurDTO.class);
+	public Collection<UtilisateurDTO> listerUtilisateur() {
+		return DTOUtils.creerDtos(this.securiteService.listerUtilisateurs(), UtilisateurDTO.class);
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class UtilisateurRestControler {
 	}
 
 	@RequestMapping(value = "/utilisateur", method = POST)
-	public void sauvegardeUtilisateur(//
+	public void sauvegarderUtilisateur(//
 			@RequestParam(value = "login") final String login, //
 			@RequestParam(value = "mdp", required = false) final String mdp, //
 			@RequestParam(value = "role", required = false) final String role) {
@@ -104,11 +104,11 @@ public class UtilisateurRestControler {
 			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE,
 					new String[] { "login", "a-zA-Z0-9", "avec des caractères speciaux" });
 		}
-		this.securiteService.sauvegardeUtilisateur(login, mdp, this.getRoleFromString(role));
+		this.securiteService.sauvegarderUtilisateur(login, mdp, this.getRoleFromString(role));
 	}
 
 	@RequestMapping(value = "/utilisateur/{login}", method = DELETE)
-	public void supprimeUtilisateur(@PathVariable(value = "login") final String login) {
-		this.securiteService.supprimeUtilisateur(login);
+	public void supprimerUtilisateur(@PathVariable(value = "login") final String login) {
+		this.securiteService.supprimerUtilisateur(login);
 	}
 }

@@ -76,8 +76,8 @@ public abstract class SeleniumTest extends AbstractTestNGSpringContextTests {
 		this.driver = new MyDriver(this.port, this.contextPath);
 
 		// creation d'un user si aucun en base dans le jeu de donnees
-		if (this.securiteService.listeUtilisateurs().isEmpty()) {
-			this.securiteService.sauvegardeUtilisateur(RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT,
+		if (this.securiteService.listerUtilisateurs().isEmpty()) {
+			this.securiteService.sauvegarderUtilisateur(RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT,
 					RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT, Utilisateur.Role.ADMIN);
 		}
 	}

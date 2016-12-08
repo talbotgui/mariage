@@ -33,8 +33,8 @@ public class FoyerRestControlerTest extends BaseRestControlerTest {
 				new Courrier(4L, "C3", new Date()), new Courrier(5L, "C5", new Date()));
 
 		// ARRANGE
-		Mockito.doReturn(courrierToReturn).when(this.mariageService).listeCourriersParIdMariage(Mockito.anyLong());
-		Mockito.doReturn(foyersToReturn).when(this.mariageService).listeFoyersParIdMariage(Mockito.anyLong());
+		Mockito.doReturn(courrierToReturn).when(this.mariageService).listerCourriersParIdMariage(Mockito.anyLong());
+		Mockito.doReturn(foyersToReturn).when(this.mariageService).listerFoyersParIdMariage(Mockito.anyLong());
 
 		// ACT
 		final ParameterizedTypeReference<ReponseAvecChoix> typeRetour = new ParameterizedTypeReference<ReponseAvecChoix>() {
@@ -45,8 +45,8 @@ public class FoyerRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertEquals(foyers.getBody().getChoixPossibles().size(), 5);
 		Assert.assertEquals(foyers.getBody().getDtos().size(), 3);
-		Mockito.verify(this.mariageService).listeCourriersParIdMariage(idMariage);
-		Mockito.verify(this.mariageService).listeFoyersParIdMariage(idMariage);
+		Mockito.verify(this.mariageService).listerCourriersParIdMariage(idMariage);
+		Mockito.verify(this.mariageService).listerFoyersParIdMariage(idMariage);
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -60,7 +60,7 @@ public class FoyerRestControlerTest extends BaseRestControlerTest {
 		// ARRANGE
 		final ArgumentCaptor<Foyer> argumentCaptorFoyer = ArgumentCaptor.forClass(Foyer.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doReturn(idFoyer).when(this.mariageService).sauvegarde(argumentCaptorIdMariage.capture(),
+		Mockito.doReturn(idFoyer).when(this.mariageService).sauvegarder(argumentCaptorIdMariage.capture(),
 				argumentCaptorFoyer.capture());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("foyer", nom, "groupe",
@@ -77,7 +77,7 @@ public class FoyerRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(argumentCaptorFoyer.getValue().getNom(), nom);
 		Assert.assertEquals(argumentCaptorFoyer.getValue().getGroupe(), groupe);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.mariageService).sauvegarde(Mockito.anyLong(), Mockito.any(Foyer.class));
+		Mockito.verify(this.mariageService).sauvegarder(Mockito.anyLong(), Mockito.any(Foyer.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -100,8 +100,8 @@ public class FoyerRestControlerTest extends BaseRestControlerTest {
 		final ArgumentCaptor<Foyer> argumentCaptorFoyer = ArgumentCaptor.forClass(Foyer.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
 		Mockito.doReturn(new Foyer(idFoyer, groupe1, nom1, adresse1, email1, telephone1)).when(this.mariageService)
-				.chargeFoyerParId(idFoyer);
-		Mockito.doReturn(idFoyer).when(this.mariageService).sauvegarde(argumentCaptorIdMariage.capture(),
+				.chargerFoyerParId(idFoyer);
+		Mockito.doReturn(idFoyer).when(this.mariageService).sauvegarder(argumentCaptorIdMariage.capture(),
 				argumentCaptorFoyer.capture());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("foyer", nom2, "groupe",
@@ -121,8 +121,8 @@ public class FoyerRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(argumentCaptorFoyer.getValue().getEmail(), email2);
 		Assert.assertEquals(argumentCaptorFoyer.getValue().getTelephone(), telephone2);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.mariageService).sauvegarde(Mockito.anyLong(), Mockito.any(Foyer.class));
-		Mockito.verify(this.mariageService).chargeFoyerParId(Mockito.anyLong());
+		Mockito.verify(this.mariageService).sauvegarder(Mockito.anyLong(), Mockito.any(Foyer.class));
+		Mockito.verify(this.mariageService).chargerFoyerParId(Mockito.anyLong());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -134,7 +134,7 @@ public class FoyerRestControlerTest extends BaseRestControlerTest {
 		final Boolean estInvite = true;
 
 		// ARRANGE
-		Mockito.doNothing().when(this.mariageService).lieUnFoyerEtUnCourrier(Mockito.anyLong(), Mockito.anyLong(),
+		Mockito.doNothing().when(this.mariageService).lierUnFoyerEtUnCourrier(Mockito.anyLong(), Mockito.anyLong(),
 				Mockito.anyLong(), Mockito.anyBoolean());
 
 		// ACT
@@ -146,7 +146,7 @@ public class FoyerRestControlerTest extends BaseRestControlerTest {
 
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
-		Mockito.verify(this.mariageService).lieUnFoyerEtUnCourrier(idMariage, idCourrier, idFoyer, estInvite);
+		Mockito.verify(this.mariageService).lierUnFoyerEtUnCourrier(idMariage, idCourrier, idFoyer, estInvite);
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 }

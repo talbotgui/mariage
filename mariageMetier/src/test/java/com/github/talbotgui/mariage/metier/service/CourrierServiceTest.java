@@ -64,10 +64,10 @@ public class CourrierServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 
 		// ACT
-		final Collection<Courrier> courriers = this.instance.listeCourriersParIdMariage(idMariage);
+		final Collection<Courrier> courriers = this.instance.listerCourriersParIdMariage(idMariage);
 
 		// ASSERT
 		Assert.assertEquals(2, courriers.size());
@@ -78,17 +78,17 @@ public class CourrierServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Collection<Courrier> courrierAvant = this.instance.listeCourriersParIdMariage(idMariage);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Collection<Courrier> courrierAvant = this.instance.listerCourriersParIdMariage(idMariage);
 
 		// ACT
 		final String nom = "NouveauCourrier";
 		final Date date = new Date();
-		final Long id = this.instance.sauvegarde(idMariage, new Courrier(nom, date));
+		final Long id = this.instance.sauvegarder(idMariage, new Courrier(nom, date));
 
 		// ASSERT
 		Assert.assertNotNull(id);
-		final Collection<Courrier> courrierApres = this.instance.listeCourriersParIdMariage(idMariage);
+		final Collection<Courrier> courrierApres = this.instance.listerCourriersParIdMariage(idMariage);
 		Assert.assertEquals(courrierAvant.size() + 1, courrierApres.size());
 		final Collection<Courrier> diff = new TreeSet<>(new CourrierComparator());
 		diff.addAll(courrierApres);
@@ -103,14 +103,14 @@ public class CourrierServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Collection<Courrier> courrierAvant = this.instance.listeCourriersParIdMariage(idMariage);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Collection<Courrier> courrierAvant = this.instance.listerCourriersParIdMariage(idMariage);
 
 		// ACT
-		this.instance.supprimeCourrier(idMariage, courrierAvant.iterator().next().getId());
+		this.instance.supprimerCourrier(idMariage, courrierAvant.iterator().next().getId());
 
 		// ASSERT
-		final Collection<Courrier> courrierApres = this.instance.listeCourriersParIdMariage(idMariage);
+		final Collection<Courrier> courrierApres = this.instance.listerCourriersParIdMariage(idMariage);
 		Assert.assertEquals(courrierAvant.size() - 1, courrierApres.size());
 	}
 
@@ -119,17 +119,17 @@ public class CourrierServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
-		final Collection<Courrier> courrierAvant = this.instance.listeCourriersParIdMariage(idMariage);
-		final Foyer foyer = this.instance.listeFoyersParIdMariage(idMariage).iterator().next();
-		final Courrier courrier = this.instance.listeCourriersParIdMariage(idMariage).iterator().next();
-		this.instance.lieUnFoyerEtUnCourrier(idMariage, courrier.getId(), foyer.getId(), true);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		final Collection<Courrier> courrierAvant = this.instance.listerCourriersParIdMariage(idMariage);
+		final Foyer foyer = this.instance.listerFoyersParIdMariage(idMariage).iterator().next();
+		final Courrier courrier = this.instance.listerCourriersParIdMariage(idMariage).iterator().next();
+		this.instance.lierUnFoyerEtUnCourrier(idMariage, courrier.getId(), foyer.getId(), true);
 
 		// ACT
-		this.instance.supprimeCourrier(idMariage, courrierAvant.iterator().next().getId());
+		this.instance.supprimerCourrier(idMariage, courrierAvant.iterator().next().getId());
 
 		// ASSERT
-		final Collection<Courrier> courrierApres = this.instance.listeCourriersParIdMariage(idMariage);
+		final Collection<Courrier> courrierApres = this.instance.listerCourriersParIdMariage(idMariage);
 		Assert.assertEquals(courrierAvant.size() - 1, courrierApres.size());
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from INVITATION", Long.class));
@@ -141,7 +141,7 @@ public class CourrierServiceTest {
 		// ARRANGE
 
 		// ACT
-		CatchException.catchException(this.instance).supprimeCourrier(-1L, -1L);
+		CatchException.catchException(this.instance).supprimerCourrier(-1L, -1L);
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
@@ -154,11 +154,11 @@ public class CourrierServiceTest {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageAvecInvitations();
-		final Long idMariage = this.instance.sauvegardeGrappe(original);
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
 		final Long idCourrier = original.getCourriers().iterator().next().getId();
 
 		// ACT
-		final Collection<Foyer> foyers = this.instance.listeFoyersParIdCourrier(idMariage, idCourrier);
+		final Collection<Foyer> foyers = this.instance.listerFoyersParIdCourrier(idMariage, idCourrier);
 
 		// ASSERT
 		Assert.assertNotNull(foyers);

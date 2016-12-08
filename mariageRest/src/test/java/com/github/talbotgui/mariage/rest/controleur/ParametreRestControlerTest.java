@@ -20,7 +20,7 @@ public class ParametreRestControlerTest extends BaseRestControlerTest {
 		final List<String> toReturn = Arrays.asList("1", "2", "3");
 
 		// ARRANGE
-		Mockito.doReturn(toReturn).when(this.mariageService).listeAgePossible();
+		Mockito.doReturn(toReturn).when(this.mariageService).listerAgePossible();
 
 		// ACT
 		final ParameterizedTypeReference<Collection<String>> typeRetour = new ParameterizedTypeReference<Collection<String>>() {
@@ -31,7 +31,7 @@ public class ParametreRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertNotNull(ages.getBody());
 		Assert.assertEquals(ages.getBody(), toReturn);
-		Mockito.verify(this.mariageService).listeAgePossible();
+		Mockito.verify(this.mariageService).listerAgePossible();
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -41,7 +41,7 @@ public class ParametreRestControlerTest extends BaseRestControlerTest {
 				Utilisateur.Role.UTILISATEUR.toString(), Utilisateur.Role.MARIE.toString());
 
 		// ARRANGE
-		Mockito.doReturn(toReturn).when(this.securiteService).listeRolePossible();
+		Mockito.doReturn(toReturn).when(this.securiteService).listerRolePossible();
 
 		// ACT
 		final ParameterizedTypeReference<Collection<String>> typeRetour = new ParameterizedTypeReference<Collection<String>>() {
@@ -52,7 +52,7 @@ public class ParametreRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertNotNull(ages.getBody());
 		Assert.assertEquals(ages.getBody(), toReturn);
-		Mockito.verify(this.securiteService).listeRolePossible();
+		Mockito.verify(this.securiteService).listerRolePossible();
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 }
