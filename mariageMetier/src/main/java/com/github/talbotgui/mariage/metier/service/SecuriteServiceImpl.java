@@ -40,6 +40,11 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
+	public Utilisateur chargeUtilisateur(final String login) {
+		return this.utilisateurRepo.findOne(login);
+	}
+
+	@Override
 	public void deverrouilleUtilisateur(final String login) {
 		final Utilisateur u = this.utilisateurRepo.findOne(login);
 		u.deverrouilleUtilisateur();
@@ -73,20 +78,16 @@ public class SecuriteServiceImpl implements SecuriteService {
 	@Override
 	public void sauvegardeUtilisateur(final String login, final String mdp, Utilisateur.Role role) {
 
-		// Validation login
-		if (login == null || login.length() < LOGIN_MDP_MIN) {
-			throw new BusinessException(BusinessException.ERREUR_LOGIN_MDP, new Object[] { LOGIN_MDP_MIN });
-		}
+		this.valideLoginOuMotDePasse(login);
 
 		// Recherche
 		final Utilisateur u = this.utilisateurRepo.findOne(login);
 
 		// Creation
 		if (u == null) {
-			// Validation mdp
-			if (mdp == null || mdp.length() < LOGIN_MDP_MIN) {
-				throw new BusinessException(BusinessException.ERREUR_LOGIN_MDP, new Object[] { LOGIN_MDP_MIN });
-			}
+
+			this.valideLoginOuMotDePasse(mdp);
+
 			if (role == null) {
 				role = Utilisateur.Role.UTILISATEUR;
 			}
@@ -95,7 +96,13 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 		// MaJ
 		else {
-			u.setRole(role);
+			if (role != null) {
+				u.setRole(role);
+			}
+			if (mdp != null) {
+				this.valideLoginOuMotDePasse(mdp);
+				u.setMdp(this.encrypt(mdp));
+			}
 			this.utilisateurRepo.save(u);
 		}
 	}
@@ -108,6 +115,12 @@ public class SecuriteServiceImpl implements SecuriteService {
 	@Override
 	public void supprimeUtilisateur(final String login) {
 		this.utilisateurRepo.delete(login);
+	}
+
+	private void valideLoginOuMotDePasse(final String loginOuMdp) {
+		if (loginOuMdp == null || loginOuMdp.length() < LOGIN_MDP_MIN) {
+			throw new BusinessException(BusinessException.ERREUR_LOGIN_MDP, new Object[] { LOGIN_MDP_MIN });
+		}
 	}
 
 	@Override

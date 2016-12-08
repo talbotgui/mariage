@@ -320,4 +320,20 @@ public class SecuriteServiceTest {
 
 	}
 
+	@Test
+	public void test10ChargeUtilisateur() {
+		//
+		final String login = "monLogin";
+		final String mdp = "unBonMdp";
+		final Role role = Utilisateur.Role.ADMIN;
+		this.instance.sauvegardeUtilisateur(login, mdp, role);
+
+		//
+		final Utilisateur u = this.instance.chargeUtilisateur(login);
+
+		//
+		Assert.assertEquals(login, u.getLogin());
+		Assert.assertNotEquals(mdp, u.getMdp());
+		Assert.assertEquals(role, u.getRole());
+	}
 }

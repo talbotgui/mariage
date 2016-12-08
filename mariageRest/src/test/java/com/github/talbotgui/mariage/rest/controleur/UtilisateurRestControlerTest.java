@@ -196,6 +196,25 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 	}
 
 	@Test
+	public void test08GetUtilisateurMoi() {
+		final Utilisateur u = new Utilisateur("monLogin", "mdp");
+
+		// ARRANGE
+		Mockito.doReturn(u).when(this.securiteService).chargeUtilisateur(null);
+
+		// ACT
+		final UtilisateurDTO uDto = this.getREST().getForObject(this.getURL() + "/utilisateur/moi",
+				UtilisateurDTO.class);
+
+		// ASSERT
+		Assert.assertEquals(uDto.getLogin(), u.getLogin());
+		Assert.assertEquals(uDto.getRole(), u.getRole().name());
+		Mockito.verify(this.securiteService).chargeUtilisateur(null);
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+
+	}
+
+	@Test
 	public void test99BugSuppressionUtilisateurDontLoginContientUnPoint() {
 		final String login = "mon.login";
 		final String loginObtenu = "mon.login".substring(0, login.indexOf("."));

@@ -139,14 +139,17 @@ var valideForm = function(formSelector, callback) {
 	var inputsRequired = $(formSelector + " :input[required]");
 	var inputsMinLength = $(formSelector + " :input[data-minLength]");
 	var inputsPattern = $(formSelector + " :input[data-validationPattern]");
+	var inputsValueEqualsField = $(formSelector + " :input[data-valueEqualsField]");
 
 	inputsRequired.removeClass("error");
 	inputsMinLength.removeClass("error");
 	inputsPattern.removeClass("error");
+	inputsValueEqualsField.removeClass("error");
 
 	var errors = inputsRequired.filter(function() { return !$(this).val(); });
 	errors = errors.add(inputsMinLength.filter(function() { return this.value.length < $(this).attr("data-minLength"); }));
 	errors = errors.add(inputsPattern.filter(function() { return !(new RegExp($(this).attr("data-validationPattern"))).test(this.value); }));
+	errors = errors.add(inputsValueEqualsField.filter(function() { return this.value !== $($(this).attr("data-valueEqualsField")).val(); }));
 	errors.addClass("error");
 
 	// Do it

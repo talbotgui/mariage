@@ -68,6 +68,12 @@ public class UtilisateurRestControler {
 		return roleEnum;
 	}
 
+	@RequestMapping(value = "/utilisateur/moi", method = GET)
+	public UtilisateurDTO getUtilisateurMoi(final HttpServletRequest request) {
+		final String login = (String) request.getSession().getAttribute(SecurityFilter.SESSION_KEY_USER_LOGIN);
+		return DTOUtils.creerDto(this.securiteService.chargeUtilisateur(login), UtilisateurDTO.class);
+	}
+
 	@RequestMapping(value = "/utilisateur", method = GET)
 	public Collection<UtilisateurDTO> listeUtilisateur() {
 		return DTOUtils.creerDtos(this.securiteService.listeUtilisateurs(), UtilisateurDTO.class);

@@ -9,6 +9,8 @@ public interface SecuriteService {
 
 	void ajouteAutorisation(String login, Long idMariage);
 
+	Utilisateur chargeUtilisateur(String login);
+
 	void deverrouilleUtilisateur(final String login);
 
 	Collection<String> listeRolePossible();
@@ -18,7 +20,7 @@ public interface SecuriteService {
 	/**
 	 * A la creation d'un utilisateur, si aucun role fournit, le nouvel
 	 * utilisateur sera un UTILISATEUR.
-	 * 
+	 *
 	 * @param login
 	 *            Identifiant unique
 	 * @param mdp

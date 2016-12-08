@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		
+		<title>Mariage</title>
+		
+		<link rel="stylesheet" href="ressources/jquery-ui-1.11.4.custom/jquery-ui.min.css" />
+		<link rel="stylesheet" href="ressources/bootstrap-3.3.6-dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="ressources/bootstrap-datetimepicker-master/bootstrap-datetimepicker.min.css"/>
+		<link rel="stylesheet" href="ressources/jqwidgets-ver4.1.1/jqx.base.css" />
+		<link rel="stylesheet" href="ressources/TimeCircles/TimeCircles.css?_version=${buildTimestamp}" />
+		<link rel="stylesheet" href="ressources/custom.css?_version=${buildTimestamp}?_version=${buildTimestamp}" />
+	</head>
+	<body>
+		<div class="container-fluid">
+
+			<!-- Colonne gauche -->
+			<div class="header col-md-3">
+				<div data-w3-include-html="./part_menu.html?_version=${buildTimestamp}"></div> 
+			</div>
+			
+			<div class="content col-md-9">
+			
+				<div class="text-center">
+					<h1>Modifier mon mot de passe.</h1>
+					<div class="form-horizontal">
+						<form>
+							<input type="hidden" id="login" name="login"/>
+							<div class="form-group"><input type="password" class="form-control" id="mdp" name="mdp"  placeholder="Mot de passe" required data-minLength="6"/></div>
+							<div class="form-group"><input type="password" class="form-control" id="mdp2" name="mdp2"  placeholder="Confirmation" required data-minLength="6" data-valueEqualsField="#mdp"/></div>
+							<br/><button id="button_modifier_mdp" class="btn btn-default">Modifier mon mot de passe</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="application/javascript" src="ressources/all.js?_version=${buildTimestamp}"></script>
+		<script type="application/javascript" src="ressources/common.js?_version=${buildTimestamp}"></script>
+		<script type="application/javascript" src="ressources/profile.js?_version=${buildTimestamp}"></script>
+	</body>
+</html>
