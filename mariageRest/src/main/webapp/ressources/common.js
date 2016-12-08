@@ -292,5 +292,12 @@ $(document).ready(function() {
 	if (popups.length > 0) { popups.jqxWindow({ width: 450, autoOpen: false }); }
 	
 	// Ajout de la deconnexion
-	$("#logout").on("click", logout);
+	var activeLogout = function() {
+		return $("#logout").off("click").on("click", logout).length;
+	};
+	
+	// Si le menu n'a pas chargé assez vite, la ligne précédente n'a rien fait
+	if (activeLogout() == 0 ) {
+		setTimeout(function() { activeLogout(); }, 2000);
+	}
 });
