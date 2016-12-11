@@ -30,22 +30,37 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	@Value("${server.context-path}")
 	private String contextPath;
 
-	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
+	/**
+	 * Instance des controleurs nécessaires pour y injecter le mock de service.
+	 */
 	@Autowired
 	@InjectMocks
 	private CourrierRestControler courrierCtrl;
 
-	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
+	/**
+	 * Instance des controleurs nécessaires pour y injecter le mock de service.
+	 */
 	@Autowired
 	@InjectMocks
 	private EtapeRestControler etapeCtrl;
 
-	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
+	/**
+	 * Instance des controleurs nécessaires pour y injecter le mock de service.
+	 */
+	@Autowired
+	@InjectMocks
+	private EvenementRestControler evenementCtrl;
+
+	/**
+	 * Instance des controleurs nécessaires pour y injecter le mock de service.
+	 */
 	@Autowired
 	@InjectMocks
 	private InviteRestControler inviteCtrl;
 
-	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
+	/**
+	 * Instance des controleurs nécessaires pour y injecter le mock de service.
+	 */
 	@Autowired
 	@InjectMocks
 	private MariageRestControler mariageCtrl;
@@ -54,12 +69,16 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	@Mock
 	protected MariageService mariageService;
 
-	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
+	/**
+	 * Instance des controleurs nécessaires pour y injecter le mock de service.
+	 */
 	@Autowired
 	@InjectMocks
 	private ParametreRestControler parametreCtrl;
 
-	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
+	/**
+	 * Instance des controleurs nécessaires pour y injecter le mock de service.
+	 */
 	@Autowired
 	@InjectMocks
 	private FoyerRestControler peCtrl;
@@ -72,7 +91,9 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	@Mock
 	protected SecuriteService securiteService;
 
-	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
+	/**
+	 * Instance des controleurs nécessaires pour y injecter le mock de service.
+	 */
 	@Autowired
 	@InjectMocks
 	private UtilisateurRestControler utilisateurCtrl;
@@ -93,7 +114,8 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	/**
 	 * Reset restTemplate avec les intercepteurs
 	 *
-	 * @see com.github.talbotgui.mariage.rest.controleur.ControlerTestUtil (REST_INTERCEPTORS)
+	 * @see com.github.talbotgui.mariage.rest.controleur.ControlerTestUtil
+	 *      (REST_INTERCEPTORS)
 	 *
 	 * @return a new RestTemplate
 	 */

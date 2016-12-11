@@ -1,3 +1,5 @@
+delete from EVENEMENT_PARTICIPANTS
+delete from EVENEMENT
 delete from COURRIER_ETAPES
 delete from PRESENCE
 delete from INVITATION

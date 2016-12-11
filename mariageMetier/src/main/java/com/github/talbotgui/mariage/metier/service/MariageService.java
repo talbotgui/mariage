@@ -9,6 +9,7 @@ import com.github.talbotgui.mariage.metier.dto.StatistiquesMariage;
 import com.github.talbotgui.mariage.metier.dto.StatistiquesPresenceMariage;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
+import com.github.talbotgui.mariage.metier.entities.Evenement;
 import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
@@ -43,6 +44,8 @@ public interface MariageService {
 
 	Collection<Etape> listerEtapesParIdMariage(Long idMariage);
 
+	Collection<Evenement> listerEvenementsParIdMariage(Long idMariage);
+
 	Collection<Foyer> listerFoyersParIdCourrier(Long idMariage, Long idCourrier);
 
 	Collection<Foyer> listerFoyersParIdMariage(Long idMariage);
@@ -51,25 +54,27 @@ public interface MariageService {
 
 	Page<Invite> listerInvitesParIdMariage(Long idMariage, Pageable page);
 
+	Collection<Invite> listerInvitesPresentsParIdMariage(Long idMariage);
+
 	Collection<Presence> listerPresencesParIdMariage(Long idMariage);
 
 	Collection<Mariage> listerTousMariages();
 
 	Collection<String> rechercherErreurs(Long idMariage);
 
-	Collection<Invite> listerInvitesPresentsParIdMariage(Long idMariage);
+	void sauvegardeEnMasse(Long idMariage, Collection<Invite> invites);
 
 	Long sauvegarder(Long idMariage, Courrier courrier);
 
 	Long sauvegarder(Long idMariage, Etape etape);
+
+	Long sauvegarder(Long idMariage, Evenement evenement);
 
 	Long sauvegarder(Long idMariage, Foyer foyer);
 
 	void sauvegarder(Long idMariage, Presence presence);
 
 	Long sauvegarder(Mariage mariage);
-
-	void sauvegardeEnMasse(Long idMariage, Collection<Invite> invites);
 
 	Long sauvegarderGrappe(Mariage mariage);
 
@@ -78,6 +83,8 @@ public interface MariageService {
 	void supprimerCourrier(Long idMariage, Long idCourrier);
 
 	void supprimerEtape(Long idMariage, Long idEtape);
+
+	void supprimerEvenement(Long idMariage, Long idEvenement);
 
 	void supprimerInvite(Long idMariage, Long idInvite);
 

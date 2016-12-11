@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.talbotgui.mariage.metier.dao.CourrierRepository;
 import com.github.talbotgui.mariage.metier.dao.EtapeRepository;
+import com.github.talbotgui.mariage.metier.dao.EvenementRepository;
 import com.github.talbotgui.mariage.metier.dao.FoyerRepository;
 import com.github.talbotgui.mariage.metier.dao.InvitationRepository;
 import com.github.talbotgui.mariage.metier.dao.InviteRepository;
@@ -33,6 +34,7 @@ import com.github.talbotgui.mariage.metier.dto.StatistiquesRepartitionsInvitesMa
 import com.github.talbotgui.mariage.metier.entities.Age;
 import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
+import com.github.talbotgui.mariage.metier.entities.Evenement;
 import com.github.talbotgui.mariage.metier.entities.Foyer;
 import com.github.talbotgui.mariage.metier.entities.Invitation;
 import com.github.talbotgui.mariage.metier.entities.Invite;
@@ -49,6 +51,9 @@ public class MariageServiceImpl implements MariageService {
 
 	@Autowired
 	private EtapeRepository etapeRepository;
+
+	@Autowired
+	private EvenementRepository evenementRepository;
 
 	@Autowired
 	private FoyerRepository foyerRepository;
@@ -198,6 +203,11 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public Collection<Evenement> listerEvenementsParIdMariage(final Long idMariage) {
+		return this.evenementRepository.listeEvenementsParIdMariageId(idMariage);
+	}
+
+	@Override
 	public Collection<Foyer> listerFoyersParIdCourrier(final Long idMariage, final Long idCourrier) {
 		return this.foyerRepository.listerFoyersParIdCourrier(idMariage, idCourrier);
 	}
@@ -215,6 +225,11 @@ public class MariageServiceImpl implements MariageService {
 	@Override
 	public Page<Invite> listerInvitesParIdMariage(final Long idMariage, final Pageable page) {
 		return this.inviteRepository.listerInvitesParIdMariage(idMariage, page);
+	}
+
+	@Override
+	public Collection<Invite> listerInvitesPresentsParIdMariage(final Long idMariage) {
+		return this.inviteRepository.listerInvitesPresentsParIdMariage(idMariage);
 	}
 
 	@Override
@@ -248,19 +263,6 @@ public class MariageServiceImpl implements MariageService {
 		final Collection<Mariage> liste = new ArrayList<>();
 		liste.addAll((Collection<Mariage>) this.mariageRepository.findAll());
 		return liste;
-	}
-
-	@Override
-	public Collection<String> rechercherErreurs(final Long idMariage) {
-		final Collection<String> erreurs = new ArrayList<>();
-
-		// Recherche de personnes invités à plusieurs étapes.
-		erreurs.addAll(this.rechercheErreursPourInviteSurPlusieursEtapes(idMariage));
-
-		// Recherche les presences existantes sans invitations existantes.
-		erreurs.addAll(this.recherchePresencesSansInvitations(idMariage));
-
-		return erreurs;
 	}
 
 	/**
@@ -304,11 +306,6 @@ public class MariageServiceImpl implements MariageService {
 		}
 
 		return erreurs;
-	}
-
-	@Override
-	public Collection<Invite> listerInvitesPresentsParIdMariage(final Long idMariage) {
-		return this.inviteRepository.listerInvitesPresentsParIdMariage(idMariage);
 	}
 
 	/**
@@ -356,6 +353,28 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public Collection<String> rechercherErreurs(final Long idMariage) {
+		final Collection<String> erreurs = new ArrayList<>();
+
+		// Recherche de personnes invités à plusieurs étapes.
+		erreurs.addAll(this.rechercheErreursPourInviteSurPlusieursEtapes(idMariage));
+
+		// Recherche les presences existantes sans invitations existantes.
+		erreurs.addAll(this.recherchePresencesSansInvitations(idMariage));
+
+		return erreurs;
+	}
+
+	@Override
+	public void sauvegardeEnMasse(final Long idMariage, final Collection<Invite> invites) {
+		if (invites != null) {
+			for (final Invite invite : invites) {
+				this.sauvegarderInviteEtFoyer(idMariage, invite);
+			}
+		}
+	}
+
+	@Override
 	public Long sauvegarder(final Long idMariage, final Courrier courrier) {
 		courrier.setMariage(this.mariageRepository.findOne(idMariage));
 		return this.courrierRepository.save(courrier).getId();
@@ -368,6 +387,12 @@ public class MariageServiceImpl implements MariageService {
 			etape.setNumOrdre(1 + this.etapeRepository.compterEtapeByIdMariage(idMariage));
 		}
 		return this.etapeRepository.save(etape).getId();
+	}
+
+	@Override
+	public Long sauvegarder(final Long idMariage, final Evenement evenement) {
+		evenement.setMariage(this.mariageRepository.findOne(idMariage));
+		return this.evenementRepository.save(evenement).getId();
 	}
 
 	@Override
@@ -386,15 +411,6 @@ public class MariageServiceImpl implements MariageService {
 	@Override
 	public Long sauvegarder(final Mariage m) {
 		return this.mariageRepository.save(m).getId();
-	}
-
-	@Override
-	public void sauvegardeEnMasse(final Long idMariage, final Collection<Invite> invites) {
-		if (invites != null) {
-			for (final Invite invite : invites) {
-				this.sauvegarderInviteEtFoyer(idMariage, invite);
-			}
-		}
 	}
 
 	@Override
@@ -434,9 +450,20 @@ public class MariageServiceImpl implements MariageService {
 		return this.inviteRepository.save(invite).getId();
 	}
 
+	private void supprimefoyer(final Long idFoyer) {
+
+		// Supprime les invitations
+		this.invitationRepository.supprimerInvitationsParIdFoyer(idFoyer);
+
+		// Supprime le foyer
+		final Foyer f = this.foyerRepository.findOne(idFoyer);
+		this.foyerRepository.delete(f);
+	}
+
 	@Override
 	public void supprimerCourrier(final Long idMariage, final Long idCourrier) {
-		if (idMariage == null || !idMariage.equals(this.courrierRepository.rechercherIdMariageByCourrierId(idCourrier))) {
+		if (idMariage == null
+				|| !idMariage.equals(this.courrierRepository.rechercherIdMariageByCourrierId(idCourrier))) {
 			throw new BusinessException(BusinessException.ERREUR_ID_MARIAGE, new Object[] { idMariage });
 		}
 
@@ -460,14 +487,13 @@ public class MariageServiceImpl implements MariageService {
 		this.etapeRepository.delete(idEtape);
 	}
 
-	private void supprimefoyer(final Long idFoyer) {
-
-		// Supprime les invitations
-		this.invitationRepository.supprimerInvitationsParIdFoyer(idFoyer);
-
-		// Supprime le foyer
-		final Foyer f = this.foyerRepository.findOne(idFoyer);
-		this.foyerRepository.delete(f);
+	@Override
+	public void supprimerEvenement(final Long idMariage, final Long idEvenement) {
+		if (idMariage == null
+				|| !idMariage.equals(this.evenementRepository.rechercherIdMariageByEvenementId(idEvenement))) {
+			throw new BusinessException(BusinessException.ERREUR_ID_MARIAGE, new Object[] { idMariage });
+		}
+		this.evenementRepository.delete(idEvenement);
 	}
 
 	@Override

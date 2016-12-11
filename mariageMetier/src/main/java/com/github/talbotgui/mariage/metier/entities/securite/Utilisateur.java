@@ -54,6 +54,11 @@ public class Utilisateur implements Serializable {
 		super();
 	}
 
+	public Utilisateur(final String login) {
+		super();
+		this.setLogin(login);
+	}
+
 	public Utilisateur(final String login, final String mdp) {
 		super();
 		this.setLogin(login);
