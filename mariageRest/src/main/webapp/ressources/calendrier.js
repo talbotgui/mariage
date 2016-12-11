@@ -1,20 +1,41 @@
 var donneesDejaChargees = false;
 var dataInDhtmlXDataStore;
+var filtres = {};
 
-var definitionCouleurEvenement = function(start, end, event) {
-	var css = "";
-	if (event.participants && event.participants[0] === "" ) { css += ""; }
-	return css; 
-};
+/** Init des filtres */
+var initialisationFiltres = function(utilisateurs) {
+	var div = $(".divCalendrierFiltre");
+
+	utilisateurs.forEach(function(e, i, array) {
+		filtres[e.login] = true;
+		div.append("<label><input class='inputFiltre' type='checkbox' checked='checked' value='" + e.login + "'/>" + e.login + "</label><br/>");
+	});
+
+	$(".inputFiltre").on("click", function (e) { 
+		filtres[e.target.value] = !filtres[e.target.value];
+		scheduler.updateView();
+	});
+}
+
+var filtreEvenements = function(id, event) {
+	if (event) {
+		for (var i in event.participants) {
+			if (filtres[event.participants[i]]) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
 
 /** Creation / modification d'une évènement. */
 var modificationEvenement = function(idEvent, ev) {
 
 	// Les identifiants générés par DHTMLx sont calculé avec la date courante ((new Date()).valueOf())
 	if (idEvent > 1480000000000) { idEvent = null; }
-	
+
 	var data = { id: idEvent, titre: ev.text, debut: ev.start_date, fin: ev.end_date, participants: ev.participants };
-	
+
 	var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/evenement", data: data});
 	req.success(function(dataString) { chargeCalendrier(); });
 	req.fail(function(jqXHR, textStatus, errorThrown) { ajaxFailFunctionToDisplayWarn(jqXHR, "la création/modification d'un évènement"); });
@@ -36,20 +57,20 @@ var supprimerEvenement = function(idEvent, ev) {
 /** Chargement */
 var chargeCalendrier = function() {
 	if (getIdMariage() === "") { return; }
-	
+
 	if (!donneesDejaChargees) { 
-	
+
 		// Pour fixer le debut et la fin du calendrier à la journée
 		// scheduler.config.first_hour = 7;
 		// scheduler.config.last_hour = 23;
-	
+
 		// Format des dates
 		scheduler.config.xml_date="%d/%m/%Y %H:%i";
-	
+
 		// Pour afficher le formulaire complet à la création et à la modification
 		scheduler.config.details_on_create=true;
 		scheduler.config.details_on_dblclick=true;
-		
+
 		// Pour attraper les ajouts/modifications/suppressions
 		scheduler.attachEvent("onEventAdded", modificationEvenement);
 		scheduler.attachEvent("onEventChanged", modificationEvenement);
@@ -65,12 +86,18 @@ var chargeCalendrier = function() {
 			return true;
 		});
 
-		// Personnalisation de la CSS des evenements en fonction des données
-		scheduler.templates.event_class = definitionCouleurEvenement;
+		// Filtrage
+		scheduler.filter_month = filtreEvenements;
+		scheduler.filter_day = filtreEvenements;
+		scheduler.filter_week = filtreEvenements;
 
-		// Configuration du formulaire de détails
+		// Recherche des utilisateurs
 		var req = $.ajax({ type: "GET", url: REST_PREFIX + "/utilisateur/"});
 		req.success(function(data) {
+			// Configuration des filtres
+			initialisationFiltres(data);
+
+			// Configuration du formulaire de détails
 			var mapUtilisateurs = [];
 			data.forEach(function(e, i, array) { mapUtilisateurs.push({key: e.login, label: e.login}); });
 			scheduler.config.lightbox.sections = [	
@@ -94,7 +121,7 @@ var chargeCalendrier = function() {
 		scheduler.parse(data, "json");
 	});
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le chargement des évènements");});	
-	
+
 	// Pour ne pas repasser par là
 	donneesDejaChargees = true;
 };
@@ -113,7 +140,9 @@ function afficheMiniCalendrier(){
 
 $(document).ready(function() {
 	chargeCalendrier();
-	
+
 	// Gestion du minicalendrier
 	$(".dhx_minical_icon").on("click", afficheMiniCalendrier);
+	$(".calendrierFiltreIcone").on("click", function() { $(".divCalendrierFiltre").toggle(); });
+	$(".divCalendrierFiltre").on("mouseleave", function() { $(".divCalendrierFiltre").hide(); });
 });
