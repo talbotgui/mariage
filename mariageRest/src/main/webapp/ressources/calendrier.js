@@ -17,7 +17,7 @@ var modificationEvenement = function(idEvent, ev) {
 	
 	var req = $.ajax({ type: "POST", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/evenement", data: data});
 	req.success(function(dataString) { chargeCalendrier(); });
-	req.fail(function(jqXHR, textStatus, errorThrown) { ajaxFailFunctionToDisplayWarn(jqXHR, "la création/modification d'un invite"); });
+	req.fail(function(jqXHR, textStatus, errorThrown) { ajaxFailFunctionToDisplayWarn(jqXHR, "la création/modification d'un évènement"); });
 
 	return false;
 }
@@ -28,7 +28,7 @@ var supprimerEvenement = function(idEvent, ev) {
 	if (idEvent < 1480000000000) {
 		var req = $.ajax({ type: "DELETE", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/evenement/" + idEvent});
 		req.success(function(dataString) { chargeCalendrier(); });
-		req.fail(function(jqXHR, textStatus, errorThrown) { ajaxFailFunctionToDisplayWarn(jqXHR, "la suppression d'un invite"); });
+		req.fail(function(jqXHR, textStatus, errorThrown) { ajaxFailFunctionToDisplayWarn(jqXHR, "la suppression d'un évènement"); });
 	}
 	return false;
 }
