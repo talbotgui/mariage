@@ -181,6 +181,7 @@ var alimentationSelectBox = function() {
 		var source = sel.attr("data-source");
 		var empty = sel.attr("data-empty") === "true";
 		var labelAtt = sel.attr("data-labelAtt");
+		var valueAtt = sel.attr("data-valueAtt");
 		
 		var req = $.get( REST_PREFIX + source);
 		req.success(function(dataString) {
@@ -201,6 +202,9 @@ var alimentationSelectBox = function() {
 				var id = e;
 				if (e.id) {
 					id = e.id;
+				}
+				if (valueAtt) {
+					id = e[valueAtt];
 				}
 				sel.append($('<option>', {value:id, text:txt, "data-object":JSON.stringify(data)}));
 			});

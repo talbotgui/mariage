@@ -8,6 +8,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.talbotgui.mariage.metier.dto.DTOUtils;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
+import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur.Role;
 import com.github.talbotgui.mariage.metier.service.MariageService;
 import com.github.talbotgui.mariage.rest.controleur.dto.MariageDTO;
 import com.github.talbotgui.mariage.rest.exception.RestException;
+import com.github.talbotgui.mariage.rest.security.SecurityFilter;
 
 @RestController
 public class MariageRestControler {
@@ -37,8 +41,17 @@ public class MariageRestControler {
 	}
 
 	@RequestMapping(value = "/mariage", method = GET)
-	public Collection<MariageDTO> listerTousMariages() {
-		final Collection<Mariage> mariages = this.mariageService.listerTousMariages();
+	public Collection<MariageDTO> listerTousMariages(final HttpServletRequest request) {
+		final String login = (String) request.getSession().getAttribute(SecurityFilter.SESSION_KEY_USER_LOGIN);
+		final String roleUtilisateur = (String) request.getSession().getAttribute(SecurityFilter.SESSION_KEY_USER_ROLE);
+
+		final Collection<Mariage> mariages;
+		if (Role.ADMIN.name().equals(roleUtilisateur)) {
+			mariages = this.mariageService.listerTousMariages();
+		} else {
+			mariages = this.mariageService.listerMariagesAutorises(login);
+		}
+
 		return DTOUtils.creerDtos(mariages, MariageDTO.class);
 	}
 

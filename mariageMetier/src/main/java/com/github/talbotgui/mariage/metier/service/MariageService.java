@@ -56,6 +56,8 @@ public interface MariageService {
 
 	Collection<Invite> listerInvitesPresentsParIdMariage(Long idMariage);
 
+	Collection<Mariage> listerMariagesAutorises(String login);
+
 	Collection<Presence> listerPresencesParIdMariage(Long idMariage);
 
 	Collection<Mariage> listerTousMariages();

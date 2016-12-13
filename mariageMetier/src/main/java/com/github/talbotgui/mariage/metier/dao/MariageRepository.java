@@ -21,4 +21,10 @@ public interface MariageRepository extends CrudRepository<Mariage, Long> {
 	@Query("select e from Mariage m join m.etapes e where m.id=:idMariage order by e.numOrdre")
 	Collection<Etape> listerEtapesParIdMariage(@Param("idMariage") Long idMariage);
 
+	@Query("select m from Utilisateur u join u.autorisations a join a.mariage m where u.login = :login")
+	Collection<Mariage> listerMariagesAutorises(@Param("login") String login);
+
+	@Query("select m from Mariage m")
+	Collection<Mariage> listerTousMariages();
+
 }

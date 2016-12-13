@@ -2,20 +2,25 @@ package com.github.talbotgui.mariage.metier.service;
 
 import java.util.Collection;
 
+import com.github.talbotgui.mariage.metier.entities.securite.Autorisation;
 import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur;
 import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur.Role;
 
 public interface SecuriteService {
 
-	void ajouterAutorisation(String login, Long idMariage);
+	Long ajouterAutorisation(String login, Long idMariage);
 
 	Utilisateur chargerUtilisateur(String login);
 
 	void deverrouillerUtilisateur(final String login);
 
+	Collection<Autorisation> listerAutorisations();
+
 	Collection<String> listerRolePossible();
 
 	Collection<Utilisateur> listerUtilisateurs();
+
+	Collection<Utilisateur> listerUtilisateursParMariage(Long idMariage);
 
 	/**
 	 * A la creation d'un utilisateur, si aucun role fournit, le nouvel
@@ -30,7 +35,7 @@ public interface SecuriteService {
 	 */
 	void sauvegarderUtilisateur(String login, String mdp, Utilisateur.Role role);
 
-	void supprimerAutorisation(String login, Long idMariage);
+	void supprimerAutorisation(Long idAutorisation);
 
 	void supprimerUtilisateur(String login);
 

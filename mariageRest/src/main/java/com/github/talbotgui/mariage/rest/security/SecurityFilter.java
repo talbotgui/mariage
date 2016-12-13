@@ -33,7 +33,7 @@ public class SecurityFilter implements Filter {
 
 	/**
 	 * Pour ne pas ajouter deux fois le même header (pb dans les navigateurs)
-	 * 
+	 *
 	 * @param response
 	 *            La réponse HTTP
 	 * @param name
@@ -119,7 +119,9 @@ public class SecurityFilter implements Filter {
 		final String role = (String) request.getSession().getAttribute(SESSION_KEY_USER_ROLE);
 
 		if (!Role.ADMIN.toString().equals(role)
-				&& request.getRequestURI().contains(request.getContextPath() + "/utilisateur")) {
+				&& !request.getRequestURI().contains(request.getContextPath() + "/utilisateur/moi")
+				&& (request.getRequestURI().contains(request.getContextPath() + "/utilisateur")
+						|| request.getRequestURI().contains(request.getContextPath() + "/autorisation"))) {
 			response.resetBuffer();
 			response.setStatus(HttpStatus.NOT_FOUND.value());
 			return true;

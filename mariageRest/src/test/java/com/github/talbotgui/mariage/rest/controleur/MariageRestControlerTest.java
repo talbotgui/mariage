@@ -30,18 +30,18 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 		final Collection<Mariage> toReturn = Arrays.asList(new Mariage(idMariage, new Date(), "Mme.", "M."));
 
 		// Arrange
-		Mockito.doReturn(toReturn).when(super.mariageService).listerTousMariages();
+		Mockito.doReturn(toReturn).when(super.mariageService).listerMariagesAutorises(Mockito.anyString());
 
 		// ACT
 		final ParameterizedTypeReference<Collection<MariageDTO>> typeRetour = new ParameterizedTypeReference<Collection<MariageDTO>>() {
 		};
-		final ResponseEntity<Collection<MariageDTO>> mariages = getREST().exchange(getURL() + "/mariage",
+		final ResponseEntity<Collection<MariageDTO>> mariages = this.getREST().exchange(this.getURL() + "/mariage",
 				HttpMethod.GET, null, typeRetour);
 
 		// ASSERT
 		Assert.assertEquals(mariages.getBody().size(), 1);
 		Assert.assertEquals(mariages.getBody().iterator().next().getId(), idMariage);
-		Mockito.verify(this.mariageService).listerTousMariages();
+		Mockito.verify(this.mariageService).listerMariagesAutorises(Mockito.anyString());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
@@ -54,7 +54,7 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 		Mockito.doReturn(toReturn).when(this.mariageService).chargerMariageParId(Mockito.anyLong());
 
 		// ACT
-		final ResponseEntity<MariageDTO> mariage = getREST().exchange(getURL() + "/mariage/" + idMariage,
+		final ResponseEntity<MariageDTO> mariage = this.getREST().exchange(this.getURL() + "/mariage/" + idMariage,
 				HttpMethod.GET, null, MariageDTO.class);
 
 		// ASSERT
@@ -79,7 +79,8 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		final Long idMariageRetour = getREST().postForObject(getURL() + "/mariage", requestParam, Long.class, uriVars);
+		final Long idMariageRetour = this.getREST().postForObject(this.getURL() + "/mariage", requestParam, Long.class,
+				uriVars);
 
 		// ASSERT
 		Assert.assertNotNull(idMariageRetour);
@@ -105,8 +106,8 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		CatchException.catchException(getREST()).postForObject(getURL() + "/mariage", requestParam, Long.class,
-				uriVars);
+		CatchException.catchException(this.getREST()).postForObject(this.getURL() + "/mariage", requestParam,
+				Long.class, uriVars);
 
 		// ASSERT
 		Assert.assertNotNull(CatchException.caughtException());
@@ -126,8 +127,8 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 		Mockito.doNothing().when(this.mariageService).supprimerMariage(argumentCaptorIdMariage.capture());
 
 		// ACT
-		final ResponseEntity<Void> response = getREST().exchange(getURL() + "/mariage/" + idMariage, HttpMethod.DELETE,
-				null, Void.class);
+		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/mariage/" + idMariage,
+				HttpMethod.DELETE, null, Void.class);
 
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);

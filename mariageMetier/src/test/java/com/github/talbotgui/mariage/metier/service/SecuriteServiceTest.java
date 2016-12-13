@@ -170,10 +170,10 @@ public class SecuriteServiceTest {
 		final String mdp = "unBonMdp";
 		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 		final Long idMariage = this.mariageService.sauvegarder(ObjectMother.creeMariageSeul());
-		this.instance.ajouterAutorisation(login, idMariage);
+		final Long id = this.instance.ajouterAutorisation(login, idMariage);
 
 		//
-		this.instance.supprimerAutorisation(login, idMariage);
+		this.instance.supprimerAutorisation(id);
 
 		//
 		Assert.assertEquals((Long) 0L,

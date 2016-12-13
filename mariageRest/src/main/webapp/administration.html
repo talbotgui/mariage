@@ -26,8 +26,12 @@
 				<div data-w3-include-html="./part_infoMariage.html?_version=${buildTimestamp}"></div>
 				
 				<div id="utilisateurs"></div>
-
 				<button id="button_afficher_popup_ajouter_utilisateur" class="btn btn-default">Ajouter</button>
+
+				<br/><br/>
+
+				<div id="autorisations"></div>
+				<button id="button_afficher_popup_ajouter_autorisation" class="btn btn-default">Ajouter</button>
 				
 				<div id="popupAjoutUtilisateur" class="popup">
 					<div>Ajout d'un utilisateur</div>
@@ -36,6 +40,16 @@
 							<div class="form-group"><label for="login">Login</label><input type="text" class="form-control" id="login" name="login" placeholder="Login" required data-minLength="6" data-validationPattern="^[a-zA-Z0-9]*$"/></div>
 							<div class="form-group"><label for="mdp">Mot de passe</label><input type="password" class="form-control" id="mdp" name="mdp"  placeholder="Mot de passe" required data-minLength="6"/></div>
 							<br/><button id="button_ajouter_utilisateur" class="btn btn-default">Ajouter</button>
+						</form>
+					</div>
+				</div>
+				<div id="popupAjoutAutorisation" class="popup">
+					<div>Ajout d'une autorisation</div>
+					<div class="form-inline">
+						<form>
+							<div class="form-group"><label for="autorisationLogin">Utilisateur</label><select id="autorisationLogin" name="login" data-source="/utilisateur" data-empty="true" data-labelAtt="login" data-valueAtt="login"></select></div>
+							<div class="form-group"><label for="autorisationMariage">Mariage</label><select id="autorisationMariage" name="idMariage" data-source="/mariage" data-empty="true" data-labelAtt="nomMaries" ></select></div>
+							<br/><button id="button_ajouter_autorisation" class="btn btn-default">Ajouter</button>
 						</form>
 					</div>
 				</div>

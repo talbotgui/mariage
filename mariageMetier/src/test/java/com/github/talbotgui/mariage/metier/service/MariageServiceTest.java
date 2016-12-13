@@ -26,6 +26,7 @@ import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 import com.github.talbotgui.mariage.metier.entities.Presence;
+import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur.Role;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
@@ -39,6 +40,9 @@ public class MariageServiceTest {
 
 	@Autowired
 	private MariageService instance;
+
+	@Autowired
+	private SecuriteService securiteInstance;
 
 	@Before
 	public void before() throws IOException, URISyntaxException {
@@ -87,14 +91,31 @@ public class MariageServiceTest {
 	}
 
 	@Test
-	public void test03ListeTousMariages() throws ParseException {
+	public void test03ListeTousMariages01SansAutorisation() throws ParseException {
 
 		// ARRANGE
 		final Mariage original = ObjectMother.creeMariageSimple();
 		this.instance.sauvegarderGrappe(original);
 
 		// ACT
-		final Collection<Mariage> mariages = this.instance.listerTousMariages();
+		final Collection<Mariage> mariages = this.instance.listerMariagesAutorises(null);
+
+		// ASSERT
+		Assert.assertEquals(0, mariages.size());
+	}
+
+	@Test
+	public void test03ListeTousMariages02AvecAutorisations() throws ParseException {
+
+		// ARRANGE
+		final String login = "monLogin";
+		final Mariage original = ObjectMother.creeMariageSimple();
+		final Long idMariage = this.instance.sauvegarderGrappe(original);
+		this.securiteInstance.sauvegarderUtilisateur(login, "azeazeaze", Role.UTILISATEUR);
+		this.securiteInstance.ajouterAutorisation(login, idMariage);
+
+		// ACT
+		final Collection<Mariage> mariages = this.instance.listerMariagesAutorises(login);
 
 		// ASSERT
 		Assert.assertEquals(1, mariages.size());

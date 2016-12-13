@@ -79,6 +79,12 @@ public class UtilisateurRestControler {
 		return DTOUtils.creerDtos(this.securiteService.listerUtilisateurs(), UtilisateurDTO.class);
 	}
 
+	@RequestMapping(value = "/mariage/{idMariage}/utilisateur", method = GET)
+	public Collection<UtilisateurDTO> listerUtilisateurParMariage(
+			@PathVariable(value = "idMariage") final Long idMariage) {
+		return DTOUtils.creerDtos(this.securiteService.listerUtilisateursParMariage(idMariage), UtilisateurDTO.class);
+	}
+
 	/**
 	 * Suppression du cookie idMariage.
 	 */

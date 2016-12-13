@@ -233,6 +233,11 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public Collection<Mariage> listerMariagesAutorises(final String login) {
+		return this.mariageRepository.listerMariagesAutorises(login);
+	}
+
+	@Override
 	public Collection<Presence> listerPresencesParIdMariage(final Long idMariage) {
 
 		// Collection supprimant les doublons
@@ -260,9 +265,7 @@ public class MariageServiceImpl implements MariageService {
 
 	@Override
 	public Collection<Mariage> listerTousMariages() {
-		final Collection<Mariage> liste = new ArrayList<>();
-		liste.addAll((Collection<Mariage>) this.mariageRepository.findAll());
-		return liste;
+		return this.mariageRepository.listerTousMariages();
 	}
 
 	/**

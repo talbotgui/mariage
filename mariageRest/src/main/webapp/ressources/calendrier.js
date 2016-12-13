@@ -58,7 +58,8 @@ var supprimerEvenement = function(idEvent, ev) {
 var chargeCalendrier = function() {
 	if (getIdMariage() === "") { return; }
 
-	if (!donneesDejaChargees) { 
+	if (!donneesDejaChargees) {
+		$("#calendrier").show();
 
 		// Pour fixer le debut et la fin du calendrier à la journée
 		// scheduler.config.first_hour = 7;
@@ -92,7 +93,7 @@ var chargeCalendrier = function() {
 		scheduler.filter_week = filtreEvenements;
 
 		// Recherche des utilisateurs
-		var req = $.ajax({ type: "GET", url: REST_PREFIX + "/utilisateur/"});
+		var req = $.ajax({ type: "GET", url: REST_PREFIX + "/mariage/" + getIdMariage() + "/utilisateur/"});
 		req.success(function(data) {
 			// Configuration des filtres
 			initialisationFiltres(data);

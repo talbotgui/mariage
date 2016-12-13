@@ -33,10 +33,10 @@ public class SecuriteServiceImpl implements SecuriteService {
 	private UtilisateurRepository utilisateurRepo;
 
 	@Override
-	public void ajouterAutorisation(final String login, final Long idMariage) {
+	public Long ajouterAutorisation(final String login, final Long idMariage) {
 		final Mariage m = this.mariageRepo.findOne(idMariage);
 		final Utilisateur u = this.utilisateurRepo.findOne(login);
-		this.autorisationRepo.save(new Autorisation(m, u));
+		return this.autorisationRepo.save(new Autorisation(m, u)).getId();
 	}
 
 	@Override
@@ -62,6 +62,11 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
+	public Collection<Autorisation> listerAutorisations() {
+		return this.autorisationRepo.listerAutorisations();
+	}
+
+	@Override
 	public Collection<String> listerRolePossible() {
 		final Collection<String> liste = new ArrayList<>();
 		for (final Role r : Role.values()) {
@@ -73,6 +78,11 @@ public class SecuriteServiceImpl implements SecuriteService {
 	@Override
 	public Collection<Utilisateur> listerUtilisateurs() {
 		return this.utilisateurRepo.listerUtilisateur();
+	}
+
+	@Override
+	public Collection<Utilisateur> listerUtilisateursParMariage(final Long idMariage) {
+		return this.utilisateurRepo.listerUtilisateursParMariage(idMariage);
 	}
 
 	@Override
@@ -108,8 +118,8 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public void supprimerAutorisation(final String login, final Long idMariage) {
-		this.utilisateurRepo.delete(login);
+	public void supprimerAutorisation(final Long idAutorisation) {
+		this.autorisationRepo.delete(idAutorisation);
 	}
 
 	@Override
