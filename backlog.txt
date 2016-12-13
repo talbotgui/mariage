@@ -1,26 +1,25 @@
-Réparer le test Cucumber
-	sécurité non traité, il faut créer un user et se connecter par la page de login
-	comment s'organisent des tests Cucumber ? Un Given/When/Then pour tt un scénario applicatif ? Un enchainement ? ...
-
-Activation du test cucumber dans l'IC
+[BUG]Corriger la suppression d'un utilisateur ayant des autorisations
 
 Ajouter des tests pour valider que les pages d'admin sont vides pour les utilisateurs et/ou mariés
 
 Ajouter des tests sur la protection de l'API pour les utilisateurs et/ou mariés
 
+[BUG]Réparer le test Cucumber
+	sécurité non traité, il faut créer un user et se connecter par la page de login
+	comment s'organisent des tests Cucumber ? Un Given/When/Then pour tt un scénario applicatif ? Un enchainement ? ...
+
+Activation du test cucumber dans l'IC
+
 Regarder de près la configuration FindBugs et FindBugs-security
 
 Regarder à Selenium 3 (encore en beta ??)
 
-conserver les tris et filtres de page en page
+[FEATURE]conserver les tris et filtres de page en page
 
 Améliorer la couverture des tests Selenium
 
-[revalider le besoin] 
-div attente tableau et bloquante !!
+[FEATURE]Changer le "no data to display"
 
-Changer le "no data to display"
-
-Ajouter un look&feel (voire plusieurs avec des CSS alternatives)
+[FEATURE]Ajouter un look&feel (voire plusieurs avec des CSS alternatives)
 
 Réfléchir à une solution de mutualisation du code des pages HTML (inclusion de préférence à du templating)
