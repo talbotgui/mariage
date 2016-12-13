@@ -38,11 +38,17 @@ public class EvenementDTO implements Serializable {
 	}
 
 	public Date getDebut() {
-		return this.debut;
+		if (this.debut != null) {
+			return new Date(this.debut.getTime());
+		}
+		return null;
 	}
 
 	public Date getFin() {
-		return this.fin;
+		if (this.fin != null) {
+			return new Date(this.fin.getTime());
+		}
+		return null;
 	}
 
 	public Long getId() {
@@ -58,11 +64,15 @@ public class EvenementDTO implements Serializable {
 	}
 
 	public void setDebut(final Date debut) {
-		this.debut = debut;
+		if (debut != null) {
+			this.debut = new Date(debut.getTime());
+		}
 	}
 
 	public void setFin(final Date fin) {
-		this.fin = fin;
+		if (fin != null) {
+			this.fin = new Date(fin.getTime());
+		}
 	}
 
 	public void setId(final Long id) {

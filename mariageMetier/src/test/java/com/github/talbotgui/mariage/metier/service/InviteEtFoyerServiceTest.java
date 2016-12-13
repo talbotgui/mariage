@@ -554,13 +554,13 @@ public class InviteEtFoyerServiceTest {
 		Assert.assertNotNull(erreurs);
 		Assert.assertEquals(6, erreurs.size());
 		final Iterator<String> iter = erreurs.iterator();
-		Assert.assertEquals("PRENOM1 NOM1 est invité(e) plusieurs fois à une même étape : Mairie, Eglise, VdH",
+		Assert.assertEquals("PRENOM1 NOM1 est invité(e) plusieurs fois à une même étape : 'Mairie', 'Eglise', 'VdH'",
 				iter.next());
-		Assert.assertEquals("PRENOM2 NOM1 est invité(e) plusieurs fois à une même étape : Mairie, Eglise, VdH",
+		Assert.assertEquals("PRENOM2 NOM1 est invité(e) plusieurs fois à une même étape : 'Mairie', 'Eglise', 'VdH'",
 				iter.next());
-		Assert.assertEquals("PRENOM3 null est invité(e) plusieurs fois à une même étape : Mairie, Eglise, VdH",
+		Assert.assertEquals("PRENOM3 null est invité(e) plusieurs fois à une même étape : 'Mairie', 'Eglise', 'VdH'",
 				iter.next());
-		Assert.assertEquals("PRENOM4 NOM1 est invité(e) plusieurs fois à une même étape : Mairie, Eglise, VdH",
+		Assert.assertEquals("PRENOM4 NOM1 est invité(e) plusieurs fois à une même étape : 'Mairie', 'Eglise', 'VdH'",
 				iter.next());
 		Assert.assertEquals(
 				"PRENOM1 NOM4 est marqué(e) présent/absent, sans plus y être invité(e), à l'étape 'Repas', 'En plus'",

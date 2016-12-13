@@ -50,11 +50,11 @@ public class Evenement implements Serializable {
 	public Evenement(final Long id, final String titre, final Date debut, final Date fin,
 			final Collection<Utilisateur> participants) {
 		super();
-		this.id = id;
-		this.titre = titre;
-		this.debut = debut;
-		this.fin = fin;
-		this.participants = participants;
+		this.setId(id);
+		this.setTitre(titre);
+		this.setDebut(debut);
+		this.setFin(fin);
+		this.setParticipants(participants);
 	}
 
 	public Evenement(final String titre, final Date debut, final Date fin) {
@@ -66,11 +66,17 @@ public class Evenement implements Serializable {
 	}
 
 	public Date getDebut() {
-		return this.debut;
+		if (this.debut != null) {
+			return new Date(this.debut.getTime());
+		}
+		return null;
 	}
 
 	public Date getFin() {
-		return this.fin;
+		if (this.fin != null) {
+			return new Date(this.fin.getTime());
+		}
+		return null;
 	}
 
 	public Long getId() {
@@ -90,11 +96,15 @@ public class Evenement implements Serializable {
 	}
 
 	public void setDebut(final Date debut) {
-		this.debut = debut;
+		if (debut != null) {
+			this.debut = new Date(debut.getTime());
+		}
 	}
 
 	public void setFin(final Date fin) {
-		this.fin = fin;
+		if (fin != null) {
+			this.fin = new Date(fin.getTime());
+		}
 	}
 
 	public void setId(final Long id) {

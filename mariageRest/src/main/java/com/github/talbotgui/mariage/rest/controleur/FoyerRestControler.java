@@ -48,10 +48,10 @@ public class FoyerRestControler {
 
 	@RequestMapping(value = "/mariage/{idMariage}/foyer", method = POST)
 	public Long sauvegarderFoyer(//
-			@RequestParam(required = false, value = "adresse") final String adresse, //
-			@RequestParam(required = false, value = "email") final String email, //
 			@RequestParam(required = false, value = "foyer") final String nomFoyer, //
 			@RequestParam(required = false, value = "groupe") final String groupe, //
+			@RequestParam(required = false, value = "adresse") final String adresse, //
+			@RequestParam(required = false, value = "email") final String email, //
 			@RequestParam(required = false, value = "id") final Long id, //
 			@RequestParam(required = false, value = "telephone") final String telephone, //
 			@PathVariable(value = "idMariage") final Long idMariage) {

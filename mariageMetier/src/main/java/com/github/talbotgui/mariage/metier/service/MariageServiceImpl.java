@@ -268,20 +268,13 @@ public class MariageServiceImpl implements MariageService {
 		return this.mariageRepository.listerTousMariages();
 	}
 
-	/**
-	 * Recherche de personnes invités à plusieurs étapes.
-	 *
-	 * @param idMariage
-	 *            Identifiant du mariage
-	 * @return une liste d'erreur en francais (pas d'i18n)
-	 */
-	private Collection<String> rechercheErreursPourInviteSurPlusieursEtapes(final Long idMariage) {
+	private Collection<String> parcourirDonneesEtGenererErreur(final Collection<Object[]> liste, final String message) {
 		final Collection<String> erreurs = new ArrayList<>();
 
 		// invites sur plusieurs étapes
 		String messageErreur = "";
 		Long idInvitePrecedent = null;
-		for (final Object[] objets : this.inviteRepository.rechercherInviteSurPlusieursEtapes(idMariage)) {
+		for (final Object[] objets : liste) {
 			final Long idInvite = (Long) objets[0];
 			final String nomInvite = (String) objets[1];
 			final String prenomInvite = (String) objets[2];
@@ -292,52 +285,7 @@ public class MariageServiceImpl implements MariageService {
 				if (messageErreur.length() > 0) {
 					erreurs.add(messageErreur);
 				}
-				messageErreur = String.format("%s %s est invité(e) plusieurs fois à une même étape : %s", //
-						prenomInvite, nomInvite, nomEtape);
-			}
-			// Pour le même invite,on ajoute le nom de l'étape
-			else {
-				messageErreur += ", " + nomEtape;
-			}
-
-			idInvitePrecedent = idInvite;
-		}
-
-		// Sauvegarde du message d'erreur (si présent)
-		if (messageErreur.length() > 0) {
-			erreurs.add(messageErreur);
-		}
-
-		return erreurs;
-	}
-
-	/**
-	 * Recherche de présences sans invitations existantes.
-	 *
-	 * @param idMariage
-	 *            Identifiant du mariage
-	 * @return une liste d'erreur en francais (pas d'i18n)
-	 */
-	private Collection<String> recherchePresencesSansInvitations(final Long idMariage) {
-		final Collection<String> erreurs = new ArrayList<>();
-
-		// invites sur plusieurs étapes
-		String messageErreur = "";
-		Long idInvitePrecedent = null;
-		for (final Object[] objets : this.presenceRepository.rechercherPresencesSansInvitations(idMariage)) {
-			final Long idInvite = (Long) objets[0];
-			final String nomInvite = (String) objets[1];
-			final String prenomInvite = (String) objets[2];
-			final String nomEtape = (String) objets[3];
-
-			// Si on change d'invite, on sauvegarde le precedent et on reinit
-			if (!idInvite.equals(idInvitePrecedent)) {
-				if (messageErreur.length() > 0) {
-					erreurs.add(messageErreur);
-				}
-				messageErreur = String.format(
-						"%s %s est marqué(e) présent/absent, sans plus y être invité(e), à l'étape '%s'", //
-						prenomInvite, nomInvite, nomEtape);
+				messageErreur = String.format(message, prenomInvite, nomInvite, nomEtape);
 			}
 			// Pour le même invite,on ajoute le nom de l'étape
 			else {
@@ -351,8 +299,33 @@ public class MariageServiceImpl implements MariageService {
 		if (messageErreur.length() > 0) {
 			erreurs.add(messageErreur);
 		}
-
 		return erreurs;
+	}
+
+	/**
+	 * Recherche de personnes invités à plusieurs étapes.
+	 *
+	 * @param idMariage
+	 *            Identifiant du mariage
+	 * @return une liste d'erreur en francais (pas d'i18n)
+	 */
+	private Collection<String> rechercheErreursPourInviteSurPlusieursEtapes(final Long idMariage) {
+		final Collection<Object[]> liste = this.inviteRepository.rechercherInviteSurPlusieursEtapes(idMariage);
+		return this.parcourirDonneesEtGenererErreur(liste,
+				"%s %s est invité(e) plusieurs fois à une même étape : '%s'");
+	}
+
+	/**
+	 * Recherche de présences sans invitations existantes.
+	 *
+	 * @param idMariage
+	 *            Identifiant du mariage
+	 * @return une liste d'erreur en francais (pas d'i18n)
+	 */
+	private Collection<String> recherchePresencesSansInvitations(final Long idMariage) {
+		final Collection<Object[]> liste = this.presenceRepository.rechercherPresencesSansInvitations(idMariage);
+		return this.parcourirDonneesEtGenererErreur(liste,
+				"%s %s est marqué(e) présent/absent, sans plus y être invité(e), à l'étape '%s'");
 	}
 
 	@Override

@@ -1,3 +1,5 @@
+[FEATURE]Enrichir la page d'aide
+
 Tester avec Selenium l'écran ReleaseNote
 
 Tester avec Selenium l'écran Profile
