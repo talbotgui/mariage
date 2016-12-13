@@ -25,6 +25,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.github.talbotgui.mariage.metier.entities.Evenement;
+import com.github.talbotgui.mariage.metier.entities.Mariage;
+import com.github.talbotgui.mariage.metier.entities.securite.Autorisation;
 import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur;
 import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur.Role;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
@@ -254,7 +256,7 @@ public class SecuriteServiceTest {
 	}
 
 	@Test
-	public void test06ListeUtilisateurs() {
+	public void test06ListeUtilisateurs01() {
 		//
 		this.instance.sauvegarderUtilisateur("monLogin1", "monMdp", Utilisateur.Role.ADMIN);
 		this.instance.sauvegarderUtilisateur("monLogin2", "monMdp", Utilisateur.Role.ADMIN);
@@ -266,6 +268,23 @@ public class SecuriteServiceTest {
 
 		//
 		Assert.assertEquals(4, liste.size());
+	}
+
+	@Test
+	public void test06ListeUtilisateurs02ParMariage() {
+		//
+		final Collection<String> logins = Arrays.asList("monLogin1", "monLogin2", "monLogin3", "monLogin4");
+		final Long idMariage = this.mariageService.sauvegarder(new Mariage(new Date(), "Marie1", "Marie2"));
+		for (final String login : logins) {
+			this.instance.sauvegarderUtilisateur(login, "monMdp", Utilisateur.Role.ADMIN);
+			this.instance.ajouterAutorisation(login, idMariage);
+		}
+
+		//
+		final Collection<Utilisateur> liste = this.instance.listerUtilisateurs();
+
+		//
+		Assert.assertEquals(logins.size(), liste.size());
 	}
 
 	@Test
@@ -351,5 +370,22 @@ public class SecuriteServiceTest {
 		Assert.assertEquals(login, u.getLogin());
 		Assert.assertNotEquals(mdp, u.getMdp());
 		Assert.assertEquals(role, u.getRole());
+	}
+
+	@Test
+	public void test11ListeAutorisations() {
+		//
+		final Collection<String> logins = Arrays.asList("monLogin1", "monLogin2", "monLogin3", "monLogin4");
+		final Long idMariage = this.mariageService.sauvegarder(new Mariage(new Date(), "Marie1", "Marie2"));
+		for (final String login : logins) {
+			this.instance.sauvegarderUtilisateur(login, "monMdp", Utilisateur.Role.ADMIN);
+			this.instance.ajouterAutorisation(login, idMariage);
+		}
+
+		//
+		final Collection<Autorisation> liste = this.instance.listerAutorisations();
+
+		//
+		Assert.assertEquals(4, liste.size());
 	}
 }

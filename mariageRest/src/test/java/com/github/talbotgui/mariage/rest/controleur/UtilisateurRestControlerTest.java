@@ -29,7 +29,7 @@ import com.googlecode.catchexception.CatchException;
 public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 
 	@Test
-	public void test01GetListeUtilisateur() {
+	public void test01GetListeUtilisateur01() {
 		final List<Utilisateur> toReturn = Arrays.asList(new Utilisateur("l1", "m1"), new Utilisateur("l2", "m2"),
 				new Utilisateur("l3", "m3"));
 
@@ -47,6 +47,29 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(utilisateurs.getBody().size(), toReturn.size());
 		Assert.assertEquals(utilisateurs.getBody().iterator().next().getLogin(), toReturn.iterator().next().getLogin());
 		Mockito.verify(this.securiteService).listerUtilisateurs();
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+	}
+
+	@Test
+	public void test01GetListeUtilisateur02AutorisesAuMariage() {
+		final List<Utilisateur> toReturn = Arrays.asList(new Utilisateur("l1", "m1"), new Utilisateur("l2", "m2"),
+				new Utilisateur("l3", "m3"));
+
+		// ARRANGE
+		final Long idMariage = 2L;
+		Mockito.doReturn(toReturn).when(this.securiteService).listerUtilisateursParMariage(idMariage);
+
+		// ACT
+		final ParameterizedTypeReference<Collection<UtilisateurDTO>> typeRetour = new ParameterizedTypeReference<Collection<UtilisateurDTO>>() {
+		};
+		final ResponseEntity<Collection<UtilisateurDTO>> utilisateurs = this.getREST()
+				.exchange(this.getURL() + "/mariage/" + idMariage + "/utilisateur", HttpMethod.GET, null, typeRetour);
+
+		// ASSERT
+		Assert.assertNotNull(utilisateurs.getBody());
+		Assert.assertEquals(utilisateurs.getBody().size(), toReturn.size());
+		Assert.assertEquals(utilisateurs.getBody().iterator().next().getLogin(), toReturn.iterator().next().getLogin());
+		Mockito.verify(this.securiteService).listerUtilisateursParMariage(idMariage);
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 

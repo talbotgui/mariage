@@ -26,6 +26,13 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(BaseRestControlerTest.class);
 
+	/**
+	 * Instance des controleurs nécessaires pour y injecter le mock de service.
+	 */
+	@Autowired
+	@InjectMocks
+	private AutorisationRestControler autorisationCtrl;
+
 	/** ContextRoot de l'application. */
 	@Value("${server.context-path}")
 	private String contextPath;

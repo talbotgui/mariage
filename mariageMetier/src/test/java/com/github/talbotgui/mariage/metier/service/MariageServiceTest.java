@@ -122,6 +122,20 @@ public class MariageServiceTest {
 	}
 
 	@Test
+	public void test03ListeTousMariages03() throws ParseException {
+
+		// ARRANGE
+		final Mariage original = ObjectMother.creeMariageSimple();
+		this.instance.sauvegarderGrappe(original);
+
+		// ACT
+		final Collection<Mariage> mariages = this.instance.listerTousMariages();
+
+		// ASSERT
+		Assert.assertEquals(1, mariages.size());
+	}
+
+	@Test
 	public void test04SupprimeMariage01Seul() throws ParseException {
 
 		// ARRANGE

@@ -34,7 +34,7 @@ import com.googlecode.catchexception.CatchException;
 public class InviteRestControlerTest extends BaseRestControlerTest {
 
 	@Test
-	public void test01GetListeInvites() {
+	public void test01GetListeInvites01Tous() {
 		final Long idMariage = 10L;
 		final List<Invite> toReturn = Arrays.asList(new Invite("I1", "P1", Age.adulte),
 				new Invite("I2", "P1", Age.adulte), new Invite("I3", "P1", Age.adulte),
@@ -54,6 +54,30 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertEquals(invites.getBody().size(), 8);
 		Mockito.verify(this.mariageService).listerInvitesParIdMariage(idMariage);
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test01GetListeInvites02SeulementLesPresents() {
+		final Long idMariage = 10L;
+		final List<Invite> toReturn = Arrays.asList(new Invite("I1", "P1", Age.adulte),
+				new Invite("I2", "P1", Age.adulte), new Invite("I3", "P1", Age.adulte),
+				new Invite("I4", "P1", Age.adulte), new Invite("I1", "P1", Age.adulte),
+				new Invite("I2", "P1", Age.adulte), new Invite("I3", "P1", Age.adulte),
+				new Invite("I4", "P1", Age.adulte));
+
+		// ARRANGE
+		Mockito.doReturn(toReturn).when(this.mariageService).listerInvitesPresentsParIdMariage(Mockito.anyLong());
+
+		// ACT
+		final ParameterizedTypeReference<Collection<InviteDTO>> typeRetour = new ParameterizedTypeReference<Collection<InviteDTO>>() {
+		};
+		final ResponseEntity<Collection<InviteDTO>> invites = this.getREST().exchange(
+				this.getURL() + "/mariage/" + idMariage + "/invite?present=true", HttpMethod.GET, null, typeRetour);
+
+		// ASSERT
+		Assert.assertEquals(invites.getBody().size(), 8);
+		Mockito.verify(this.mariageService).listerInvitesPresentsParIdMariage(idMariage);
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
