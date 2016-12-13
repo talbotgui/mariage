@@ -1,11 +1,34 @@
 package com.github.talbotgui.mariage.rest.cucumber;
 
-import com.github.talbotgui.mariage.rest.selenium.utils.Selectors;
+import java.util.Date;
 
+import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur.Role;
+import com.github.talbotgui.mariage.rest.selenium.utils.Selectors;
+import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Login;
+
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class CucumberSteps extends AbstractCucumberSteps {
+
+	@Given("^connexion en tant que ([A-Z]*)$")
+	public void connexion(final String role) throws Throwable {
+		// Creation d'un user avec le role demandé
+		final String login = "login" + (new Date()).getTime();
+		final String mdp = "123456";
+		this.securiteService.sauvegarderUtilisateur(login, mdp, Role.valueOf(role));
+
+		// Loggin
+		this.driver.type(Login.Input.LOGIN, login, 200);
+		this.driver.type(Login.Input.MDP, mdp, 200);
+		this.driver.click(Login.Button.LOGIN, 800);
+
+		// Assert
+		this.driver.assertCookiePresentAndValid(Login.Cookie.JSESSIONID);
+		this.driver.assertPageTitle("Mariage");
+
+	}
 
 	@When("^cree mariage \"([^\"]*)\" et \"([^\"]*)\" le \"([^\"]*)\"$")
 	public void creeMariage(final String arg1, final String arg2, final String arg3) throws Throwable {

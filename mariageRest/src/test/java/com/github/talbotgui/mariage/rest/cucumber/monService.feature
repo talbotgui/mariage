@@ -6,7 +6,8 @@ Feature: Page d'acceuil
 	
 # Scénario avec création simple	
 Scenario: Création d'un mariage 
-	Given utilisateur sur page index 
+	Given connexion en tant que ADMIN
+	And utilisateur sur page index 
 	When cree mariage "Femme" et "Homme" le "01/01/2017" 
 	Then mariage "Femme" et "Homme" selectionne
 	 

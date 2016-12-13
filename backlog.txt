@@ -4,12 +4,6 @@ Tester avec Selenium l'écran Profile
 
 Tester avec Selenium l'écran Calendrier
 
-[BUG]Réparer le test Cucumber
-	sécurité non traité, il faut créer un user et se connecter par la page de login
-	comment s'organisent des tests Cucumber ? Un Given/When/Then pour tt un scénario applicatif ? Un enchainement ? ...
-
-Activation du test cucumber dans l'IC
-
 Regarder de près la configuration FindBugs et FindBugs-security
 
 Regarder à Selenium 3 (encore en beta ??)

@@ -3,11 +3,13 @@ package com.github.talbotgui.mariage.rest.cucumber;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationContextLoader;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.ContextConfiguration;
 
+import com.github.talbotgui.mariage.metier.service.SecuriteService;
 import com.github.talbotgui.mariage.rest.application.SeleniumTestApplication;
 import com.github.talbotgui.mariage.rest.selenium.utils.MyDriver;
 
@@ -27,6 +29,9 @@ public class AbstractCucumberSteps {
 	/** Port de l'application web aléatoire injecté par Spring. */
 	@Value("${local.server.port}")
 	private int port;
+
+	@Autowired
+	protected SecuriteService securiteService;
 
 	public AbstractCucumberSteps() {
 		super();

@@ -75,7 +75,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<excludes><exclude>**/selenium/*Test.java</exclude></excludes>
+					<excludes><exclude>**/selenium/*Test.java</exclude><exclude>**/TestCucumber.java</exclude></excludes>
 					<includes><include>**/controleur/*Test.java</include><include>**/security/Securite*Test.java</include></includes>
 				</configuration>
 			</plugin>
@@ -85,8 +85,8 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<configuration>
 					<argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
-					<excludes><exclude>**/controleur/*Test.java</exclude></excludes>
-					<includes><include>**/selenium/*Test.java</include></includes>
+					<excludes><exclude>**/controleur/*Test.java</exclude><exclude>**/security/Securite*Test.java</exclude></excludes>
+					<includes><include>**/selenium/*Test.java</include><include>**/TestCucumber.java</include></includes>
 				</configuration>
 			</plugin>
 		</plugins>
