@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -31,6 +32,8 @@ public class Evenement implements Serializable {
 	private Mariage mariage;
 
 	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "EVENEMENT_PARTICIPANTS", joinColumns = {
+			@JoinColumn(name = "EVENEMENT") }, inverseJoinColumns = { @JoinColumn(name = "PARTICIPANTS") })
 	private Collection<Utilisateur> participants = new ArrayList<>();
 
 	private String titre;

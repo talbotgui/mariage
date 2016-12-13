@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.sql.DataSource;
 
@@ -23,6 +24,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.github.talbotgui.mariage.metier.entities.Evenement;
 import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur;
 import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur.Role;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
@@ -190,6 +192,8 @@ public class SecuriteServiceTest {
 		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 		final Long idMariage = this.mariageService.sauvegarder(ObjectMother.creeMariageSeul());
 		this.instance.ajouterAutorisation(login, idMariage);
+		this.mariageService.sauvegarder(idMariage,
+				new Evenement("EV1", new Date(), new Date(), Arrays.asList(new Utilisateur(login))));
 
 		//
 		this.instance.supprimerUtilisateur(login);

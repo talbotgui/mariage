@@ -1,5 +1,3 @@
-[BUG]Corriger la suppression d'un utilisateur ayant des autorisations
-
 Ajouter des tests pour valider que les pages d'admin sont vides pour les utilisateurs et/ou mariés
 
 Ajouter des tests sur la protection de l'API pour les utilisateurs et/ou mariés

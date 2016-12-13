@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.talbotgui.mariage.metier.dao.MariageRepository;
+import com.github.talbotgui.mariage.metier.dao.ParticipationEvenementRepository;
 import com.github.talbotgui.mariage.metier.dao.securite.AutorisationRepository;
 import com.github.talbotgui.mariage.metier.dao.securite.UtilisateurRepository;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
@@ -28,6 +29,9 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 	@Autowired
 	private MariageRepository mariageRepo;
+
+	@Autowired
+	private ParticipationEvenementRepository participationEvenementRepository;
 
 	@Autowired
 	private UtilisateurRepository utilisateurRepo;
@@ -124,6 +128,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 	@Override
 	public void supprimerUtilisateur(final String login) {
+		this.participationEvenementRepository.supprimerParticipationParLoginParticipant(login);
 		this.utilisateurRepo.delete(login);
 	}
 
