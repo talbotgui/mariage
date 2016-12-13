@@ -4,7 +4,9 @@ Réparer le test Cucumber
 
 Activation du test cucumber dans l'IC
 
-Gestion des utilisateurs vs mariage
+Ajouter des tests pour valider que les pages d'admin sont vides pour les utilisateurs et/ou mariés
+
+Ajouter des tests sur la protection de l'API pour les utilisateurs et/ou mariés
 
 Regarder de près la configuration FindBugs et FindBugs-security
 
