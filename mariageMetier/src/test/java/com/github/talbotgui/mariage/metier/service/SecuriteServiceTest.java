@@ -279,6 +279,12 @@ public class SecuriteServiceTest {
 		final Exception e2 = CatchException.caughtException();
 		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
 		final Exception e3 = CatchException.caughtException();
+		CatchException.catchException(this.instance).verifierUtilisateur(login, mdp);
+		final Exception e4 = CatchException.caughtException();
+		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
+		final Exception e5 = CatchException.caughtException();
+		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
+		final Exception e6 = CatchException.caughtException();
 
 		//
 		Assert.assertNotNull(e1);
@@ -286,7 +292,13 @@ public class SecuriteServiceTest {
 		Assert.assertNotNull(e2);
 		Assert.assertTrue(BusinessException.equals(e2, BusinessException.ERREUR_LOGIN));
 		Assert.assertNotNull(e3);
-		Assert.assertTrue(BusinessException.equals(e3, BusinessException.ERREUR_LOGIN_VEROUILLE));
+		Assert.assertTrue(BusinessException.equals(e3, BusinessException.ERREUR_LOGIN));
+		Assert.assertNotNull(e4);
+		Assert.assertTrue(BusinessException.equals(e4, BusinessException.ERREUR_LOGIN_VEROUILLE));
+		Assert.assertNotNull(e5);
+		Assert.assertTrue(BusinessException.equals(e5, BusinessException.ERREUR_LOGIN_VEROUILLE));
+		Assert.assertNotNull(e6);
+		Assert.assertTrue(BusinessException.equals(e6, BusinessException.ERREUR_LOGIN_VEROUILLE));
 	}
 
 	@Test

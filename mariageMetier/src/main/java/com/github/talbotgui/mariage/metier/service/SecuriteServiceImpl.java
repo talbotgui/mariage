@@ -143,6 +143,11 @@ public class SecuriteServiceImpl implements SecuriteService {
 			throw new BusinessException(BusinessException.ERREUR_LOGIN);
 		}
 
+		// Si l'utilisateur est verrouilé
+		else if (u.isVerrouille()) {
+			throw new BusinessException(BusinessException.ERREUR_LOGIN_VEROUILLE);
+		}
+
 		// Si erreur dans le mot de passe
 		else if (!u.getMdp().equals(this.encrypt(mdp))) {
 
@@ -150,15 +155,16 @@ public class SecuriteServiceImpl implements SecuriteService {
 			u.declarerEchecDeConnexion();
 			this.utilisateurRepo.save(u);
 
-			// renvoi de la bonne erreur
-			if (u.isVerrouille()) {
-				throw new BusinessException(BusinessException.ERREUR_LOGIN_VEROUILLE);
-			} else {
-				throw new BusinessException(BusinessException.ERREUR_LOGIN);
-			}
+			// renvoi de l'erreur
+			throw new BusinessException(BusinessException.ERREUR_LOGIN);
 		}
 
-		return u.getRole();
+		// Si tout se passe bien, suppression des erreurs de connexion
+		else {
+			u.deverrouilleUtilisateur();
+			this.utilisateurRepo.save(u);
+			return u.getRole();
+		}
 	}
 
 }
