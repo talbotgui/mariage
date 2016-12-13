@@ -76,7 +76,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<excludes><exclude>**/selenium/*Test.java</exclude></excludes>
-					<includes><include>**/controleur/*Test.java</include></includes>
+					<includes><include>**/controleur/*Test.java</include><include>**/security/Securite*Test.java</include></includes>
 				</configuration>
 			</plugin>
 

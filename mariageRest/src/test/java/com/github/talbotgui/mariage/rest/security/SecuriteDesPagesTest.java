@@ -14,7 +14,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class SecurityFilterTest {
+public class SecuriteDesPagesTest {
 
 	private void assertRedirectionPageLogin(final MockHttpServletResponse res) {
 		Assert.assertEquals(302, res.getStatus());

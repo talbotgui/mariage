@@ -1,6 +1,10 @@
 Ajouter des tests pour valider que les pages d'admin sont vides pour les utilisateurs et/ou mariés
 
-Ajouter des tests sur la protection de l'API pour les utilisateurs et/ou mariés
+Tester avec Selenium l'écran ReleaseNote
+
+Tester avec Selenium l'écran Profile
+
+Tester avec Selenium l'écran Calendrier
 
 [BUG]Réparer le test Cucumber
 	sécurité non traité, il faut créer un user et se connecter par la page de login
