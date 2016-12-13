@@ -13,11 +13,14 @@
 		<mapping class="com.github.talbotgui.mariage.metier.entities.Etape" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.EtapeCeremonie" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.EtapeRepas" />
+		<mapping class="com.github.talbotgui.mariage.metier.entities.Evenement" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.Foyer" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.Invitation" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.InvitationId" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.Invite" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.Mariage" />
+		<mapping class="com.github.talbotgui.mariage.metier.entities.ParticipationEvenement" />
+		<mapping class="com.github.talbotgui.mariage.metier.entities.ParticipationEvenementId" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.Presence" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.PresenceId" />
 		<mapping class="com.github.talbotgui.mariage.metier.entities.securite.Autorisation" />

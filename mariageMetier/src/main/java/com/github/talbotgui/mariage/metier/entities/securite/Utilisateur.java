@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -41,13 +42,16 @@ public class Utilisateur implements Serializable {
 
 	private String mdp;
 
+	@Column(name = "PREMIER_ECHEC")
 	private Date premierEchec;
 
 	@Enumerated(EnumType.STRING)
 	private Role role = Role.UTILISATEUR;
 
+	@Column(name = "SECOND_ECHEC")
 	private Date secondEchec;
 
+	@Column(name = "TROISIEME_ECHEC")
 	private Date troisiemeEchec;
 
 	public Utilisateur() {

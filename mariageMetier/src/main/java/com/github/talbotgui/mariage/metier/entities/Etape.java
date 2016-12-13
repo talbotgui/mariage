@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,7 @@ import javax.persistence.ManyToOne;
 public abstract class Etape implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Column(name = "DATE_HEURE")
 	private Date dateHeure;
 
 	@Id
@@ -37,6 +39,7 @@ public abstract class Etape implements Serializable {
 
 	private String nom;
 
+	@Column(name = "NUM_ORDRE")
 	private Integer numOrdre;
 
 	protected Etape() {

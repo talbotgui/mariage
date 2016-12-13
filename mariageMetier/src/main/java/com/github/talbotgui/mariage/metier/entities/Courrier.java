@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +19,7 @@ import javax.persistence.ManyToOne;
 public class Courrier implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Column(name = "DATE_PREVISION_ENVOI")
 	private Date datePrevisionEnvoi;
 
 	@ManyToMany
