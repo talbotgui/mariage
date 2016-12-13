@@ -44,7 +44,7 @@ public abstract class SeleniumTest extends AbstractTestNGSpringContextTests {
 	private int port;
 
 	@Autowired
-	private SecuriteService securiteService;
+	protected SecuriteService securiteService;
 
 	@AfterClass
 	public void afterClass() throws Exception {

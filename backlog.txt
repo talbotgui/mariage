@@ -1,5 +1,3 @@
-Ajouter des tests pour valider que les pages d'admin sont vides pour les utilisateurs et/ou mariés
-
 Tester avec Selenium l'écran ReleaseNote
 
 Tester avec Selenium l'écran Profile

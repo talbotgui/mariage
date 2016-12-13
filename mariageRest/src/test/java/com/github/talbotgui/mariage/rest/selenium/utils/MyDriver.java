@@ -108,6 +108,20 @@ public class MyDriver {
 		}
 	}
 
+	public void assertNumberOfVisibleElementsIn(final String className, final int nbElementsAttendus) {
+		List<WebElement> wes;
+		try {
+			wes = this.driver.findElements(By.xpath("." + className + " > :visible"));
+		} catch (final NoSuchElementException e) {
+			wes = new ArrayList<>();
+		}
+		if (wes.size() != nbElementsAttendus) {
+			fail("Nombre d'elements visibles dans la DIV de classe '" + className + "' : attendus ="
+					+ nbElementsAttendus + " mais " + wes.size() + " trouvé(s) ( " + wes + ")");
+		}
+
+	}
+
 	public void assertNumberOfVisibleElementsWithClass(final String className, final int nbElementsAttendus) {
 		List<WebElement> wes;
 		try {
