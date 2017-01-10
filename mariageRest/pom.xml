@@ -84,7 +84,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<configuration>
-					<argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+					<argLine>-Xmx1024m</argLine>
 					<excludes><exclude>**/controleur/*Test.java</exclude><exclude>**/security/Securite*Test.java</exclude></excludes>
 					<includes><include>**/selenium/*Test.java</include><include>**/TestCucumber.java</include></includes>
 				</configuration>
