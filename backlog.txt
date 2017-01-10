@@ -1,3 +1,17 @@
+Ajouter sur la page d'accueil la todoList à partir des données du calendrier
+
+Agrandir la liste des chackbox dans le formulaire du calendrier (.dhx_multi_select_Participants à 52px) et agrandir le formulaire aussi
+
+Ajouter la fusion de foyer (Ajouter une erreur pour deux foyers du même nom et proposer la fusion automatique en indiquant que les adresses et invitations doivent être les mêmes)
+
+Traiter le cas de la suppression d'un invité avec une présence et des invitations
+
+Ajouter une liste déroulante pour l'encoding des fichiers CSV du publipostage (UTF8 ou "AINSI (Windows)" avec AINSI par défaut)
+
+Mettre en place un fond blanc derriere le texte de l'aide
+
+Mettre en place une publication des rapports de couverture de tests (différents pour metier, controleur, securité et ?selenium?)
+
 Tester avec Selenium l'écran ReleaseNote
 
 Tester avec Selenium l'écran Profile
@@ -5,6 +19,10 @@ Tester avec Selenium l'écran Profile
 Tester avec Selenium l'écran Calendrier
 
 Regarder de près la configuration FindBugs et FindBugs-security
+
+spring aux fonctionnalités de Spring MVC (gestion de cache & md5 dans les URL)
+	http://www.mscharhag.com/spring/resource-versioning-with-spring-mvc
+	http://www.baeldung.com/spring-mvc-static-resources
 
 Regarder à Selenium 3 (encore en beta ??)
 
