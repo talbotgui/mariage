@@ -22,11 +22,6 @@ public class SecuriteAPITest {
 		Assert.assertEquals(404, res.getStatus());
 	}
 
-	private void assertRedirectionPageLogin(final MockHttpServletResponse res) {
-		Assert.assertEquals(302, res.getStatus());
-		Assert.assertEquals("/login.html", res.getHeaderValue("Location"));
-	}
-
 	private void assertStatutOkEtHeaders(final HttpServletResponse res) {
 		Assert.assertEquals(200, res.getStatus());
 		Assert.assertNotNull(res.getHeader("X-XSS-Protection"));
