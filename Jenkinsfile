@@ -13,44 +13,49 @@ pipeline {
 	stages {
 		
 		stage ('Checkout') {
-			agent label:''
+			agent any
 			steps {
 				git url: 'https://github.com/talbotgui/mariage.git'
 				script {
 					def v = version()
 					if (v) { echo "Building version ${v}" }
+					stash name: 'sources', includes: '*'
 				}
 			}
 		}
 
 		stage ('Build') {
-			agent label:''
+			agent any
 			steps {
 				script { env.PATH = "${tool 'M3'}/bin:${env.PATH}" }
 				sh "mvn clean install -Dmaven.test.skip=true"
 				sh "cp mariageRest/target/mariageRest-*.war ./mariageRest.war"
+				stash name:'binaire', includes: '*.war'
 			}
 		}
 
 		stage ('Unit test') {
-			agent label:''
+			agent any
 			steps {
+				unstash 'sources'
 				sh "mvn -B -Dmaven.test.failure.ignore clean test-compile surefire:test"
 				junit '**/TEST-*Test.xml'
 			}
 		}
 
 		stage ('Integration test') {
-			agent label:''
+			agent any
 			steps {
+				unstash 'sources'
 				sh "mvn -B -Dmaven.test.failure.ignore clean test-compile failsafe:integration-test"
 				junit '**/failsafe-reports/TEST-*.xml'
 			}
 		}
 		
 		stage ('Quality') {
-			agent label:''
+			agent any
 			steps {
+				unstash 'sources'
 				sh "mvn site -Dmaven.test.skip=true"
 				step([$class: 'FindBugsPublisher'])
 				step([$class: 'CheckStylePublisher'])
@@ -82,6 +87,7 @@ pipeline {
 							if (userInput) {
 								node {
 									currentBuild.displayName = currentBuild.displayName + " - deployed to production"
+									unstash 'binaire'
 									sh "/var/lib/mariage/stopMariage.sh"
 									sh "rm /var/lib/mariage/*.war || true"
 									sh "cp ./mariageRest.war /var/lib/mariage/"
@@ -100,11 +106,11 @@ pipeline {
 	
 	post {
         success {
-			node ('') { archiveArtifacts artifacts: 'mariageRest.war', fingerprint: true }
+			node ('') { unstash 'binaire'; archiveArtifacts artifacts: 'mariageRest.war', fingerprint: true }
 			node ('') { step([$class: 'WsCleanup', notFailBuild: true]) }
         }
         unstable {
-			node ('') { archiveArtifacts artifacts: 'mariageRest.war', fingerprint: true }
+			node ('') { unstash 'binaire'; archiveArtifacts artifacts: 'mariageRest.war', fingerprint: true }
 			node ('') { step([$class: 'WsCleanup', notFailBuild: true]) }
 		}
         failure {
