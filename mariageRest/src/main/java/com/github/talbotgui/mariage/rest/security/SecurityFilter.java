@@ -75,9 +75,14 @@ public class SecurityFilter implements Filter {
 			chain.doFilter(request, response);
 		}
 
-		// Page sécurisée
-		else if (pageProtegee) {
+		// Page WEB sécurisée
+		else if (pageProtegee && request.getRequestURI().endsWith(".html")) {
 			response.sendRedirect(request.getContextPath() + LOGIN_PAGE);
+		}
+
+		// API sécurisée
+		else if (pageProtegee && !request.getRequestURI().endsWith(".html")) {
+			this.return404(response);
 		}
 
 		// Sinon
@@ -122,8 +127,7 @@ public class SecurityFilter implements Filter {
 				&& !request.getRequestURI().contains(request.getContextPath() + "/utilisateur/moi")
 				&& (request.getRequestURI().contains(request.getContextPath() + "/utilisateur")
 						|| request.getRequestURI().contains(request.getContextPath() + "/autorisation"))) {
-			response.resetBuffer();
-			response.setStatus(HttpStatus.NOT_FOUND.value());
+			this.return404(response);
 			return true;
 		}
 
@@ -138,7 +142,13 @@ public class SecurityFilter implements Filter {
 	private boolean isPageProtegee(final HttpServletRequest request) {
 		final String uriAcomparer = request.getRequestURI().replaceFirst(request.getContextPath(), "");
 		return !LOGIN_PAGE.equals(uriAcomparer) && !LOGIN_REST.equals(uriAcomparer)
-				&& !uriAcomparer.startsWith("/ressources/");
+				&& !uriAcomparer.startsWith("/ressources/") && !uriAcomparer.startsWith("/v2/")
+				&& !uriAcomparer.equals("/") && !uriAcomparer.startsWith("/swagger-ui.html");
+	}
+
+	private void return404(final HttpServletResponse response) {
+		response.resetBuffer();
+		response.setStatus(HttpStatus.NOT_FOUND.value());
 	}
 
 }

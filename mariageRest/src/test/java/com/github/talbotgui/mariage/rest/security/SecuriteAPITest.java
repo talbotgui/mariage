@@ -48,7 +48,7 @@ public class SecuriteAPITest {
 		sf.doFilter(req, res, chain);
 
 		// Assert
-		this.assertRedirectionPageLogin(res);
+		this.assertPage404(res);
 	}
 
 	@Test

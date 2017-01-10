@@ -87,7 +87,7 @@ public class SecuriteDesPagesTest {
 		sf.doFilter(req, res, chain);
 
 		// Assert
-		this.assertRedirectionPageLogin(res);
+		this.assertStatutOkEtHeaders(res);
 	}
 
 	@Test

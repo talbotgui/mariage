@@ -7,21 +7,13 @@ import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.web.client.RestTemplate;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import com.github.talbotgui.mariage.metier.service.MariageService;
 import com.github.talbotgui.mariage.metier.service.SecuriteService;
-import com.github.talbotgui.mariage.rest.application.RestTestApplication;
 
-@SpringApplicationConfiguration(classes = { RestTestApplication.class })
-@WebIntegrationTest(randomPort = true)
-public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
+public class BaseRestControlerTest extends BaseWebTest {
 
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(BaseRestControlerTest.class);
@@ -32,10 +24,6 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	@Autowired
 	@InjectMocks
 	private AutorisationRestControler autorisationCtrl;
-
-	/** ContextRoot de l'application. */
-	@Value("${server.context-path}")
-	private String contextPath;
 
 	/**
 	 * Instance des controleurs nécessaires pour y injecter le mock de service.
@@ -90,10 +78,6 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	@InjectMocks
 	private FoyerRestControler peCtrl;
 
-	/** Port sur lequel démarre le serveur. */
-	@Value("${local.server.port}")
-	private int port;
-
 	/** Mock de service créé par Mockito. */
 	@Mock
 	protected SecuriteService securiteService;
@@ -116,25 +100,6 @@ public class BaseRestControlerTest extends AbstractTestNGSpringContextTests {
 	public void beforeMethod() {
 		LOG.info("*****************************************");
 		Mockito.reset(this.mariageService, this.securiteService);
-	}
-
-	/**
-	 * Reset restTemplate avec les intercepteurs
-	 *
-	 * @see com.github.talbotgui.mariage.rest.controleur.ControlerTestUtil
-	 *      (REST_INTERCEPTORS)
-	 *
-	 * @return a new RestTemplate
-	 */
-	protected RestTemplate getREST() {
-		final RestTemplate rest = new RestTemplate();
-		rest.setInterceptors(ControlerTestUtil.REST_INTERCEPTORS);
-		return rest;
-	}
-
-	/** Test URL. */
-	protected String getURL() {
-		return "http://localhost:" + this.port + this.contextPath;
 	}
 
 }

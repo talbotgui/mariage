@@ -21,7 +21,7 @@ import com.googlecode.catchexception.CatchException;
 public class MenuControlerTest extends BaseRestControlerTest {
 
 	@DataProvider(name = "getTestParameters")
-	public static Object[][] getTestParameters() {
+	public Object[][] getTestParameters() {
 
 		final Collection<String> liensCommun = new ArrayList<>();
 		liensCommun.add("index.html");
