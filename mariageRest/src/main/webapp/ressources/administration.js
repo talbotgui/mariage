@@ -3,7 +3,10 @@ var donneesDejaChargees2 = false;
 
 // Affiche la popup
 var affichePopupUtilisateur = function() { $("#popupAjoutUtilisateur").jqxWindow('open'); };
-var affichePopupAutorisation = function() { $("#popupAjoutAutorisation").jqxWindow({height: 115}).jqxWindow('open'); };
+var affichePopupAutorisation = function() { 
+	alimentationSelectBox(); 
+	$("#popupAjoutAutorisation").jqxWindow({height: 115}).jqxWindow('open'); 
+};
 
 //Fonction JqxGrid
 var modifieUtilisateur= function(e) {
