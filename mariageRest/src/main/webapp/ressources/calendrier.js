@@ -103,7 +103,7 @@ var chargeCalendrier = function() {
 			data.forEach(function(e, i, array) { mapUtilisateurs.push({key: e.login, label: e.login}); });
 			scheduler.config.lightbox.sections = [	
 				{ name:"Titre", height:50, map_to:"text", type:"textarea", focus:true }
-				,{ name:"Participants", height:22, map_to:"participants", type:"multiselect", options: mapUtilisateurs }
+				,{ name:"Participants", height: 22*(mapUtilisateurs.size/2), map_to:"participants", type:"multiselect", options: mapUtilisateurs }
 				,{ name:"Horaire", height:72, type:"time", map_to:"auto"}	
 	        ];
 		});

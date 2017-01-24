@@ -1,6 +1,6 @@
 Ajouter sur la page d'accueil la todoList à partir des données du calendrier
 
-Agrandir la liste des chackbox dans le formulaire du calendrier (.dhx_multi_select_Participants à 52px) et agrandir le formulaire aussi
+Passer à Hibernate-5
 
 Ajouter la fusion de foyer (Ajouter une erreur pour deux foyers du même nom et proposer la fusion automatique en indiquant que les adresses et invitations doivent être les mêmes)
 
