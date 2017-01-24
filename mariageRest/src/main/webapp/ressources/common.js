@@ -185,6 +185,9 @@ var alimentationSelectBox = function() {
 		
 		var req = $.get( REST_PREFIX + source);
 		req.success(function(dataString) {
+			
+			sel.empty();
+			
 			if (empty) {
 				sel.append($('<option>', {value:"", text:""}));
 			}
