@@ -58,6 +58,12 @@ var deverouilleUtilisateur = function(id) {
 	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le déverouillage de l'utilisateur");});
 };
 
+var resetUtilisateur = function(id) {
+	var req = $.ajax({ type: "PUT", url: REST_PREFIX + "/utilisateur/" + id + "/reset"});
+	req.success(function(dataString) { chargeUtilisateurs(); });
+	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la réinitialisation du mot de passe de l'utilisateur");});
+};
+
 //Chargement des utilisateurs
 var chargeUtilisateurs = function() {
 	if (donneesDejaChargees) {
@@ -79,8 +85,9 @@ var chargeUtilisateurs = function() {
 			var rendererColonneBouton = function (rowIndex, columnfield, value, defaulthtml, columnproperties, objet) {
 				var contenuCase = "<a href='javascript:supprimeUtilisateur(\"" + value + "\")' id='btn" + value + "sup'><span class='ui-icon ui-icon-trash'></span></a>";
 				if (objet.verrouille) {
-					contenuCase += "<a href='javascript:deverouilleUtilisateur(\"" + value + "\")' id='btn" + value + "dev'><span class='ui-icon ui-icon-power'></span></a>";
+					contenuCase += "<a href='javascript:deverouilleUtilisateur(\"" + value + "\")' id='btn" + value + "dev'><span class='ui-icon ui-icon-unlocked'></span></a>";
 				}
+				contenuCase += "<a href='javascript:resetUtilisateur(\"" + value + "\")' id='btn" + value + "reset'><span class='ui-icon ui-icon-refresh'></span></a>";
 				return contenuCase; 
 			};
 			var rendererColonneStatut = function (rowIndex, columnfield, value, defaulthtml, columnproperties) { 

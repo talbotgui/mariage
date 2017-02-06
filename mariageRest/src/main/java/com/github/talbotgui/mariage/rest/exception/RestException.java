@@ -6,6 +6,10 @@ import com.github.talbotgui.mariage.metier.exception.ExceptionId.ExceptionLevel;
 
 public class RestException extends BaseException {
 
+	public static final ExceptionId ERREUR_ACTION_RESERVEE_ADMIN = new ExceptionId("ERREUR_ACTION_RESERVEE_ADMIN",
+			"Cette action nécessite le role ADMINISTRATEUR", //
+			ExceptionLevel.ERROR, 403);
+
 	public static final ExceptionId ERREUR_FORMAT_DATE = new ExceptionId("ERREUR_FORMAT_DATE",
 			"Le format de la date est incorrect (format='{0}', valeur='{1}').", ExceptionLevel.ERROR, 400);
 
@@ -21,6 +25,10 @@ public class RestException extends BaseException {
 
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;
+
+	public RestException(final ExceptionId pExceptionId) {
+		super(pExceptionId);
+	}
 
 	public RestException(final ExceptionId pExceptionId, final Exception pNestedException) {
 		super(pExceptionId, pNestedException);

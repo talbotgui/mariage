@@ -90,6 +90,13 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
+	public void resetPassword(final String login) {
+		final Utilisateur u = this.utilisateurRepo.findOne(login);
+		u.setMdp(this.encrypt(login));
+		this.utilisateurRepo.save(u);
+	}
+
+	@Override
 	public void sauvegarderUtilisateur(final String login, final String mdp, Utilisateur.Role role) {
 
 		this.valideLoginOuMotDePasse(login);

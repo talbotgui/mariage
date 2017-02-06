@@ -31,6 +31,17 @@ public class UtilisateurRestControler {
 	@Autowired
 	private SecuriteService securiteService;
 
+	@RequestMapping(value = "/utilisateur/{login}/changeMdp", method = POST)
+	public void changeMotDePasseUtilisateur(//
+			@PathVariable(value = "login") final String login, //
+			@RequestParam(value = "mdp", required = false) final String mdp) {
+		final Utilisateur u = this.securiteService.chargerUtilisateur(login);
+		if (u == null) {
+			throw new RestException(RestException.ERREUR_ACTION_RESERVEE_ADMIN);
+		}
+		this.securiteService.sauvegarderUtilisateur(u.getLogin(), mdp, u.getRole());
+	}
+
 	@RequestMapping(value = SecurityFilter.LOGIN_REST, method = POST)
 	public void connecter(//
 			@RequestParam(value = "login") final String login, //
@@ -51,7 +62,8 @@ public class UtilisateurRestControler {
 	}
 
 	@RequestMapping(value = "/utilisateur/{login}/deverrouille", method = PUT)
-	public void deverrouillerUtilisateur(@PathVariable(value = "login") final String login) {
+	public void deverrouillerUtilisateur(@PathVariable(value = "login") final String login,
+			final HttpServletRequest request) {
 		this.securiteService.deverrouillerUtilisateur(login);
 	}
 
@@ -97,6 +109,11 @@ public class UtilisateurRestControler {
 				}
 			}
 		}
+	}
+
+	@RequestMapping(value = "/utilisateur/{login}/reset", method = PUT)
+	public void resetPassword(@PathVariable(value = "login") final String login, final HttpServletRequest request) {
+		this.securiteService.resetPassword(login);
 	}
 
 	@RequestMapping(value = "/utilisateur", method = POST)

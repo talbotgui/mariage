@@ -12,7 +12,8 @@ var modifierMotDePasse = function(e) {
 	
 	valideForm("form", function(data) {
 		delete data.mdp2;
-		var req = $.post( REST_PREFIX + "/utilisateur", data);
+		var login = $("input[name='login']").val();
+		var req = $.post( REST_PREFIX + "/utilisateur/" + login + "/changeMdp", data);
 		req.success(function(dataString) { 
 			afficheUtilisateur();
 		});

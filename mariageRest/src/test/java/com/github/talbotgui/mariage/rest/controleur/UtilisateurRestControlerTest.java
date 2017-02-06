@@ -214,8 +214,6 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 
 		// ASSERT
 		Mockito.verify(this.securiteService).deverrouillerUtilisateur(login);
-		Mockito.verifyNoMoreInteractions(this.securiteService);
-
 	}
 
 	@Test
@@ -238,6 +236,25 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 	}
 
 	@Test
+	public void test09ResetPassword() {
+		final String loginToReset = "monLoginToReset";
+
+		// ARRANGE
+		Mockito.doNothing().when(this.securiteService).resetPassword(loginToReset);
+
+		// ACT
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", loginToReset);
+		final HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(requestParam);
+		final ResponseEntity<Void> response = this.getREST().exchange(
+				this.getURL() + "/utilisateur/" + loginToReset + "/reset", HttpMethod.PUT, request, Void.class);
+
+		// ASSERT
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		Mockito.verify(this.securiteService).resetPassword(loginToReset);
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+	}
+
+	@Test
 	public void test99BugSuppressionUtilisateurDontLoginContientUnPoint() {
 		final String login = "mon.login";
 		final String loginObtenu = "mon.login".substring(0, login.indexOf("."));
@@ -256,4 +273,5 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		Mockito.verify(this.securiteService).supprimerUtilisateur(Mockito.anyString());
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
+
 }

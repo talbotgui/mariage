@@ -111,7 +111,7 @@ public class SecurityFilter implements Filter {
 	}
 
 	/**
-	 * Renvoi un code 404 pour les appels REST "/utilisateur" pour les
+	 * Renvoi un cangeMdpode 404 pour les appels REST "/utilisateur" pour les
 	 * utilisateurs du role non ADMIN.
 	 *
 	 * @param request
@@ -122,9 +122,11 @@ public class SecurityFilter implements Filter {
 	 */
 	private boolean filterRestByUserRole(final HttpServletRequest request, final HttpServletResponse response) {
 		final String role = (String) request.getSession().getAttribute(SESSION_KEY_USER_ROLE);
+		final String login = (String) request.getSession().getAttribute(SESSION_KEY_USER_LOGIN);
 
 		if (!Role.ADMIN.toString().equals(role)
 				&& !request.getRequestURI().contains(request.getContextPath() + "/utilisateur/moi")
+				&& !request.getRequestURI().contains(request.getContextPath() + "/utilisateur/" + login + "/changeMdp")
 				&& (request.getRequestURI().contains(request.getContextPath() + "/utilisateur")
 						|| request.getRequestURI().contains(request.getContextPath() + "/autorisation"))) {
 			this.return404(response);

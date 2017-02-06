@@ -388,4 +388,20 @@ public class SecuriteServiceTest {
 		//
 		Assert.assertEquals(4, liste.size());
 	}
+
+	@Test
+	public void test12ResetPassword() {
+		//
+		final String login = "monLoginToReset";
+		final String mdp = "unBonMdp";
+		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		this.instance.verifierUtilisateur(login, mdp);
+
+		//
+		this.instance.resetPassword(login);
+
+		//
+		this.instance.verifierUtilisateur(login, login);
+	}
+
 }

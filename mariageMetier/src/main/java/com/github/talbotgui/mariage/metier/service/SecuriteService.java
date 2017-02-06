@@ -22,6 +22,8 @@ public interface SecuriteService {
 
 	Collection<Utilisateur> listerUtilisateursParMariage(Long idMariage);
 
+	void resetPassword(String login);
+
 	/**
 	 * A la creation d'un utilisateur, si aucun role fournit, le nouvel
 	 * utilisateur sera un UTILISATEUR.
