@@ -20,7 +20,7 @@ public class DtoAvecChoix {
 	private Object dto;
 
 	protected DtoAvecChoix() {
-
+		super();
 	}
 
 	public DtoAvecChoix(final Object entite, final Class<?> dtoClass, final Method getterAttributDuChoix,

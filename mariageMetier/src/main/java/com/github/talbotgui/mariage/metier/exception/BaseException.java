@@ -1,5 +1,6 @@
 package com.github.talbotgui.mariage.metier.exception;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -22,10 +23,10 @@ public abstract class BaseException extends RuntimeException {
 	}
 
 	/** Exception identifier. */
-	private ExceptionId exceptionId;
+	private final ExceptionId exceptionId;
 
 	/** Message parameters. */
-	private Object[] parameters;
+	private final Serializable[] parameters;
 
 	/**
 	 * Constructor.
@@ -35,7 +36,8 @@ public abstract class BaseException extends RuntimeException {
 	 */
 	public BaseException(final ExceptionId exceptionId) {
 		super();
-		this.setExceptionId(exceptionId);
+		this.exceptionId = exceptionId;
+		this.parameters = null;
 	}
 
 	/**
@@ -46,9 +48,9 @@ public abstract class BaseException extends RuntimeException {
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	public BaseException(final ExceptionId pExceptionId, final Object... pParameters) {
-		this(pExceptionId);
-		this.setParameters(pParameters);
+	public BaseException(final ExceptionId pExceptionId, final Serializable... pParameters) {
+		this.exceptionId = pExceptionId;
+		this.parameters = pParameters;
 	}
 
 	/**
@@ -61,7 +63,8 @@ public abstract class BaseException extends RuntimeException {
 	 */
 	public BaseException(final ExceptionId exceptionId, final Throwable nestedException) {
 		super(nestedException);
-		this.setExceptionId(exceptionId);
+		this.exceptionId = exceptionId;
+		this.parameters = null;
 	}
 
 	/**
@@ -74,10 +77,10 @@ public abstract class BaseException extends RuntimeException {
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	public BaseException(final ExceptionId pExceptionId, final Throwable pNested, final Object... pParameters) {
+	public BaseException(final ExceptionId pExceptionId, final Throwable pNested, final Serializable... pParameters) {
 		super(pNested);
-		this.setExceptionId(pExceptionId);
-		this.setParameters(pParameters);
+		this.exceptionId = pExceptionId;
+		this.parameters = pParameters;
 	}
 
 	/**
@@ -103,14 +106,7 @@ public abstract class BaseException extends RuntimeException {
 			String message = this.exceptionId.getDefaultMessage();
 			if (message != null && this.parameters != null) {
 				for (int i = 0; i < this.parameters.length; i++) {
-					String valeur = "null";
-					if (this.parameters[i] != null) {
-						if (this.parameters[i].getClass().isArray()) {
-							valeur = Arrays.asList((Object[]) this.parameters[i]).toString();
-						} else {
-							valeur = this.parameters[i].toString();
-						}
-					}
+					final String valeur = this.transformParameterToString(i);
 					message = message.replace("{" + i + "}", valeur);
 				}
 			}
@@ -132,22 +128,22 @@ public abstract class BaseException extends RuntimeException {
 	}
 
 	/**
-	 * SETTER.
-	 *
-	 * @param exceptionId
-	 *            Exception identifier.
+	 * Transforme le parameter[i] en string
+	 * 
+	 * @param i
+	 *            L'index du paramètre
+	 * @return la String
 	 */
-	private void setExceptionId(final ExceptionId exceptionId) {
-		this.exceptionId = exceptionId;
+	private String transformParameterToString(final int i) {
+		String valeur = "null";
+		if (this.parameters[i] != null) {
+			if (this.parameters[i].getClass().isArray()) {
+				valeur = Arrays.asList((Object[]) this.parameters[i]).toString();
+			} else {
+				valeur = this.parameters[i].toString();
+			}
+		}
+		return valeur;
 	}
 
-	/**
-	 * SETTER.
-	 *
-	 * @param pParameters
-	 *            Message parameters.
-	 */
-	private void setParameters(final Object... pParameters) {
-		this.parameters = Arrays.copyOf(pParameters, pParameters.length);
-	}
 }

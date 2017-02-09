@@ -15,7 +15,7 @@ public class FoyerDTO implements Serializable {
 	private String telephone;
 
 	public FoyerDTO() {
-
+		super();
 	}
 
 	public FoyerDTO(final Foyer foyer) {

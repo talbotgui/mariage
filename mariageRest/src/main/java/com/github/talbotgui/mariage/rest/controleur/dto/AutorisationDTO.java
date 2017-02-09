@@ -13,7 +13,7 @@ public class AutorisationDTO implements Serializable {
 	private String nomMaries;
 
 	public AutorisationDTO() {
-
+		super();
 	}
 
 	public AutorisationDTO(final Autorisation autorisation) {

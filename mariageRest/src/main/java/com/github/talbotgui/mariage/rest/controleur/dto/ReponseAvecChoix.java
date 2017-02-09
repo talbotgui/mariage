@@ -17,8 +17,7 @@ public class ReponseAvecChoix {
 	}
 
 	public ReponseAvecChoix(final Collection<?> choixPossibles, final Class<?> choixClass, final Collection<?> entites,
-			final Class<?> dtoClass, final Method getterAttributDuChoix)
-			throws IllegalArgumentException, ReflectiveOperationException {
+			final Class<?> dtoClass, final Method getterAttributDuChoix) throws ReflectiveOperationException {
 		super();
 		this.choixPossibles = DTOUtils.creerDtos(choixPossibles, choixClass);
 		final Collection<DtoAvecChoix> dtosAvecChoix = new ArrayList<>();

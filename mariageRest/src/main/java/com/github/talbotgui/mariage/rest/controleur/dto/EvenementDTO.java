@@ -18,7 +18,7 @@ public class EvenementDTO implements Serializable {
 	private String titre;
 
 	public EvenementDTO() {
-
+		super();
 	}
 
 	public EvenementDTO(final Evenement evenement) {

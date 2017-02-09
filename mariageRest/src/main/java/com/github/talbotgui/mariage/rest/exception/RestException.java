@@ -1,5 +1,7 @@
 package com.github.talbotgui.mariage.rest.exception;
 
+import java.io.Serializable;
+
 import com.github.talbotgui.mariage.metier.exception.BaseException;
 import com.github.talbotgui.mariage.metier.exception.ExceptionId;
 import com.github.talbotgui.mariage.metier.exception.ExceptionId.ExceptionLevel;
@@ -34,12 +36,12 @@ public class RestException extends BaseException {
 		super(pExceptionId, pNestedException);
 	}
 
-	public RestException(final ExceptionId pExceptionId, final Object... pParameters) {
+	public RestException(final ExceptionId pExceptionId, final Serializable... pParameters) {
 		super(pExceptionId, pParameters);
 	}
 
 	public RestException(final ExceptionId pExceptionId, final Throwable pNestedException,
-			final Object... pParameters) {
+			final Serializable... pParameters) {
 		super(pExceptionId, pNestedException, pParameters);
 	}
 }
