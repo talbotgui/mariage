@@ -36,11 +36,11 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 	@Test
 	public void test01GetListeInvites01Tous() {
 		final Long idMariage = 10L;
-		final List<Invite> toReturn = Arrays.asList(new Invite("I1", "P1", Age.adulte),
-				new Invite("I2", "P1", Age.adulte), new Invite("I3", "P1", Age.adulte),
-				new Invite("I4", "P1", Age.adulte), new Invite("I1", "P1", Age.adulte),
-				new Invite("I2", "P1", Age.adulte), new Invite("I3", "P1", Age.adulte),
-				new Invite("I4", "P1", Age.adulte));
+		final List<Invite> toReturn = Arrays.asList(new Invite("I1", "P1", Age.ADULTE),
+				new Invite("I2", "P1", Age.ADULTE), new Invite("I3", "P1", Age.ADULTE),
+				new Invite("I4", "P1", Age.ADULTE), new Invite("I1", "P1", Age.ADULTE),
+				new Invite("I2", "P1", Age.ADULTE), new Invite("I3", "P1", Age.ADULTE),
+				new Invite("I4", "P1", Age.ADULTE));
 
 		// ARRANGE
 		Mockito.doReturn(toReturn).when(this.mariageService).listerInvitesParIdMariage(Mockito.anyLong());
@@ -60,11 +60,11 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 	@Test
 	public void test01GetListeInvites02SeulementLesPresents() {
 		final Long idMariage = 10L;
-		final List<Invite> toReturn = Arrays.asList(new Invite("I1", "P1", Age.adulte),
-				new Invite("I2", "P1", Age.adulte), new Invite("I3", "P1", Age.adulte),
-				new Invite("I4", "P1", Age.adulte), new Invite("I1", "P1", Age.adulte),
-				new Invite("I2", "P1", Age.adulte), new Invite("I3", "P1", Age.adulte),
-				new Invite("I4", "P1", Age.adulte));
+		final List<Invite> toReturn = Arrays.asList(new Invite("I1", "P1", Age.ADULTE),
+				new Invite("I2", "P1", Age.ADULTE), new Invite("I3", "P1", Age.ADULTE),
+				new Invite("I4", "P1", Age.ADULTE), new Invite("I1", "P1", Age.ADULTE),
+				new Invite("I2", "P1", Age.ADULTE), new Invite("I3", "P1", Age.ADULTE),
+				new Invite("I4", "P1", Age.ADULTE));
 
 		// ARRANGE
 		Mockito.doReturn(toReturn).when(this.mariageService).listerInvitesPresentsParIdMariage(Mockito.anyLong());
@@ -85,7 +85,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 	public void test02AjouteInvite01FoyerInexistant() {
 		final Long idMariage = 10L;
 		final Long idInvite = 100L;
-		final String age = Age.adulte.toString();
+		final String age = Age.ADULTE.toString();
 		final String foyer = "foyer";
 		final String groupe = "Groupe1";
 		final String nom = "InviteA";
@@ -128,7 +128,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final Long idMariage = 10L;
 		final Long idInvite = 100L;
 		final Long idFoyer = 50L;
-		final String age = Age.adulte.toString();
+		final String age = Age.ADULTE.toString();
 		final String foyer = "foyer";
 		final String groupe1 = "Groupe1";
 		final String groupe2 = "Groupe2";
@@ -287,8 +287,8 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final String adresse2 = "adresse2";
 		final String email = "email";
 		final String email2 = "email2";
-		final Age age = Age.adulte;
-		final Age age2 = Age.aine;
+		final Age age = Age.ADULTE;
+		final Age age2 = Age.AINE;
 		final String foyer = "foyer";
 		final String foyer2 = "foyer2";
 		final String groupe = "Groupe";
@@ -347,7 +347,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final String adresse = "adresse";
 		final String email = "email";
 		final String email2 = "email2";
-		final Age age = Age.adulte;
+		final Age age = Age.ADULTE;
 		final String foyer = "foyer";
 		final String groupe = "Groupe1";
 		final String nom = "InviteA";
@@ -526,8 +526,8 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 
 		// ARRANGE
 		final Collection<StatistiquesPresenceMariage> dtos = Arrays.asList(
-				new StatistiquesPresenceMariage(idEtape, Age.adulte, 1L, 1L, 1L, 1L, 1L),
-				new StatistiquesPresenceMariage(idEtape, Age.enfant, 1L, 0L, 1L, 0L, 1L));
+				new StatistiquesPresenceMariage(idEtape, Age.ADULTE, 1L, 1L, 1L, 1L, 1L),
+				new StatistiquesPresenceMariage(idEtape, Age.ENFANT, 1L, 0L, 1L, 0L, 1L));
 		Mockito.doReturn(dtos).when(this.mariageService).calculerStatistiquesPresence(Mockito.anyLong(),
 				Mockito.anyLong());
 

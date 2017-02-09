@@ -74,16 +74,16 @@ public class ObjectMother {
 		mariage.addFoyer(foyer2);
 		mariage.addFoyer(foyer3);
 
-		foyer1.addInvite(new Invite(null, "G F", "X", Age.adulte, foyer1));
-		foyer1.addInvite(new Invite(null, "G A", "X", Age.adulte, foyer1));
-		foyer1.addInvite(new Invite(null, "G C", "X", Age.adulte, foyer1));
-		foyer2.addInvite(new Invite(null, "G I", "X", Age.adulte, foyer2));
-		foyer2.addInvite(new Invite(null, "G J", "X", Age.adulte, foyer2));
-		foyer2.addInvite(new Invite(null, "T P", "X", Age.adulte, foyer2));
-		foyer3.addInvite(new Invite(null, "T A", "X", Age.adulte, foyer3));
-		foyer3.addInvite(new Invite(null, "T J", "X", Age.adulte, foyer3));
-		foyer3.addInvite(new Invite(null, "T A", "X", Age.adulte, foyer3));
-		foyer3.addInvite(new Invite(null, "T J", "X", Age.adulte, foyer3));
+		foyer1.addInvite(new Invite(null, "G F", "X", Age.ADULTE, foyer1));
+		foyer1.addInvite(new Invite(null, "G A", "X", Age.ADULTE, foyer1));
+		foyer1.addInvite(new Invite(null, "G C", "X", Age.ADULTE, foyer1));
+		foyer2.addInvite(new Invite(null, "G I", "X", Age.ADULTE, foyer2));
+		foyer2.addInvite(new Invite(null, "G J", "X", Age.ADULTE, foyer2));
+		foyer2.addInvite(new Invite(null, "T P", "X", Age.ADULTE, foyer2));
+		foyer3.addInvite(new Invite(null, "T A", "X", Age.ADULTE, foyer3));
+		foyer3.addInvite(new Invite(null, "T J", "X", Age.ADULTE, foyer3));
+		foyer3.addInvite(new Invite(null, "T A", "X", Age.ADULTE, foyer3));
+		foyer3.addInvite(new Invite(null, "T J", "X", Age.ADULTE, foyer3));
 
 		return mariage;
 	}

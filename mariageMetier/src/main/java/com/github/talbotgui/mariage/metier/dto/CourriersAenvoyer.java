@@ -19,29 +19,29 @@ public class CourriersAenvoyer {
 	}
 
 	public String getAdresse() {
-		return adresse;
+		return this.adresse;
 	}
 
 	public String getFoyer() {
-		return foyer;
+		return this.foyer;
 	}
 
 	public String getGroupe() {
-		return groupe;
+		return this.groupe;
 	}
 
 	public int getNbEtapes() {
-		return nbEtapes;
+		return this.nbEtapes;
 	}
 
 	public String getNomCourrier() {
-		return nomCourrier;
+		return this.nomCourrier;
 	}
 
 	@Override
 	public String toString() {
-		return "CourriersAenvoyer [adresse=" + adresse + ", foyer=" + foyer + ", groupe=" + groupe + ", nbEtapes="
-				+ nbEtapes + ", nomCourrier=" + nomCourrier + "]";
+		return "CourriersAenvoyer [adresse=" + this.adresse + ", foyer=" + this.foyer + ", groupe=" + this.groupe
+				+ ", nbEtapes=" + this.nbEtapes + ", nomCourrier=" + this.nomCourrier + "]";
 	}
 
 }

@@ -111,7 +111,7 @@ public class InviteEtFoyerServiceTest {
 		// ACT
 		final String nom = "N1";
 		final String prenom = "P1";
-		final Age age = Age.adulte;
+		final Age age = Age.ADULTE;
 		final String foyer = "foyer";
 		final String groupe = "groupe";
 		final String adresse = "adresse";
@@ -143,7 +143,7 @@ public class InviteEtFoyerServiceTest {
 		final Long idMariage = this.instance.sauvegarderGrappe(original);
 		final String nom = "N1";
 		final String prenom = "P1";
-		final Age age = Age.adulte;
+		final Age age = Age.ADULTE;
 		final String foyer = "foyer";
 		final String groupe = "groupe";
 		final String adresse = "adresse";
@@ -154,7 +154,7 @@ public class InviteEtFoyerServiceTest {
 
 		// ACT
 		final String prenom2 = "P2";
-		final Age age2 = Age.adulte;
+		final Age age2 = Age.ADULTE;
 		final Long id = this.instance.sauvegarderInviteEtFoyer(idMariage,
 				new Invite(null, nom, prenom2, age2, new Foyer(premierInvite.getFoyer().getId())));
 
@@ -301,9 +301,9 @@ public class InviteEtFoyerServiceTest {
 		final Long idMariage = this.instance.sauvegarderGrappe(original);
 		final Collection<Invite> inviteAvant = this.instance.listerInvitesParIdMariage(idMariage);
 		final Collection<Invite> invitesAinserer = Arrays.asList(
-				new Invite(null, "nom1", "prenom1", Age.adulte, new Foyer("foyer1")),
-				new Invite(null, "nom2", "prenom2", Age.adulte, new Foyer("foyer1")),
-				new Invite(null, "nom3", "prenom3", Age.adulte, new Foyer("foyer2")));
+				new Invite(null, "nom1", "prenom1", Age.ADULTE, new Foyer("foyer1")),
+				new Invite(null, "nom2", "prenom2", Age.ADULTE, new Foyer("foyer1")),
+				new Invite(null, "nom3", "prenom3", Age.ADULTE, new Foyer("foyer2")));
 
 		// ACT
 		this.instance.sauvegardeEnMasse(idMariage, invitesAinserer);
@@ -348,7 +348,7 @@ public class InviteEtFoyerServiceTest {
 		Assert.assertEquals("invites sans age", (Integer) 3, invites.getNbInvitesSansAge());
 
 		Assert.assertEquals("invites par age nb", 6, repartitions.getNbParAge().size());
-		Assert.assertEquals("invites par age value", (Integer) 1, repartitions.getNbParAge().get(Age.bebe.toString()));
+		Assert.assertEquals("invites par age value", (Integer) 1, repartitions.getNbParAge().get(Age.BEBE.toString()));
 		Assert.assertEquals("invites par age value", (Integer) 3, repartitions.getNbParAge().get(""));
 
 		Assert.assertEquals("invites par groupe nb", 2, repartitions.getNbParGroupe().size());
@@ -374,7 +374,7 @@ public class InviteEtFoyerServiceTest {
 		final Long idMariage = this.instance.sauvegarderGrappe(original);
 		final String nom = "N1";
 		final String prenom = "P1";
-		final Age age = Age.adulte;
+		final Age age = Age.ADULTE;
 		final String foyer = "foyer";
 		final Long id = this.instance.sauvegarderInviteEtFoyer(idMariage,
 				new Invite(null, nom, prenom, age, new Foyer(foyer)));
@@ -491,7 +491,7 @@ public class InviteEtFoyerServiceTest {
 
 		stat = iter.next();
 		Assert.assertEquals(idEtape, stat.getIdEtape());
-		Assert.assertEquals(Age.adulte.name(), stat.getNomAge());
+		Assert.assertEquals(Age.ADULTE.name(), stat.getNomAge());
 		Assert.assertEquals(1, stat.getNbAbsence());
 		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
 		Assert.assertEquals(0, stat.getNbInconnu());
@@ -500,7 +500,7 @@ public class InviteEtFoyerServiceTest {
 
 		stat = iter.next();
 		Assert.assertEquals(idEtape, stat.getIdEtape());
-		Assert.assertEquals(Age.aine.name(), stat.getNomAge());
+		Assert.assertEquals(Age.AINE.name(), stat.getNomAge());
 		Assert.assertEquals(0, stat.getNbAbsence());
 		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
 		Assert.assertEquals(1, stat.getNbInconnu());
@@ -509,7 +509,7 @@ public class InviteEtFoyerServiceTest {
 
 		stat = iter.next();
 		Assert.assertEquals(idEtape, stat.getIdEtape());
-		Assert.assertEquals(Age.bebe.name(), stat.getNomAge());
+		Assert.assertEquals(Age.BEBE.name(), stat.getNomAge());
 		Assert.assertEquals(0, stat.getNbAbsence());
 		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
 		Assert.assertEquals(0, stat.getNbInconnu());
@@ -518,7 +518,7 @@ public class InviteEtFoyerServiceTest {
 
 		stat = iter.next();
 		Assert.assertEquals(idEtape, stat.getIdEtape());
-		Assert.assertEquals(Age.enfant.name(), stat.getNomAge());
+		Assert.assertEquals(Age.ENFANT.name(), stat.getNomAge());
 		Assert.assertEquals(0, stat.getNbAbsence());
 		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
 		Assert.assertEquals(0, stat.getNbInconnu());
@@ -527,7 +527,7 @@ public class InviteEtFoyerServiceTest {
 
 		stat = iter.next();
 		Assert.assertEquals(idEtape, stat.getIdEtape());
-		Assert.assertEquals(Age.jeune.name(), stat.getNomAge());
+		Assert.assertEquals(Age.JEUNE.name(), stat.getNomAge());
 		Assert.assertEquals(0, stat.getNbAbsence());
 		Assert.assertEquals(0, stat.getNbAbsenceConfirme());
 		Assert.assertEquals(0, stat.getNbInconnu());
