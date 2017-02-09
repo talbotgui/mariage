@@ -57,11 +57,11 @@ public class PresenceId implements Serializable {
 		return hcb.toHashCode();
 	}
 
-	public void setEtape(final Etape etape) {
+	public final void setEtape(final Etape etape) {
 		this.etape = etape;
 	}
 
-	public void setInvite(final Invite invite) {
+	public final void setInvite(final Invite invite) {
 		this.invite = invite;
 	}
 

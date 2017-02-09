@@ -108,39 +108,39 @@ public class Invite implements Serializable {
 		return this.prenom;
 	}
 
-	public void setAge(final Age age) {
+	public final void setAge(final Age age) {
 		this.age = age;
 	}
 
-	public void setCommentaire(final String commentaire) {
+	public final void setCommentaire(final String commentaire) {
 		this.commentaire = commentaire;
 	}
 
-	public void setEtapesPresence(final Collection<Etape> etapesPresence) {
+	public final void setEtapesPresence(final Collection<Etape> etapesPresence) {
 		this.etapesPresence = new ArrayList<>(etapesPresence);
 	}
 
-	public void setFoyer(final Foyer foyer) {
+	public final void setFoyer(final Foyer foyer) {
 		this.foyer = foyer;
 	}
 
-	private void setId(final Long id) {
+	private final void setId(final Long id) {
 		this.id = id;
 	}
 
-	public void setNom(final String nom) {
+	public final void setNom(final String nom) {
 		this.nom = nom;
 	}
 
-	public void setParticipantAuxAnimations(final Boolean participantAuxAnimations) {
+	public final void setParticipantAuxAnimations(final Boolean participantAuxAnimations) {
 		this.participantAuxAnimations = participantAuxAnimations;
 	}
 
-	public void setParticularite(final Boolean particularite) {
+	public final void setParticularite(final Boolean particularite) {
 		this.particularite = particularite;
 	}
 
-	public void setPrenom(final String prenom) {
+	public final void setPrenom(final String prenom) {
 		this.prenom = prenom;
 	}
 

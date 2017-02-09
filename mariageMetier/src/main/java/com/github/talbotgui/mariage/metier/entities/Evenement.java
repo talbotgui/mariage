@@ -44,7 +44,7 @@ public class Evenement implements Serializable {
 
 	public Evenement(final Long id) {
 		super();
-		this.id = id;
+		this.setId(id);
 	}
 
 	public Evenement(final Long id, final String titre, final Date debut, final Date fin,
@@ -95,31 +95,31 @@ public class Evenement implements Serializable {
 		return this.titre;
 	}
 
-	public void setDebut(final Date debut) {
+	public final void setDebut(final Date debut) {
 		if (debut != null) {
 			this.debut = new Date(debut.getTime());
 		}
 	}
 
-	public void setFin(final Date fin) {
+	public final void setFin(final Date fin) {
 		if (fin != null) {
 			this.fin = new Date(fin.getTime());
 		}
 	}
 
-	public void setId(final Long id) {
+	public final void setId(final Long id) {
 		this.id = id;
 	}
 
-	public void setMariage(final Mariage mariage) {
+	public final void setMariage(final Mariage mariage) {
 		this.mariage = mariage;
 	}
 
-	public void setParticipants(final Collection<Utilisateur> participants) {
+	public final void setParticipants(final Collection<Utilisateur> participants) {
 		this.participants = participants;
 	}
 
-	public void setTitre(final String titre) {
+	public final void setTitre(final String titre) {
 		this.titre = titre;
 	}
 

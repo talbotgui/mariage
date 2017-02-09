@@ -32,7 +32,7 @@ public class BusinessException extends BaseException {
 		super(exceptionId);
 	}
 
-	public BusinessException(final ExceptionId pExceptionId, final Object[] pParameters) {
+	public BusinessException(final ExceptionId pExceptionId, final Object... pParameters) {
 		super(pExceptionId, pParameters);
 	}
 
@@ -41,7 +41,7 @@ public class BusinessException extends BaseException {
 	}
 
 	public BusinessException(final ExceptionId pExceptionId, final Throwable pNestedException,
-			final Object[] pParameters) {
+			final Object... pParameters) {
 		super(pExceptionId, pNestedException, pParameters);
 	}
 

@@ -48,7 +48,7 @@ public class Courrier implements Serializable {
 
 	public Courrier(final Long id) {
 		super();
-		this.id = id;
+		this.setId(id);
 	}
 
 	public Courrier(final Long id, final String nom, final Date datePrevisionEnvoi) {
@@ -97,29 +97,29 @@ public class Courrier implements Serializable {
 		this.etapes.remove(e);
 	}
 
-	public void setDatePrevisionEnvoi(final Date datePrevisionEnvoi) {
+	public final void setDatePrevisionEnvoi(final Date datePrevisionEnvoi) {
 		if (datePrevisionEnvoi != null) {
 			this.datePrevisionEnvoi = new Date(datePrevisionEnvoi.getTime());
 		}
 	}
 
-	public void setEtapes(final Collection<Etape> etapes) {
+	public final void setEtapes(final Collection<Etape> etapes) {
 		this.etapes = new ArrayList<>(etapes);
 	}
 
-	public void setFoyersInvites(final Collection<Foyer> foyersInvites) {
+	public final void setFoyersInvites(final Collection<Foyer> foyersInvites) {
 		this.foyersInvites = new ArrayList<>(foyersInvites);
 	}
 
-	private void setId(final Long id) {
+	private final void setId(final Long id) {
 		this.id = id;
 	}
 
-	public void setMariage(final Mariage mariage) {
+	public final void setMariage(final Mariage mariage) {
 		this.mariage = mariage;
 	}
 
-	public void setNom(final String nom) {
+	public final void setNom(final String nom) {
 		this.nom = nom;
 	}
 

@@ -29,7 +29,7 @@ public class ParticipationEvenement implements Serializable {
 		return this.id;
 	}
 
-	public void setId(final ParticipationEvenementId id) {
+	public final void setId(final ParticipationEvenementId id) {
 		this.id = id;
 	}
 

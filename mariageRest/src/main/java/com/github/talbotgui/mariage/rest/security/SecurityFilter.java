@@ -145,7 +145,7 @@ public class SecurityFilter implements Filter {
 		final String uriAcomparer = request.getRequestURI().replaceFirst(request.getContextPath(), "");
 		return !LOGIN_PAGE.equals(uriAcomparer) && !LOGIN_REST.equals(uriAcomparer)
 				&& !uriAcomparer.startsWith("/ressources/") && !uriAcomparer.startsWith("/v2/")
-				&& !uriAcomparer.equals("/") && !uriAcomparer.startsWith("/swagger-ui.html");
+				&& !"/".equals(uriAcomparer) && !uriAcomparer.startsWith("/swagger-ui.html");
 	}
 
 	private void return404(final HttpServletResponse response) {

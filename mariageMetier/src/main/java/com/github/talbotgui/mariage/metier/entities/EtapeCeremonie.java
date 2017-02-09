@@ -31,10 +31,10 @@ public class EtapeCeremonie extends Etape {
 	}
 
 	public String getCelebrant() {
-		return celebrant;
+		return this.celebrant;
 	}
 
-	public void setCelebrant(final String celebrant) {
+	public final void setCelebrant(final String celebrant) {
 		this.celebrant = celebrant;
 	}
 

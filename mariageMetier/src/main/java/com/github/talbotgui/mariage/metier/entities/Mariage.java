@@ -117,37 +117,37 @@ public class Mariage implements Serializable {
 		return this.marie2;
 	}
 
-	public void setAutorisations(final Collection<Autorisation> autorisations) {
+	public final void setAutorisations(final Collection<Autorisation> autorisations) {
 		this.autorisations = new ArrayList<>(autorisations);
 	}
 
-	public void setCourriers(final Collection<Courrier> courriers) {
+	public final void setCourriers(final Collection<Courrier> courriers) {
 		this.courriers = new ArrayList<>(courriers);
 	}
 
-	public void setDateCelebration(final Date dateCelebration) {
+	public final void setDateCelebration(final Date dateCelebration) {
 		if (dateCelebration != null) {
 			this.dateCelebration = new Date(dateCelebration.getTime());
 		}
 	}
 
-	public void setEtapes(final Collection<Etape> etapes) {
+	public final void setEtapes(final Collection<Etape> etapes) {
 		this.etapes = new ArrayList<>(etapes);
 	}
 
-	public void setFoyers(final Collection<Foyer> foyers) {
+	public final void setFoyers(final Collection<Foyer> foyers) {
 		this.foyers = new ArrayList<>(foyers);
 	}
 
-	private void setId(final Long id) {
+	private final void setId(final Long id) {
 		this.id = id;
 	}
 
-	public void setMarie1(final String marie1) {
+	public final void setMarie1(final String marie1) {
 		this.marie1 = marie1;
 	}
 
-	public void setMarie2(final String marie2) {
+	public final void setMarie2(final String marie2) {
 		this.marie2 = marie2;
 	}
 

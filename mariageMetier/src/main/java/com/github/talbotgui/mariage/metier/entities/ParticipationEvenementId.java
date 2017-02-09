@@ -59,11 +59,11 @@ public class ParticipationEvenementId implements Serializable {
 		return hcb.toHashCode();
 	}
 
-	public void setEvenement(final Evenement evenement) {
+	public final void setEvenement(final Evenement evenement) {
 		this.evenement = evenement;
 	}
 
-	public void setParticipant(final Utilisateur participant) {
+	public final void setParticipant(final Utilisateur participant) {
 		this.participant = participant;
 	}
 

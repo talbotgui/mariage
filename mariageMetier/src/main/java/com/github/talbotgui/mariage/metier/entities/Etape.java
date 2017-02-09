@@ -58,7 +58,7 @@ public abstract class Etape implements Serializable {
 
 	public Etape(final Long id) {
 		super();
-		this.id = id;
+		this.setId(id);
 	}
 
 	public Etape(final Long id, final String nom, final Date dateHeure, final String lieu) {
@@ -102,33 +102,33 @@ public abstract class Etape implements Serializable {
 		return this.numOrdre;
 	}
 
-	public void setDateHeure(final Date dateHeure) {
+	public final void setDateHeure(final Date dateHeure) {
 		if (dateHeure != null) {
 			this.dateHeure = new Date(dateHeure.getTime());
 		}
 	}
 
-	public void setFoyersPresents(final Collection<Invite> invitesPresents) {
+	public final void setFoyersPresents(final Collection<Invite> invitesPresents) {
 		this.invitesPresents = new ArrayList<>(invitesPresents);
 	}
 
-	private void setId(final Long id) {
+	private final void setId(final Long id) {
 		this.id = id;
 	}
 
-	public void setLieu(final String lieu) {
+	public final void setLieu(final String lieu) {
 		this.lieu = lieu;
 	}
 
-	public void setMariage(final Mariage mariage) {
+	public final void setMariage(final Mariage mariage) {
 		this.mariage = mariage;
 	}
 
-	public void setNom(final String nom) {
+	public final void setNom(final String nom) {
 		this.nom = nom;
 	}
 
-	public void setNumOrdre(final Integer numOrdre) {
+	public final void setNumOrdre(final Integer numOrdre) {
 		this.numOrdre = numOrdre;
 	}
 

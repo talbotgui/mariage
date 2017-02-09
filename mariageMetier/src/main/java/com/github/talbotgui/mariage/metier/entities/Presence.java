@@ -38,9 +38,9 @@ public class Presence implements Serializable {
 			final String commentaire) {
 		super();
 		this.setId(new PresenceId(etape, invite));
-		this.commentaire = commentaire;
-		this.confirmee = confirmee;
-		this.present = present;
+		this.setCommentaire(commentaire);
+		this.setConfirmee(confirmee);
+		this.setPresent(present);
 	}
 
 	@Override
@@ -83,28 +83,28 @@ public class Presence implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Long.valueOf(this.id.getEtape().getId() + 1000 * this.id.getInvite().getId()).intValue();
+		return (int) (this.id.getEtape().getId() + 1000 * this.id.getInvite().getId());
 	}
 
-	public void setCommentaire(final String commentaire) {
+	public final void setCommentaire(final String commentaire) {
 		this.commentaire = commentaire;
 	}
 
-	public void setConfirmee(final Boolean confirmee) {
+	public final void setConfirmee(final Boolean confirmee) {
 		this.confirmee = confirmee;
 	}
 
-	public void setDateMaj(final Date dateMaj) {
+	public final void setDateMaj(final Date dateMaj) {
 		if (dateMaj != null) {
 			this.dateMaj = new Date(dateMaj.getTime());
 		}
 	}
 
-	public void setId(final PresenceId id) {
+	public final void setId(final PresenceId id) {
 		this.id = id;
 	}
 
-	public void setPresent(final Boolean present) {
+	public final void setPresent(final Boolean present) {
 		this.present = present;
 	}
 

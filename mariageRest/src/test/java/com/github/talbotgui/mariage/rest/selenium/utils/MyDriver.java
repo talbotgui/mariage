@@ -200,7 +200,7 @@ public class MyDriver {
 			}
 			url = "http://localhost:" + this.port + this.contextPath + url;
 		}
-		LOG.debug("driver get " + url);
+		LOG.debug("driver get {}", url);
 		this.driver.get(url);
 	}
 

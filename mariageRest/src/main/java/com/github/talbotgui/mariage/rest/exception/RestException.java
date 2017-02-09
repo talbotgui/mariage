@@ -34,11 +34,12 @@ public class RestException extends BaseException {
 		super(pExceptionId, pNestedException);
 	}
 
-	public RestException(final ExceptionId pExceptionId, final Object[] pParameters) {
+	public RestException(final ExceptionId pExceptionId, final Object... pParameters) {
 		super(pExceptionId, pParameters);
 	}
 
-	public RestException(final ExceptionId pExceptionId, final Throwable pNestedException, final Object[] pParameters) {
+	public RestException(final ExceptionId pExceptionId, final Throwable pNestedException,
+			final Object... pParameters) {
 		super(pExceptionId, pNestedException, pParameters);
 	}
 }

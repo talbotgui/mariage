@@ -19,15 +19,15 @@ public class StatistiquesPresenceMariage {
 	public StatistiquesPresenceMariage(final Long idEtape, final Age nomAge, final long nbAbsence,
 			final long nbAbsenceConfirme, final long nbPresence, final long nbPresenceConfirme, final long nbTotal) {
 		super();
-		this.idEtape = idEtape;
+		this.setIdEtape(idEtape);
 		if (nomAge != null) {
-			this.nomAge = nomAge.name();
+			this.setNomAge(nomAge.name());
 		}
-		this.nbAbsence = nbAbsence;
-		this.nbAbsenceConfirme = nbAbsenceConfirme;
-		this.nbPresence = nbPresence;
-		this.nbPresenceConfirme = nbPresenceConfirme;
-		this.nbInconnu = nbTotal - nbAbsence - nbPresence;
+		this.setNbAbsence(nbAbsence);
+		this.setNbAbsenceConfirme(nbAbsenceConfirme);
+		this.setNbPresence(nbPresence);
+		this.setNbPresenceConfirme(nbPresenceConfirme);
+		this.setNbInconnu(nbTotal - nbAbsence - nbPresence);
 
 	}
 
@@ -59,31 +59,31 @@ public class StatistiquesPresenceMariage {
 		return this.nomAge;
 	}
 
-	public void setIdEtape(final Long idEtape) {
+	public final void setIdEtape(final Long idEtape) {
 		this.idEtape = idEtape;
 	}
 
-	public void setNbAbsence(final long nbAbsence) {
+	public final void setNbAbsence(final long nbAbsence) {
 		this.nbAbsence = nbAbsence;
 	}
 
-	public void setNbAbsenceConfirme(final long nbAbsenceConfirme) {
+	public final void setNbAbsenceConfirme(final long nbAbsenceConfirme) {
 		this.nbAbsenceConfirme = nbAbsenceConfirme;
 	}
 
-	public void setNbInconnu(final long nbInconnu) {
+	public final void setNbInconnu(final long nbInconnu) {
 		this.nbInconnu = nbInconnu;
 	}
 
-	public void setNbPresence(final long nbPresence) {
+	public final void setNbPresence(final long nbPresence) {
 		this.nbPresence = nbPresence;
 	}
 
-	public void setNbPresenceConfirme(final long nbPresenceConfirme) {
+	public final void setNbPresenceConfirme(final long nbPresenceConfirme) {
 		this.nbPresenceConfirme = nbPresenceConfirme;
 	}
 
-	public void setNomAge(final String nomAge) {
+	public final void setNomAge(final String nomAge) {
 		this.nomAge = nomAge;
 	}
 

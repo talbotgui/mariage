@@ -56,7 +56,7 @@ public class Foyer implements Serializable {
 
 	public Foyer(final Long id) {
 		super();
-		this.id = id;
+		this.setId(id);
 	}
 
 	public Foyer(final Long id, final String groupe, final String nom, final String adresse, final String email,
@@ -72,13 +72,13 @@ public class Foyer implements Serializable {
 
 	public Foyer(final String nom) {
 		super();
-		this.nom = nom;
+		this.setNom(nom);
 	}
 
 	public Foyer(final String groupe, final String foyer) {
 		super();
-		this.groupe = groupe;
-		this.nom = foyer;
+		this.setGroupe(groupe);
+		this.setNom(foyer);
 	}
 
 	public Foyer(final String groupe, final String nom, final String adresse, final String email,
@@ -175,39 +175,39 @@ public class Foyer implements Serializable {
 		return this.telephone;
 	}
 
-	public void setAdresse(final String adresse) {
+	public final void setAdresse(final String adresse) {
 		this.adresse = adresse;
 	}
 
-	public void setCourriersInvitation(final Collection<Courrier> courriersInvitation) {
+	public final void setCourriersInvitation(final Collection<Courrier> courriersInvitation) {
 		this.courriersInvitation = new ArrayList<>(courriersInvitation);
 	}
 
-	public void setEmail(final String email) {
+	public final void setEmail(final String email) {
 		this.email = email;
 	}
 
-	public void setGroupe(final String groupe) {
+	public final void setGroupe(final String groupe) {
 		this.groupe = groupe;
 	}
 
-	private void setId(final Long id) {
+	private final void setId(final Long id) {
 		this.id = id;
 	}
 
-	public void setInvites(final Collection<Invite> invites) {
+	public final void setInvites(final Collection<Invite> invites) {
 		this.invites = new ArrayList<>(invites);
 	}
 
-	public void setMariage(final Mariage mariage) {
+	public final void setMariage(final Mariage mariage) {
 		this.mariage = mariage;
 	}
 
-	public void setNom(final String nom) {
+	public final void setNom(final String nom) {
 		this.nom = nom;
 	}
 
-	public void setTelephone(final String telephone) {
+	public final void setTelephone(final String telephone) {
 		this.telephone = telephone;
 	}
 

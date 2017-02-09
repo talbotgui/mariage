@@ -46,7 +46,7 @@ public abstract class BaseException extends RuntimeException {
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	public BaseException(final ExceptionId pExceptionId, final Object[] pParameters) {
+	public BaseException(final ExceptionId pExceptionId, final Object... pParameters) {
 		this(pExceptionId);
 		this.setParameters(pParameters);
 	}
@@ -74,7 +74,7 @@ public abstract class BaseException extends RuntimeException {
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	public BaseException(final ExceptionId pExceptionId, final Throwable pNested, final Object[] pParameters) {
+	public BaseException(final ExceptionId pExceptionId, final Throwable pNested, final Object... pParameters) {
 		super(pNested);
 		this.setExceptionId(pExceptionId);
 		this.setParameters(pParameters);
@@ -147,7 +147,7 @@ public abstract class BaseException extends RuntimeException {
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	private void setParameters(final Object[] pParameters) {
+	private void setParameters(final Object... pParameters) {
 		this.parameters = Arrays.copyOf(pParameters, pParameters.length);
 	}
 }
