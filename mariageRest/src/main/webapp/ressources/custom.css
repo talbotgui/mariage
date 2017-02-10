@@ -16,6 +16,7 @@
 .error { border-color: red!important; }
 .errorMessage { color: red; }
 .datetimepicker { z-index: 9999 !important; }
+.fondBlanc { background-color: white; }
 
 /* Pour les boutons dans les cases d action des tableaux */
 .jqx-grid-cell .ui-icon { display: inline-block; }
