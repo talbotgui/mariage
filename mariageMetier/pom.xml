@@ -13,7 +13,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
+
 		<version.catchException>1.4.4</version.catchException>
 		<!-- version.hsqldb-2.3.4 : bug avec flyway : http://stackoverflow.com/questions/38279412/flyway-hsql-db-create-tables-sql-migrate-hangs -->
 		<version.hsqldb>2.3.3</version.hsqldb>
@@ -54,15 +54,15 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<!-- Utility classes -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${version.lang3}</version>
 		</dependency>
-		
-		<!-- Log4J-->
+
+		<!-- Log4J -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-log4j2</artifactId>
@@ -73,14 +73,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
-		
+
 		<!-- Performance monitoring -->
 		<dependency>
 			<groupId>com.jamonapi</groupId>
 			<artifactId>jamon</artifactId>
 			<version>2.81</version>
 		</dependency>
-		
+
 		<!-- In-memory database -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>
@@ -96,7 +96,7 @@
 			<version>${version.catchException}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- Utilitaire pour la mise à jour du modèle de base de données -->
 		<dependency>
 			<groupId>org.flywaydb</groupId>

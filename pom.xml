@@ -41,11 +41,15 @@
 				<reportSets>
 					<reportSet>
 						<id>unit-tests</id>
-						<reports><report>report-only</report></reports>
+						<reports>
+							<report>report-only</report>
+						</reports>
 					</reportSet>
 					<reportSet>
 						<id>integration-tests</id>
-						<reports><report>failsafe-report-only</report></reports>
+						<reports>
+							<report>failsafe-report-only</report>
+						</reports>
 					</reportSet>
 				</reportSets>
 				<configuration>
@@ -86,22 +90,23 @@
 						<ruleset>rulesets/java/clone.xml</ruleset>
 						<ruleset>rulesets/java/codesize.xml</ruleset>
 						<!-- xxxxCommentRequirement Required -->
-						<!--<ruleset>rulesets/java/comments.xml</ruleset>-->
+						<!--<ruleset>rulesets/java/comments.xml</ruleset> -->
 						<!-- Potential violation of Law of Demeter -->
-						<!--<ruleset>rulesets/java/coupling.xml</ruleset>-->
+						<!--<ruleset>rulesets/java/coupling.xml</ruleset> -->
 						<ruleset>rulesets/java/design.xml</ruleset>
 						<ruleset>rulesets/java/finalizers.xml</ruleset>
 						<ruleset>rulesets/java/j2ee.xml</ruleset>
-						<!-- WITH SPRING ??? Found non-transient, non-static member. Please mark as transient or provide accessors. -->
-						<!--<ruleset>rulesets/java/javabeans.xml</ruleset>-->
+						<!-- WITH SPRING ??? Found non-transient, non-static member. Please 
+							mark as transient or provide accessors. -->
+						<!--<ruleset>rulesets/java/javabeans.xml</ruleset> -->
 						<ruleset>rulesets/java/junit.xml</ruleset>
 						<ruleset>rulesets/java/logging-jakarta-commons.xml</ruleset>
 						<ruleset>rulesets/java/logging-java.xml</ruleset>
 						<ruleset>rulesets/java/migrating.xml</ruleset>
-						<!--<ruleset>rulesets/java/migrating_to_13.xml</ruleset>-->
-						<!--<ruleset>rulesets/java/migrating_to_14.xml</ruleset>-->
-						<!--<ruleset>rulesets/java/migrating_to_15.xml</ruleset>-->
-						<!--<ruleset>rulesets/java/migrating_to_junit4.xml</ruleset>-->
+						<!--<ruleset>rulesets/java/migrating_to_13.xml</ruleset> -->
+						<!--<ruleset>rulesets/java/migrating_to_14.xml</ruleset> -->
+						<!--<ruleset>rulesets/java/migrating_to_15.xml</ruleset> -->
+						<!--<ruleset>rulesets/java/migrating_to_junit4.xml</ruleset> -->
 						<ruleset>rulesets/java/naming.xml</ruleset>
 						<ruleset>rulesets/java/optimizations.xml</ruleset>
 						<ruleset>rulesets/java/strictexception.xml</ruleset>
@@ -112,16 +117,18 @@
 					</rulesets>
 				</configuration>
 			</plugin>
-			<!--<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<version>1.3.6</version>
-				<reportSets>
-					<reportSet>
-						<reports><report>aggregate</report></reports>
-					</reportSet>
-				</reportSets>
-			</plugin>-->
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.owasp</groupId> -->
+<!-- 				<artifactId>dependency-check-maven</artifactId> -->
+<!-- 				<version>1.3.6</version> -->
+<!-- 				<reportSets> -->
+<!-- 					<reportSet> -->
+<!-- 						<reports> -->
+<!-- 							<report>aggregate</report> -->
+<!-- 						</reports> -->
+<!-- 					</reportSet> -->
+<!-- 				</reportSets> -->
+<!-- 			</plugin> -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>

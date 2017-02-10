@@ -22,13 +22,13 @@
 		<version.selenium>2.53.1</version.selenium>
 		<version.cucumber>1.2.4</version.cucumber>
 		<version.springfox>2.5.0</version.springfox>
-		
+
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 		<buildTimestamp>${maven.build.timestamp}</buildTimestamp>
 	</properties>
 
 	<build>
-		
+
 		<!-- Pour remplacer le numero de version -->
 		<resources>
 			<resource>
@@ -39,10 +39,14 @@
 
 		<!-- Pour placer les scenarios de test Cucumber dans le repertoire src/test/java -->
 		<testResources>
-			<testResource><directory>src/test/resources</directory></testResource>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
 			<testResource>
 				<directory>src/test/java</directory>
-				<includes><include>**/*.feature</include></includes>
+				<includes>
+					<include>**/*.feature</include>
+				</includes>
 			</testResource>
 		</testResources>
 
@@ -66,7 +70,12 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions><execution><goals><goal>repackage</goal></goals></execution>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
 
@@ -75,8 +84,14 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<excludes><exclude>**/selenium/*Test.java</exclude><exclude>**/TestCucumber.java</exclude></excludes>
-					<includes><include>**/controleur/*Test.java</include><include>**/security/Securite*Test.java</include></includes>
+					<excludes>
+						<exclude>**/selenium/*Test.java</exclude>
+						<exclude>**/TestCucumber.java</exclude>
+					</excludes>
+					<includes>
+						<include>**/controleur/*Test.java</include>
+						<include>**/security/Securite*Test.java</include>
+					</includes>
 				</configuration>
 			</plugin>
 
@@ -85,8 +100,14 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<configuration>
 					<argLine>-Xmx1024m</argLine>
-					<excludes><exclude>**/controleur/*Test.java</exclude><exclude>**/security/Securite*Test.java</exclude></excludes>
-					<includes><include>**/selenium/*Test.java</include><include>**/TestCucumber.java</include></includes>
+					<excludes>
+						<exclude>**/controleur/*Test.java</exclude>
+						<exclude>**/security/Securite*Test.java</exclude>
+					</excludes>
+					<includes>
+						<include>**/selenium/*Test.java</include>
+						<include>**/TestCucumber.java</include>
+					</includes>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -103,7 +124,7 @@
 				<exclusion>
 					<artifactId>xml-apis</artifactId>
 					<groupId>xml-apis</groupId>
-				</exclusion>        
+				</exclusion>
 			</exclusions>
 		</dependency>
 
@@ -117,7 +138,7 @@
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
 			</exclusions>
-    	</dependency>
+		</dependency>
 
 		<!-- Spring MVC & REST utilisant Embedded Tomcat -->
 		<dependency>
@@ -131,7 +152,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
 
-		<!-- In-memory or file database-->
+		<!-- In-memory or file database -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
@@ -151,7 +172,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Utilitaire pour tester des exceptions dans les TU -->		
+		<!-- Utilitaire pour tester des exceptions dans les TU -->
 		<dependency>
 			<groupId>eu.codearte.catch-exception</groupId>
 			<artifactId>catch-exception</artifactId>
