@@ -24,7 +24,7 @@ public class DtoAvecChoix {
 	}
 
 	public DtoAvecChoix(final Object entite, final Class<?> dtoClass, final Method getterAttributDuChoix,
-			final Collection<?> choixPossibles) throws ReflectiveOperationException, IllegalArgumentException {
+			final Collection<?> choixPossibles) throws ReflectiveOperationException {
 
 		this.dto = DTOUtils.creerDto(entite, dtoClass);
 

@@ -37,7 +37,7 @@ public class FoyerRestControler {
 
 	@RequestMapping(value = "/mariage/{idMariage}/foyer", method = GET)
 	public ReponseAvecChoix listerFoyersParIdMariage(@PathVariable("idMariage") final Long idMariage)
-			throws NoSuchMethodException, SecurityException, ReflectiveOperationException, IllegalArgumentException {
+			throws ReflectiveOperationException {
 
 		final Collection<Courrier> courriers = this.mariageService.listerCourriersParIdMariage(idMariage);
 		final Collection<Foyer> foyers = this.mariageService.listerFoyersParIdMariage(idMariage);

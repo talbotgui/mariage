@@ -68,7 +68,7 @@ public class CourrierRestControler {
 
 	@RequestMapping(value = "/mariage/{idMariage}/courrier", method = GET)
 	public ReponseAvecChoix listerCourrierParIdMariage(@PathVariable("idMariage") final Long idMariage)
-			throws NoSuchMethodException, SecurityException, ReflectiveOperationException, IllegalArgumentException {
+			throws ReflectiveOperationException {
 
 		final Collection<Courrier> courriers = this.mariageService.listerCourriersParIdMariage(idMariage);
 		final Collection<Etape> etapes = this.mariageService.listerEtapesParIdMariage(idMariage);
