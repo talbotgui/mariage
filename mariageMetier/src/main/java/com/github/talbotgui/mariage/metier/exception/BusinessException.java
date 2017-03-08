@@ -1,7 +1,5 @@
 package com.github.talbotgui.mariage.metier.exception;
 
-import java.io.Serializable;
-
 import com.github.talbotgui.mariage.metier.exception.ExceptionId.ExceptionLevel;
 
 public class BusinessException extends BaseException {
@@ -34,7 +32,7 @@ public class BusinessException extends BaseException {
 		super(exceptionId);
 	}
 
-	public BusinessException(final ExceptionId pExceptionId, final Serializable... pParameters) {
+	public BusinessException(final ExceptionId pExceptionId, final Object... pParameters) {
 		super(pExceptionId, pParameters);
 	}
 
@@ -43,7 +41,7 @@ public class BusinessException extends BaseException {
 	}
 
 	public BusinessException(final ExceptionId pExceptionId, final Throwable pNestedException,
-			final Serializable... pParameters) {
+			final Object... pParameters) {
 		super(pExceptionId, pNestedException, pParameters);
 	}
 

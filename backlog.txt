@@ -1,12 +1,14 @@
-Ajouter sur la page d'accueil la todoList à partir des données du calendrier
+Ajouter l'analyse Sonar dans l'IC
+
+[FEATURE]Ajouter sur la page d'accueil la todoList à partir des données du calendrier
 
 Passer à Hibernate-5
 
-Ajouter la fusion de foyer (Ajouter une erreur pour deux foyers du même nom et proposer la fusion automatique en indiquant que les adresses et invitations doivent être les mêmes)
+[FEATURE]Fusion de foyer : ajouter une erreur pour deux foyers du même nom et proposer la fusion automatique en indiquant que les adresses et invitations doivent être les mêmes
 
-Traiter le cas de la suppression d'un invité avec une présence et des invitations
+[FEATURE]Traiter le cas de la suppression d'un invité avec une présence et des invitations
 
-Ajouter une liste déroulante pour l'encoding des fichiers CSV du publipostage (UTF8 ou "AINSI (Windows)" avec AINSI par défaut)
+[FEATURE]Ajouter une liste déroulante pour l'encoding des fichiers CSV du publipostage (UTF8 ou "AINSI (Windows)" avec AINSI par défaut)
 
 Mettre en place un fond blanc derriere le texte de l'aide
 
