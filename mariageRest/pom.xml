@@ -16,7 +16,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<version.catchException>1.4.4</version.catchException>
-		<version.testng>6.8.13</version.testng>
+		<version.testng>6.11</version.testng>
 		<version.mockito>1.10.19</version.mockito>
 		<version.hsqldb>2.3.3</version.hsqldb>
 		<version.selenium>2.53.1</version.selenium>

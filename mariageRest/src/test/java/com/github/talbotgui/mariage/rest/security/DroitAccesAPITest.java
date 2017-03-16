@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
@@ -22,7 +23,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.googlecode.catchexception.CatchException;
 
-@SpringApplicationConfiguration(classes = { SeleniumTestApplication.class })
+@SpringBootTest(classes = SeleniumTestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class DroitAccesAPITest extends BaseWebTest {
 
 	@DataProvider(name = "getTestParameters")

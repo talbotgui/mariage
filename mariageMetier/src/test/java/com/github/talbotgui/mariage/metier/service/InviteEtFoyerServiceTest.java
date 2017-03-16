@@ -12,6 +12,7 @@ import java.util.TreeSet;
 
 import javax.sql.DataSource;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -21,7 +22,7 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -41,10 +42,9 @@ import com.github.talbotgui.mariage.metier.entities.Presence;
 import com.github.talbotgui.mariage.metier.entities.comparator.InviteComparator;
 import com.github.talbotgui.mariage.metier.exception.BaseException;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
-import com.googlecode.catchexception.CatchException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
+@SpringBootTest(classes = SpringApplicationForTests.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class InviteEtFoyerServiceTest {
 
@@ -65,7 +65,7 @@ public class InviteEtFoyerServiceTest {
 				.readAllLines(Paths.get(ClassLoader.getSystemResource("sql/dataPurge.sql").toURI()));
 		final String[] requetes = strings.toArray(new String[strings.size()]);
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		LOG.info("Execute SQL : {}", Arrays.asList(requetes));
+		LOG.info("Execute SQL : {}", strings.toString());
 		jdbc.batchUpdate(requetes);
 
 	}
@@ -222,12 +222,14 @@ public class InviteEtFoyerServiceTest {
 		// ARRANGE
 
 		// ACT
-		CatchException.catchException(this.instance).supprimerInvite(-1L, -1L);
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.instance.supprimerInvite(-1L, -1L);
+		});
 
 		// ASSERT
-		Assert.assertNotNull(CatchException.caughtException());
-		Assert.assertEquals(BusinessException.class, CatchException.caughtException().getClass());
-		Assert.assertTrue(BaseException.equals(CatchException.caughtException(), BusinessException.ERREUR_ID_MARIAGE));
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(BusinessException.class, thrown.getClass());
+		Assert.assertTrue(BaseException.equals((Exception) thrown, BusinessException.ERREUR_ID_MARIAGE));
 	}
 
 	@Test

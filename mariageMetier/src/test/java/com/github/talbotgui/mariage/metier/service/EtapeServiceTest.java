@@ -11,6 +11,7 @@ import java.util.TreeSet;
 
 import javax.sql.DataSource;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -20,7 +21,7 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -34,10 +35,9 @@ import com.github.talbotgui.mariage.metier.entities.Presence;
 import com.github.talbotgui.mariage.metier.entities.comparator.EtapeComparator;
 import com.github.talbotgui.mariage.metier.exception.BaseException;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
-import com.googlecode.catchexception.CatchException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
+@SpringBootTest(classes = SpringApplicationForTests.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EtapeServiceTest {
 
@@ -220,13 +220,14 @@ public class EtapeServiceTest {
 		final Collection<Etape> etapeAvant = this.instance.listerEtapesParIdMariage(idMariage);
 
 		// ACT
-		CatchException.catchException(this.instance).supprimerEtape(idMariage, etapeAvant.iterator().next().getId());
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.instance.supprimerEtape(idMariage, etapeAvant.iterator().next().getId());
+		});
 
 		// ASSERT
-		Assert.assertNotNull(CatchException.caughtException());
-		Assert.assertEquals(BusinessException.class, CatchException.caughtException().getClass());
-		Assert.assertTrue(
-				BaseException.equals(CatchException.caughtException(), BusinessException.ERREUR_COURRIER_LIE_A_ETAPE));
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(BusinessException.class, thrown.getClass());
+		Assert.assertTrue(BaseException.equals((Exception) thrown, BusinessException.ERREUR_COURRIER_LIE_A_ETAPE));
 	}
 
 	@Test
@@ -235,12 +236,14 @@ public class EtapeServiceTest {
 		// ARRANGE
 
 		// ACT
-		CatchException.catchException(this.instance).supprimerEtape(-1L, -1L);
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.instance.supprimerEtape(-1L, -1L);
+		});
 
 		// ASSERT
-		Assert.assertNotNull(CatchException.caughtException());
-		Assert.assertEquals(BusinessException.class, CatchException.caughtException().getClass());
-		Assert.assertTrue(BaseException.equals(CatchException.caughtException(), BusinessException.ERREUR_ID_MARIAGE));
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(BusinessException.class, thrown.getClass());
+		Assert.assertTrue(BaseException.equals((Exception) thrown, BusinessException.ERREUR_ID_MARIAGE));
 	}
 
 	@Test
@@ -255,12 +258,14 @@ public class EtapeServiceTest {
 		// ACT
 		final Long idCourrier = original1.getCourriers().iterator().next().getId();
 		final Long idEtape = original2.getEtapes().iterator().next().getId();
-		CatchException.catchException(this.instance).lierUneEtapeEtUnCourrier(idMariage1, idEtape, idCourrier, true);
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.instance.lierUneEtapeEtUnCourrier(idMariage1, idEtape, idCourrier, true);
+		});
 
 		// ASSERT
-		Assert.assertNotNull(CatchException.caughtException());
-		Assert.assertEquals(BusinessException.class, CatchException.caughtException().getClass());
-		Assert.assertTrue(BaseException.equals(CatchException.caughtException(), BusinessException.ERREUR_ID_MARIAGE));
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(BusinessException.class, thrown.getClass());
+		Assert.assertTrue(BaseException.equals((Exception) thrown, BusinessException.ERREUR_ID_MARIAGE));
 	}
 
 	@Test

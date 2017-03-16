@@ -11,6 +11,7 @@ import java.util.Date;
 
 import javax.sql.DataSource;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -20,7 +21,7 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -30,10 +31,9 @@ import com.github.talbotgui.mariage.metier.entities.securite.Autorisation;
 import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur;
 import com.github.talbotgui.mariage.metier.entities.securite.Utilisateur.Role;
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
-import com.googlecode.catchexception.CatchException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
+@SpringBootTest(classes = SpringApplicationForTests.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SecuriteServiceTest {
 	private static final Logger LOG = LoggerFactory.getLogger(SecuriteServiceTest.class);
@@ -104,12 +104,13 @@ public class SecuriteServiceTest {
 		final String mdp = "unBonMdp";
 
 		//
-		CatchException.catchException(this.instance).sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		});
 
 		//
-		Assert.assertNotNull(CatchException.caughtException());
-		Assert.assertTrue(
-				BusinessException.equals(CatchException.caughtException(), BusinessException.ERREUR_LOGIN_MDP));
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_LOGIN_MDP));
 	}
 
 	@Test
@@ -119,12 +120,13 @@ public class SecuriteServiceTest {
 		final String mdp = "un";
 
 		//
-		CatchException.catchException(this.instance).sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
+		});
 
 		//
-		Assert.assertNotNull(CatchException.caughtException());
-		Assert.assertTrue(
-				BusinessException.equals(CatchException.caughtException(), BusinessException.ERREUR_LOGIN_MDP));
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_LOGIN_MDP));
 	}
 
 	@Test
@@ -232,11 +234,13 @@ public class SecuriteServiceTest {
 		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
-		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.instance.verifierUtilisateur(login, mauvaisMdp);
+		});
 
 		//
-		Assert.assertNotNull(CatchException.caughtException());
-		Assert.assertTrue(BusinessException.equals(CatchException.caughtException(), BusinessException.ERREUR_LOGIN));
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_LOGIN));
 	}
 
 	@Test
@@ -248,11 +252,13 @@ public class SecuriteServiceTest {
 		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
-		CatchException.catchException(this.instance).verifierUtilisateur(mauvaisLogin, mdp);
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.instance.verifierUtilisateur(mauvaisLogin, mdp);
+		});
 
 		//
-		Assert.assertNotNull(CatchException.caughtException());
-		Assert.assertTrue(BusinessException.equals(CatchException.caughtException(), BusinessException.ERREUR_LOGIN));
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_LOGIN));
 	}
 
 	@Test
@@ -296,32 +302,38 @@ public class SecuriteServiceTest {
 		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
 
 		//
-		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
-		final Exception e1 = CatchException.caughtException();
-		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
-		final Exception e2 = CatchException.caughtException();
-		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
-		final Exception e3 = CatchException.caughtException();
-		CatchException.catchException(this.instance).verifierUtilisateur(login, mdp);
-		final Exception e4 = CatchException.caughtException();
-		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
-		final Exception e5 = CatchException.caughtException();
-		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
-		final Exception e6 = CatchException.caughtException();
+		final Throwable e1 = Assertions.catchThrowable(() -> {
+			this.instance.verifierUtilisateur(login, mauvaisMdp);
+		});
+		final Throwable e2 = Assertions.catchThrowable(() -> {
+			this.instance.verifierUtilisateur(login, mauvaisMdp);
+		});
+		final Throwable e3 = Assertions.catchThrowable(() -> {
+			this.instance.verifierUtilisateur(login, mauvaisMdp);
+		});
+		final Throwable e4 = Assertions.catchThrowable(() -> {
+			this.instance.verifierUtilisateur(login, mdp);
+		});
+		final Throwable e5 = Assertions.catchThrowable(() -> {
+			this.instance.verifierUtilisateur(login, mauvaisMdp);
+		});
+		final Throwable e6 = Assertions.catchThrowable(() -> {
+			this.instance.verifierUtilisateur(login, mauvaisMdp);
+		});
 
 		//
 		Assert.assertNotNull(e1);
-		Assert.assertTrue(BusinessException.equals(e1, BusinessException.ERREUR_LOGIN));
+		Assert.assertTrue(BusinessException.equals((Exception) e1, BusinessException.ERREUR_LOGIN));
 		Assert.assertNotNull(e2);
-		Assert.assertTrue(BusinessException.equals(e2, BusinessException.ERREUR_LOGIN));
+		Assert.assertTrue(BusinessException.equals((Exception) e2, BusinessException.ERREUR_LOGIN));
 		Assert.assertNotNull(e3);
-		Assert.assertTrue(BusinessException.equals(e3, BusinessException.ERREUR_LOGIN));
+		Assert.assertTrue(BusinessException.equals((Exception) e3, BusinessException.ERREUR_LOGIN));
 		Assert.assertNotNull(e4);
-		Assert.assertTrue(BusinessException.equals(e4, BusinessException.ERREUR_LOGIN_VEROUILLE));
+		Assert.assertTrue(BusinessException.equals((Exception) e4, BusinessException.ERREUR_LOGIN_VEROUILLE));
 		Assert.assertNotNull(e5);
-		Assert.assertTrue(BusinessException.equals(e5, BusinessException.ERREUR_LOGIN_VEROUILLE));
+		Assert.assertTrue(BusinessException.equals((Exception) e5, BusinessException.ERREUR_LOGIN_VEROUILLE));
 		Assert.assertNotNull(e6);
-		Assert.assertTrue(BusinessException.equals(e6, BusinessException.ERREUR_LOGIN_VEROUILLE));
+		Assert.assertTrue(BusinessException.equals((Exception) e6, BusinessException.ERREUR_LOGIN_VEROUILLE));
 	}
 
 	@Test
@@ -331,9 +343,15 @@ public class SecuriteServiceTest {
 		final String mdp = "unBonMdp";
 		final String mauvaisMdp = "pasBonMdp";
 		this.instance.sauvegarderUtilisateur(login, mdp, Utilisateur.Role.ADMIN);
-		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
-		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
-		CatchException.catchException(this.instance).verifierUtilisateur(login, mauvaisMdp);
+		Assertions.catchThrowable(() -> {
+			this.instance.verifierUtilisateur(login, mauvaisMdp);
+		});
+		Assertions.catchThrowable(() -> {
+			this.instance.verifierUtilisateur(login, mauvaisMdp);
+		});
+		Assertions.catchThrowable(() -> {
+			this.instance.verifierUtilisateur(login, mauvaisMdp);
+		});
 
 		//
 		this.instance.deverrouillerUtilisateur(login);

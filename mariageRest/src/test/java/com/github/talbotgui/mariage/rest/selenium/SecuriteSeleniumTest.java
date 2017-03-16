@@ -1,7 +1,7 @@
 package com.github.talbotgui.mariage.rest.selenium;
 
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -10,8 +10,7 @@ import com.github.talbotgui.mariage.rest.application.SeleniumTestApplication;
 import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Login;
 import com.github.talbotgui.mariage.rest.selenium.utils.Selectors.Menu;
 
-@WebIntegrationTest(randomPort = true)
-@SpringApplicationConfiguration(classes = SeleniumTestApplication.class)
+@SpringBootTest(classes = SeleniumTestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SecuriteSeleniumTest extends SeleniumTest {
 
 	@DataProvider(name = "listeDesPagesVideSiPasAdmin")

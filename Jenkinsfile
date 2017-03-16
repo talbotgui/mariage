@@ -62,6 +62,10 @@ pipeline {
 				step([$class: 'PmdPublisher', canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '**/pmd.xml', unHealthy: ''])
 				step([$class: 'AnalysisPublisher'])
 				step([$class: 'JavadocArchiver', javadocDir: 'mariageRest/target/site/apidocs', keepAll: false])
+				// see https://docs.sonarqube.org/display/SONAR/Analysis+Parameters
+				withCredentials([string(credentialsId: 'sonarSecretKey', variable: 'SONAR_KEY')]) {
+					sh "mvn sonar:sonar -Dsonar.host.url=https://sonarqube.com/ -Dsonar.projectKey=com.github.talbotgui.mariage:mariage -Dsonar.exclusions=**/webapp/ressources/*/**/*.js,**/webapp/ressources/*/**/*.html -Dsonar.login=${SONAR_KEY}"
+				}
 			}
 		}
 		

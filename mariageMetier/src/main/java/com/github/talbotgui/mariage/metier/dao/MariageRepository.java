@@ -2,6 +2,8 @@ package com.github.talbotgui.mariage.metier.dao;
 
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +12,7 @@ import com.github.talbotgui.mariage.metier.entities.Courrier;
 import com.github.talbotgui.mariage.metier.entities.Etape;
 import com.github.talbotgui.mariage.metier.entities.Mariage;
 
+@Transactional
 public interface MariageRepository extends CrudRepository<Mariage, Long> {
 
 	@Query("select distinct c from Mariage m"//

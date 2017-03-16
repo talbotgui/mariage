@@ -14,7 +14,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<version.catchException>1.4.4</version.catchException>
+		<version.assertJ>3.6.2</version.assertJ>
 		<!-- version.hsqldb-2.3.4 : bug avec flyway : http://stackoverflow.com/questions/38279412/flyway-hsql-db-create-tables-sql-migrate-hangs -->
 		<version.hsqldb>2.3.3</version.hsqldb>
 		<version.flyway>4.0.3</version.flyway>
@@ -91,9 +91,9 @@
 
 		<!-- Utilitaire pour tester des exceptions dans les TU -->
 		<dependency>
-			<groupId>eu.codearte.catch-exception</groupId>
-			<artifactId>catch-exception</artifactId>
-			<version>${version.catchException}</version>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>${version.assertJ}</version>
 			<scope>test</scope>
 		</dependency>
 

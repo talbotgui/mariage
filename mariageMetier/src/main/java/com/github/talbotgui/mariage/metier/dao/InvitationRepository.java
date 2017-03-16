@@ -1,5 +1,7 @@
 package com.github.talbotgui.mariage.metier.dao;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -7,12 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 import com.github.talbotgui.mariage.metier.entities.Invitation;
 
+@Transactional
 public interface InvitationRepository extends CrudRepository<Invitation, Long> {
-
-	@Query("delete Invitation where id in"//
-			+ " (select fei.id from Invitation fei where fei.id.foyer.mariage.id = :idMariage)")
-	@Modifying
-	void supprimerInvitationParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("select fei from Invitation fei"//
 			+ " where fei.id.foyer.mariage.id = :idMariage"//
@@ -20,6 +18,11 @@ public interface InvitationRepository extends CrudRepository<Invitation, Long> {
 			+ " and fei.id.courrier.id = :idCourrier")
 	Invitation rechercherInvitation(@Param("idMariage") Long idMariage, @Param("idCourrier") Long ididCourrier,
 			@Param("idFoyer") Long idFoyer);
+
+	@Query("delete Invitation where id in"//
+			+ " (select fei.id from Invitation fei where fei.id.foyer.mariage.id = :idMariage)")
+	@Modifying
+	void supprimerInvitationParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("delete Invitation where id in"//
 			+ " (select fei.id from Invitation fei where fei.id.courrier.id = :idCourrier)")

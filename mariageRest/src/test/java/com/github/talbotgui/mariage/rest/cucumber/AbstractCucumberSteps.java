@@ -5,19 +5,16 @@ import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.github.talbotgui.mariage.metier.service.SecuriteService;
 import com.github.talbotgui.mariage.rest.application.SeleniumTestApplication;
 import com.github.talbotgui.mariage.rest.selenium.utils.MyDriver;
 
-@WebIntegrationTest(randomPort = true)
-// @SpringApplicationConfiguration(classes = SeleniumTestApplication.class)
-// Le deux lignes ci-dessous sont ici à cause d'un bug avec Spring boot :
-// https://github.com/cucumber/cucumber-jvm/issues/783
-@ContextConfiguration(classes = SeleniumTestApplication.class, loader = SpringApplicationContextLoader.class)
+@ContextConfiguration
+@SpringBootTest(classes = SeleniumTestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class AbstractCucumberSteps {
 
 	/** ContextRoot de l'application. */

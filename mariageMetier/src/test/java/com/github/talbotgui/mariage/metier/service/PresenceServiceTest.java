@@ -18,7 +18,7 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -28,7 +28,7 @@ import com.github.talbotgui.mariage.metier.entities.Mariage;
 import com.github.talbotgui.mariage.metier.entities.Presence;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = SpringApplicationForTests.class)
+@SpringBootTest(classes = SpringApplicationForTests.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PresenceServiceTest {
 
