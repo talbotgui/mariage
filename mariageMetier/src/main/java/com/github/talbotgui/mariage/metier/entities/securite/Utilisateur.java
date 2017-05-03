@@ -190,7 +190,8 @@ public class Utilisateur implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Utilisateur [login=" + this.login + ", mdp=" + this.mdp + "]";
+		return "Utilisateur [login=" + this.login + ", role=" + this.role + ", premierEchec=" + this.premierEchec
+				+ ", secondEchec=" + this.secondEchec + ", troisiemeEchec=" + this.troisiemeEchec + "]";
 	}
 
 }
