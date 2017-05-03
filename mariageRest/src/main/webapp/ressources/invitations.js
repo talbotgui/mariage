@@ -1,30 +1,44 @@
-
 var changeLien = function(idFoyer, idCourrier, checkbox) {
-	if (getIdMariage() === "") { return; }
+	if (getIdMariage() === "") {
+		return;
+	}
 
 	afficheDivAttente('#foyers');
-	
+
 	// Sauvegarde et annulation
 	var valeur = checkbox.checked;
 	checkbox.checked = !checkbox.checked;
-	
+
 	// Requete
-	var data = { idCourrier: idCourrier, estInvite: valeur};
-	var req = $.post( REST_PREFIX + "/mariage/" + getIdMariage() + "/foyer/" + idFoyer, data);
-	req.success(function(dataString) { checkbox.checked = valeur; masqueDivAttente('#foyers'); });
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "la modification du lien foyer-courrier"); masqueDivAttente('#foyers'); });
+	var data = {
+		idCourrier : idCourrier,
+		estInvite : valeur
+	};
+	var req = $.post(REST_PREFIX + "/mariage/" + getIdMariage() + "/foyer/" + idFoyer, data);
+	req.success(function() {
+		checkbox.checked = valeur;
+		masqueDivAttente('#foyers');
+	});
+	req.fail(function(jqXHR) {
+		ajaxFailFunctionToDisplayWarn(jqXHR, "la modification du lien foyer-courrier");
+		masqueDivAttente('#foyers');
+	});
 
 };
 
 // Chargement des foyers
 var choixPossibles = [];
 var chargeFoyers = function() {
-	if (getIdMariage() === "") { return; }
+	if (getIdMariage() === "") {
+		return;
+	}
 
-	var req = $.get( REST_PREFIX + "/mariage/" + getIdMariage() + "/foyer");
-	req.fail(function(jqXHR, textStatus, errorThrown) {ajaxFailFunctionToDisplayWarn(jqXHR, "le chargement des foyers");});
+	var req = $.get(REST_PREFIX + "/mariage/" + getIdMariage() + "/foyer");
+	req.fail(function(jqXHR) {
+		ajaxFailFunctionToDisplayWarn(jqXHR, "le chargement des foyers");
+	});
 	req.success(function(dataString) {
-		
+
 		// Avec les donnees
 		var data = dataString;
 		if (typeof dataString === "string") {
@@ -38,41 +52,82 @@ var chargeFoyers = function() {
 		// Calcul des largeurs
 		var largeurChoix = 10;
 		var largeur = 10;
-		if (choixPossibles.length > 0) { largeur = (100 - largeurChoix * choixPossibles.length) / 2; }
+		if (choixPossibles.length > 0) {
+			largeur = (100 - largeurChoix * choixPossibles.length) / 2;
+		}
 		largeur = largeur + "%";
 
 		// Initialisation des fields et column fixes
-		var datafields = [ { name: 'id', map: 'dto>id', type: 'string' }, { name: 'groupe', map: 'dto>groupe', type: 'string' }, { name: 'nom', map: 'dto>nom', type: 'string' } ];
-		var columns = [ { text: 'Groupe', datafield: 'groupe', editable: false, width: largeur }, { text: 'Foyer', datafield: 'nom', editable: false, width: largeur } ];
+		var datafields = [ {
+			name : 'id',
+			map : 'dto>id',
+			type : 'string'
+		}, {
+			name : 'groupe',
+			map : 'dto>groupe',
+			type : 'string'
+		}, {
+			name : 'nom',
+			map : 'dto>nom',
+			type : 'string'
+		} ];
+		var columns = [ {
+			text : 'Groupe',
+			datafield : 'groupe',
+			editable : false,
+			width : largeur
+		}, {
+			text : 'Foyer',
+			datafield : 'nom',
+			editable : false,
+			width : largeur
+		} ];
 
 		// Render des colonnes
-		var rendererColonneLien = function (rowIndex, columnfield, value, defaulthtml, columnproperties, rowData) {
-			var indexEtape = parseInt(columnfield.substring("choix".length)); 
+		var rendererColonneLien = function(rowIndex, columnfield, value, defaulthtml, columnproperties, rowData) {
+			var indexEtape = parseInt(columnfield.substring("choix".length));
 			var idChoix = choixPossibles[indexEtape].id;
-			var idFoyer = rowData["id"]; 
-			return '<div class="center"><input type="checkbox" onchange="changeLien(' + idFoyer + ', ' + idChoix + ', this)" ' + (value?'checked':'') + '/></div>';
+			var idFoyer = rowData["id"];
+			return '<div class="center"><input type="checkbox" onchange="changeLien(' + idFoyer + ', ' + idChoix
+					+ ', this)" ' + (value ? 'checked' : '') + '/></div>';
 		};
 
 		// Pour chaque courrier
-		choixPossibles.forEach(function(e, i, array) {
+		choixPossibles.forEach(function(e, i) {
 			// un champ avec le lien (clef du champ 'choixI')
-			datafields.push({ name: 'choix' + i, type: 'string'});
+			datafields.push({
+				name : 'choix' + i,
+				type : 'string'
+			});
 			// colonne utilisant le render custo
-			columns.push({ text: e.nom, datafield: 'choix' + i, editable: false, width: largeurChoix + "%", align: "center", cellsrenderer: rendererColonneLien });
+			columns.push({
+				text : e.nom,
+				datafield : 'choix' + i,
+				editable : false,
+				width : largeurChoix + "%",
+				align : "center",
+				cellsrenderer : rendererColonneLien
+			});
 		});
-		
+
 		var dataAdapter = new $.jqx.dataAdapter({
-			datatype: "json",
-			localdata: foyers,
-			datafields: datafields, id: 'id'
+			datatype : "json",
+			localdata : foyers,
+			datafields : datafields,
+			id : 'id'
 		});
 		$("#foyers").jqxGrid({
-			source: dataAdapter,
-			columns: columns,
-			pageable: true, pagesizeoptions: JQX_GRID_PAGE_OPTIONS,
-			editable: true, sortable: true, filterable: true, autoheight: true, altrows: true,
-			width: 950,
-			ready: afficheContent
+			source : dataAdapter,
+			columns : columns,
+			pageable : true,
+			pagesizeoptions : JQX_GRID_PAGE_OPTIONS,
+			editable : true,
+			sortable : true,
+			filterable : true,
+			autoheight : true,
+			altrows : true,
+			width : 950,
+			ready : afficheContent
 		});
 	});
 };
