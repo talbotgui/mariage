@@ -5,8 +5,13 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,9 +29,35 @@ import com.github.talbotgui.mariage.metier.service.MariageService;
 import com.github.talbotgui.mariage.rest.controleur.dto.InviteDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.PresenceDTO;
 import com.github.talbotgui.mariage.rest.exception.RestException;
+import com.google.common.collect.ImmutableMap;
 
 @RestController
 public class InviteRestControler {
+
+	/** Mapping des colonnes et des champs. */
+	private static final Map<String, String> MAP_CHAMPS = ImmutableMap.of("foyer", "foyer.nom", "groupe",
+			"foyer.groupe", "nom", "nom", "prenom", "prenom", "age", "age");
+
+	/**
+	 * Create PageRequest from query parameters.
+	 */
+	private static PageRequest createPageRequest(final Integer pagenum, final Integer pagesize,
+			final String sortdatafield, final String sortorder, final Sort defaultSort) {
+
+		// sort
+		Sort sort = defaultSort;
+		if (sortorder != null && sortdatafield != null && !sortorder.isEmpty() && !sortdatafield.isEmpty()) {
+			final String tri = MAP_CHAMPS.get(sortdatafield);
+			sort = new Sort(Direction.fromString(sortorder), tri);
+		}
+
+		// paging
+		PageRequest request = null;
+		if (pagenum != null && pagesize != null && pagesize > 0) {
+			request = new PageRequest(pagenum, pagesize, sort);
+		}
+		return request;
+	}
 
 	@Autowired
 	private MariageService mariageService;
@@ -56,12 +87,26 @@ public class InviteRestControler {
 	}
 
 	@RequestMapping(value = "/mariage/{idMariage}/invite", method = GET)
-	public Collection<InviteDTO> listerInvitesParIdMariage(@PathVariable("idMariage") final Long idMariage,
-			@RequestParam(required = false, value = "present") final Boolean present) {
+	public Object listerInvitesParIdMariage(@PathVariable("idMariage") final Long idMariage,
+			@RequestParam(required = false) final Boolean present,
+			@RequestParam(required = false) final Integer pagenum,
+			@RequestParam(required = false) final Integer pagesize,
+			@RequestParam(required = false) final String sortdatafield,
+			@RequestParam(required = false) final String sortorder) {
+
+		final Sort defaultSort = new Sort(Direction.ASC, "foyer.groupe", "nom", "prenom");
+		final PageRequest request = createPageRequest(pagenum, pagesize, sortdatafield, sortorder, defaultSort);
+
 		if (present == null || !present) {
-			return DTOUtils.creerDtos(this.mariageService.listerInvitesParIdMariage(idMariage), InviteDTO.class);
+			if (request != null) {
+				final Page<?> response = this.mariageService.listerInvitesParIdMariage(idMariage, request);
+				return DTOUtils.creerDtos(request, response, InviteDTO.class);
+			} else {
+				return DTOUtils.creerDtos(this.mariageService.listerInvitesParIdMariage(idMariage), InviteDTO.class);
+			}
 		} else {
-			return DTOUtils.creerDtos(this.mariageService.listerInvitesPresentsParIdMariage(idMariage), InviteDTO.class);
+			return DTOUtils.creerDtos(this.mariageService.listerInvitesPresentsParIdMariage(idMariage),
+					InviteDTO.class);
 		}
 	}
 

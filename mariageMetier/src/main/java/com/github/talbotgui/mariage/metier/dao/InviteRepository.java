@@ -65,13 +65,6 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 			+ " where m.id = :idMariage group by f.groupe")
 	List<Object[]> compterNombreInviteParGroupe(@Param("idMariage") Long idMariage);
 
-	@Query("delete Invite where id in (select i.id from Invite i where i.foyer.mariage.id = :idMariage)")
-	@Modifying
-	void supprimerInvitesParIdMariage(@Param("idMariage") Long idMariage);
-
-	@Query("select i.foyer.mariage.id from Invite i where i.id=:idInvite")
-	Long rechercherIdMariageByInviteId(@Param("idInvite") Long idInvite);
-
 	@Query("select distinct i" //
 			+ " from Invite i join fetch i.foyer f left join fetch i.etapesPresence"//
 			+ " where i.foyer.mariage.id=:idMariage"//
@@ -80,8 +73,7 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 
 	@Query("select i "//
 			+ " from Invite i"//
-			+ " where i.foyer.mariage.id=:idMariage"//
-			+ " order by i.foyer.groupe, i.nom, i.prenom")
+			+ " where i.foyer.mariage.id=:idMariage")
 	Page<Invite> listerInvitesParIdMariage(@Param("idMariage") Long idMariage, Pageable page);
 
 	@Query("select i "//
@@ -91,6 +83,9 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 			+ " and p.present = true"//
 			+ " order by i.foyer.groupe, i.nom, i.prenom")
 	Collection<Invite> listerInvitesPresentsParIdMariage(@Param("idMariage") Long idMariage);
+
+	@Query("select i.foyer.mariage.id from Invite i where i.id=:idInvite")
+	Long rechercherIdMariageByInviteId(@Param("idInvite") Long idInvite);
 
 	@Query("select i.id, i.nom, i.prenom, e.nom, count(i.id)"//
 			+ " from Invitation inv"//
@@ -102,5 +97,9 @@ public interface InviteRepository extends PagingAndSortingRepository<Invite, Lon
 			+ " group by i.id, i.nom, i.prenom, e.nom"//
 			+ " having count(i.id) >1")
 	Collection<Object[]> rechercherInviteSurPlusieursEtapes(@Param("idMariage") Long idMariage);
+
+	@Query("delete Invite where id in (select i.id from Invite i where i.foyer.mariage.id = :idMariage)")
+	@Modifying
+	void supprimerInvitesParIdMariage(@Param("idMariage") Long idMariage);
 
 }

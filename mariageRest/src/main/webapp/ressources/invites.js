@@ -148,15 +148,25 @@ var chargeInvites = function() {
 				datatype : "json",
 				url : REST_PREFIX + "/mariage/" + getIdMariage() + "/invite",
 				datafields : datafields,
-				id : 'id'
+				id : 'id',
+				beforeprocessing : function(data) {
+					// Mapping de l'attribut attendu par JQxGrid avec l'attribut retourné par le serveur
+					data.totalrecords = data.totalElements;
+				}
 			});
 			$("#invites").jqxGrid({
 				source : dataAdapter,
 				columns : columns,
 				pageable : true,
+				// Pour faire faire la pagination par le serveur - start
+				virtualmode : true,
+				rendergridrows : function() {
+					return dataAdapter.records;
+				},
+				// Pour faire faire la pagination par le serveur - end
 				editable : true,
 				sortable : true,
-				filterable : true,
+				filterable : false,
 				autoheight : true,
 				altrows : true,
 				width : 950,
@@ -164,6 +174,12 @@ var chargeInvites = function() {
 				ready : afficheContent
 			});
 			$("#invites").on('cellendedit', modifieInvite);
+			$("#invites").on("filter", function() {
+				$("#invites").jqxGrid('updatebounddata', 'filter');
+			});
+			$("#invites").on("sort", function() {
+				$("#invites").jqxGrid('updatebounddata', 'sort');
+			});
 			donneesDejaChargees = true;
 		});
 		req.fail(function(jqXHR) {

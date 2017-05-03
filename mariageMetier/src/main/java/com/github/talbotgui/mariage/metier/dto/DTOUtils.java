@@ -6,8 +6,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import com.github.talbotgui.mariage.metier.exception.BusinessException;
 
@@ -66,14 +70,19 @@ public abstract class DTOUtils implements Serializable {
 		}
 	}
 
-	public static <T> Collection<T> creerDtos(final Collection<?> entities, final Class<T> clazz) {
-		final Collection<T> col = new ArrayList<>();
+	public static <T> List<T> creerDtos(final Collection<?> entities, final Class<T> clazz) {
+		final List<T> col = new ArrayList<>();
 		if (entities != null) {
 			for (final Object entity : entities) {
 				col.add(creerDto(entity, clazz));
 			}
 		}
 		return col;
+	}
+
+	public static <T> Page<T> creerDtos(final Pageable request, final Page<?> response, final Class<T> clazz) {
+		final List<T> elements = creerDtos(response.getContent(), clazz);
+		return new PageImpl<T>(elements, request, response.getTotalElements());
 	}
 
 	private DTOUtils() {
