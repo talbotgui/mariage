@@ -61,7 +61,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 			md.update(mdp.getBytes("UTF-8"));
 			return new String(md.digest(), "UTF-8");
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			throw new BusinessException(BusinessException.ERREUR_SHA);
+			throw new BusinessException(BusinessException.ERREUR_SHA, e);
 		}
 	}
 

@@ -272,7 +272,7 @@ public class MariageServiceImpl implements MariageService {
 		final Collection<String> erreurs = new ArrayList<>();
 
 		// invites sur plusieurs étapes
-		String messageErreur = "";
+		StringBuilder messageErreur = new StringBuilder();
 		Long idInvitePrecedent = null;
 		for (final Object[] objets : liste) {
 			final Long idInvite = (Long) objets[0];
@@ -283,13 +283,13 @@ public class MariageServiceImpl implements MariageService {
 			// Si on change d'invite, on sauvegarde le precedent et on reinit
 			if (!idInvite.equals(idInvitePrecedent)) {
 				if (messageErreur.length() > 0) {
-					erreurs.add(messageErreur);
+					erreurs.add(messageErreur.toString());
 				}
-				messageErreur = String.format(message, prenomInvite, nomInvite, nomEtape);
+				messageErreur = new StringBuilder(String.format(message, prenomInvite, nomInvite, nomEtape));
 			}
 			// Pour le même invite,on ajoute le nom de l'étape
 			else {
-				messageErreur += ", '" + nomEtape + "'";
+				messageErreur.append(", '" + nomEtape + "'");
 			}
 
 			idInvitePrecedent = idInvite;
@@ -297,7 +297,7 @@ public class MariageServiceImpl implements MariageService {
 
 		// Sauvegarde du message d'erreur (si présent)
 		if (messageErreur.length() > 0) {
-			erreurs.add(messageErreur);
+			erreurs.add(messageErreur.toString());
 		}
 		return erreurs;
 	}

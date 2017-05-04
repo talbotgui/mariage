@@ -39,7 +39,7 @@ public abstract class DTOUtils implements Serializable {
 		final Collection<String> includes = Arrays.asList(includesArray);
 
 		final PropertyDescriptor[] propertyDescriptors = BeanUtils.getPropertyDescriptors(source.getClass());
-		final Collection<String> excludes = new ArrayList<String>();
+		final Collection<String> excludes = new ArrayList<>();
 		for (final PropertyDescriptor propertyDescriptor : propertyDescriptors) {
 			if (!includes.contains(propertyDescriptor.getName())) {
 				excludes.add(propertyDescriptor.getName());
@@ -82,7 +82,7 @@ public abstract class DTOUtils implements Serializable {
 
 	public static <T> Page<T> creerDtos(final Pageable request, final Page<?> response, final Class<T> clazz) {
 		final List<T> elements = creerDtos(response.getContent(), clazz);
-		return new PageImpl<T>(elements, request, response.getTotalElements());
+		return new PageImpl<>(elements, request, response.getTotalElements());
 	}
 
 	private DTOUtils() {
