@@ -1,5 +1,3 @@
-Ajouter l'analyse Sonar dans l'IC
-
 [FEATURE]Ajouter sur la page d'accueil la todoList à partir des données du calendrier
 
 Passer à Hibernate-5
@@ -9,8 +7,6 @@ Passer à Hibernate-5
 [FEATURE]Traiter le cas de la suppression d'un invité avec une présence et des invitations
 
 [FEATURE]Ajouter une liste déroulante pour l'encoding des fichiers CSV du publipostage (UTF8 ou "AINSI (Windows)" avec AINSI par défaut)
-
-Mettre en place un fond blanc derriere le texte de l'aide
 
 Mettre en place une publication des rapports de couverture de tests (différents pour metier, controleur, securité et ?selenium?)
 
