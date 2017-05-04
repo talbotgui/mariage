@@ -9,6 +9,8 @@ import java.util.Map;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,7 @@ import com.github.talbotgui.mariage.metier.entities.Invite;
 import com.github.talbotgui.mariage.metier.entities.Presence;
 import com.github.talbotgui.mariage.rest.controleur.dto.InviteDTO;
 import com.github.talbotgui.mariage.rest.controleur.dto.PresenceDTO;
+import com.github.talbotgui.mariage.rest.controleur.utils.PageWrapperForTest;
 import com.googlecode.catchexception.CatchException;
 
 public class InviteRestControlerTest extends BaseRestControlerTest {
@@ -78,6 +81,34 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ASSERT
 		Assert.assertEquals(invites.getBody().size(), 8);
 		Mockito.verify(this.mariageService).listerInvitesPresentsParIdMariage(idMariage);
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
+	public void test01GetListeInvites03PaginesTries() {
+		final Long idMariage = 10L;
+		final Page<Invite> toReturn = new PageImpl<>(
+				Arrays.asList(new Invite("I1", "P1", Age.ADULTE), new Invite("I2", "P1", Age.ADULTE),
+						new Invite("I3", "P1", Age.ADULTE), new Invite("I4", "P1", Age.ADULTE),
+						new Invite("I1", "P1", Age.ADULTE), new Invite("I2", "P1", Age.ADULTE),
+						new Invite("I3", "P1", Age.ADULTE), new Invite("I4", "P1", Age.ADULTE)));
+
+		// ARRANGE
+		Mockito.doReturn(toReturn).when(this.mariageService).listerInvitesParIdMariage(Mockito.anyLong(),
+				Mockito.any());
+
+		// ACT
+		final String parametresPaginationTri = "?pagenum=0&pagesize=2&sortdatafield=nom&sortorder=asc";
+		final ParameterizedTypeReference<PageWrapperForTest<InviteDTO>> typeRetour = new ParameterizedTypeReference<PageWrapperForTest<InviteDTO>>() {
+		};
+		final ResponseEntity<PageWrapperForTest<InviteDTO>> invites = this.getREST().exchange(
+				this.getURL() + "/mariage/" + idMariage + "/invite" + parametresPaginationTri, HttpMethod.GET, null,
+				typeRetour);
+
+		// ASSERT
+		Assert.assertEquals(invites.getBody().getNumberOfElements(), 8);
+		Assert.assertEquals(invites.getBody().getSize(), 2);
+		Mockito.verify(this.mariageService).listerInvitesParIdMariage(Mockito.anyLong(), Mockito.any());
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
 
