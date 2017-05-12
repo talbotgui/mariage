@@ -37,6 +37,9 @@ public class MariageRestControler {
 	@RequestMapping(value = "/mariage/{idMariage}", method = GET)
 	public MariageDTO chargerMariage(@PathVariable("idMariage") final Long idMariage) {
 		final Mariage mariage = this.mariageService.chargerMariageParId(idMariage);
+		if (mariage == null) {
+			throw new RestException(RestException.DONNEE_INEXISTANTE);
+		}
 		return new MariageDTO(mariage);
 	}
 

@@ -8,6 +8,10 @@ import com.github.talbotgui.mariage.metier.exception.ExceptionId.ExceptionLevel;
 
 public class RestException extends BaseException {
 
+	public static final ExceptionId DONNEE_INEXISTANTE = new ExceptionId("DONNEE_INEXISTANTE",
+			"Cette donnee n'existe pas", //
+			ExceptionLevel.ERROR, 404);
+
 	public static final ExceptionId ERREUR_ACTION_RESERVEE_ADMIN = new ExceptionId("ERREUR_ACTION_RESERVEE_ADMIN",
 			"Cette action nécessite le role ADMINISTRATEUR", //
 			ExceptionLevel.ERROR, 403);

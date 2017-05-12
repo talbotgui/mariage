@@ -64,6 +64,27 @@ public class MariageRestControlerTest extends BaseRestControlerTest {
 	}
 
 	@Test
+	public void test02GetMariageParIdInexistant() {
+		final Long idMariage = 11L;
+		final Mariage toReturn = null;
+
+		// ARRANGE
+		Mockito.doReturn(toReturn).when(this.mariageService).chargerMariageParId(Mockito.anyLong());
+
+		// ACT
+		CatchException.catchException(this.getREST()).exchange(this.getURL() + "/mariage/" + idMariage, HttpMethod.GET,
+				null, MariageDTO.class);
+
+		// ASSERT
+		Assert.assertNotNull(CatchException.caughtException());
+		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
+		Assert.assertEquals(((HttpStatusCodeException) CatchException.caughtException()).getStatusCode(),
+				HttpStatus.NOT_FOUND);
+		Mockito.verify(this.mariageService).chargerMariageParId(idMariage);
+		Mockito.verifyNoMoreInteractions(this.mariageService);
+	}
+
+	@Test
 	public void test03SauvegardeMariageOk() {
 		final Long idMariage = 10L;
 		final String dateCelebration = "01/01/2017";
