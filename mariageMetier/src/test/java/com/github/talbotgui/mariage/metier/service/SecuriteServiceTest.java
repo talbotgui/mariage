@@ -287,7 +287,7 @@ public class SecuriteServiceTest {
 		}
 
 		//
-		final Collection<Utilisateur> liste = this.instance.listerUtilisateurs();
+		final Collection<Utilisateur> liste = this.instance.listerUtilisateursParMariage(idMariage);
 
 		//
 		Assert.assertEquals(logins.size(), liste.size());
