@@ -37,7 +37,7 @@ public class UtilisateurRestControler {
 			@RequestParam(value = "mdp", required = false) final String mdp) {
 		final Utilisateur u = this.securiteService.chargerUtilisateur(login);
 		if (u == null) {
-			throw new RestException(RestException.ERREUR_ACTION_RESERVEE_ADMIN);
+			throw new RestException(RestException.DONNEE_INEXISTANTE);
 		}
 		this.securiteService.sauvegarderUtilisateur(u.getLogin(), mdp, u.getRole());
 	}

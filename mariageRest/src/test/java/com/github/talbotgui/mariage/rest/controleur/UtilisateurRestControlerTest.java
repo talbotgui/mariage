@@ -255,6 +255,61 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 	}
 
 	@Test
+	public void test10ChangementMdp() {
+		final String login = "monLogin";
+		final String mdp = "monMdp";
+		final Utilisateur.Role role = Utilisateur.Role.UTILISATEUR;
+		final Utilisateur utilisateur = new Utilisateur(login, mdp, role);
+
+		// ARRANGE
+		Mockito.doReturn(utilisateur).when(this.securiteService).chargerUtilisateur(Mockito.anyString());
+		Mockito.doNothing().when(this.securiteService).sauvegarderUtilisateur(Mockito.anyString(), Mockito.anyString(),
+				Mockito.anyObject());
+
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("mdp", mdp, "role",
+				role.toString());
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		this.getREST().postForObject(this.getURL() + "/utilisateur/" + login + "/changeMdp", requestParam, Void.class,
+				uriVars);
+
+		// ASSERT
+		Mockito.verify(this.securiteService).sauvegarderUtilisateur(login, mdp, role);
+		Mockito.verify(this.securiteService).chargerUtilisateur(login);
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+	}
+
+	@Test
+	public void test11ChangementMdpUtilisateurInexistant() {
+		final String login = "monLogin";
+		final String mdp = "monMdp";
+		final Utilisateur.Role role = Utilisateur.Role.UTILISATEUR;
+		final Utilisateur utilisateur = null;
+
+		// ARRANGE
+		Mockito.doReturn(utilisateur).when(this.securiteService).chargerUtilisateur(Mockito.anyString());
+		Mockito.doNothing().when(this.securiteService).sauvegarderUtilisateur(Mockito.anyString(), Mockito.anyString(),
+				Mockito.anyObject());
+
+		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("mdp", mdp, "role",
+				role.toString());
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+
+		// ACT
+		CatchException.catchException(this.getREST()).postForObject(
+				this.getURL() + "/utilisateur/" + login + "/changeMdp", requestParam, Void.class, uriVars);
+
+		// ASSERT
+		Assert.assertNotNull(CatchException.caughtException());
+		Assert.assertTrue(CatchException.caughtException() instanceof HttpStatusCodeException);
+		Assert.assertEquals(((HttpStatusCodeException) CatchException.caughtException()).getStatusCode(),
+				HttpStatus.NOT_FOUND);
+		Mockito.verify(this.securiteService).chargerUtilisateur(login);
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+	}
+
+	@Test
 	public void test99BugSuppressionUtilisateurDontLoginContientUnPoint() {
 		final String login = "mon.login";
 		final String loginObtenu = "mon.login".substring(0, login.indexOf("."));
