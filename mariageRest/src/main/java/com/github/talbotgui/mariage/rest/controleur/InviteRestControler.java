@@ -41,7 +41,7 @@ public class InviteRestControler {
 	/**
 	 * Create PageRequest from query parameters.
 	 */
-	private static PageRequest createPageRequest(final Integer pagenum, final Integer pagesize,
+	private static PageRequest creerPageRequest(final Integer pagenum, final Integer pagesize,
 			final String sortdatafield, final String sortorder, final Sort defaultSort) {
 
 		// sort
@@ -73,7 +73,7 @@ public class InviteRestControler {
 		return this.mariageService.calculerStatistiquesPresence(idMariage, idEtape);
 	}
 
-	private Age getAgeFromString(final String age) {
+	private Age chargerAgeDepuisString(final String age) {
 		Age ageEnum = null;
 		try {
 			if (age != null && age.length() > 0) {
@@ -95,7 +95,7 @@ public class InviteRestControler {
 			@RequestParam(required = false) final String sortorder) {
 
 		final Sort defaultSort = new Sort(Direction.ASC, "foyer.groupe", "nom", "prenom");
-		final PageRequest request = createPageRequest(pagenum, pagesize, sortdatafield, sortorder, defaultSort);
+		final PageRequest request = creerPageRequest(pagenum, pagesize, sortdatafield, sortorder, defaultSort);
 
 		if (present == null || !present) {
 			if (request != null) {
@@ -136,8 +136,8 @@ public class InviteRestControler {
 
 		Invite invite;
 		if (id == null) {
-			invite = new Invite(null, nom, prenom, this.getAgeFromString(age));
-			Foyer foyer = this.mariageService.getFoyer(idMariage, nomFoyer);
+			invite = new Invite(null, nom, prenom, this.chargerAgeDepuisString(age));
+			Foyer foyer = this.mariageService.chargerFoyer(idMariage, nomFoyer);
 			if (foyer == null) {
 				foyer = new Foyer(groupe, nomFoyer);
 			} else {
@@ -153,7 +153,7 @@ public class InviteRestControler {
 				invite.setPrenom(prenom);
 			}
 			if (age != null) {
-				invite.setAge(this.getAgeFromString(age));
+				invite.setAge(this.chargerAgeDepuisString(age));
 			}
 			if (nomFoyer != null) {
 				invite.getFoyer().setNom(nomFoyer);

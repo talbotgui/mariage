@@ -32,7 +32,7 @@ public class UtilisateurRestControler {
 	private SecuriteService securiteService;
 
 	@RequestMapping(value = "/utilisateur/{login}/changeMdp", method = POST)
-	public void changeMotDePasseUtilisateur(//
+	public void changerMotDePasseUtilisateur(//
 			@PathVariable(value = "login") final String login, //
 			@RequestParam(value = "mdp", required = false) final String mdp) {
 		final Utilisateur u = this.securiteService.chargerUtilisateur(login);
@@ -51,14 +51,14 @@ public class UtilisateurRestControler {
 		final Role role = this.securiteService.verifierUtilisateur(login, mdp);
 		request.getSession().setAttribute(SecurityFilter.SESSION_KEY_USER_LOGIN, login);
 		request.getSession().setAttribute(SecurityFilter.SESSION_KEY_USER_ROLE, role.toString());
-		this.resetCookieIdMariage(request, response);
+		this.reinitialiserCookieIdMariage(request, response);
 	}
 
 	@RequestMapping(value = SecurityFilter.LOGOUT_REST, method = GET)
 	public void deconnecter(final HttpServletRequest request, final HttpServletResponse response) {
 		request.getSession().removeAttribute("USER_LOGIN");
 		request.getSession().invalidate();
-		this.resetCookieIdMariage(request, response);
+		this.reinitialiserCookieIdMariage(request, response);
 	}
 
 	@RequestMapping(value = "/utilisateur/{login}/deverrouille", method = PUT)
@@ -67,7 +67,7 @@ public class UtilisateurRestControler {
 		this.securiteService.deverrouillerUtilisateur(login);
 	}
 
-	private Utilisateur.Role getRoleFromString(final String role) {
+	private Utilisateur.Role chargerRoleDepuisString(final String role) {
 		Role roleEnum = null;
 		try {
 			if (role != null && role.length() > 0) {
@@ -81,7 +81,7 @@ public class UtilisateurRestControler {
 	}
 
 	@RequestMapping(value = "/utilisateur/moi", method = GET)
-	public UtilisateurDTO getUtilisateurMoi(final HttpServletRequest request) {
+	public UtilisateurDTO chargerUtilisateurMoi(final HttpServletRequest request) {
 		final String login = (String) request.getSession().getAttribute(SecurityFilter.SESSION_KEY_USER_LOGIN);
 		return DTOUtils.creerDto(this.securiteService.chargerUtilisateur(login), UtilisateurDTO.class);
 	}
@@ -100,7 +100,7 @@ public class UtilisateurRestControler {
 	/**
 	 * Suppression du cookie idMariage.
 	 */
-	private void resetCookieIdMariage(final HttpServletRequest request, final HttpServletResponse response) {
+	private void reinitialiserCookieIdMariage(final HttpServletRequest request, final HttpServletResponse response) {
 		if (request.getCookies() != null) {
 			for (final Cookie c : request.getCookies()) {
 				if ("idMariage".equals(c.getName())) {
@@ -113,7 +113,7 @@ public class UtilisateurRestControler {
 
 	@RequestMapping(value = "/utilisateur/{login}/reset", method = PUT)
 	public void resetPassword(@PathVariable(value = "login") final String login, final HttpServletRequest request) {
-		this.securiteService.resetPassword(login);
+		this.securiteService.reinitialiserMotDePasse(login);
 	}
 
 	@RequestMapping(value = "/utilisateur", method = POST)
@@ -127,7 +127,7 @@ public class UtilisateurRestControler {
 			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE,
 					new String[] { "login", "a-zA-Z0-9", "avec des caractères speciaux" });
 		}
-		this.securiteService.sauvegarderUtilisateur(login, mdp, this.getRoleFromString(role));
+		this.securiteService.sauvegarderUtilisateur(login, mdp, this.chargerRoleDepuisString(role));
 	}
 
 	@RequestMapping(value = "/utilisateur/{login}", method = DELETE)

@@ -416,7 +416,7 @@ public class SecuriteServiceTest {
 		this.instance.verifierUtilisateur(login, mdp);
 
 		//
-		this.instance.resetPassword(login);
+		this.instance.reinitialiserMotDePasse(login);
 
 		//
 		this.instance.verifierUtilisateur(login, login);

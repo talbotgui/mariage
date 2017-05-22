@@ -31,7 +31,7 @@ public interface MariageService {
 
 	String genererPublipostage(Long idMariage, Long idCourrier);
 
-	Foyer getFoyer(Long idMariage, String nomFoyer);
+	Foyer chargerFoyer(Long idMariage, String nomFoyer);
 
 	void lierUneEtapeEtUnCourrier(Long idMariage, Long idEtape, Long idCourrier, boolean lie);
 
@@ -64,7 +64,7 @@ public interface MariageService {
 
 	Collection<String> rechercherErreurs(Long idMariage);
 
-	void sauvegardeEnMasse(Long idMariage, Collection<Invite> invites);
+	void sauvegarderEnMasse(Long idMariage, Collection<Invite> invites);
 
 	Long sauvegarder(Long idMariage, Courrier courrier);
 

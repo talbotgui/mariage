@@ -143,7 +143,7 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
-	public Foyer getFoyer(final Long idMariage, final String nomFoyer) {
+	public Foyer chargerFoyer(final Long idMariage, final String nomFoyer) {
 		return this.foyerRepository.rechercherFoyer(idMariage, nomFoyer);
 	}
 
@@ -342,7 +342,7 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
-	public void sauvegardeEnMasse(final Long idMariage, final Collection<Invite> invites) {
+	public void sauvegarderEnMasse(final Long idMariage, final Collection<Invite> invites) {
 		if (invites != null) {
 			for (final Invite invite : invites) {
 				this.sauvegarderInviteEtFoyer(idMariage, invite);

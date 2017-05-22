@@ -240,7 +240,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 		final String loginToReset = "monLoginToReset";
 
 		// ARRANGE
-		Mockito.doNothing().when(this.securiteService).resetPassword(loginToReset);
+		Mockito.doNothing().when(this.securiteService).reinitialiserMotDePasse(loginToReset);
 
 		// ACT
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", loginToReset);
@@ -250,7 +250,7 @@ public class UtilisateurRestControlerTest extends BaseRestControlerTest {
 
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
-		Mockito.verify(this.securiteService).resetPassword(loginToReset);
+		Mockito.verify(this.securiteService).reinitialiserMotDePasse(loginToReset);
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 

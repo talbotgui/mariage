@@ -125,7 +125,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		// ARRANGE
 		final ArgumentCaptor<Invite> argumentCaptorInvite = ArgumentCaptor.forClass(Invite.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
-		Mockito.doReturn(null).when(this.mariageService).getFoyer(Mockito.anyLong(), Mockito.anyString());
+		Mockito.doReturn(null).when(this.mariageService).chargerFoyer(Mockito.anyLong(), Mockito.anyString());
 		Mockito.doReturn(idInvite).when(this.mariageService).sauvegarderInviteEtFoyer(argumentCaptorIdMariage.capture(),
 				argumentCaptorInvite.capture());
 
@@ -149,7 +149,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertNull(argumentCaptorInvite.getValue().getFoyer().getAdresse());
 		Assert.assertNull(argumentCaptorInvite.getValue().getFoyer().getEmail());
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.mariageService).getFoyer(idMariage, foyer);
+		Mockito.verify(this.mariageService).chargerFoyer(idMariage, foyer);
 		Mockito.verify(this.mariageService).sauvegarderInviteEtFoyer(Mockito.anyLong(), Mockito.any(Invite.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}
@@ -176,7 +176,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		final ArgumentCaptor<Invite> argumentCaptorInvite = ArgumentCaptor.forClass(Invite.class);
 		final ArgumentCaptor<Long> argumentCaptorIdMariage = ArgumentCaptor.forClass(Long.class);
 		Mockito.doReturn(new Foyer(idFoyer, groupe1, foyer, adresse, email, telephone)).when(this.mariageService)
-				.getFoyer(Mockito.anyLong(), Mockito.anyString());
+				.chargerFoyer(Mockito.anyLong(), Mockito.anyString());
 		Mockito.doReturn(idInvite).when(this.mariageService).sauvegarderInviteEtFoyer(argumentCaptorIdMariage.capture(),
 				argumentCaptorInvite.capture());
 
@@ -204,7 +204,7 @@ public class InviteRestControlerTest extends BaseRestControlerTest {
 		Assert.assertEquals(argumentCaptorInvite.getValue().getParticipantAuxAnimations(), participantAuxAnimations);
 		Assert.assertEquals(argumentCaptorInvite.getValue().getParticularite(), particularite);
 		Assert.assertEquals(argumentCaptorIdMariage.getValue(), idMariage);
-		Mockito.verify(this.mariageService).getFoyer(idMariage, foyer);
+		Mockito.verify(this.mariageService).chargerFoyer(idMariage, foyer);
 		Mockito.verify(this.mariageService).sauvegarderInviteEtFoyer(Mockito.anyLong(), Mockito.any(Invite.class));
 		Mockito.verifyNoMoreInteractions(this.mariageService);
 	}

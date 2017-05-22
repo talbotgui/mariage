@@ -308,7 +308,7 @@ public class InviteEtFoyerServiceTest {
 				new Invite(null, "nom3", "prenom3", Age.ADULTE, new Foyer("foyer2")));
 
 		// ACT
-		this.instance.sauvegardeEnMasse(idMariage, invitesAinserer);
+		this.instance.sauvegarderEnMasse(idMariage, invitesAinserer);
 
 		// ASSERT
 		final Collection<Invite> inviteApres = this.instance.listerInvitesParIdMariage(idMariage);
@@ -417,7 +417,7 @@ public class InviteEtFoyerServiceTest {
 		final String nomFoyer = "F1";
 
 		// ACT
-		final Foyer foyer = this.instance.getFoyer(idMariage, nomFoyer);
+		final Foyer foyer = this.instance.chargerFoyer(idMariage, nomFoyer);
 
 		// ASSERT
 		Assert.assertNotNull(foyer);
