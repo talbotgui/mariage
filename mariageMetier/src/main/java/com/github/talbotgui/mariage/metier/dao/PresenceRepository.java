@@ -2,10 +2,12 @@ package com.github.talbotgui.mariage.metier.dao;
 
 import java.util.Collection;
 
+import javax.persistence.QueryHint;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
@@ -41,16 +43,13 @@ public interface PresenceRepository extends CrudRepository<Presence, Long> {
 	Presence chargerPresenceParEtapeEtInvite(@Param("idMariage") Long idMariage, @Param("idEtape") Long idEtape,
 			@Param("idInvite") Long idInvite);
 
-	@Query("delete Presence where id in (select p.id from Presence p where p.id.etape.mariage.id = :idMariage)")
-	@Modifying
-	void supprimerPresencesParIdMariage(@Param("idMariage") Long idMariage);
-
 	@Query("select p "//
 			+ " from Presence p"//
 			+ " join fetch p.id.etape e"//
 			+ " join fetch p.id.invite i" //
 			+ " where p.id.etape.mariage.id=:idMariage"//
 			+ " order by p.id.invite.nom, p.id.invite.prenom, p.id.etape.nom")
+	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Presence> listerPresencesParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("select new Presence(e, i) "//
@@ -58,6 +57,7 @@ public interface PresenceRepository extends CrudRepository<Presence, Long> {
 			+ " where f.mariage.id=:idMariage"//
 			+ " and e.mariage.id=:idMariage" //
 			+ " order by i.nom, i.prenom, e.nom")
+	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Presence> listerProduitCartesienInviteEtEtapeParIdMariage(@Param("idMariage") Long idMariage);
 
 	@Query("select p.id.invite.id, p.id.invite.nom, p.id.invite.prenom, p.id.etape.nom from Presence p"//
@@ -72,4 +72,8 @@ public interface PresenceRepository extends CrudRepository<Presence, Long> {
 	@Query("delete Presence where id in (select p.id from Presence p where p.id.etape.id = :idEtape)")
 	@Modifying
 	void supprimerPresencesParIdEtape(@Param("idEtape") Long idEtape);
+
+	@Query("delete Presence where id in (select p.id from Presence p where p.id.etape.mariage.id = :idMariage)")
+	@Modifying
+	void supprimerPresencesParIdMariage(@Param("idMariage") Long idMariage);
 }

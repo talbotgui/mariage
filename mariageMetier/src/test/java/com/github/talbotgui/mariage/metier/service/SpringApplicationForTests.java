@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 @SpringBootApplication
 @EntityScan("com.github.talbotgui.mariage.metier.entities")
-@ComponentScan({ "com.github.talbotgui.mariage.metier.service" })
+@ComponentScan({ "com.github.talbotgui.mariage.metier.service", "com.github.talbotgui.mariage.metier.dao" })
 @EnableJpaRepositories("com.github.talbotgui.mariage.metier.dao")
 @PropertySource("classpath:db-config.properties")
 public class SpringApplicationForTests {

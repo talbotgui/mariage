@@ -22,6 +22,7 @@ import com.github.talbotgui.mariage.metier.dao.CourrierRepository;
 import com.github.talbotgui.mariage.metier.dao.EtapeRepository;
 import com.github.talbotgui.mariage.metier.dao.EvenementRepository;
 import com.github.talbotgui.mariage.metier.dao.FoyerRepository;
+import com.github.talbotgui.mariage.metier.dao.GeneriqueRepository;
 import com.github.talbotgui.mariage.metier.dao.InvitationRepository;
 import com.github.talbotgui.mariage.metier.dao.InviteRepository;
 import com.github.talbotgui.mariage.metier.dao.MariageRepository;
@@ -57,6 +58,9 @@ public class MariageServiceImpl implements MariageService {
 
 	@Autowired
 	private FoyerRepository foyerRepository;
+
+	@Autowired
+	private GeneriqueRepository generiqueRepository;
 
 	@Autowired
 	private InvitationRepository invitationRepository;
@@ -108,6 +112,11 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
+	public Foyer chargerFoyer(final Long idMariage, final String nomFoyer) {
+		return this.foyerRepository.rechercherFoyer(idMariage, nomFoyer);
+	}
+
+	@Override
 	public Foyer chargerFoyerParId(final Long id) {
 		return this.foyerRepository.findOne(id);
 	}
@@ -143,11 +152,6 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
-	public Foyer chargerFoyer(final Long idMariage, final String nomFoyer) {
-		return this.foyerRepository.rechercherFoyer(idMariage, nomFoyer);
-	}
-
-	@Override
 	public void lierUneEtapeEtUnCourrier(final Long idMariage, final Long idEtape, final Long idCourrier,
 			final boolean lie) {
 		final Courrier c = this.courrierRepository.findOne(idCourrier);
@@ -179,7 +183,9 @@ public class MariageServiceImpl implements MariageService {
 		if (fei != null && !invitation) {
 			this.invitationRepository.delete(fei);
 		} else if (fei == null && invitation) {
-			this.invitationRepository.save(new Invitation(new Courrier(idCourrier), new Foyer(idFoyer)));
+			final Courrier c = this.generiqueRepository.getReference(Courrier.class, idCourrier);
+			final Foyer f = this.generiqueRepository.getReference(Foyer.class, idFoyer);
+			this.invitationRepository.save(new Invitation(c, f));
 		}
 	}
 
@@ -342,15 +348,6 @@ public class MariageServiceImpl implements MariageService {
 	}
 
 	@Override
-	public void sauvegarderEnMasse(final Long idMariage, final Collection<Invite> invites) {
-		if (invites != null) {
-			for (final Invite invite : invites) {
-				this.sauvegarderInviteEtFoyer(idMariage, invite);
-			}
-		}
-	}
-
-	@Override
 	public Long sauvegarder(final Long idMariage, final Courrier courrier) {
 		courrier.setMariage(this.mariageRepository.findOne(idMariage));
 		return this.courrierRepository.save(courrier).getId();
@@ -387,6 +384,15 @@ public class MariageServiceImpl implements MariageService {
 	@Override
 	public Long sauvegarder(final Mariage m) {
 		return this.mariageRepository.save(m).getId();
+	}
+
+	@Override
+	public void sauvegarderEnMasse(final Long idMariage, final Collection<Invite> invites) {
+		if (invites != null) {
+			for (final Invite invite : invites) {
+				this.sauvegarderInviteEtFoyer(idMariage, invite);
+			}
+		}
 	}
 
 	@Override

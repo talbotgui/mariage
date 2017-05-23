@@ -31,7 +31,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EntityScan({ RestApplication.ENTITY_SCAN })
 @ComponentScan({ RestApplication.COMPONENT_SCAN_WEB, RestApplication.COMPONENT_SCAN_SECU,
-		RestApplication.COMPONENT_SCAN_SRV })
+		RestApplication.COMPONENT_SCAN_SRV, RestApplication.JPA_REPOSITORIES })
 @EnableJpaRepositories(RestApplication.JPA_REPOSITORIES)
 @PropertySource(RestTestApplication.PROPERTY_SOURCE)
 public class SeleniumTestApplication {
