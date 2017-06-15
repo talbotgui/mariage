@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MonitoringAdvisor extends AbstractPointcutAdvisor {
 	private static final long serialVersionUID = 1L;
 
-	private transient final StaticMethodMatcherPointcut pointcut = new StaticMethodMatcherPointcut() {
+	private final transient StaticMethodMatcherPointcut pointcut = new StaticMethodMatcherPointcut() {
 		@Override
 		public boolean matches(final Method method, final Class<?> targetClass) {
 			return targetClass.isAnnotationPresent(RestController.class)
