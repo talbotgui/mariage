@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-public class PageDTO<T> implements Serializable {
+public class PageDTO<T extends Serializable> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,11 +19,11 @@ public class PageDTO<T> implements Serializable {
 
 	public PageDTO() {
 		super();
-		this.content = new ArrayList<T>();
+		this.content = new ArrayList<>();
 	}
 
 	public PageDTO(final Page<T> page) {
-		this.content = new ArrayList<T>();
+		this.content = new ArrayList<>();
 		this.content.addAll(page.getContent());
 		this.first = page.isFirst();
 		this.last = page.isLast();
@@ -33,11 +33,11 @@ public class PageDTO<T> implements Serializable {
 	}
 
 	public List<T> getContent() {
-		return content;
+		return this.content;
 	}
 
 	public int getNumber() {
-		return number;
+		return this.number;
 	}
 
 	public int getNumberOfElements() {
@@ -45,19 +45,19 @@ public class PageDTO<T> implements Serializable {
 	}
 
 	public long getTotalElements() {
-		return totalElements;
+		return this.totalElements;
 	}
 
 	public int getTotalPages() {
-		return totalPages;
+		return this.totalPages;
 	}
 
 	public boolean isFirst() {
-		return first;
+		return this.first;
 	}
 
 	public boolean isLast() {
-		return last;
+		return this.last;
 	}
 
 }
