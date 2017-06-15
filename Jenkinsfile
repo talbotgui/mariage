@@ -56,7 +56,7 @@ pipeline {
 			agent any
 			steps {
 				unstash 'sources'
-				sh "mvn site -Dmaven.test.skip=true"
+				sh "mvn clean install site -Psite"
 				step([$class: 'FindBugsPublisher'])
 				step([$class: 'CheckStylePublisher'])
 				step([$class: 'PmdPublisher', canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '**/pmd.xml', unHealthy: ''])

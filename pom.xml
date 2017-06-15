@@ -16,36 +16,39 @@
 		<module>mariageRest</module>
 	</modules>
 
-	<build>
-		<plugins>
-		
-			<!-- Couverture de code à chaque exécution de test -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.9</version>
-				<executions>
-					<execution>
-						<goals><goal>prepare-agent</goal></goals>
-					</execution>
-				</executions>
-			</plugin>
-			
-			<!-- Test de sécurité par l'analyse des dépendances -->
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<version>1.4.5</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+	<profiles>
+		<profile>
+			<id>site</id>
+			<build>
+				<plugins>
+				
+					<!-- Couverture de code à chaque exécution de test -->
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>0.7.9</version>
+						<executions>
+							<execution>
+								<goals><goal>prepare-agent</goal></goals>
+							</execution>
+						</executions>
+					</plugin>
+					
+					<!-- Test de sécurité par l'analyse des dépendances -->
+					<plugin>
+						<groupId>org.owasp</groupId>
+						<artifactId>dependency-check-maven</artifactId>
+						<version>1.4.5</version>
+						<executions>
+							<execution>
+								<goals><goal>check</goal></goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<dependencyManagement>
 		<dependencies>
