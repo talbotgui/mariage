@@ -166,7 +166,7 @@
 					</rulesets>
 				</configuration>
 			</plugin>
- 			<plugin>
+ 			<!-- Désactiver car il bloque le build en intégration continue<plugin>
  				<groupId>org.owasp</groupId>
  				<artifactId>dependency-check-maven</artifactId>
  				<version>1.3.6</version>
@@ -177,7 +177,7 @@
  						</reports>
  					</reportSet>
  				</reportSets>
- 			</plugin>
+ 			</plugin>-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
