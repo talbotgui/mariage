@@ -48,7 +48,7 @@ pipeline {
 			steps {
 				unstash 'sources'
 				sh "mvn -B -Dmaven.test.failure.ignore clean test-compile failsafe:integration-test"
-				junit '**/failsafe-reports/TEST-*.xml'
+				junit '**/failsafe-reports/testng-native-results/junitreports/TEST-*.xml'
 			}
 		}
 		

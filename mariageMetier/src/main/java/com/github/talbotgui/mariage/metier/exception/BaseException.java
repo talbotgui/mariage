@@ -25,7 +25,7 @@ public abstract class BaseException extends RuntimeException {
 	private final ExceptionId exceptionId;
 
 	/** Message parameters. */
-	private final Object[] parameters;
+	private final String[] parameters;
 
 	/**
 	 * Constructor.
@@ -47,7 +47,7 @@ public abstract class BaseException extends RuntimeException {
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	public BaseException(final ExceptionId pExceptionId, final Object... pParameters) {
+	public BaseException(final ExceptionId pExceptionId, final String... pParameters) {
 		this.exceptionId = pExceptionId;
 		this.parameters = pParameters;
 	}
@@ -76,7 +76,7 @@ public abstract class BaseException extends RuntimeException {
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	public BaseException(final ExceptionId pExceptionId, final Throwable pNested, final Object... pParameters) {
+	public BaseException(final ExceptionId pExceptionId, final Throwable pNested, final String... pParameters) {
 		super(pNested);
 		this.exceptionId = pExceptionId;
 		this.parameters = pParameters;
@@ -137,7 +137,7 @@ public abstract class BaseException extends RuntimeException {
 		String valeur = "null";
 		if (this.parameters[i] != null) {
 			if (this.parameters[i].getClass().isArray()) {
-				valeur = Arrays.asList((Object[]) this.parameters[i]).toString();
+				valeur = Arrays.asList(this.parameters[i]).toString();
 			} else {
 				valeur = this.parameters[i].toString();
 			}
