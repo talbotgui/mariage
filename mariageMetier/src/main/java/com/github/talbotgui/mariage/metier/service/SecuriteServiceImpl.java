@@ -97,7 +97,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public void sauvegarderUtilisateur(final String login, final String mdp, Utilisateur.Role role) {
+	public void sauvegarderUtilisateur(final String login, final String mdp, final Utilisateur.Role role) {
 
 		this.valideLoginOuMotDePasse(login);
 
@@ -109,10 +109,11 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 			this.valideLoginOuMotDePasse(mdp);
 
-			if (role == null) {
-				role = Utilisateur.Role.UTILISATEUR;
+			Utilisateur.Role leRole = role;
+			if (leRole == null) {
+				leRole = Utilisateur.Role.UTILISATEUR;
 			}
-			this.utilisateurRepo.save(new Utilisateur(login, this.encrypt(mdp), role));
+			this.utilisateurRepo.save(new Utilisateur(login, this.encrypt(mdp), leRole));
 		}
 
 		// MaJ

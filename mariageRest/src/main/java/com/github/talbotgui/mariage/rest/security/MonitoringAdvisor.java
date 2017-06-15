@@ -26,6 +26,11 @@ public class MonitoringAdvisor extends AbstractPointcutAdvisor {
 	};
 
 	@Override
+	public boolean equals(final Object obj) {
+		return false;
+	}
+
+	@Override
 	public Advice getAdvice() {
 		return new JamonPerformanceMonitorInterceptor(true, true);
 	}
@@ -33,6 +38,11 @@ public class MonitoringAdvisor extends AbstractPointcutAdvisor {
 	@Override
 	public Pointcut getPointcut() {
 		return this.pointcut;
+	}
+
+	@Override
+	public int hashCode() {
+		return 0;
 	}
 
 }

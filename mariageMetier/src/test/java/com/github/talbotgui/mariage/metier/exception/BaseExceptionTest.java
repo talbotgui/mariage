@@ -1,5 +1,6 @@
 package com.github.talbotgui.mariage.metier.exception;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 
@@ -21,8 +22,8 @@ public class BaseExceptionTest {
 
 		//
 		final Exception cause = new InvalidParameterException();
-		final Object[] array = new String[] { "a", "b", "c", };
-		final Object[] params = new Object[] { "toto", array, Arrays.asList(array) };
+		final String[] array = new String[] { "a", "b", "c", };
+		final Serializable[] params = new Serializable[] { "toto", array, (Serializable) Arrays.asList(array) };
 
 		//
 		final BusinessException e = new BusinessException(ERREUR_DE_TEST, cause, params);
@@ -55,8 +56,8 @@ public class BaseExceptionTest {
 	public void testGetMessage() {
 		//
 		final Exception cause = new InvalidParameterException();
-		final Object[] array = new String[] { "a", "b", "c", };
-		final Object[] params = new Object[] { "toto", array, Arrays.asList(array) };
+		final String[] array = new String[] { "a", "b", "c", };
+		final Serializable[] params = new Serializable[] { "toto", array, (Serializable) Arrays.asList(array) };
 
 		//
 		final BusinessException e = new BusinessException(ERREUR_DE_TEST, cause, params);

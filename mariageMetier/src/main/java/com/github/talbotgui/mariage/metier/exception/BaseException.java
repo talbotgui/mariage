@@ -138,7 +138,7 @@ public abstract class BaseException extends RuntimeException {
 		String valeur = "null";
 		if (this.parameters[i] != null) {
 			if (this.parameters[i].getClass().isArray()) {
-				valeur = Arrays.asList(this.parameters[i]).toString();
+				valeur = Arrays.asList((Serializable[]) this.parameters[i]).toString();
 			} else {
 				valeur = this.parameters[i].toString();
 			}
