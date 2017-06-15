@@ -1,7 +1,9 @@
 package com.github.talbotgui.mariage.metier.exception;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 400 : BAD REQUEST - La syntaxe de la requête est erronée.
@@ -138,7 +140,11 @@ public abstract class BaseException extends RuntimeException {
 		String valeur = "null";
 		if (this.parameters[i] != null) {
 			if (this.parameters[i].getClass().isArray()) {
-				valeur = Arrays.asList((Serializable[]) this.parameters[i]).toString();
+				final List<String> valeurs = new ArrayList<>();
+				for (final Object p : ((Object[]) this.parameters[i])) {
+					valeurs.add(p.toString());
+				}
+				valeur = valeurs.toString();
 			} else {
 				valeur = this.parameters[i].toString();
 			}
