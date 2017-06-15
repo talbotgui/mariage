@@ -1,5 +1,6 @@
 package com.github.talbotgui.mariage.metier.exception;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -25,7 +26,7 @@ public abstract class BaseException extends RuntimeException {
 	private final ExceptionId exceptionId;
 
 	/** Message parameters. */
-	private final String[] parameters;
+	private final Serializable[] parameters;
 
 	/**
 	 * Constructor.
@@ -47,7 +48,7 @@ public abstract class BaseException extends RuntimeException {
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	public BaseException(final ExceptionId pExceptionId, final String... pParameters) {
+	public BaseException(final ExceptionId pExceptionId, final Serializable... pParameters) {
 		this.exceptionId = pExceptionId;
 		this.parameters = pParameters;
 	}
@@ -76,7 +77,7 @@ public abstract class BaseException extends RuntimeException {
 	 * @param pParameters
 	 *            Message parameters.
 	 */
-	public BaseException(final ExceptionId pExceptionId, final Throwable pNested, final String... pParameters) {
+	public BaseException(final ExceptionId pExceptionId, final Throwable pNested, final Serializable... pParameters) {
 		super(pNested);
 		this.exceptionId = pExceptionId;
 		this.parameters = pParameters;
