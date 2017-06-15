@@ -22,6 +22,8 @@ spring aux fonctionnalités de Spring MVC (gestion de cache & md5 dans les URL)
 	http://www.mscharhag.com/spring/resource-versioning-with-spring-mvc
 	http://www.baeldung.com/spring-mvc-static-resources
 
+Mettre en place https://www.owasp.org/index.php/OWASP_Dependency_Check
+
 Regarder à Selenium 3 (encore en beta ??)
 
 [FEATURE]conserver les tris et filtres de page en page
