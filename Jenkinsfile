@@ -95,8 +95,9 @@ pipeline {
 									sh "/var/lib/mariage/stopMariage.sh"
 									sh "rm /var/lib/mariage/*.war || true"
 									sh "cp ./mariageRest.war /var/lib/mariage/"
-									sh "/var/lib/mariage/startMariage.sh"
-									build 'Surveillant'
+									// @see https://issues.jenkins-ci.org/browse/JENKINS-28182
+									sh "BUILD_ID=dontKillMe JENKINS_NODE_COOKIE=dontKillMe /var/lib/mariage/startMariage.sh"
+									build 'surveillant-appMariage'
 								}
 							}
 						} else {
