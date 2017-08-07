@@ -71,10 +71,8 @@ pipeline {
 		
 		stage ('Production') { 
 			agent none
-			when {
-				// Pour sauter le stage 'production' si la branche n'est pas le master
-				env.BRANCH == 'master'
-			}			
+			// Pour sauter le stage 'production' si la branche n'est pas le master
+			when { branch 'master' }
 			steps {
 				
 				// Pour ne pas laisser trainer l'attente d'une saisie durant plus de 1 jour
