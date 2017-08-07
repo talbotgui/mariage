@@ -71,37 +71,33 @@ pipeline {
 		
 		stage ('Production') { 
 			agent none
-			
+			when {
+				// Pour sauter le stage 'production' si la branche n'est pas le master
+				env.BRANCH == 'master'
+			}			
 			steps {
 				
 				// Pour ne pas laisser trainer l'attente d'une saisie durant plus de 1 jour
 				timeout(time:1, unit:'DAYS') {
 					script {
 					
-						// Pour inhiber le contenu du stage 'production' si la branche n'est pas le master
-						def deployable_branches = ["master"]
-						if (deployable_branches.contains(env.BRANCH_NAME)) {
+						// Demande de saisie avec milestone pour arrêter les builds précédents en attente au moment où un utilisateur répond à un build plus récent
+						milestone(1)
+						def userInput = input message: 'Production ?', parameters: [booleanParam(defaultValue: false, description: '', name: 'miseEnProduction')]
+						milestone(2)
 
-							// Demande de saisie avec milestone pour arrêter les builds précédents en attente au moment où un utilisateur répond à un build plus récent
-							milestone(1)
-							def userInput = input message: 'Production ?', parameters: [booleanParam(defaultValue: false, description: '', name: 'miseEnProduction')]
-							milestone(2)
-
-							// Installation en production et changement du nom indiquant le statut
-							if (userInput) {
-								node {
-									currentBuild.displayName = currentBuild.displayName + " - deployed to production"
-									unstash 'binaire'
-									sh "/var/lib/mariage/stopMariage.sh"
-									sh "rm /var/lib/mariage/*.war || true"
-									sh "cp ./mariageRest.war /var/lib/mariage/"
-									// @see https://issues.jenkins-ci.org/browse/JENKINS-28182
-									sh "BUILD_ID=dontKillMe JENKINS_NODE_COOKIE=dontKillMe /var/lib/mariage/startMariage.sh"
-									build 'surveillant-appMariage'
-								}
+						// Installation en production et changement du nom indiquant le statut
+						if (userInput) {
+							node {
+								currentBuild.displayName = currentBuild.displayName + " - deployed to production"
+								unstash 'binaire'
+								sh "/var/lib/mariage/stopMariage.sh"
+								sh "rm /var/lib/mariage/*.war || true"
+								sh "cp ./mariageRest.war /var/lib/mariage/"
+								// @see https://issues.jenkins-ci.org/browse/JENKINS-28182
+								sh "BUILD_ID=dontKillMe JENKINS_NODE_COOKIE=dontKillMe /var/lib/mariage/startMariage.sh"
+								build 'surveillant-appMariage'
 							}
-						} else {
-						    currentBuild.displayName = currentBuild.displayName + " - not master - no production"
 						}
 					}
 				}
