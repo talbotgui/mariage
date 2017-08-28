@@ -15,7 +15,7 @@ pipeline {
 		stage ('Checkout') {
 			agent any
 			steps {
-				checkout scm
+				git url: 'https://github.com/talbotgui/mariage.git'
 				script {
 					def v = version()
 					if (v) { echo "Building version ${v}" }
