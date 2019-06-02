@@ -36,6 +36,13 @@
 
 	<dependencies>
 
+		<!-- Pour compiler avec Java 11 -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+
 		<!-- Dependence ajoutée pour la génération de la Javadoc -->
 		<dependency>
 			<groupId>javax.interceptor</groupId>
