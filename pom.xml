@@ -22,6 +22,12 @@
 			<build>
 				<plugins>
 				
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-site-plugin</artifactId>
+						<version>3.7.1</version>
+					</plugin>
+				
 					<!-- Couverture de code à chaque exécution de test -->
 					<plugin>
 						<groupId>org.jacoco</groupId>
